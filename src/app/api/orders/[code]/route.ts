@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
-import { serializeOrder, updateCaseOrderStatus } from "@/lib/orders";
+import {
+  getCaseOrderByCode,
+  serializeOrder,
+  updateCaseOrderStatus,
+} from "@/lib/orders";
 import { isOrderStatus } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
 
@@ -8,6 +12,24 @@ type Props = {
     code: string;
   }>;
 };
+
+export async function GET(_req: Request, { params }: Props) {
+  const { code } = await params;
+
+  const order = await getCaseOrderByCode(code);
+
+  if (!order) {
+    return NextResponse.json(
+      { success: false, message: "سفارش پیدا نشد" },
+      { status: 404 },
+    );
+  }
+
+  return NextResponse.json({
+    success: true,
+    order: serializeOrder(order),
+  });
+}
 
 export async function PATCH(req: Request, { params }: Props) {
   const admin = await requireAdmin();

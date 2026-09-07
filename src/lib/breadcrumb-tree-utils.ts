@@ -1,4 +1,3 @@
-import { services } from "@/app/data/services";
 import type { BranchNode } from "./breadcrumb-tree-data";
 import { siteBreadcrumbTree } from "./breadcrumb-tree-data";
 import type { BreadcrumbItem } from "./seo/breadcrumbs";
@@ -9,15 +8,8 @@ export function normalizePath(path: string) {
   return withoutQuery.replace(/\/+$/, "") || "/";
 }
 
-/** Path including allowed query keys (e.g. repair console filter). */
 export function pathForBreadcrumbMatch(path: string) {
-  if (!path.includes("?")) return normalizePath(path);
-  const [pathname, query] = path.split("?");
-  if (!pathname.startsWith("/repair") || !query) return normalizePath(path);
-  const params = new URLSearchParams(query);
-  const console = params.get("console")?.trim();
-  if (console) return `/repair?console=${console}`;
-  return normalizePath(path);
+  return normalizePath(path.split("?")[0] ?? path);
 }
 
 type TrailMatch = {
@@ -62,17 +54,6 @@ export function breadcrumbTrailFromPath(path: string): BreadcrumbItem[] {
 
   const match = findTrail(siteBreadcrumbTree, matchPath);
   if (!match) {
-    if (normalized.startsWith("/services/")) {
-      const slug = normalized.split("/").filter(Boolean)[1];
-      const service = services.find((s) => s.slug === slug);
-      if (service) {
-        return [
-          { label: "خانه", href: "/" },
-          { label: "همه خدمات", href: "/services" },
-          { label: service.title },
-        ];
-      }
-    }
     return [{ label: "خانه", href: "/" }];
   }
 
@@ -140,67 +121,13 @@ function homeTrailCrumbs(): TrailCrumb[] {
   ];
 }
 
-function fallbackTrailCrumbs(path: string): TrailCrumb[] | null {
-  if (!path.startsWith("/services/")) return null;
-
-  const slug = path.split("/").filter(Boolean)[1];
-  const service = services.find((s) => s.slug === slug);
-  if (!service) return null;
-
-  const servicesNode: BranchNode = {
-    title: "همه خدمات",
-    href: "/services",
-  };
-
-  const serviceNode: BranchNode = {
-    title: service.title,
-    href: path,
-  };
-
-  return [
-    {
-      node: siteBreadcrumbTree,
-      siblings: [],
-      children: siteBreadcrumbTree.children ?? [],
-      isCurrent: false,
-    },
-    {
-      node: servicesNode,
-      siblings: (siteBreadcrumbTree.children ?? []).filter(
-        (c) => c.href !== "/services",
-      ),
-      children: services
-        .filter((s) => s.slug !== slug)
-        .map((s) => ({
-          title: s.title,
-          href: `/services/${s.slug}`,
-        })),
-      isCurrent: false,
-    },
-    {
-      node: serviceNode,
-      siblings: services
-        .filter((s) => s.slug !== slug)
-        .map((s) => ({
-          title: s.title,
-          href: `/services/${s.slug}`,
-        })),
-      children: [],
-      isCurrent: true,
-    },
-  ];
-}
-
 /** Linear trail with siblings & children for branch menus. */
 export function getTrailCrumbs(path: string): TrailCrumb[] {
   const matchPath = pathForBreadcrumbMatch(path);
   if (matchPath === "/") return homeTrailCrumbs();
 
   const match = findTrail(siteBreadcrumbTree, matchPath);
-  if (!match) {
-    const normalized = normalizePath(path);
-    return fallbackTrailCrumbs(normalized) ?? homeTrailCrumbs();
-  }
+  if (!match) return homeTrailCrumbs();
 
   const { trail, indices } = match;
   const parentChildren = siteBreadcrumbTree.children ?? [];

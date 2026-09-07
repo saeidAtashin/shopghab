@@ -22,10 +22,10 @@ export default function TrackingCtaLink({
 
       <span className="relative z-10 w-full shrink text-right">
         <span className="block text-lg font-bold tracking-tight">
-          پیگیری دستگاه
+          پیگیری سفارش
         </span>
-        <span className="mt-0.5 block text-sm text-zinc-400 transition-colors group-hover:text-cyan-200/70">
-          وضعیت تعمیر را ببینید
+        <span className="mt-0.5 block text-sm text-zinc-400 transition-colors group-hover:text-amber-200/70">
+          وضعیت قاب را ببینید
         </span>
       </span>
     </Link>

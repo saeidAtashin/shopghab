@@ -1,12 +1,18 @@
-import type { RepairStatus } from "@/lib/db";
+import type { OrderStatus } from "@/lib/db";
 
-export const REPAIR_STATUS_LABELS: Record<RepairStatus, string> = {
+export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
   pending: "در انتظار بررسی",
-  checking: "در حال بررسی",
-  repairing: "در حال تعمیر",
-  completed: "آماده تحویل",
+  reviewing: "در حال بررسی",
+  producing: "در حال تولید",
+  ready: "آماده ارسال",
+  completed: "تحویل شده",
 };
 
-export function getRepairStatusLabel(status: string): string {
-  return REPAIR_STATUS_LABELS[status as RepairStatus] ?? status;
+export function getOrderStatusLabel(status: string): string {
+  return ORDER_STATUS_LABELS[status as OrderStatus] ?? status;
 }
+
+/** @deprecated Use getOrderStatusLabel */
+export const getRepairStatusLabel = getOrderStatusLabel;
+/** @deprecated Use ORDER_STATUS_LABELS */
+export const REPAIR_STATUS_LABELS = ORDER_STATUS_LABELS;

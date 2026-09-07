@@ -5,16 +5,16 @@ import { SITE_NAME, SITE_TAGLINE, absoluteUrl } from "../lib/seo/site";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: SITE_NAME,
-    short_name: "تعمیر کنسول",
+    short_name: "شاپ‌قاب",
     description: SITE_TAGLINE,
     start_url: absoluteUrl("/"),
     display: "standalone",
-    background_color: "#000000",
-    theme_color: "#06b6d4",
+    background_color: "#0c0a09",
+    theme_color: "#d97706",
     lang: "fa",
     dir: "rtl",
     orientation: "portrait",
-    categories: ["business", "utilities"],
+    categories: ["shopping", "business"],
     icons: [
       {
         src: "/logos/logo-nobg.png",

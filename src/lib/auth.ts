@@ -14,7 +14,7 @@ export {
   verifyAdminCredentials,
 } from "@/lib/auth-shared";
 
-const SESSION_COOKIE = "console_session";
+const SESSION_COOKIE = "shopghab_session";
 const SESSION_MAX_AGE = 60 * 60 * 24 * 7; // 7 days
 
 function signPayload(payload: string): string {

@@ -1,5 +1,5 @@
 /**
- * OpenAPI 3.0 specification for Console Repair API routes.
+ * OpenAPI 3.0 specification for Shopghab API routes.
  * Served at GET /api/openapi and used by /api-docs (Swagger UI).
  */
 
@@ -24,15 +24,15 @@ export function buildOpenApiDocument(baseUrl: string = DEFAULT_BASE_URL) {
   return {
   openapi: "3.0.3",
   info: {
-    title: `Console Repair API [ App: ${normalizedBaseUrl} | IPPanel: ${IPPANEL_BASE_URL} ]`,
+    title: `Shopghab API [ App: ${normalizedBaseUrl} | IPPanel: ${IPPANEL_BASE_URL} ]`,
     description:
-      "REST API for authentication, repair orders, admin management, and game catalog. OTP SMS is sent via **IPPanel Edge API** (`POST /api/send` on `https://edge.ippanel.com/v1`). Use **Authorize** for Bearer token on protected routes.",
+      "REST API for authentication, case orders, and admin management. OTP SMS is sent via **IPPanel Edge API** (`POST /api/send` on `https://edge.ippanel.com/v1`). Use **Authorize** for Bearer token on protected routes.",
     version: "1.0.0",
   },
   servers: [
     {
       url: normalizedBaseUrl,
-      description: "Console Repair App (Next.js)",
+      description: "Shopghab App (Next.js)",
     },
     {
       url: IPPANEL_BASE_URL,
@@ -41,9 +41,8 @@ export function buildOpenApiDocument(baseUrl: string = DEFAULT_BASE_URL) {
   ],
   tags: [
     { name: "auth", description: "Login, OTP, password reset, and token refresh" },
-    { name: "Repair", description: "Public repair request and order tracking" },
+    { name: "Orders", description: "Public case order request and tracking" },
     { name: "Admin", description: "Admin-only order management (Bearer required)" },
-    { name: "Games", description: "Game catalog by console (RAWG)" },
   ],
   components: {
     securitySchemes: {
@@ -701,7 +700,7 @@ export function buildOpenApiDocument(baseUrl: string = DEFAULT_BASE_URL) {
         summary: "Send login OTP (IPPanel pattern SMS)",
         description:
           "IPPanel Edge API — sends OTP using an approved pattern. " +
-          "Pattern: `کد ورود شما: %otp% تست @fixbazi.ir #%otpconfirm%`. " +
+          "Pattern: `کد ورود شما: %otp% تست @shopghab.ir #%otpconfirm%`. " +
           "This app calls this endpoint from `POST /api/auth/otp/send`.",
         servers: [{ url: IPPANEL_BASE_URL, description: "IPPanel Edge API" }],
         security: [{ IppanelApiKey: [] }],
@@ -956,99 +955,6 @@ export function buildOpenApiDocument(baseUrl: string = DEFAULT_BASE_URL) {
           },
           "401": {
             description: "Wrong code",
-            content: {
-              "application/json": {
-                schema: { $ref: "#/components/schemas/ApiError" },
-              },
-            },
-          },
-        },
-      },
-    },
-    "/api/games": {
-      get: {
-        tags: ["Games"],
-        summary: "List games for a console",
-        parameters: [
-          {
-            name: "console",
-            in: "query",
-            required: true,
-            schema: {
-              type: "string",
-              enum: ["ps4", "ps5", "xbox-one", "xbox-series"],
-            },
-          },
-          {
-            name: "filter",
-            in: "query",
-            schema: {
-              type: "string",
-              enum: ["popular", "newest", "best", "metacritic"],
-              default: "best",
-            },
-          },
-          {
-            name: "page",
-            in: "query",
-            schema: { type: "integer", minimum: 1, default: 1 },
-          },
-          {
-            name: "pageSize",
-            in: "query",
-            schema: {
-              type: "integer",
-              minimum: 1,
-              maximum: 40,
-              default: 24,
-            },
-          },
-        ],
-        responses: {
-          "200": {
-            description: "Paginated game list",
-            content: {
-              "application/json": {
-                schema: {
-                  type: "object",
-                  properties: {
-                    success: { type: "boolean", example: true },
-                    console: { type: "string" },
-                    games: {
-                      type: "array",
-                      items: { $ref: "#/components/schemas/RawgGame" },
-                    },
-                    count: { type: "integer" },
-                    page: { type: "integer" },
-                    pageSize: { type: "integer" },
-                    hasNext: { type: "boolean" },
-                    filter: {
-                      type: "string",
-                      enum: ["popular", "newest", "best", "metacritic"],
-                    },
-                  },
-                },
-              },
-            },
-          },
-          "400": {
-            description: "Invalid query parameters",
-            content: {
-              "application/json": {
-                schema: { $ref: "#/components/schemas/ApiError" },
-              },
-            },
-          },
-          "502": {
-            description: "RAWG upstream error",
-            content: {
-              "application/json": {
-                schema: { $ref: "#/components/schemas/ApiError" },
-              },
-            },
-          },
-          "503": {
-            description: "RAWG_API_KEY not configured",
             content: {
               "application/json": {
                 schema: { $ref: "#/components/schemas/ApiError" },

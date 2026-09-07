@@ -2,7 +2,7 @@ import { mkdir, writeFile } from "fs/promises";
 import path from "path";
 import { randomBytes } from "crypto";
 
-const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads", "repair");
+const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads", "orders");
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const ALLOWED_TYPES = new Set([
   "image/jpeg",
@@ -11,7 +11,7 @@ const ALLOWED_TYPES = new Set([
   "image/gif",
 ]);
 
-export async function saveRepairImage(file: File): Promise<string> {
+export async function saveOrderImage(file: File): Promise<string> {
   if (!ALLOWED_TYPES.has(file.type)) {
     throw new Error("INVALID_IMAGE_TYPE");
   }
@@ -29,5 +29,8 @@ export async function saveRepairImage(file: File): Promise<string> {
 
   await writeFile(filepath, buffer);
 
-  return `/uploads/repair/${filename}`;
+  return `/uploads/orders/${filename}`;
 }
+
+/** @deprecated Use saveOrderImage */
+export const saveRepairImage = saveOrderImage;

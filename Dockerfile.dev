@@ -7,7 +7,7 @@ RUN apk add --no-cache libc6-compat python3 make g++
 COPY package.json package-lock.json* ./
 RUN npm ci
 
-# سورس کامل را از ایمیج نمی‌آوریم؛ روی سرور با Volume از /root/fixbazi می‌آید
+# سورس کامل را از ایمیج نمی‌آوریم؛ روی سرور با Volume از /root/shopghab می‌آید
 EXPOSE 3000
 
 CMD ["npm", "run", "dev"]

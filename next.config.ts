@@ -10,14 +10,18 @@ const nextConfig: NextConfig = {
     "127.0.0.1",
   ],
   serverExternalPackages: ["better-sqlite3"],
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "media.rawg.io",
-        pathname: "/media/**",
-      },
-    ],
+  async redirects() {
+    return [
+      { source: "/services", destination: "/cases", permanent: true },
+      { source: "/services/:path*", destination: "/cases", permanent: true },
+      { source: "/consoles", destination: "/cases", permanent: true },
+      { source: "/consoles/:path*", destination: "/cases", permanent: true },
+      { source: "/issues", destination: "/faq", permanent: true },
+      { source: "/issues/:path*", destination: "/faq", permanent: true },
+      { source: "/repair", destination: "/custom", permanent: true },
+      { source: "/shop", destination: "/cases", permanent: true },
+      { source: "/shop/:path*", destination: "/cases", permanent: true },
+    ];
   },
 };
 

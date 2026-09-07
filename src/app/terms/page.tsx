@@ -4,18 +4,18 @@ import { createPageMetadata } from "@/lib/seo/metadata";
 const PATH = "/terms";
 const TITLE = "قوانین و شرایط";
 const DESCRIPTION =
-  "شرایط استفاده از خدمات کنسول ریپیر، مسئولیت ها، روند پذیرش سفارش و قوانین مرتبط با تعمیر.";
+  "شرایط استفاده از فروشگاه شاپ‌قاب، ثبت سفارش قاب آماده و سفارشی، و مسئولیت‌های طرفین.";
 
 export const metadata = createPageMetadata({
   title: TITLE,
   description: DESCRIPTION,
   path: PATH,
-  keywords: ["قوانین خدمات", "شرایط استفاده", "شرایط تعمیر کنسول"],
+  keywords: ["قوانین شاپ قاب", "شرایط استفاده", "شرایط سفارش قاب"],
 });
 
 export default function TermsPage() {
   return (
-    <main className="min-h-screen bg-black pt-24 text-white">
+    <main className="min-h-screen bg-[#0c0a09] pt-24 text-white">
       <PageShell
         currentPath={PATH}
         containerClassName="container mx-auto px-6"
@@ -23,9 +23,9 @@ export default function TermsPage() {
       >
         <h1 className="text-4xl font-black md:text-5xl">{TITLE}</h1>
         <p className="mt-6 max-w-4xl leading-8 text-zinc-300">
-          ثبت سفارش در کنسول ریپیر به معنی پذیرش قوانین مربوط به روند عیب یابی،
-          اعلام هزینه، مدت زمان تقریبی تعمیر و شرایط تحویل دستگاه است. جزئیات
-          دقیق هر سفارش پیش از شروع تعمیر با مشتری هماهنگ می شود.
+          ثبت سفارش در شاپ‌قاب به معنی پذیرش قوانین مربوط به انتخاب مدل گوشی،
+          تایید طرح، زمان تقریبی آماده‌سازی، هزینه و شرایط ارسال است. جزئیات هر
+          سفارش پیش از نهایی‌شدن با مشتری هماهنگ می‌شود.
         </p>
       </PageShell>
     </main>

@@ -1,7 +1,7 @@
-export const SITE_NAME = "FixBazi | فیکس‌بازی";
-export const BRAND_SHORT = "FixBazi";
+export const SITE_NAME = "Shopghab | شاپ‌قاب";
+export const BRAND_SHORT = "Shopghab";
 export const SITE_TAGLINE =
-  "FixBazi (فیکس‌بازی) — تعمیر تخصصی PS5، PS4 و Xbox با گارانتی و قطعات اورجینال";
+  "Shopghab (شاپ‌قاب) — خرید قاب گوشی آماده و طراحی سفارشی با کیفیت چاپ بالا";
 export const SITE_LOCALE = "fa_IR";
 /** Default social preview — use a real 1200×630 asset at /og.jpg when available. */
 export const DEFAULT_OG_IMAGE = "/images/ps5-repair.webp";
@@ -17,7 +17,7 @@ export const SITE_ADDRESS = {
 };
 
 export function getSiteUrl(): string {
-  const url = "https://fixbazi.ir";
+  const url = "https://shopghab.ir";
   return url.replace(/\/$/, "");
 }
 

@@ -5,15 +5,17 @@
 }
 
 :root {
-  --background: #09090b;
-  --foreground: #fafafa;
+  --background: #0c0a09;
+  --foreground: #fafaf9;
+  --brand: #d97706;
+  --brand-soft: rgba(217, 119, 6, 0.15);
 }
 
 body {
   background:
-    radial-gradient(circle at top, rgba(37, 99, 235, 0.15), transparent 40%),
-    #09090b;
-    font-family: var(--font-vazirmatn);
+    radial-gradient(circle at top, rgba(217, 119, 6, 0.12), transparent 42%),
+    #0c0a09;
+  font-family: var(--font-vazirmatn);
 }
 
 .container {

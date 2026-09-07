@@ -7,13 +7,15 @@ datasource db {
   provider = "sqlite"
 }
 
-model RepairOrder {
+model CaseOrder {
   id           String   @id @default(cuid())
   trackingCode String   @unique
   name         String
   phone        String
-  device       String
-  issue        String
+  phoneModel   String
+  designType   String
+  caseSlug     String   @default("")
+  caseTitle    String   @default("")
   description  String   @default("")
   imageUrl     String   @default("")
   status       String   @default("pending")

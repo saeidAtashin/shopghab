@@ -58,7 +58,7 @@ function getAuthorizationHeader(): string {
 /**
  * Sends OTP via IPPanel Edge API:
  * POST https://edge.ippanel.com/v1/api/send
- * Pattern: «کد ورود شما: %otp% تست @fixbazi.ir #%otpconfirm%»
+ * Pattern: «کد ورود شما: %otp% تست @shopghab.ir #%otpconfirm%»
  */
 export async function sendLoginOtpPattern(
   phone: string,

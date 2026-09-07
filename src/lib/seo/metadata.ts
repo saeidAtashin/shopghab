@@ -93,7 +93,7 @@ export function createPageMetadata(input: PageMetadataInput): Metadata {
       images: [ogImageUrl],
     },
     metadataBase: new URL(getSiteUrl()),
-    category: "technology",
+    category: "shopping",
   };
 }
 
@@ -103,18 +103,20 @@ export const rootMetadata: Metadata = {
     description: SITE_TAGLINE,
     path: "/",
     keywords: [
-      "تعمیر کنسول",
-      "تعمیر ps5",
-      "تعمیر ps4",
-      "تعمیر xbox",
-      "تعمیر hdmi",
-      "تعمیر دسته بازی",
+      "قاب گوشی",
+      "خرید قاب گوشی",
+      "قاب سفارشی",
+      "شاپ قاب",
+      "Shopghab",
+      "قاب آیفون",
+      "قاب سامسونگ",
     ],
   }),
   title: {
     default: SITE_NAME,
     template: `%s | ${SITE_NAME}`,
   },
+  category: "shopping",
   icons: {
     icon: "/logos/logo-nobg.png",
     shortcut: "/logos/logo-nobg.png",

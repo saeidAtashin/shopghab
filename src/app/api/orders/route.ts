@@ -6,7 +6,6 @@ import {
 } from "@/lib/phone";
 import { saveOrderImage } from "@/lib/uploads";
 
-/** Legacy alias for /api/orders */
 export async function POST(req: Request) {
   try {
     const formData = await req.formData();
@@ -42,19 +41,13 @@ export async function POST(req: Request) {
       }
     }
 
-    const phoneModel =
-      String(formData.get("phoneModel") ?? formData.get("device") ?? "").trim() ||
-      "مدل نامشخص";
-
     const order = await createCaseOrder({
       name: String(formData.get("name") ?? "").trim(),
       phone,
-      phoneModel,
+      phoneModel: String(formData.get("phoneModel") ?? "مدل نامشخص").trim(),
       designType,
       caseSlug: String(formData.get("caseSlug") ?? "").trim(),
-      caseTitle: String(
-        formData.get("caseTitle") ?? formData.get("issue") ?? "",
-      ).trim(),
+      caseTitle: String(formData.get("caseTitle") ?? "").trim(),
       description: String(formData.get("description") ?? "").trim(),
       imageUrl,
     });
@@ -65,7 +58,7 @@ export async function POST(req: Request) {
       order: serializeOrder(order),
     });
   } catch (error) {
-    console.error("POST /api/repair failed:", error);
+    console.error("POST /api/orders failed:", error);
     return NextResponse.json(
       { success: false, message: "خطا در ثبت سفارش" },
       { status: 500 },

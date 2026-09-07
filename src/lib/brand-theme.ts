@@ -1,4 +1,4 @@
-export type Brand = "playstation" | "xbox" | "gaming";
+export type Brand = "shop" | "custom" | "accent";
 
 export const brandThemes: Record<
   Brand,
@@ -9,24 +9,24 @@ export const brandThemes: Record<
     glow: string;
   }
 > = {
-  playstation: {
-    primary: "text-blue-400",
-    bg: "bg-blue-500/10",
-    border: "border-blue-400/30",
-    glow: "from-blue-500/20",
+  shop: {
+    primary: "text-amber-400",
+    bg: "bg-amber-500/10",
+    border: "border-amber-400/30",
+    glow: "from-amber-500/20",
   },
 
-  xbox: {
-    primary: "text-green-400",
-    bg: "bg-green-500/10",
-    border: "border-green-400/30",
-    glow: "from-green-500/20",
+  custom: {
+    primary: "text-rose-400",
+    bg: "bg-rose-500/10",
+    border: "border-rose-400/30",
+    glow: "from-rose-500/20",
   },
 
-  gaming: {
-    primary: "text-cyan-400",
-    bg: "bg-cyan-500/10",
-    border: "border-cyan-400/30",
-    glow: "from-cyan-500/20",
+  accent: {
+    primary: "text-stone-300",
+    bg: "bg-stone-500/10",
+    border: "border-stone-400/30",
+    glow: "from-stone-500/20",
   },
 };

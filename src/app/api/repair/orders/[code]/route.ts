@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import {
-  getRepairOrderByCode,
+  getCaseOrderByCode,
   serializeOrder,
-  updateRepairOrderStatus,
+  updateCaseOrderStatus,
 } from "@/lib/orders";
-import { isRepairStatus } from "@/lib/db";
+import { isOrderStatus } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
 
 type Props = {
@@ -13,10 +13,10 @@ type Props = {
   }>;
 };
 
+/** Legacy alias for /api/orders/[code] */
 export async function GET(_req: Request, { params }: Props) {
   const { code } = await params;
-
-  const order = await getRepairOrderByCode(code);
+  const order = await getCaseOrderByCode(code);
 
   if (!order) {
     return NextResponse.json(
@@ -44,7 +44,7 @@ export async function PATCH(req: Request, { params }: Props) {
   const body = await req.json();
   const status = String(body.status ?? "");
 
-  if (!isRepairStatus(status)) {
+  if (!isOrderStatus(status)) {
     return NextResponse.json(
       { success: false, message: "وضعیت نامعتبر است" },
       { status: 400 },
@@ -52,7 +52,7 @@ export async function PATCH(req: Request, { params }: Props) {
   }
 
   try {
-    const order = await updateRepairOrderStatus(code, status);
+    const order = await updateCaseOrderStatus(code, status);
     return NextResponse.json({
       success: true,
       order: serializeOrder(order),

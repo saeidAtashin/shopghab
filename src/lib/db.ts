@@ -23,15 +23,28 @@ if (process.env.NODE_ENV !== "production") {
   globalForPrisma.prisma = prisma;
 }
 
-export type RepairStatus = "pending" | "checking" | "repairing" | "completed";
+export type OrderStatus =
+  | "pending"
+  | "reviewing"
+  | "producing"
+  | "ready"
+  | "completed";
 
-export const REPAIR_STATUSES: RepairStatus[] = [
+export const ORDER_STATUSES: OrderStatus[] = [
   "pending",
-  "checking",
-  "repairing",
+  "reviewing",
+  "producing",
+  "ready",
   "completed",
 ];
 
-export function isRepairStatus(value: string): value is RepairStatus {
-  return REPAIR_STATUSES.includes(value as RepairStatus);
+export function isOrderStatus(value: string): value is OrderStatus {
+  return ORDER_STATUSES.includes(value as OrderStatus);
 }
+
+/** @deprecated Use OrderStatus */
+export type RepairStatus = OrderStatus;
+/** @deprecated Use ORDER_STATUSES */
+export const REPAIR_STATUSES = ORDER_STATUSES;
+/** @deprecated Use isOrderStatus */
+export const isRepairStatus = isOrderStatus;

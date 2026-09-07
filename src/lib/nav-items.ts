@@ -4,19 +4,15 @@ export const navItems = [
     href: "/",
   },
   {
-    title: "تعمیر کنسول",
-    href: "/services/repair",
+    title: "قاب‌های آماده",
+    href: "/cases",
   },
   {
-    title: "نصب بازی",
-    href: "/services/game-install",
+    title: "طراحی سفارشی",
+    href: "/custom",
   },
   {
-    title: "فروش کنسول",
-    href: "/services/consoles",
-  },
-  {
-    title: "پیگیری تعمیر",
+    title: "پیگیری سفارش",
     href: "/tracking",
   },
   {

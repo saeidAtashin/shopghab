@@ -24,7 +24,7 @@ export default function AuthPage() {
         </h1>
 
         <p className="text-zinc-400 text-center mb-8">
-          ورود به حساب کاربری تعمیرات کنسول
+          ورود به حساب کاربری شاپ‌قاب
         </p>
 
         {/* Tabs */}
