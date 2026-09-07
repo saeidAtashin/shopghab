@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model RepairOrder {
+  id           String   @id @default(cuid())
+  trackingCode String   @unique
+  name         String
+  phone        String
+  device       String
+  issue        String
+  description  String   @default("")
+  imageUrl     String   @default("")
+  status       String   @default("pending")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model OtpSession {
+  id        String   @id @default(cuid())
+  phone     String
+  code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([phone])
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String?  @unique
+  role      String   @default("user")
+  createdAt DateTime @default(now())
+}
