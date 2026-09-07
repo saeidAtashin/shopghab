@@ -23,16 +23,6 @@ model CaseOrder {
   updatedAt    DateTime @updatedAt
 }
 
-model OtpSession {
-  id        String   @id @default(cuid())
-  phone     String
-  code      String
-  expiresAt DateTime
-  createdAt DateTime @default(now())
-
-  @@index([phone])
-}
-
 model User {
   id        String   @id @default(cuid())
   name      String
