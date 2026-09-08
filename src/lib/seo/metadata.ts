@@ -105,6 +105,7 @@ export const rootMetadata: Metadata = {
       "قاب سامسونگ",
       "قاب شیائومی",
       "قاب سفارشی",
+      "شاپ‌قاب",
       "قاب‌کده",
     ],
   }),
@@ -113,8 +114,8 @@ export const rootMetadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   icons: {
-    icon: "/logos/logo-nobg.png",
-    shortcut: "/logos/logo-nobg.png",
-    apple: "/logos/logo-nobg.png",
+    icon: "/logos/shop-ghab-logo.png",
+    shortcut: "/logos/shop-ghab-logo.png",
+    apple: "/logos/shop-ghab-logo.png",
   },
 };

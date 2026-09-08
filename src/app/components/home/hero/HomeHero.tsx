@@ -9,7 +9,7 @@ export default function HomeHero() {
       aria-labelledby="home-hero-heading"
     >
       <Image
-        src="/banner.webp"
+        src="/images/banner-shopghab-org.webp"
         alt=""
         fill
         priority

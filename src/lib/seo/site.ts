@@ -1,8 +1,8 @@
-export const SITE_NAME = "قاب‌کده | CaseKadeh";
+export const SITE_NAME = "شاپ‌قاب | Shopghab";
 export const SITE_TAGLINE =
   "طراحی و خرید قاب موبایل اختصاصی — انتخاب برند و مدل، چاپ با کیفیت و ارسال سریع";
 export const SITE_LOCALE = "fa_IR";
-export const DEFAULT_OG_IMAGE = "/cases/og-default.jpg";
+export const DEFAULT_OG_IMAGE = "/images/banner-shopghab-org.webp";
 export const SITE_PHONE = "+989107701704";
 export const SITE_ADDRESS = {
   streetAddress: "تهران",

@@ -2,7 +2,7 @@ name: Deploy shopghab to VPS
 
 on:
   push:
-    branches: [print-site]
+    branches: [main]
   workflow_dispatch:
 
 concurrency:
