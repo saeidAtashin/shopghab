@@ -273,11 +273,7 @@ export default function Navbar() {
 
           <div className="relative z-10">
             <div className="flex justify-between items-center mb-12">
-              <SiteLogo
-                showText={false}
-                imageClassName="h-10 w-10 rounded-lg"
-                className="gap-0"
-              />
+              <SiteLogo imageClassName="h-10 w-28" />
               <button
                 onClick={closeMenu}
                 data-route-loader-ignore="true"

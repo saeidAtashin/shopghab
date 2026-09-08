@@ -3,10 +3,10 @@ import { footerInfoLinks, footerQuickLinks } from "@/lib/site-nav";
 import {
   BRAND_SHORT,
   SITE_ADDRESS,
-  SITE_NAME,
   SITE_PHONE,
   SITE_PHONE_DISPLAY,
 } from "@/lib/seo/site";
+import SiteLogo from "../ui/SiteLogo";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -16,7 +16,7 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-6 py-10">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-3">
-            <p className="text-lg font-bold text-white">{SITE_NAME}</p>
+            <SiteLogo imageClassName="h-14 w-40" />
             <p className="text-sm leading-7 text-zinc-400">
               فروشگاه قاب گوشی آماده و طراحی سفارشی با چاپ باکیفیت و ارسال سریع.
             </p>

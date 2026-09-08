@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -17,15 +16,13 @@ export default function SiteLogo({
   className,
   imageClassName,
   textClassName,
-  showText = true,
+  showText = false,
 }: SiteLogoProps) {
-  const [src, setSrc] = useState("/logos/logo-nobg.png");
-
   return (
     <Link
       href="/"
       className={cn(
-        "group flex items-center gap-3 rounded-xl border border-amber-400/25 bg-amber-500/10 shadow-[0_0_18px_rgba(245,158,11,0.2)] transition-transform group-hover:scale-105",
+        "group flex items-center gap-3 transition-transform hover:scale-105",
         className,
       )}
     >
@@ -41,15 +38,14 @@ export default function SiteLogo({
       )}
 
       <div
-        className={cn("relative h-11 w-11 overflow-hidden", imageClassName)}
+        className={cn("relative h-12 w-36 overflow-hidden", imageClassName)}
       >
         <Image
-          src={src}
+          src="/logos/shop-ghab-logo.png"
           alt="لوگوی شاپ‌قاب"
           fill
-          sizes="84px"
-          className="object-contain p-2"
-          onError={() => setSrc("/logos/k3.png")}
+          sizes="144px"
+          className="object-contain"
           priority
         />
       </div>

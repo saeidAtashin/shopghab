@@ -17,7 +17,7 @@ export default function manifest(): MetadataRoute.Manifest {
     categories: ["shopping", "business"],
     icons: [
       {
-        src: "/logos/logo-nobg.png",
+        src: "/logos/shop-ghab-logo.png",
         sizes: "any",
         type: "image/png",
         purpose: "any",

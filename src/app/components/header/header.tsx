@@ -16,7 +16,7 @@ export default function Header() {
 
           {/* logo */}
 
-          <SiteLogo textClassName="!block" />
+          <SiteLogo />
 
           {/* desktop menu */}
 
