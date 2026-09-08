@@ -2,78 +2,126 @@
 
 import { useAuth } from "@/app/context/AuthContext";
 import { useEffect, useState } from "react";
+import { apiRequest, ApiError } from "@/lib/api-client";
+import {
+  buildDeviceNameMap,
+  fetchProblemTypeNameMap,
+  fetchRepairDevices,
+  fetchRepairRequests,
+  mapRepairRequestToAdminOrder,
+} from "@/lib/repair/api";
+import {
+  BACKEND_REPAIR_STATUSES,
+  getRepairStatusLabel,
+} from "@/lib/repair-status";
 
 type Order = {
   trackingCode: string;
   name: string;
   phone: string;
-  phoneModel?: string;
-  device?: string;
-  designType?: string;
-  caseTitle?: string;
-  issue?: string;
+  device: string;
+  issue: string;
   status: string;
   createdAt: string;
 };
 
 export default function AdminPage() {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
+
   const [orders, setOrders] = useState<Order[]>([]);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/admin/orders")
-      .then(async (res) => {
-        if (res.status === 401) {
+    if (authLoading || !user || user.role !== "admin") return;
+
+    async function loadOrders() {
+      try {
+        const [requests, devices] = await Promise.all([
+          fetchRepairRequests(),
+          fetchRepairDevices(),
+        ]);
+
+        const deviceNames = buildDeviceNameMap(devices);
+        const problemNames = await fetchProblemTypeNameMap(
+          requests.map((request) => request.device_type),
+        );
+
+        setOrders(
+          requests.map((request, index) =>
+            mapRepairRequestToAdminOrder(
+              request,
+              index,
+              deviceNames,
+              problemNames,
+            ),
+          ),
+        );
+      } catch (error) {
+        if (error instanceof ApiError && error.status === 401) {
           setOrders([]);
-          return;
         }
-        const data = await res.json();
-        setOrders(data.orders || []);
-      })
-      .finally(() => {
+      } finally {
         setLoading(false);
-      });
-  }, []);
+      }
+    }
+
+    void loadOrders();
+  }, [authLoading, user]);
+
+  if (authLoading) {
+    return (
+      <main className="min-h-screen bg-background text-foreground flex items-center justify-center">
+        <p className="text-muted">در حال بارگذاری...</p>
+      </main>
+    );
+  }
 
   if (!user || user.role !== "admin") {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-black text-white">
+      <main className="min-h-screen bg-background text-foreground flex items-center justify-center">
         <h1 className="text-3xl text-red-500">شما دسترسی ندارید</h1>
       </main>
     );
   }
 
   async function updateStatus(code: string, status: string) {
-    await fetch(`/api/admin/orders/${code}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ status }),
-    });
+    try {
+      await apiRequest(`/api/admin/orders/${code}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          status,
+        }),
+      });
 
-    setOrders((prev) =>
-      prev.map((order) =>
-        order.trackingCode === code ? { ...order, status } : order,
-      ),
-    );
+      setOrders((prev) =>
+        prev.map((order) =>
+          order.trackingCode === code ? { ...order, status } : order,
+        ),
+      );
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
-    <main className="min-h-screen bg-[#0c0a09] p-6 text-white md:p-10">
-      <div className="mx-auto max-w-7xl pt-14">
+    <main className="min-h-screen  bg-[#050816] text-foreground p-6 md:p-10">
+      <div className="max-w-7xl mx-auto pt-14">
         <div className="mb-10">
-          <h1 className="mb-3 text-4xl font-black text-amber-400">
-            پنل مدیریت
-          </h1>
-          <p className="text-zinc-400">مدیریت سفارشات قاب و وضعیت آماده‌سازی</p>
+          <h1 className="text-4xl font-black text-cyan-400 mb-3">پنل مدیریت</h1>
+
+          <p className="text-muted">
+            مدیریت سفارشات تعمیر و وضعیت دستگاه‌ها
+          </p>
         </div>
 
         {loading ? (
-          <div className="text-zinc-400">در حال دریافت سفارشات...</div>
+          <div className="text-muted">در حال دریافت سفارشات...</div>
         ) : orders.length === 0 ? (
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-10 text-center text-zinc-400">
+          <div className="rounded-3xl border border-border bg-surface p-10 text-center text-muted">
             هنوز سفارشی ثبت نشده است
           </div>
         ) : (
@@ -81,64 +129,70 @@ export default function AdminPage() {
             {orders.map((order) => (
               <div
                 key={order.trackingCode}
-                className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl"
+                className="rounded-3xl border border-border bg-surface backdrop-blur-xl p-6"
               >
-                <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                   <div className="space-y-3">
                     <div>
-                      <span className="text-sm text-zinc-500">کد رهگیری</span>
-                      <h2 className="text-2xl font-black tracking-widest text-amber-400">
+                      <span className="text-muted text-sm">شناسه درخواست</span>
+
+                      <h2 className="text-2xl font-black text-cyan-400 tracking-widest">
                         {order.trackingCode}
                       </h2>
                     </div>
 
-                    <div className="grid gap-4 text-sm sm:grid-cols-2">
+                    <div className="grid sm:grid-cols-2 gap-4 text-sm">
                       <div>
-                        <span className="text-zinc-500">نام مشتری:</span>
-                        <p className="mt-1 text-white">{order.name}</p>
+                        <span className="text-muted">نام مشتری:</span>
+
+                        <p className="mt-1 text-foreground">{order.name}</p>
                       </div>
+
                       <div>
-                        <span className="text-zinc-500">شماره تماس:</span>
-                        <p className="mt-1 text-white">{order.phone}</p>
+                        <span className="text-muted">شماره تماس:</span>
+
+                        <p className="mt-1 text-foreground">{order.phone}</p>
                       </div>
+
                       <div>
-                        <span className="text-zinc-500">مدل گوشی:</span>
-                        <p className="mt-1 text-white">
-                          {order.phoneModel || order.device}
-                        </p>
+                        <span className="text-muted">دستگاه:</span>
+
+                        <p className="mt-1 text-foreground">{order.device}</p>
                       </div>
+
                       <div>
-                        <span className="text-zinc-500">نوع سفارش:</span>
-                        <p className="mt-1 text-white">
-                          {order.designType === "custom"
-                            ? "سفارشی"
-                            : order.caseTitle || order.issue || "آماده"}
-                        </p>
+                        <span className="text-muted">مشکل:</span>
+
+                        <p className="mt-1 text-foreground">{order.issue}</p>
                       </div>
                     </div>
                   </div>
 
                   <div className="min-w-[220px]">
-                    <label className="mb-2 block text-sm text-zinc-400">
+                    <label className="block text-sm text-muted mb-2">
                       وضعیت سفارش
                     </label>
+
                     <select
                       value={order.status}
                       onChange={(e) =>
                         updateStatus(order.trackingCode, e.target.value)
                       }
-                      className="w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-3 outline-none focus:border-amber-500"
+                      className="w-full rounded-2xl border border-border bg-input-bg px-4 py-3 outline-none focus:border-cyan-500"
                     >
-                      <option value="pending">در انتظار بررسی</option>
-                      <option value="reviewing">در حال بررسی</option>
-                      <option value="producing">در حال تولید</option>
-                      <option value="ready">آماده ارسال</option>
-                      <option value="completed">تحویل شده</option>
+                      {BACKEND_REPAIR_STATUSES.map((status) => (
+                        <option key={status} value={status}>
+                          {getRepairStatusLabel(status)}
+                        </option>
+                      ))}
                     </select>
-                    <div className="mt-4 text-xs text-zinc-500">
-                      ثبت:{" "}
-                      {new Date(order.createdAt).toLocaleDateString("fa-IR")}
-                    </div>
+
+                    {order.createdAt && (
+                      <div className="mt-4 text-xs text-muted">
+                        ثبت:{" "}
+                        {new Date(order.createdAt).toLocaleDateString("fa-IR")}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

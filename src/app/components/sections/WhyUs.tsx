@@ -1,34 +1,34 @@
 "use client";
 
-import { ShieldCheck, Clock3, Palette, BadgeCheck } from "lucide-react";
+import { ShieldCheck, Clock3, Wrench, BadgeCheck } from "lucide-react";
 import { useRef } from "react";
 import { useInView, motion } from "framer-motion";
 import FloatingBadge from "../ui/FloatingBadge";
 
 const features = [
   {
-    title: "چاپ ماندگار",
-    description: "رنگ‌ها و طرح‌ها در برابر محو شدن روزمره مقاوم هستند.",
+    title: "ضمانت تعمیر",
+    description: "تمام خدمات تعمیر همراه با ضمانت واقعی ارائه می‌شوند.",
     icon: <ShieldCheck size={32} />,
-    badge: { label: "کیفیت", value: "UV" },
+    badge: { label: "گارانتی", value: "۹۰ روز" },
   },
   {
-    title: "آماده‌سازی سریع",
-    description: "سفارش‌های آماده معمولاً در کوتاه‌ترین زمان پردازش می‌شوند.",
+    title: "تعمیر سریع",
+    description: "اکثر تعمیرات در کوتاه‌ترین زمان ممکن انجام می‌شود.",
     icon: <Clock3 size={32} />,
-    badge: { label: "زمان", value: "سریع" },
+    badge: { label: "زمان", value: "< ۲۴ساعت" },
   },
   {
-    title: "طرح سفارشی",
-    description: "از ایده شخصی تا چاپ نهایی، همراه شما هستیم.",
-    icon: <Palette size={32} />,
-    badge: { label: "سفارشی", value: "۱۰۰٪" },
+    title: "تجهیزات تخصصی",
+    description: "عیب‌یابی و تعمیر با ابزارهای حرفه‌ای و دقیق انجام می‌شود.",
+    icon: <Wrench size={32} />,
+    badge: { label: "تجهیزات", value: "پیشرفته" },
   },
   {
-    title: "سازگاری گسترده",
-    description: "پوشش مدل‌های محبوب آیفون، سامسونگ و شیائومی.",
+    title: "قطعات اصلی",
+    description: "استفاده از قطعات اورجینال برای افزایش عمر دستگاه.",
     icon: <BadgeCheck size={32} />,
-    badge: { label: "مدل‌ها", value: "گسترده" },
+    badge: { label: "کیفیت", value: "اورجینال" },
   },
 ];
 
@@ -40,44 +40,69 @@ export default function WhyUs() {
   return (
     <section ref={ref} className="relative py-32">
       <div className="container mx-auto px-6">
-        <div className="mb-20 text-center">
-          <span className="mb-4 inline-block rounded-full border border-amber-500/30 bg-amber-500/10 px-4 py-2 text-sm text-amber-400">
-            چرا شاپ‌قاب؟
+        {/* Header */}
+        <div className="mb-32 text-center">
+          <span className="mb-4 inline-block rounded-full border border-cyan-500/30 bg-cyan-500/10 px-4 py-2 text-sm text-cyan-400">
+            چرا ما؟
           </span>
 
-          <h2 className="mb-6 text-4xl font-black text-white md:text-5xl">
+          <h2 className="mb-6 text-5xl font-black text-foreground">
             چرا مشتری‌ها به ما اعتماد می‌کنند؟
           </h2>
 
-          <p className="mx-auto max-w-2xl text-lg leading-8 text-zinc-400">
-            تمرکز ما روی کیفیت چاپ، انتخاب مدل درست و تجربه سفارش ساده برای قاب
-            گوشی است.
+          <p className="mx-auto max-w-2xl text-lg leading-8 text-muted">
+            تجربه، تجهیزات تخصصی و پشتیبانی حرفه‌ای باعث شده صدها گیمر تعمیر
+            کنسول خود را به ما بسپارند.
           </p>
         </div>
 
-        <div
-          ref={cardRef}
-          className="mt-10 grid gap-8 md:grid-cols-2 xl:grid-cols-4"
-        >
-          {features.map((feature, index) => (
-            <motion.div
-              key={feature.title}
-              initial={{ opacity: 0, y: 24 }}
-              animate={inView ? { opacity: 1, y: 0 } : undefined}
-              transition={{ delay: index * 0.08, duration: 0.45 }}
-              className="relative rounded-3xl border border-white/10 bg-white/[0.03] p-8"
-            >
-              <FloatingBadge
-                label={feature.badge.label}
-                value={feature.badge.value}
-              />
-              <div className="mb-5 text-amber-400">{feature.icon}</div>
-              <h3 className="text-xl font-bold text-white">{feature.title}</h3>
-              <p className="mt-3 leading-7 text-zinc-400">
-                {feature.description}
-              </p>
-            </motion.div>
-          ))}
+        {/* Features */}
+        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-4 mt-10">
+          {features.map((feature, index) => {
+            const isBottomRow = index === 0 || index === 3;
+
+            return (
+              <div key={feature.title} ref={cardRef} className="relative">
+                {/* Floating badge */}
+                <motion.div
+                  initial={{ y: isBottomRow ? -40 : 40, opacity: 0 }}
+                  animate={
+                    inView
+                      ? { y: isBottomRow ? 60 : -60, opacity: 1 }
+                      : { y: isBottomRow ? -40 : 40, opacity: 0 }
+                  }
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                  className={`
+          absolute left-1/2 -translate-x-1/2 z-0
+          hidden md:block
+          ${isBottomRow ? "-bottom-12 lg:-bottom-10" : "-top-12 lg:-top-10"}
+        `}
+                >
+                  <FloatingBadge
+                    label={feature.badge.label}
+                    value={feature.badge.value}
+                    className="border-cyan-500/30 bg-input-bg"
+                    valueClassName="text-cyan-400"
+                  />
+                </motion.div>
+
+                {/* Card */}
+                <div className="relative z-10 rounded-3xl border border-border bg-surface backdrop-blur-xl p-8 transition-all duration-500 hover:-translate-y-2 hover:border-cyan-500/40">
+                  <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-cyan-500/10 text-cyan-400">
+                    {feature.icon}
+                  </div>
+
+                  <h3 className="mb-4 text-2xl font-bold text-foreground">
+                    {feature.title}
+                  </h3>
+
+                  <p className="leading-7 text-muted">
+                    {feature.description}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

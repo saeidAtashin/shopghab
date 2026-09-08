@@ -4,41 +4,36 @@ import { createPageMetadata } from "@/lib/seo/metadata";
 const PATH = "/faq";
 const TITLE = "سوالات متداول";
 const DESCRIPTION =
-  "پاسخ به سوالات رایج درباره سفارش قاب آماده، طراحی سفارشی، زمان آماده‌سازی و پیگیری.";
+  "پاسخ به سوالات رایج درباره زمان تعمیر، هزینه تقریبی، گارانتی خدمات و روند ثبت سفارش.";
 
 export const metadata = createPageMetadata({
   title: TITLE,
   description: DESCRIPTION,
   path: PATH,
-  keywords: ["سوالات متداول", "FAQ قاب گوشی", "سفارش شاپ قاب"],
+  keywords: ["سوالات متداول", "FAQ تعمیر کنسول", "گارانتی تعمیرات"],
 });
 
 const faqItems = [
   {
-    question: "تفاوت قاب آماده و سفارشی چیست؟",
+    question: "زمان تقریبی تعمیر چقدر است؟",
     answer:
-      "قاب آماده از طرح‌های موجود کاتالوگ انتخاب می‌شود. در سفارش سفارشی، طرح یا تصویر خودتان را ارسال می‌کنید تا روی قاب چاپ شود.",
+      "بسته به نوع خرابی، زمان تعمیر می تواند از چند ساعت تا چند روز متغیر باشد. زمان دقیق پس از عیب یابی اعلام می شود.",
   },
   {
-    question: "زمان آماده‌سازی سفارش چقدر است؟",
+    question: "آیا خدمات شامل گارانتی است؟",
     answer:
-      "سفارش‌های آماده معمولاً سریع‌تر پردازش می‌شوند. سفارش‌های سفارشی بسته به طرح و صف چاپ زمان بیشتری می‌گیرند و پس از ثبت اعلام می‌شود.",
+      "بله، خدمات تعمیرات با ضمانت ارائه می شود و شرایط هر خدمت هنگام ثبت سفارش اعلام خواهد شد.",
   },
   {
     question: "چطور وضعیت سفارش را پیگیری کنم؟",
     answer:
-      "پس از ثبت سفارش یک کد رهگیری دریافت می‌کنید. از صفحه پیگیری سفارش می‌توانید آخرین وضعیت را ببینید.",
-  },
-  {
-    question: "کدام مدل‌های گوشی پشتیبانی می‌شوند؟",
-    answer:
-      "مدل‌های محبوب آیفون، سامسونگ و شیائومی در فرم سفارش قابل انتخاب هستند. اگر مدل شما نیست، در توضیحات یا واتساپ بپرسید.",
+      "از طریق صفحه پیگیری تعمیر و کد سفارش می توانید آخرین وضعیت دستگاه خود را مشاهده کنید.",
   },
 ];
 
 export default function FaqPage() {
   return (
-    <main className="min-h-screen bg-[#0c0a09] pt-24 text-white">
+    <main className="min-h-screen bg-background pt-24 text-foreground">
       <PageShell
         currentPath={PATH}
         containerClassName="container mx-auto px-6"
@@ -49,10 +44,10 @@ export default function FaqPage() {
           {faqItems.map((item) => (
             <article
               key={item.question}
-              className="rounded-2xl border border-white/10 bg-zinc-900/40 p-6"
+              className="rounded-2xl border border-border bg-card/40 p-6"
             >
-              <h2 className="text-lg font-bold text-white">{item.question}</h2>
-              <p className="mt-3 leading-8 text-zinc-300">{item.answer}</p>
+              <h2 className="text-lg font-bold text-foreground">{item.question}</h2>
+              <p className="mt-3 leading-8 text-muted">{item.answer}</p>
             </article>
           ))}
         </div>

@@ -11,12 +11,12 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-[#050816]/80 backdrop-blur-xl">
+      <header className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-[#050816]/80 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
 
           {/* logo */}
 
-          <SiteLogo />
+          <SiteLogo textClassName="!block" />
 
           {/* desktop menu */}
 
@@ -25,7 +25,7 @@ export default function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-sm text-zinc-300 hover:text-cyan-400 transition"
+                className="text-sm text-muted hover:text-cyan-400 transition"
               >
                 {item.title}
               </Link>
@@ -54,7 +54,7 @@ export default function Header() {
 
         <div
           onClick={() => setOpen(false)}
-          className={`absolute inset-0 bg-black/60 transition ${
+          className={`absolute inset-0 bg-background/60 transition ${
             open ? "opacity-100" : "opacity-0"
           }`}
         />
@@ -62,7 +62,7 @@ export default function Header() {
         {/* drawer */}
 
         <div
-          className={`absolute right-0 top-0 h-full w-72 bg-[#050816] border-l border-white/10 p-6 transform transition ${
+          className={`absolute right-0 top-0 h-full w-72 bg-[#050816] border-l border-border p-6 transform transition ${
             open ? "translate-x-0" : "translate-x-full"
           }`}
         >
@@ -80,7 +80,7 @@ export default function Header() {
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className="text-zinc-300 hover:text-cyan-400 transition"
+                className="text-muted hover:text-cyan-400 transition"
               >
                 {item.title}
               </Link>

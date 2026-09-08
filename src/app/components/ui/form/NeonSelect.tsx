@@ -11,7 +11,7 @@ const NeonSelect = forwardRef<
     <select
       ref={ref}
       className={cn(
-        "input-neon h-12 w-full appearance-none pe-10 ps-4 font-semibold text-white",
+        "input-neon h-12 w-full appearance-none pe-10 ps-4 font-semibold text-foreground",
         className,
       )}
       {...props}

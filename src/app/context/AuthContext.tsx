@@ -9,15 +9,22 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 
+import {
+  buildUserFromPhone,
+  extractAuthTokenData,
+  refreshAccessToken,
+  restoreSession,
+  type AuthLoginPayload,
+  type SessionUser,
+} from "@/lib/auth-api";
 import { getPostLoginPath } from "@/lib/auth-shared";
-
-type Role = "admin" | "user";
-
-type User = {
-  name: string;
-  role: Role;
-  phone?: string;
-};
+import { apiRequest, ApiError } from "@/lib/api-client";
+import {
+  clearAuthSession,
+  setAuthToken,
+  setRefreshToken,
+  setSessionPhone,
+} from "@/lib/auth-storage";
 
 type SendOtpResult = {
   success: boolean;
@@ -27,127 +34,180 @@ type SendOtpResult = {
 };
 
 type LoginWithOtpResult = {
-  user: User | null;
+  user: SessionUser | null;
   message?: string;
 };
 
+export type LoginSessionOptions = {
+  redirect?: boolean;
+};
+
+type AuthPayload = AuthLoginPayload & {
+  user?: SessionUser | null;
+  token?: string;
+  accessToken?: string;
+  smsSent?: boolean;
+  devCode?: string;
+};
+
 type AuthContextType = {
-  user: User | null;
+  user: SessionUser | null;
   loading: boolean;
-  loginWithPassword: (username: string, password: string) => Promise<User | null>;
-  sendOtp: (phone: string) => Promise<SendOtpResult>;
-  loginWithOtp: (phone: string, code: string) => Promise<LoginWithOtpResult>;
+  loginWithPassword: (phone_number: string, password: string) => Promise<SessionUser | null>;
+  sendOtp: (phone_number: string) => Promise<SendOtpResult>;
+  loginWithOtp: (
+    phone_number: string,
+    otp: string,
+    options?: LoginSessionOptions,
+  ) => Promise<LoginWithOtpResult>;
   register: (name: string) => void;
   logout: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
+/** Remote API often returns 2xx with `{ message, data }` and no `success` flag. */
+function isSuccessfulPayload(payload: AuthPayload): boolean {
+  return payload.success !== false;
+}
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<SessionUser | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/auth/me")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.user) {
-          setUser(data.user);
-        }
+    void restoreSession()
+      .then((sessionUser) => setUser(sessionUser))
+      .catch(() => {
+        clearAuthSession();
+        setUser(null);
       })
       .finally(() => setLoading(false));
   }, []);
 
-  const loginWithPassword = useCallback(
-    async (username: string, password: string): Promise<User | null> => {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      });
+  const completeLoginSession = useCallback(
+    async (
+      phone_number: string,
+      refreshToken: string,
+      options: LoginSessionOptions = {},
+    ): Promise<SessionUser | null> => {
+      const { redirect = true } = options;
 
-      const data = await res.json();
-      if (!data.success || !data.user) {
+      try {
+        const refreshed = await refreshAccessToken(refreshToken);
+        setAuthToken(refreshed.access);
+        setRefreshToken(refreshed.refresh ?? refreshToken);
+        setSessionPhone(phone_number);
+
+        const sessionUser = buildUserFromPhone(phone_number);
+        setUser(sessionUser);
+
+        if (redirect) {
+          router.replace(getPostLoginPath(sessionUser.role));
+        }
+
+        return sessionUser;
+      } catch {
         return null;
       }
-
-      setUser(data.user);
-      router.replace(getPostLoginPath(data.user.role));
-      return data.user;
     },
     [router],
   );
 
-  const sendOtp = useCallback(async (phone: string): Promise<SendOtpResult> => {
-    const res = await fetch("/api/auth/otp/send", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "same-origin",
-      body: JSON.stringify({ phone }),
-    });
+  const loginWithPassword = useCallback(
+    async (phone_number: string, password: string): Promise<SessionUser | null> => {
+      try {
+        const data = await apiRequest<AuthPayload>("/auth/login/", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phone_number, password }),
+          auth: false,
+        });
 
-    let data: Record<string, unknown>;
+        const tokenData = extractAuthTokenData(data);
+        if (!isSuccessfulPayload(data) || !tokenData?.refresh) {
+          return null;
+        }
+
+        const resolvedPhone = tokenData.phone_number ?? phone_number;
+        return completeLoginSession(resolvedPhone, tokenData.refresh);
+      } catch {
+        return null;
+      }
+    },
+    [completeLoginSession],
+  );
+
+  const sendOtp = useCallback(async (phone_number: string): Promise<SendOtpResult> => {
     try {
-      data = (await res.json()) as Record<string, unknown>;
-    } catch {
+      const payload = await apiRequest<AuthPayload>("/auth/send-otp/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone_number }),
+        auth: false,
+      });
+      return {
+        success: isSuccessfulPayload(payload),
+        message:
+          typeof payload.message === "string" ? payload.message : undefined,
+        smsSent: payload.smsSent === true,
+        devCode:
+          typeof payload.devCode === "string" ? payload.devCode : undefined,
+      };
+    } catch (error) {
+      if (error instanceof ApiError) {
+        return { success: false, message: error.message };
+      }
       return {
         success: false,
         message: "پاسخ نامعتبر از سرور",
       };
     }
-
-    if (!res.ok) {
-      return {
-        success: false,
-        message:
-          typeof data.message === "string"
-            ? data.message
-            : `خطا در ارسال کد (${res.status})`,
-      };
-    }
-
-    return {
-      success: data.success === true,
-      message: typeof data.message === "string" ? data.message : undefined,
-      smsSent: data.smsSent === true,
-      devCode: typeof data.devCode === "string" ? data.devCode : undefined,
-    };
   }, []);
 
   const loginWithOtp = useCallback(
-    async (phone: string, code: string): Promise<LoginWithOtpResult> => {
-      const res = await fetch("/api/auth/otp/verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "same-origin",
-        body: JSON.stringify({ phone, code }),
-      });
-
-      let data: Record<string, unknown>;
+    async (
+      phone_number: string,
+      otp: string,
+      options: LoginSessionOptions = {},
+    ): Promise<LoginWithOtpResult> => {
       try {
-        data = (await res.json()) as Record<string, unknown>;
-      } catch {
+        const data = await apiRequest<AuthPayload>("/auth/verify-otp/", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phone_number, otp }),
+          auth: false,
+        });
+
+        const tokenData = extractAuthTokenData(data);
+        if (!isSuccessfulPayload(data) || !tokenData?.refresh) {
+          return {
+            user: null,
+            message:
+              typeof data.message === "string" ? data.message : "خطا در تایید کد",
+          };
+        }
+
+        const resolvedPhone = tokenData.phone_number ?? phone_number;
+        const sessionUser = await completeLoginSession(
+          resolvedPhone,
+          tokenData.refresh,
+          options,
+        );
+        if (!sessionUser) {
+          return { user: null, message: "خطا در تمدید نشست" };
+        }
+
+        return { user: sessionUser };
+      } catch (error) {
+        if (error instanceof ApiError) {
+          return { user: null, message: error.message };
+        }
         return { user: null, message: "پاسخ نامعتبر از سرور" };
       }
-
-      const userPayload = data.user as User | undefined;
-
-      if (!res.ok || data.success !== true || !userPayload) {
-        return {
-          user: null,
-          message:
-            typeof data.message === "string"
-              ? data.message
-              : `خطا در تایید کد (${res.status})`,
-        };
-      }
-
-      setUser(userPayload);
-      router.replace(getPostLoginPath(userPayload.role));
-      return { user: userPayload };
     },
-    [router],
+    [completeLoginSession],
   );
 
   const register = useCallback((name: string) => {
@@ -155,7 +215,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const logout = useCallback(async () => {
-    await fetch("/api/auth/logout", { method: "POST" });
+    try {
+      await apiRequest("/api/auth/logout", { method: "POST" });
+    } catch {
+      // Ignore remote logout failure and clear local session state.
+    }
+    clearAuthSession();
     setUser(null);
     router.replace("/");
   }, [router]);

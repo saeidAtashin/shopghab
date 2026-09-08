@@ -15,9 +15,10 @@ export function breadcrumbTrail(
 }
 
 export const crumbs = {
-  cases: (): BreadcrumbItem => ({ label: "قاب‌های آماده", href: "/cases" }),
-  custom: (): BreadcrumbItem => ({ label: "طراحی سفارشی", href: "/custom" }),
-  tracking: (): BreadcrumbItem => ({ label: "پیگیری سفارش" }),
+  services: (): BreadcrumbItem => ({ label: "خدمات", href: "/services" }),
+  issues: (): BreadcrumbItem => ({ label: "مشکلات رایج", href: "/issues" }),
+  repair: (): BreadcrumbItem => ({ label: "ثبت سفارش تعمیر" }),
+  tracking: (): BreadcrumbItem => ({ label: "پیگیری تعمیر" }),
   current: (label: string): BreadcrumbItem => ({ label }),
 };
 

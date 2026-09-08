@@ -34,15 +34,15 @@ export default function ImageUploadField({
     >
       <label
         htmlFor={id}
-        className="flex h-40 cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-cyan-500/30 bg-black/30 transition-colors hover:border-cyan-400 hover:bg-black/40"
+        className="flex h-40 cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-cyan-500/30 bg-surface transition-colors hover:border-cyan-400 hover:bg-input-bg"
       >
         <Upload className="mb-3 h-8 w-8 text-cyan-300" aria-hidden />
-        <span className="text-sm font-medium text-zinc-200">{uploadLabel}</span>
+        <span className="text-sm font-medium text-foreground">{uploadLabel}</span>
         <input id={id} type="file" hidden accept={accept} onChange={onChange} />
       </label>
 
       {preview && (
-        <div className="mt-4 overflow-hidden rounded-2xl border border-white/10">
+        <div className="mt-4 overflow-hidden rounded-2xl border border-border">
           {/* eslint-disable-next-line @next/next/no-img-element -- blob preview */}
           <img
             src={preview}

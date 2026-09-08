@@ -26,7 +26,7 @@ export default function FormField({
       <label
         htmlFor={htmlFor}
         className={cn(
-          "mb-2 block text-sm font-medium text-zinc-200 md:text-base",
+          "mb-2 block text-sm font-medium text-foreground md:text-base",
           labelClassName,
         )}
       >

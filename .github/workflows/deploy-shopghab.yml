@@ -1,0 +1,76 @@
+name: Deploy shopghab to VPS
+
+on:
+  push:
+    branches: [print-site]
+  workflow_dispatch:
+
+concurrency:
+  group: shopghab-production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install and build
+        env:
+          NEXT_PUBLIC_SITE_URL: https://shopghab.ir
+          NEXT_PUBLIC_API_TENANT_ID: shop-ghab
+        run: npm ci --legacy-peer-deps && npm run build
+
+      - name: Pack build artifacts
+        run: |
+          tar -czf shopghab-build.tgz \
+            .next/standalone \
+            .next/static \
+            public \
+            Dockerfile.prod \
+            docker-compose.prod.yml \
+            deploy/nginx/shopghab.ir.conf \
+            deploy/nginx/shopghab.ir.http.conf \
+            deploy/bootstrap-shopghab.sh
+
+      - name: Copy archive to VPS
+        uses: appleboy/scp-action@v1.0.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          source: shopghab-build.tgz
+          target: /root/shopghab
+          overwrite: true
+          timeout: 10m
+          command_timeout: 20m
+
+      - name: Extract, rebuild, and restart on VPS
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          command_timeout: 20m
+          script: |
+            set -e
+            cd /root/shopghab
+            tar -xzf shopghab-build.tgz
+            rm -f shopghab-build.tgz
+            printf '%s\n' "${{ github.sha }}" > DEPLOY_SHA
+            if [ ! -f .env ]; then
+              printf 'NEXT_PUBLIC_SITE_URL=https://shopghab.ir\nAPI_BASE_URL=https://api.k3isonfire.ir/api/v1\nNEXT_PUBLIC_API_TENANT_ID=shop-ghab\n' > .env
+            fi
+            docker compose -f docker-compose.prod.yml build --no-cache
+            docker compose -f docker-compose.prod.yml up -d --force-recreate --remove-orphans
+            docker image prune -f
+            if [ -x /root/shopghab/deploy/bootstrap-shopghab.sh ] || [ -f /root/shopghab/deploy/bootstrap-shopghab.sh ]; then
+              bash /root/shopghab/deploy/bootstrap-shopghab.sh
+            fi

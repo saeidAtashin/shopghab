@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 240 625" xmlns="http://www.w3.org/2000/svg">
+  <g id="body">
+    <rect x="0" y="0" width="240" height="625" rx="28.8" ry="28.8" fill="#1a1a22"/>
+  </g>
+  
+  <g id="camera-module">
+    <rect x="12" y="17.51" width="105.6" height="33.6" rx="10.8" ry="10.8" fill="#252530" stroke="#3a3a48" stroke-width="1"/>
+    <g id="lenses">
+    <circle class="lens" cx="28.8" cy="36.28" r="6.24" fill="#0d0d12" stroke="#333340" stroke-width="1"/>
+    <circle class="lens" cx="57.6" cy="36.28" r="6.24" fill="#0d0d12" stroke="#333340" stroke-width="1"/>
+    <circle class="lens" cx="86.4" cy="36.28" r="6.24" fill="#0d0d12" stroke="#333340" stroke-width="1"/>
+    </g>
+
+    <rect x="96" y="30.02" width="6.24" height="6.24" rx="2" fill="#f5f5dc" opacity="0.85"/>
+  </g>
+</svg>

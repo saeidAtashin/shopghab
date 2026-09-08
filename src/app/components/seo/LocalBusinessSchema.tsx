@@ -1,7 +1,6 @@
 import {
   DEFAULT_OG_IMAGE,
   SITE_ADDRESS,
-  SITE_HOURS,
   SITE_NAME,
   SITE_PHONE,
   SITE_TAGLINE,
@@ -22,7 +21,6 @@ export default function LocalBusinessSchema() {
         telephone: SITE_PHONE,
         image: absoluteUrl(DEFAULT_OG_IMAGE),
         priceRange: "IRR",
-        openingHours: SITE_HOURS,
         address: {
           "@type": "PostalAddress",
           ...SITE_ADDRESS,
@@ -32,11 +30,11 @@ export default function LocalBusinessSchema() {
           name: "تهران",
         },
         knowsAbout: [
-          "قاب گوشی",
-          "قاب سفارشی",
-          "چاپ روی قاب",
-          "قاب آیفون",
-          "قاب سامسونگ",
+          "تعمیر PS5",
+          "تعمیر PS4",
+          "تعمیر Xbox",
+          "تعمیر HDMI",
+          "تعمیر دسته بازی",
         ],
       },
       {

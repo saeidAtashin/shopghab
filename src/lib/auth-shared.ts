@@ -17,12 +17,12 @@ export function getPostLoginPath(role: SessionRole): string {
 }
 
 export function verifyAdminCredentials(
-  username: string,
+  phone_number: string,
   password: string,
 ): boolean {
-  const adminUsername = process.env.ADMIN_USERNAME ?? "admin";
+  const adminPhone_number = process.env.ADMIN_PHONE_NUMBER ?? "admin";
   const adminPassword = process.env.ADMIN_PASSWORD ?? "changeme";
-  return username === adminUsername && password === adminPassword;
+  return phone_number === adminPhone_number && password === adminPassword;
 }
 
 export function generateOtpCode(): string {

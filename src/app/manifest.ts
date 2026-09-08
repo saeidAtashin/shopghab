@@ -5,19 +5,19 @@ import { SITE_NAME, SITE_TAGLINE, absoluteUrl } from "../lib/seo/site";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: SITE_NAME,
-    short_name: "شاپ‌قاب",
+    short_name: "تعمیر کنسول",
     description: SITE_TAGLINE,
     start_url: absoluteUrl("/"),
     display: "standalone",
-    background_color: "#0c0a09",
-    theme_color: "#d97706",
+    background_color: "#000000",
+    theme_color: "#06b6d4",
     lang: "fa",
     dir: "rtl",
     orientation: "portrait",
-    categories: ["shopping", "business"],
+    categories: ["business", "utilities"],
     icons: [
       {
-        src: "/logos/shop-ghab-logo.png",
+        src: "/logos/logo-nobg.png",
         sizes: "any",
         type: "image/png",
         purpose: "any",

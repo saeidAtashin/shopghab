@@ -1,7 +1,7 @@
 import { cn } from "../../../../lib/utils";
 
 import MagneticConsultButton from "./MagneticConsultButton";
-import PrimaryCtaLink from "./RepairCtaLink";
+import RepairCtaLink from "./RepairCtaLink";
 import TrackingCtaLink from "./TrackingCtaLink";
 
 export type CtaSecondaryAction = "consult" | "tracking";
@@ -15,20 +15,17 @@ export type CtaButtonGroupProps = {
 };
 
 export default function CtaButtonGroup({
-  repairHref = "/cases",
-  repairLabel = "مشاهده قاب‌ها",
+  repairHref = "/repair",
+  repairLabel = "ثبت درخواست",
   secondary = "consult",
   trackingHref = "/tracking",
   className,
 }: CtaButtonGroupProps) {
   return (
     <div
-      className={cn(
-        "mt-10 flex flex-col flex-wrap items-center gap-4 md:flex-row",
-        className,
-      )}
+      className={cn("mt-10 flex md:flex-row flex-col flex-wrap items-center gap-4", className)}
     >
-      <PrimaryCtaLink href={repairHref} label={repairLabel} />
+      <RepairCtaLink href={repairHref} label={repairLabel} />
       {secondary === "consult" ? (
         <MagneticConsultButton />
       ) : (

@@ -1,11 +1,11 @@
 import type { ReactNode } from "react";
 
-import FuturisticBreadcrumbTree from "@/app/components/FuturisticBreadcrumbTree";
+import SiteBreadcrumb from "@/app/components/navigation/SiteBreadcrumb";
+import { resolveBreadcrumbs } from "@/lib/navigation/resolve-breadcrumbs";
 import {
   type BreadcrumbItem,
   breadcrumbJsonLd,
 } from "../../../lib/seo/breadcrumbs";
-import { breadcrumbTrailFromPath } from "../../../lib/breadcrumb-tree-utils";
 import JsonLd from "./JsonLd";
 
 type Props = {
@@ -30,7 +30,7 @@ export default function PageShell({
   jsonLd,
 }: Props) {
   const schemas: Record<string, unknown>[] = [];
-  const trail = breadcrumbs ?? breadcrumbTrailFromPath(currentPath);
+  const trail = resolveBreadcrumbs(currentPath, breadcrumbs);
 
   if (trail.length > 0) {
     schemas.push(breadcrumbJsonLd(trail, currentPath));
@@ -43,12 +43,11 @@ export default function PageShell({
   return (
     <>
       {schemas.length > 0 && <JsonLd data={schemas} />}
-      <div className={containerClassName}>
-        <FuturisticBreadcrumbTree
-          currentPath={currentPath}
-          className={breadcrumbClassName}
-        />
-      </div>
+      {trail.length > 0 && (
+        <div className={containerClassName}>
+          <SiteBreadcrumb items={trail} className={breadcrumbClassName} />
+        </div>
+      )}
       <div className={className}>{children}</div>
     </>
   );

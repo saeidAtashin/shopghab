@@ -1,21 +1,53 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: var(--font-vazirmatn), ui-sans-serif, system-ui, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-surface: var(--surface);
+  --color-input-bg: var(--input-bg);
+  --color-overlay: var(--overlay);
 }
 
 :root {
-  --background: #0c0a09;
-  --foreground: #fafaf9;
-  --brand: #d97706;
-  --brand-soft: rgba(217, 119, 6, 0.15);
+  --background: #f8fafc;
+  --foreground: #09090b;
+  --muted: #71717a;
+  --card: #ffffff;
+  --border: rgba(0, 0, 0, 0.1);
+  --surface: rgba(0, 0, 0, 0.04);
+  --input-bg: #ffffff;
+  --overlay: rgba(248, 250, 252, 0.92);
+}
+
+.dark {
+  --background: #09090b;
+  --foreground: #fafafa;
+  --muted: #a1a1aa;
+  --card: #18181b;
+  --border: rgba(255, 255, 255, 0.1);
+  --surface: rgba(255, 255, 255, 0.05);
+  --input-bg: rgba(0, 0, 0, 0.4);
+  --overlay: rgba(9, 9, 11, 0.92);
 }
 
 body {
   background:
-    radial-gradient(circle at top, rgba(217, 119, 6, 0.12), transparent 42%),
-    #0c0a09;
+    radial-gradient(circle at top, rgba(37, 99, 235, 0.08), transparent 40%),
+    var(--background);
   font-family: var(--font-vazirmatn);
+  color: var(--foreground);
+}
+
+.dark body {
+  background:
+    radial-gradient(circle at top, rgba(37, 99, 235, 0.15), transparent 40%),
+    var(--background);
 }
 
 .container {
@@ -35,6 +67,22 @@ body {
 
 .animate-float {
   animation: float 6s ease-in-out infinite;
+}
+
+@keyframes preview-glow {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 0.65;
+    transform: scale(1.05);
+  }
+}
+
+.animate-preview-glow {
+  animation: preview-glow 3s ease-in-out infinite;
 }
 
 @keyframes scan {
@@ -141,20 +189,20 @@ body {
 @keyframes hero-quick-pointer {
   0%,
   100% {
-    transform: translate(5px, -5px) scaleX(-1) scale(1);
+    transform: translate(calc(-50% + 14px), calc(-50% - 14px)) scaleX(-1) scale(1);
     opacity: 0.35;
   }
   36% {
-    transform: translate(-70px, 15px) scaleX(-1) scale(1);
+    transform: translate(-50%, -50%) scaleX(-1) scale(1);
     opacity: 1;
   }
   46% {
-    transform: translate(-70px, 15px) scaleX(-1) scale(0.78);
+    transform: translate(-50%, -50%) scaleX(-1) scale(0.78);
     opacity: 1;
   }
   54%,
   72% {
-    transform: translate(-70px, 15px) scaleX(-1) scale(1);
+    transform: translate(-50%, -50%) scaleX(-1) scale(1);
     opacity: 1;
   }
 }
@@ -189,29 +237,32 @@ body {
 
 .input-neon {
   @apply w-full h-14 rounded-2xl px-4
-  border border-white/10 bg-black/40
-  text-white placeholder:text-zinc-400
+  border border-border bg-input-bg
+  text-foreground placeholder:text-muted
   outline-none transition
   focus:border-cyan-500 focus:shadow-[0_0_15px_rgba(0,255,255,0.3)];
+}
+
+.dark .input-neon {
   color-scheme: dark;
 }
 
 @layer components {
   .ui-input {
     @apply w-full h-14 px-4 rounded-2xl
-      border border-white/10 bg-black/30 
-      text-white placeholder:text-zinc-500
+      border border-border bg-input-bg
+      text-foreground placeholder:text-muted
       outline-none transition
-      focus:border-cyan-500 
+      focus:border-cyan-500
       focus:ring-1 focus:ring-cyan-500/40;
   }
 }
 
-/* After Tailwind layers — override browser autofill (white bg / black text) */
+/* After Tailwind layers — override browser autofill */
 @keyframes input-neon-autofill {
   to {
-    background-color: #09090b;
-    color: #fafafa;
+    background-color: var(--input-bg);
+    color: var(--foreground);
   }
 }
 
@@ -224,12 +275,12 @@ textarea.input-neon:-webkit-autofill:hover,
 textarea.input-neon:-webkit-autofill:focus,
 textarea.input-neon:-webkit-autofill:active {
   animation: input-neon-autofill 0.001s forwards !important;
-  -webkit-text-fill-color: #fafafa !important;
-  color: #fafafa !important;
-  caret-color: #fafafa !important;
-  background-color: #09090b !important;
-  -webkit-box-shadow: 0 0 0 1000px #09090b inset !important;
-  box-shadow: 0 0 0 1000px #09090b inset !important;
+  -webkit-text-fill-color: var(--foreground) !important;
+  color: var(--foreground) !important;
+  caret-color: var(--foreground) !important;
+  background-color: var(--input-bg) !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--input-bg) inset !important;
+  box-shadow: 0 0 0 1000px var(--input-bg) inset !important;
   transition: none !important;
 }
 
@@ -237,19 +288,19 @@ input.input-neon:-internal-autofill-selected,
 input.input-neon:-internal-autofill-previewed,
 textarea.input-neon:-internal-autofill-selected,
 textarea.input-neon:-internal-autofill-previewed {
-  -webkit-text-fill-color: #fafafa !important;
-  color: #fafafa !important;
-  background-color: #09090b !important;
-  -webkit-box-shadow: 0 0 0 1000px #09090b inset !important;
-  box-shadow: 0 0 0 1000px #09090b inset !important;
+  -webkit-text-fill-color: var(--foreground) !important;
+  color: var(--foreground) !important;
+  background-color: var(--input-bg) !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--input-bg) inset !important;
+  box-shadow: 0 0 0 1000px var(--input-bg) inset !important;
 }
 
 input.input-neon:autofill,
 textarea.input-neon:autofill {
-  -webkit-text-fill-color: #fafafa !important;
-  color: #fafafa !important;
-  background-color: #09090b !important;
-  box-shadow: 0 0 0 1000px #09090b inset !important;
+  -webkit-text-fill-color: var(--foreground) !important;
+  color: var(--foreground) !important;
+  background-color: var(--input-bg) !important;
+  box-shadow: 0 0 0 1000px var(--input-bg) inset !important;
 }
 
 .route-loader-overlay {
@@ -258,7 +309,7 @@ textarea.input-neon:autofill {
   z-index: 9999;
   display: grid;
   place-items: center;
-  background: rgba(9, 9, 11, 0.92);
+  background: var(--overlay);
   backdrop-filter: blur(4px);
   pointer-events: none;
 }

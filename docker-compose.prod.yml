@@ -1,0 +1,27 @@
+services:
+  shopghab:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    container_name: shopghab
+    restart: unless-stopped
+    ports:
+      - "3002:3000"
+    mem_limit: 768m
+    cpus: 1.0
+    env_file:
+      - .env
+    environment:
+      HOSTNAME: "0.0.0.0"
+      PORT: "3000"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('http').get('http://127.0.0.1:3000/',(r)=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3

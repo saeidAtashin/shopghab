@@ -18,7 +18,7 @@ export default function FloatingBadge({
   className = "",
   animateY = [0, -10, 0],
   duration = 4,
-  valueClassName = "text-white",
+  valueClassName = "text-foreground",
 }: FloatingBadgeProps): JSX.Element {
   return (
     <motion.div
@@ -30,7 +30,7 @@ export default function FloatingBadge({
       }}
       className={`hidden rounded-2xl border px-4 py-3 backdrop-blur-xl lg:block ${className}`}
     >
-      <div className="text-xs text-zinc-400">{label}</div>
+      <div className="text-xs text-muted">{label}</div>
       <div className={`mt-1 font-bold ${valueClassName}`}>{value}</div>
     </motion.div>
   );

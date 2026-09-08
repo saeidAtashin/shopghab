@@ -20,14 +20,14 @@ export default function FAQ({ items }: Props) {
               className="
                   rounded-2xl
                   border
-                  border-zinc-800
-                  bg-zinc-900/50
+                  border-border
+                  bg-card/50
                   p-6
                 "
             >
               <h3 className="mb-4 text-xl font-bold">{item.question}</h3>
 
-              <p className="leading-8 text-zinc-400">{item.answer}</p>
+              <p className="leading-8 text-muted">{item.answer}</p>
             </div>
           ))}
         </div>

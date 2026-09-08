@@ -17,21 +17,21 @@ export default function AuthPage() {
   };
 
   return (
-    <main className="min-h-screen bg-black text-white flex items-center justify-center px-4">
-      <div className="w-full max-w-md bg-white/5 border border-white/10 rounded-3xl p-8 backdrop-blur-xl">
+    <main className="min-h-screen bg-background text-foreground flex items-center justify-center px-4">
+      <div className="w-full max-w-md bg-surface border border-border rounded-3xl p-8 backdrop-blur-xl">
         <h1 className="text-3xl font-bold text-center mb-2">
           {mode === "login" ? "ورود" : "ثبت نام"}
         </h1>
 
-        <p className="text-zinc-400 text-center mb-8">
-          ورود به حساب کاربری شاپ‌قاب
+        <p className="text-muted text-center mb-8">
+          ورود به حساب کاربری تعمیرات کنسول
         </p>
 
         {/* Tabs */}
         <div className="flex gap-2 mb-6">
           <button
             onClick={() => setMode("login")}
-            className={`flex-1 py-3 rounded-xl ${mode === "login" ? "bg-cyan-500 text-black" : "bg-white/5"
+            className={`flex-1 py-3 rounded-xl ${mode === "login" ? "bg-cyan-500 text-black" : "bg-surface"
               }`}
           >
             ورود
@@ -39,7 +39,7 @@ export default function AuthPage() {
 
           <button
             onClick={() => setMode("register")}
-            className={`flex-1 py-3 rounded-xl ${mode === "register" ? "bg-cyan-500 text-black" : "bg-white/5"
+            className={`flex-1 py-3 rounded-xl ${mode === "register" ? "bg-cyan-500 text-black" : "bg-surface"
               }`}
           >
             ثبت نام
@@ -53,7 +53,7 @@ export default function AuthPage() {
               onClick={() => setLoginType("otp")}
               className={`flex-1 py-2 rounded-lg text-sm ${loginType === "otp"
                   ? "bg-cyan-500/20 text-cyan-400"
-                  : "bg-white/5"
+                  : "bg-surface"
                 }`}
             >
               کد پیامکی
@@ -63,7 +63,7 @@ export default function AuthPage() {
               onClick={() => setLoginType("password")}
               className={`flex-1 py-2 rounded-lg text-sm ${loginType === "password"
                   ? "bg-cyan-500/20 text-cyan-400"
-                  : "bg-white/5"
+                  : "bg-surface"
                 }`}
             >
               رمز عبور
@@ -82,28 +82,28 @@ export default function AuthPage() {
             <input
               type="text"
               placeholder="نام و نام خانوادگی"
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none"
+              className="w-full bg-surface border border-border rounded-xl px-4 py-3 outline-none"
             />
           )}
 
           <input
             type="text"
             placeholder="شماره موبایل"
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none"
+            className="w-full bg-surface border border-border rounded-xl px-4 py-3 outline-none"
           />
 
           {(mode === "register" || loginType === "password") && (
             <input
               type="password"
               placeholder="رمز عبور"
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none"
+              className="w-full bg-surface border border-border rounded-xl px-4 py-3 outline-none"
             />
           )}
 
           {loginType === "otp" && mode === "login" && (
             <button
               type="button"
-              className="w-full bg-white/10 py-3 rounded-xl"
+              className="w-full bg-surface py-3 rounded-xl"
             >
               ارسال کد تایید
             </button>

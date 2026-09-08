@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import {
-  BRAND_SHORT,
   DEFAULT_OG_IMAGE,
   SITE_LOCALE,
   SITE_NAME,
@@ -10,14 +9,6 @@ import {
   getSiteUrl,
 } from "./site";
 
-function buildFullTitle(pageTitle: string): string {
-  if (pageTitle === SITE_NAME) return pageTitle;
-  if (pageTitle.includes(SITE_NAME) || pageTitle.includes(BRAND_SHORT)) {
-    return pageTitle;
-  }
-  return `${pageTitle} | ${SITE_NAME}`;
-}
-
 export type PageMetadataInput = {
   title: string;
   description?: string;
@@ -25,6 +16,8 @@ export type PageMetadataInput = {
   keywords?: string[];
   noIndex?: boolean;
   ogImage?: string;
+  ogImageWidth?: number;
+  ogImageHeight?: number;
   type?: "website" | "article";
 };
 
@@ -36,7 +29,10 @@ export function createPageMetadata(input: PageMetadataInput): Metadata {
   const ogImageUrl = ogImage.startsWith("http")
     ? ogImage
     : absoluteUrl(ogImage);
-  const fullTitle = buildFullTitle(input.title);
+  const ogImageWidth = input.ogImageWidth ?? 1200;
+  const ogImageHeight = input.ogImageHeight ?? 630;
+  const fullTitle =
+    input.title === SITE_NAME ? input.title : `${input.title} | ${SITE_NAME}`;
 
   return {
     title: input.title,
@@ -80,8 +76,8 @@ export function createPageMetadata(input: PageMetadataInput): Metadata {
       images: [
         {
           url: ogImageUrl,
-          width: 1200,
-          height: 630,
+          width: ogImageWidth,
+          height: ogImageHeight,
           alt: input.title,
         },
       ],
@@ -93,7 +89,7 @@ export function createPageMetadata(input: PageMetadataInput): Metadata {
       images: [ogImageUrl],
     },
     metadataBase: new URL(getSiteUrl()),
-    category: "shopping",
+    category: "technology",
   };
 }
 
@@ -103,23 +99,22 @@ export const rootMetadata: Metadata = {
     description: SITE_TAGLINE,
     path: "/",
     keywords: [
-      "قاب گوشی",
-      "خرید قاب گوشی",
-      "قاب سفارشی",
-      "شاپ قاب",
-      "Shopghab",
+      "قاب موبایل",
+      "طراحی قاب",
       "قاب آیفون",
       "قاب سامسونگ",
+      "قاب شیائومی",
+      "قاب سفارشی",
+      "قاب‌کده",
     ],
   }),
   title: {
     default: SITE_NAME,
     template: `%s | ${SITE_NAME}`,
   },
-  category: "shopping",
   icons: {
-    icon: "/logos/shop-ghab-logo.png",
-    shortcut: "/logos/shop-ghab-logo.png",
-    apple: "/logos/shop-ghab-logo.png",
+    icon: "/logos/logo-nobg.png",
+    shortcut: "/logos/logo-nobg.png",
+    apple: "/logos/logo-nobg.png",
   },
 };

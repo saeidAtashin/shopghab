@@ -1,18 +1,40 @@
-import type { OrderStatus } from "@/lib/db";
+export type RepairStatus = "pending" | "checking" | "repairing" | "completed";
 
-export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
+export type BackendRepairStatus =
+  | "PENDING"
+  | "ACCEPTED"
+  | "IN_PROGRESS"
+  | "WAITING_FOR_PART"
+  | "DONE"
+  | "DELIVERED"
+  | "CANCELED";
+
+export const REPAIR_STATUS_LABELS: Record<RepairStatus, string> = {
   pending: "در انتظار بررسی",
-  reviewing: "در حال بررسی",
-  producing: "در حال تولید",
-  ready: "آماده ارسال",
-  completed: "تحویل شده",
+  checking: "در حال بررسی",
+  repairing: "در حال تعمیر",
+  completed: "آماده تحویل",
 };
 
-export function getOrderStatusLabel(status: string): string {
-  return ORDER_STATUS_LABELS[status as OrderStatus] ?? status;
-}
+export const BACKEND_REPAIR_STATUS_LABELS: Record<BackendRepairStatus, string> =
+  {
+    PENDING: "در انتظار بررسی",
+    ACCEPTED: "پذیرفته شده",
+    IN_PROGRESS: "در حال تعمیر",
+    WAITING_FOR_PART: "در انتظار قطعه",
+    DONE: "تعمیر انجام شد",
+    DELIVERED: "تحویل داده شد",
+    CANCELED: "لغو شده",
+  };
 
-/** @deprecated Use getOrderStatusLabel */
-export const getRepairStatusLabel = getOrderStatusLabel;
-/** @deprecated Use ORDER_STATUS_LABELS */
-export const REPAIR_STATUS_LABELS = ORDER_STATUS_LABELS;
+export const BACKEND_REPAIR_STATUSES = Object.keys(
+  BACKEND_REPAIR_STATUS_LABELS,
+) as BackendRepairStatus[];
+
+export function getRepairStatusLabel(status: string): string {
+  if (status in BACKEND_REPAIR_STATUS_LABELS) {
+    return BACKEND_REPAIR_STATUS_LABELS[status as BackendRepairStatus];
+  }
+
+  return REPAIR_STATUS_LABELS[status as RepairStatus] ?? status;
+}

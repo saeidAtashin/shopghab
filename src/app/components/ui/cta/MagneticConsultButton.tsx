@@ -99,7 +99,7 @@ export default function MagneticConsultButton() {
         ref={ref}
         href={telHref}
         style={{ x, y }}
-        className="group relative flex items-center gap-4 overflow-hidden rounded-2xl border border-cyan-400/25 bg-white/[0.06] px-6 py-2 text-white shadow-[0_8px_32px_rgba(0,0,0,0.35)] backdrop-blur-xl transition-[border-color,box-shadow] duration-300 hover:border-cyan-400/45 hover:shadow-[0_12px_48px_rgba(34,211,238,0.18)]"
+        className="group relative flex items-center gap-4 overflow-hidden rounded-2xl border border-cyan-400/25 bg-white/[0.06] px-6 py-2 text-foreground shadow-[0_8px_32px_rgba(0,0,0,0.35)] backdrop-blur-xl transition-[border-color,box-shadow] duration-300 hover:border-cyan-400/45 hover:shadow-[0_12px_48px_rgba(34,211,238,0.18)]"
       >
         <span
           aria-hidden

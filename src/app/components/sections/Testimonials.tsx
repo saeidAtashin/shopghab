@@ -4,15 +4,15 @@ import { Star } from "lucide-react";
 const testimonials = [
   {
     name: "علی رضایی",
-    text: "قاب سفارشی‌ام دقیقاً همون طرحی شد که فرستادم؛ کیفیت چاپ عالی بود.",
+    text: "PS5 من مشکل HDMI داشت و خیلی سریع و حرفه‌ای تعمیر شد.",
   },
   {
     name: "محمد کریمی",
-    text: "از کاتالوگ قاب آماده سفارش دادم و خیلی زود آماده‌سازی شد.",
+    text: "دسته PS5 دریفت داشت و کامل مثل روز اول شد.",
   },
   {
     name: "پارسا احمدی",
-    text: "مدل گوشی درست بود، بسته‌بندی مرتب و قیمت مناسب.",
+    text: "رفتار حرفه‌ای، قیمت مناسب و تحویل سریع.",
   },
 ];
 
@@ -27,11 +27,11 @@ export default function Testimonials() {
               نظرات مشتریان
             </span>
 
-            <h2 className="mb-6 text-5xl font-black text-white">
+            <h2 className="mb-6 text-5xl font-black text-foreground">
               مشتری‌ها درباره ما چه می‌گویند؟
             </h2>
 
-            <p className="mx-auto max-w-2xl text-lg leading-8 text-zinc-400">
+            <p className="mx-auto max-w-2xl text-lg leading-8 text-muted">
               رضایت مشتری مهم‌ترین سرمایه ماست.
             </p>
           </div>
@@ -49,8 +49,8 @@ export default function Testimonials() {
     overflow-hidden
     rounded-3xl
     border
-    border-zinc-800
-    bg-white/5
+    border-border
+    bg-surface
     p-8
     backdrop-blur-xl
     transition-all
@@ -72,13 +72,13 @@ export default function Testimonials() {
                     ))}
                   </div>
 
-                  <p className="mb-8 leading-8 text-zinc-300">{item.text}</p>
+                  <p className="mb-8 leading-8 text-muted">{item.text}</p>
                 </div>
 
                 <div>
-                  <h4 className="text-lg font-bold text-white">{item.name}</h4>
+                  <h4 className="text-lg font-bold text-foreground">{item.name}</h4>
 
-                  <span className="text-sm text-zinc-500">مشتری مجموعه</span>
+                  <span className="text-sm text-muted">مشتری مجموعه</span>
                 </div>
               </div>
             </FadeUp>

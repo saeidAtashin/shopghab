@@ -2,7 +2,7 @@ import { createPageMetadata } from "../../lib/seo/metadata";
 
 export const metadata = createPageMetadata({
   title: "ورود",
-  description: "ورود به حساب کاربری شاپ‌قاب.",
+  description: "ورود به حساب کاربری مرکز تعمیر کنسول.",
   path: "/login",
   noIndex: true,
 });
