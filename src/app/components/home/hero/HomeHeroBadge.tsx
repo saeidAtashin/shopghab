@@ -14,7 +14,7 @@ export default function HomeHeroBadge({ variant = "default" }: Props) {
       className={
         onDark
           ? "inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white shadow-sm backdrop-blur-xl"
-          : "inline-flex items-center gap-2.5 rounded-full border border-cyan-500/20 bg-card/60 px-4 py-2 text-sm font-medium text-foreground shadow-sm backdrop-blur-xl dark:border-cyan-400/25 dark:bg-white/[0.04]"
+          : "inline-flex items-center gap-2.5 rounded-full border border-cyan-500/20 bg-card/60 px-4 py-2 text-sm font-medium text-foreground shadow-sm backdrop-blur-xl dark:border-cyan-400/25 dark:bg-white/4"
       }
     >
       <span
