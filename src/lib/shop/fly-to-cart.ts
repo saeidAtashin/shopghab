@@ -2,6 +2,27 @@ export const SHOP_CART_TARGET_SELECTOR = "[data-shop-cart-target]";
 
 export type FlyToCartVariant = "card" | "hero";
 
+export type RectLike = {
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+};
+
+export type FlyToCartAnimationState = {
+  image: string;
+  fromRect: RectLike;
+};
+
+export function toRectLike(rect: DOMRectReadOnly): RectLike {
+  return {
+    left: rect.left,
+    top: rect.top,
+    width: rect.width,
+    height: rect.height,
+  };
+}
+
 export const FLY_ANIMATION_CONFIG = {
   duration: 0.95,
   times: [0, 0.28, 0.65, 1] as const,
@@ -17,7 +38,7 @@ export const FLY_ANIMATION_CONFIG = {
 
 export const CART_RECEIVE_DURATION_MS = 500;
 
-export function getCenter(rect: DOMRectReadOnly) {
+export function getCenter(rect: RectLike) {
   return {
     x: rect.left + rect.width / 2,
     y: rect.top + rect.height / 2,

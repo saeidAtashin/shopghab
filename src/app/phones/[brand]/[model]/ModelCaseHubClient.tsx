@@ -8,6 +8,7 @@ import { PenLine, Sparkles } from "lucide-react";
 import CaseTypePicker from "@/app/components/case-wizard/CaseTypePicker";
 import WizardBreadcrumb from "@/app/components/case-wizard/WizardBreadcrumb";
 import DesignSamplesSection from "@/app/components/designs/DesignSamplesSection";
+import { SELECTABLE_CASE_TYPE_SLUG } from "@/lib/cases/brands.static";
 import type { CaseType, PhoneBrand, PhoneModel } from "@/lib/cases/types";
 import type { CaseTemplate } from "@/lib/design/types";
 
@@ -35,7 +36,7 @@ export default function ModelCaseHubClient({
   const [hubPath, setHubPath] = useState<HubPath>(() =>
     parseHubPath(searchParams.get("path")),
   );
-  const [selectedCase, setSelectedCase] = useState(caseTypes[0]?.slug ?? "matte");
+  const [selectedCase, setSelectedCase] = useState(SELECTABLE_CASE_TYPE_SLUG);
 
   const selectPath = useCallback(
     (path: HubPath) => {

@@ -427,3 +427,30 @@ textarea.input-neon:autofill {
     stroke-dashoffset: 0;
   }
 }
+
+@keyframes print-analyze-scan {
+  0% {
+    top: 0%;
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+.animate-print-analyze-scan {
+  animation: print-analyze-scan 1.1s ease-in-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-print-analyze-scan {
+    animation: none;
+  }
+}

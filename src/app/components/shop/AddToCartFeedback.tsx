@@ -4,15 +4,15 @@ import { useEffect } from "react";
 import { useShopCart } from "@/app/context/ShopCartContext";
 
 export default function AddToCartFeedback() {
-  const { toastMessage, dismissAddToCartToast } = useShopCart();
+  const { toastMessage, dismissAddToCartToast, checkoutPrompt } = useShopCart();
 
   useEffect(() => {
-    if (!toastMessage) return;
+    if (!toastMessage || checkoutPrompt) return;
     const timer = setTimeout(dismissAddToCartToast, 3000);
     return () => clearTimeout(timer);
-  }, [toastMessage, dismissAddToCartToast]);
+  }, [toastMessage, checkoutPrompt, dismissAddToCartToast]);
 
-  if (!toastMessage) return null;
+  if (!toastMessage || checkoutPrompt) return null;
 
   return (
     <div

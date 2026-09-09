@@ -41,6 +41,12 @@ export const PHONE_MODELS: PhoneModel[] = [
   GENERIC_CUSTOM_MODEL,
 ];
 
+export const SELECTABLE_CASE_TYPE_SLUG = "matte";
+
+export function isCaseTypeSelectable(slug: string): boolean {
+  return slug === SELECTABLE_CASE_TYPE_SLUG;
+}
+
 export const CASE_TYPES: CaseType[] = [
   {
     slug: "clear",

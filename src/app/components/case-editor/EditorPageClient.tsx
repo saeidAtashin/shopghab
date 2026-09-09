@@ -33,6 +33,7 @@ import UploadPanel from "@/app/components/case-editor/UploadPanel";
 import DescriptionPanel from "@/app/components/case-editor/DescriptionPanel";
 import LayersPanel from "@/app/components/case-editor/LayersPanel";
 import PreviewModal from "@/app/components/case-editor/PreviewModal";
+import SaveImageModal from "@/app/components/case-editor/SaveImageModal";
 import EditorGuideOverlay from "@/app/components/case-editor/EditorGuideOverlay";
 import { useAuth } from "@/app/context/AuthContext";
 import { useShopCart } from "@/app/context/ShopCartContext";
@@ -58,6 +59,11 @@ import { useCanvasDisplaySize } from "@/lib/design/use-canvas-display-size";
 import { useElementSize } from "@/lib/design/use-element-size";
 import { useMediaQuery } from "@/lib/design/use-media-query";
 import { formatToman } from "@/lib/shop/format";
+import {
+  getVisibleCartRect,
+  prefersReducedMotion,
+  toRectLike,
+} from "@/lib/shop/fly-to-cart";
 import {
   hasSeenEditorGuide,
   markEditorGuideSeen,
@@ -127,7 +133,7 @@ export default function EditorPageClient({
   const stickerPacks = getStickerPacks();
 
   const { user } = useAuth();
-  const { addCustomCase } = useShopCart();
+  const { addCustomCase, startFlyToCart } = useShopCart();
   const stageRef = useRef<Konva.Stage | null>(null);
   const loadedRef = useRef(false);
   const guideCheckedRef = useRef(false);
@@ -170,6 +176,9 @@ export default function EditorPageClient({
   const [warningExpanded, setWarningExpanded] = useState(false);
   const [mobileDockCollapsed, setMobileDockCollapsed] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [showSaveModal, setShowSaveModal] = useState(false);
+  const [buyBusy, setBuyBusy] = useState(false);
+  const [analyzing, setAnalyzing] = useState(false);
   const [shareUrl, setShareUrl] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [editorReady, setEditorReady] = useState(false);
@@ -276,10 +285,10 @@ export default function EditorPageClient({
     model,
   ]);
 
-  const handleSave = useCallback(async () => {
+  const handleSaveToAccount = useCallback(async () => {
     if (!user) {
       setMessage("برای ذخیره طراحی ابتدا وارد شوید.");
-      return;
+      throw new Error("auth");
     }
     setSaving(true);
     setMessage(null);
@@ -289,6 +298,7 @@ export default function EditorPageClient({
       setMessage("طراحی ذخیره شد.");
     } catch {
       setMessage("خطا در ذخیره طراحی.");
+      throw new Error("save");
     } finally {
       setSaving(false);
     }
@@ -315,24 +325,65 @@ export default function EditorPageClient({
   }, [brandSlug, modelSlug]);
 
   const handleBuy = useCallback(async () => {
-    const saved = await saveDesign(document);
-    let previewUrl = saved.previewUrl ?? "";
-    if (stageRef.current && !previewUrl) {
-      previewUrl = await exportStageToPng(stageRef.current, 2);
+    if (buyBusy) return;
+    setBuyBusy(true);
+    setMessage(null);
+    try {
+      const reduce = prefersReducedMotion();
+      if (!reduce) {
+        setAnalyzing(true);
+        await new Promise((resolve) => window.setTimeout(resolve, 1100));
+        setAnalyzing(false);
+      }
+
+      const saved = await saveDesign(document);
+      let previewUrl = saved.previewUrl ?? "";
+      if (stageRef.current) {
+        previewUrl = await exportStageToPng(stageRef.current, 2);
+      }
+      const price = getCaseTotalPrice(caseType, true);
+      const payload = {
+        designId: saved.id,
+        previewUrl,
+        unitPrice: price,
+        title: document.name || `قاب ${model.name}`,
+        brandSlug,
+        modelSlug,
+        caseTypeSlug,
+        description: document.description,
+      };
+
+      const container = stageRef.current?.container();
+      const fromRect = container
+        ? toRectLike(container.getBoundingClientRect())
+        : null;
+      const canFly =
+        !reduce &&
+        Boolean(previewUrl) &&
+        Boolean(fromRect && fromRect.width > 0) &&
+        Boolean(getVisibleCartRect());
+
+      addCustomCase(payload, { deferPrompt: canFly });
+      if (canFly && fromRect && previewUrl) {
+        await startFlyToCart({ image: previewUrl, fromRect });
+      }
+    } catch {
+      setMessage("افزودن به سبد ناموفق بود.");
+      setAnalyzing(false);
+    } finally {
+      setBuyBusy(false);
     }
-    const price = getCaseTotalPrice(caseType, true);
-    addCustomCase({
-      designId: saved.id,
-      previewUrl,
-      unitPrice: price,
-      title: document.name || `قاب ${model.name}`,
-      brandSlug,
-      modelSlug,
-      caseTypeSlug,
-      description: document.description,
-    });
-    setMessage("به سبد خرید اضافه شد.");
-  }, [document, caseType, model, addCustomCase, brandSlug, modelSlug, caseTypeSlug]);
+  }, [
+    buyBusy,
+    document,
+    caseType,
+    model,
+    addCustomCase,
+    startFlyToCart,
+    brandSlug,
+    modelSlug,
+    caseTypeSlug,
+  ]);
 
   const tabs: { id: EditorTab; label: string; icon: React.ReactNode }[] = [
     { id: "layers", label: "لایه‌ها", icon: <Layers size={16} /> },
@@ -453,7 +504,7 @@ export default function EditorPageClient({
               icon={<Eye size={16} />}
               label="پیش‌نمایش"
             />
-            <ToolbarButton onClick={handleSave} disabled={saving} icon={<Save size={16} />} label="ذخیره" />
+            <ToolbarButton onClick={() => setShowSaveModal(true)} icon={<Save size={16} />} label="ذخیره" />
           </div>
 
           <div className="hidden h-6 w-px shrink-0 bg-border sm:block" aria-hidden />
@@ -538,8 +589,9 @@ export default function EditorPageClient({
           <button
             type="button"
             data-editor-guide="buy"
-            onClick={handleBuy}
-            className="mr-auto flex min-h-11 scroll-mt-24 items-center gap-2 rounded-xl bg-cyan-500 px-4 py-2 text-sm font-bold text-black transition hover:bg-cyan-400"
+            onClick={() => void handleBuy()}
+            disabled={buyBusy}
+            className="mr-auto flex min-h-11 scroll-mt-24 items-center gap-2 rounded-xl bg-cyan-500 px-4 py-2 text-sm font-bold text-black transition hover:bg-cyan-400 disabled:opacity-60"
           >
             <ShoppingCart size={16} />
             <span className="hidden sm:inline">خرید — </span>
@@ -576,6 +628,32 @@ export default function EditorPageClient({
               displayMaxHeight={canvasDisplaySize.height}
               mobileTouchMode={isMobileViewport}
             />
+            {analyzing ? (
+              <div
+                className="absolute inset-0 z-10 overflow-hidden rounded-2xl bg-black/50 backdrop-blur-[2px]"
+                aria-live="polite"
+              >
+                <div
+                  className="pointer-events-none absolute inset-0 opacity-25"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(to left, rgba(34,211,238,0.35) 1px, transparent 1px), linear-gradient(to bottom, rgba(34,211,238,0.35) 1px, transparent 1px)",
+                    backgroundSize: "18px 18px",
+                  }}
+                  aria-hidden
+                />
+                <div
+                  className="pointer-events-none absolute inset-x-4 top-0 h-16 -translate-y-1/2 bg-gradient-to-b from-cyan-400/0 via-cyan-300/70 to-cyan-400/0 animate-print-analyze-scan"
+                  aria-hidden
+                />
+                <div className="pointer-events-none absolute inset-5 rounded-xl border border-cyan-300/40" aria-hidden />
+                <div className="absolute inset-x-0 bottom-5 flex justify-center">
+                  <p className="rounded-full border border-cyan-400/40 bg-black/55 px-3 py-1.5 text-xs font-bold text-cyan-100">
+                    در حال بررسی چاپ…
+                  </p>
+                </div>
+              </div>
+            ) : null}
           </div>
 
           {isSplitLayout ? (
@@ -642,6 +720,18 @@ export default function EditorPageClient({
               setShowPreview(false);
               setPreviewMode(false);
             }}
+          />
+        ) : null}
+        {showSaveModal ? (
+          <SaveImageModal
+            key="save-image"
+            stage={stageRef.current}
+            brandSlug={brandSlug}
+            modelSlug={modelSlug}
+            loggedIn={Boolean(user)}
+            savingAccount={saving}
+            onSaveToAccount={handleSaveToAccount}
+            onClose={() => setShowSaveModal(false)}
           />
         ) : null}
         {showEditorGuide ? (

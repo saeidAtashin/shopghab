@@ -11,6 +11,7 @@ import { usePreferredBrandLoader } from "@/app/context/PreferredBrandLoaderConte
 import DesignSamplePreview from "@/app/components/designs/DesignSamplePreview";
 import {
   CASE_TYPES,
+  SELECTABLE_CASE_TYPE_SLUG,
   getBrandBySlug,
   getCaseTypeBySlug,
   getModelBySlug,
@@ -125,7 +126,7 @@ export default function ApplyTemplateWizard({
   const { setPreferredBrandSlug } = usePreferredBrandLoader();
   const [brandSlug, setBrandSlug] = useState(initialBrandSlug ?? "");
   const [modelSlug, setModelSlug] = useState(initialModelSlug ?? "");
-  const [caseTypeSlug, setCaseTypeSlug] = useState(CASE_TYPES[0]?.slug ?? "matte");
+  const [caseTypeSlug, setCaseTypeSlug] = useState(SELECTABLE_CASE_TYPE_SLUG);
   const [modelQuery, setModelQuery] = useState("");
 
   const initialStep: Step = initialModelSlug && initialBrandSlug
@@ -139,7 +140,7 @@ export default function ApplyTemplateWizard({
     if (!open) return;
     setBrandSlug(initialBrandSlug ?? "");
     setModelSlug(initialModelSlug ?? "");
-    setCaseTypeSlug(CASE_TYPES[0]?.slug ?? "matte");
+    setCaseTypeSlug(SELECTABLE_CASE_TYPE_SLUG);
     setModelQuery("");
     setStep(initialStep);
   }, [open, initialBrandSlug, initialModelSlug, initialStep]);
