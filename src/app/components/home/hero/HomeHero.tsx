@@ -70,7 +70,7 @@ export default function HomeHero() {
       }}
     >
       <div
-        className="relative aspect-[1672/941] w-full"
+        className="relative aspect-1672/941 w-full"
         style={{ containerType: "size" }}
         aria-live="polite"
       >
@@ -112,7 +112,12 @@ export default function HomeHero() {
             aria-hidden
           />
           <div className="relative flex h-full items-center justify-end overflow-hidden px-[2.5cqi] pb-[2.8cqi] pt-16 md:pt-20">
-            <div className="w-[36rem] origin-left [zoom:clamp(0.28,min(calc(42cqi/36rem),calc(70cqh/32rem)),1)]">
+            <div
+              className="w-xl origin-left"
+              style={{
+                zoom: "clamp(0.28, min(42cqi / 36rem, 70cqh / 32rem), 1)",
+              }}
+            >
               <HomeHeroContent variant="onDark" />
             </div>
           </div>
