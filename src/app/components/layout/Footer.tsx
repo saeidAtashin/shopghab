@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { developer } from "@/lib/developer";
 import { footerInfoLinks, footerQuickLinks } from "@/lib/site-nav";
 
 export default function Footer() {
@@ -52,9 +53,27 @@ export default function Footer() {
           </div>
         </div>
 
-        <p className="mt-8 text-center text-xs text-muted">
-          © {year} قاب‌کده — تمامی حقوق محفوظ است
-        </p>
+        <div className="mt-8 flex flex-col items-center gap-3 border-t border-border pt-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
+          <p>© {year} قاب‌کده — تمامی حقوق محفوظ است</p>
+          <p className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+            <span>
+              {developer.creditLabel}: {developer.nameFa}
+            </span>
+            <a
+              href={`mailto:${developer.email}`}
+              className="transition-colors hover:text-cyan-400"
+            >
+              {developer.email}
+            </a>
+            <a
+              href={developer.phoneHref}
+              dir="ltr"
+              className="transition-colors hover:text-cyan-400"
+            >
+              {developer.phoneDisplay}
+            </a>
+          </p>
+        </div>
       </div>
     </footer>
   );
