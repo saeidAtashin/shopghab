@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import "./globals.css";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
+import SiteFooter from "./components/layout/SiteFooter";
 import LocalBusinessSchema from "./components/seo/LocalBusinessSchema";
 import RouteLoadingOverlay from "./components/ui/RouteLoadingOverlay";
 import { AuthProvider } from "./context/AuthContext";
@@ -129,7 +130,11 @@ export default function RootLayout({
               </Suspense>
               <Navbar />
               {children}
-              <Footer />
+              <Suspense fallback={null}>
+                <SiteFooter>
+                  <Footer />
+                </SiteFooter>
+              </Suspense>
             </PreferredBrandLoaderProvider>
           </ShopCartProvider>
         </AuthProvider>

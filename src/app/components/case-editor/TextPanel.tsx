@@ -25,7 +25,7 @@ function selectTextLayer(state: {
   return layer?.type === "text" ? layer : undefined;
 }
 
-export default function TextPanel() {
+export default function TextPanel({ compact = false }: { compact?: boolean }) {
   const textLayer = useEditorStore(selectTextLayer);
   const updateLayer = useEditorStore((s) => s.updateLayer);
   const commitHistory = useEditorStore((s) => s.commitHistory);
@@ -50,17 +50,23 @@ export default function TextPanel() {
   );
 
   return (
-    <div className="space-y-4">
+    <div className={compact ? "space-y-2" : "space-y-4"}>
       <button
         type="button"
         onClick={() => addTextLayer()}
-        className="w-full rounded-xl bg-cyan-500 py-2.5 text-sm font-bold text-black transition hover:bg-cyan-400"
+        className={`w-full rounded-xl bg-cyan-500 text-sm font-bold text-black transition hover:bg-cyan-400 ${
+          compact ? "py-2" : "py-2.5"
+        }`}
       >
         افزودن متن
       </button>
 
       {textLayer ? (
-        <div className="space-y-3 rounded-xl border border-border bg-card/60 p-4">
+        <div
+          className={`rounded-xl border border-border bg-card/60 ${
+            compact ? "space-y-2 p-3" : "space-y-3 p-4"
+          }`}
+        >
           <label className="block space-y-1">
             <span className="text-xs text-muted">متن</span>
             <textarea

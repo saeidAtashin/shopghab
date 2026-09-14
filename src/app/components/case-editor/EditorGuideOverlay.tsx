@@ -46,16 +46,12 @@ function findGuideTarget(selector: string): Element | null {
 
 function scrollGuideTargetIntoView(target: string, isMobileViewport: boolean): void {
   if (!isMobileViewport) return;
+  if (!target.startsWith("tab-")) return;
 
   const el = findGuideTarget(target);
   if (!el) return;
 
-  if (target.startsWith("tab-")) {
-    el.scrollIntoView({ behavior: "instant", block: "nearest", inline: "center" });
-    return;
-  }
-
-  el.scrollIntoView({ behavior: "instant", block: "center", inline: "nearest" });
+  el.scrollIntoView({ behavior: "instant", block: "nearest", inline: "center" });
 }
 
 function measureTarget(selector: string): SpotlightRect | null {

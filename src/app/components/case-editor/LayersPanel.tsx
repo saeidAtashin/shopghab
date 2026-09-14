@@ -67,7 +67,7 @@ function removeEffectFromLayer(
   return getImageLayerEffects(layer).filter((effect) => effect.id !== effectId);
 }
 
-export default function LayersPanel() {
+export default function LayersPanel({ compact = false }: { compact?: boolean }) {
   const layers = useEditorStore((s) => s.document.layers);
   const selectedLayerId = useEditorStore((s) => s.selectedLayerId);
   const selectLayer = useEditorStore((s) => s.selectLayer);
@@ -92,7 +92,7 @@ export default function LayersPanel() {
   }
 
   return (
-    <div className="space-y-3">
+    <div className={compact ? "space-y-2" : "space-y-3"}>
       <p className="text-xs text-muted">بالا = جلوتر روی قاب</p>
       <ul className="space-y-1">
         {layersReversed.map((layer) => {
@@ -199,7 +199,11 @@ export default function LayersPanel() {
       </ul>
 
       {selected ? (
-        <div className="space-y-2 rounded-xl border border-border bg-card/60 p-3">
+        <div
+          className={`space-y-2 rounded-xl border border-border bg-card/60 ${
+            compact ? "p-2" : "p-3"
+          }`}
+        >
           <p className="text-xs font-semibold text-muted">لایه انتخاب‌شده</p>
           <div className="flex flex-wrap gap-2">
             <ActionButton

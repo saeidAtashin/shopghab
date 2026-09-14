@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import {
   Undo2,
   Redo2,
@@ -22,7 +23,8 @@ import {
   AlertTriangle,
   MoreHorizontal,
   ChevronDown,
-  ChevronUp,
+  ChevronRight,
+  Info,
 } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 import type Konva from "konva";
@@ -56,7 +58,6 @@ import {
 } from "@/lib/design/use-editor-shortcuts";
 import { loadEditorFonts } from "@/lib/design/editor-fonts";
 import { useCanvasDisplaySize } from "@/lib/design/use-canvas-display-size";
-import { useElementSize } from "@/lib/design/use-element-size";
 import { useMediaQuery } from "@/lib/design/use-media-query";
 import { formatToman } from "@/lib/shop/format";
 import {
@@ -138,15 +139,13 @@ export default function EditorPageClient({
   const loadedRef = useRef(false);
   const guideCheckedRef = useRef(false);
   const canvasContainerRef = useRef<HTMLDivElement>(null);
-  const mobileDockRef = useRef<HTMLDivElement>(null);
 
   const isSplitLayout = useMediaQuery("(min-width: 768px)");
-  const isMobileViewport = isSplitLayout === false;
-  const dockSize = useElementSize(mobileDockRef);
+  const isMobileViewport = isSplitLayout !== true;
   const canvasDisplaySize = useCanvasDisplaySize(
     canvasContainerRef,
     true,
-    isSplitLayout ? "desktop" : "mobile",
+    isSplitLayout === true ? "desktop" : "mobile",
     { width: model.canvasWidth, height: model.canvasHeight },
   );
 
@@ -166,6 +165,25 @@ export default function EditorPageClient({
     void loadEditorFonts();
   }, []);
 
+  useEffect(() => {
+    if (!isMobileViewport) return;
+
+    const page = window.document;
+    const html = page.documentElement;
+    const previousBodyOverflow = page.body.style.overflow;
+    const previousHtmlOverflow = html.style.overflow;
+    const previousBodyOverscroll = page.body.style.overscrollBehavior;
+    page.body.style.overflow = "hidden";
+    html.style.overflow = "hidden";
+    page.body.style.overscrollBehavior = "none";
+
+    return () => {
+      page.body.style.overflow = previousBodyOverflow;
+      html.style.overflow = previousHtmlOverflow;
+      page.body.style.overscrollBehavior = previousBodyOverscroll;
+    };
+  }, [isMobileViewport]);
+
   const [activeTab, setActiveTab] = useState<EditorTab>(initialTab ?? "text");
   const [loadedTabs, setLoadedTabs] = useState<Set<EditorTab>>(
     () => new Set([initialTab ?? "text"]),
@@ -174,7 +192,7 @@ export default function EditorPageClient({
   const [showShortcuts, setShowShortcuts] = useState(false);
   const [showMoreMenu, setShowMoreMenu] = useState(false);
   const [warningExpanded, setWarningExpanded] = useState(false);
-  const [mobileDockCollapsed, setMobileDockCollapsed] = useState(false);
+  const [mobileDockCollapsed, setMobileDockCollapsed] = useState(true);
   const [saving, setSaving] = useState(false);
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [buyBusy, setBuyBusy] = useState(false);
@@ -395,9 +413,6 @@ export default function EditorPageClient({
     { id: "description", label: "توضیحات", icon: <FileText size={16} /> },
   ];
 
-  const mobileBottomPadding =
-    isMobileViewport && dockSize.height > 0 ? dockSize.height + 8 : undefined;
-
   const handleMobileTabChange = useCallback(
     (tab: EditorTab) => {
       setActiveTab(tab);
@@ -436,17 +451,282 @@ export default function EditorPageClient({
     loadedTabs,
   };
 
+  const canvasStage = (
+    <>
+      <div
+        className="pointer-events-none absolute inset-x-6 top-1/2 h-24 -translate-y-1/2 rounded-full bg-cyan-400/20 blur-3xl animate-preview-glow motion-reduce:animate-none"
+        aria-hidden
+      />
+      <CaseCanvas
+        caseColor={caseType.color}
+        caseMaterial={caseType.material}
+        onStageRef={(stage) => {
+          stageRef.current = stage;
+        }}
+        displayMaxWidth={canvasDisplaySize.width}
+        displayMaxHeight={canvasDisplaySize.height}
+        mobileTouchMode={isMobileViewport}
+      />
+      {analyzing ? (
+        <div
+          className="absolute inset-0 z-30 overflow-hidden rounded-2xl bg-black/50 backdrop-blur-[2px]"
+          aria-live="polite"
+        >
+          <div
+            className="pointer-events-none absolute inset-0 opacity-25"
+            style={{
+              backgroundImage:
+                "linear-gradient(to left, rgba(34,211,238,0.35) 1px, transparent 1px), linear-gradient(to bottom, rgba(34,211,238,0.35) 1px, transparent 1px)",
+              backgroundSize: "18px 18px",
+            }}
+            aria-hidden
+          />
+          <div
+            className="pointer-events-none absolute inset-x-4 top-0 h-16 -translate-y-1/2 bg-gradient-to-b from-cyan-400/0 via-cyan-300/70 to-cyan-400/0 animate-print-analyze-scan"
+            aria-hidden
+          />
+          <div className="pointer-events-none absolute inset-5 rounded-xl border border-cyan-300/40" aria-hidden />
+          <div className="absolute inset-x-0 bottom-5 flex justify-center">
+            <p className="rounded-full border border-cyan-400/40 bg-black/55 px-3 py-1.5 text-xs font-bold text-cyan-100">
+              در حال بررسی چاپ…
+            </p>
+          </div>
+        </div>
+      ) : null}
+    </>
+  );
+
+  const editorModals = (
+    <AnimatePresence>
+      {showPreview ? (
+        <PreviewModal
+          key="case-preview"
+          caseColor={caseType.color}
+          caseMaterial={caseType.material}
+          onClose={() => {
+            setShowPreview(false);
+            setPreviewMode(false);
+          }}
+        />
+      ) : null}
+      {showSaveModal ? (
+        <SaveImageModal
+          key="save-image"
+          stage={stageRef.current}
+          brandSlug={brandSlug}
+          modelSlug={modelSlug}
+          loggedIn={Boolean(user)}
+          savingAccount={saving}
+          onSaveToAccount={handleSaveToAccount}
+          onClose={() => setShowSaveModal(false)}
+        />
+      ) : null}
+      {showEditorGuide ? (
+        <EditorGuideOverlay
+          key="editor-guide"
+          open={showEditorGuide}
+          onClose={() => setShowEditorGuide(false)}
+          onComplete={handleGuideComplete}
+          onTabChange={handleGuideTabChange}
+          onEnsureMobileDockOpen={handleEnsureMobileDockOpen}
+          isMobileViewport={isMobileViewport}
+        />
+      ) : null}
+    </AnimatePresence>
+  );
+
+  if (isMobileViewport) {
+    return (
+      <div className="flex h-dvh max-h-dvh flex-col overflow-hidden overscroll-none bg-background pt-16">
+        <div
+          data-editor-guide="toolbar"
+          className="flex shrink-0 flex-nowrap items-center gap-1 overflow-x-auto overscroll-x-contain border-b border-border px-1.5 py-1.5"
+        >
+          <Link
+            href={`/phones/${brandSlug}/${modelSlug}`}
+            aria-label={`بازگشت به ${model.name}`}
+            title={model.name}
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-muted transition hover:text-foreground"
+          >
+            <ChevronRight size={16} />
+          </Link>
+
+          <div className="relative">
+            <MobileIconButton
+              onClick={() => {
+                setShowMoreMenu(false);
+                setWarningExpanded((v) => !v);
+              }}
+              icon={<Info size={15} />}
+              label="توجه طراحی"
+            />
+            {warningExpanded ? (
+              <div className="absolute right-0 top-full z-50 mt-1 w-[min(18rem,calc(100vw-2rem))] rounded-xl border border-amber-500/30 bg-card p-3 shadow-xl">
+                <p className="text-xs leading-relaxed text-amber-100/90">
+                  تفاوت طراحی و قاب اصلی را چشم‌پوشی کنید. قبل از طراحی و ارسال، هماهنگی
+                  بابت تایید طراحی با شما انجام خواهد شد.
+                </p>
+              </div>
+            ) : null}
+          </div>
+
+          <MobileIconButton
+            onClick={undo}
+            disabled={!canUndo()}
+            icon={<Undo2 size={15} />}
+            label="بازگشت"
+          />
+          <MobileIconButton
+            onClick={redo}
+            disabled={!canRedo()}
+            icon={<Redo2 size={15} />}
+            label="جلو"
+          />
+          <MobileIconButton
+            onClick={() => {
+              setPreviewMode(true);
+              setShowPreview(true);
+            }}
+            icon={<Eye size={15} />}
+            label="پیش‌نمایش"
+          />
+          <MobileIconButton
+            onClick={() => setShowSaveModal(true)}
+            icon={<Save size={15} />}
+            label="ذخیره"
+          />
+
+          <div className="relative">
+            <MobileIconButton
+              onClick={() => {
+                setWarningExpanded(false);
+                setShowMoreMenu((v) => !v);
+              }}
+              icon={<MoreHorizontal size={15} />}
+              label="بیشتر"
+            />
+            {showMoreMenu ? (
+              <div className="absolute right-0 top-full z-50 mt-1 min-w-[10rem] rounded-xl border border-border bg-card p-1 shadow-xl">
+                <button
+                  type="button"
+                  onClick={() => {
+                    void handleShare();
+                    setShowMoreMenu(false);
+                  }}
+                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-xs text-foreground hover:bg-background"
+                >
+                  <Share2 size={14} />
+                  اشتراک
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    void handleDownload();
+                    setShowMoreMenu(false);
+                  }}
+                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-xs text-foreground hover:bg-background"
+                >
+                  <Download size={14} />
+                  دانلود
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleOpenEditorGuide();
+                    setShowMoreMenu(false);
+                  }}
+                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-xs text-foreground hover:bg-background"
+                >
+                  <GraduationCap size={14} />
+                  راهنما
+                </button>
+              </div>
+            ) : null}
+          </div>
+
+          <button
+            type="button"
+            data-editor-guide="buy"
+            onClick={() => void handleBuy()}
+            disabled={buyBusy}
+            aria-label={`خرید — ${formatToman(getCaseTotalPrice(caseType, true))}`}
+            className="mr-auto flex h-8 shrink-0 items-center gap-1 rounded-lg bg-cyan-500 px-2 text-[11px] font-bold text-black transition hover:bg-cyan-400 disabled:opacity-60"
+          >
+            <ShoppingCart size={13} />
+            {new Intl.NumberFormat("fa-IR").format(getCaseTotalPrice(caseType, true))}
+          </button>
+        </div>
+
+        <div className="relative min-h-0 flex-1">
+          {message ? (
+            <p className="pointer-events-none absolute inset-x-3 top-2 z-20 rounded-lg border border-cyan-500/30 bg-background/90 px-3 py-1.5 text-xs text-cyan-300 shadow-lg backdrop-blur-sm">
+              {message}
+            </p>
+          ) : null}
+          <div
+            ref={canvasContainerRef}
+            data-editor-guide="canvas"
+            className="absolute inset-0 flex items-center justify-center overflow-hidden bg-[radial-gradient(ellipse_at_50%_30%,rgba(34,211,238,0.12),transparent_55%),radial-gradient(ellipse_at_80%_80%,rgba(139,92,246,0.1),transparent_50%)] bg-card/40 p-2"
+          >
+            {canvasStage}
+          </div>
+          {!mobileDockCollapsed ? (
+            <button
+              type="button"
+              className="absolute inset-0 z-10 bg-black/35"
+              aria-label="بستن ابزارها"
+              onClick={() => setMobileDockCollapsed(true)}
+            />
+          ) : null}
+        </div>
+
+        <div
+          data-editor-guide="mobile-dock"
+          className="relative z-20 shrink-0 border-t border-border bg-background pb-[env(safe-area-inset-bottom)]"
+        >
+          {!mobileDockCollapsed ? (
+            <div className="absolute inset-x-0 bottom-full z-20 flex max-h-[min(42dvh,320px)] flex-col overflow-hidden rounded-t-2xl border border-b-0 border-border bg-background shadow-[0_-12px_32px_rgba(0,0,0,0.4)]">
+              <button
+                type="button"
+                aria-expanded
+                onClick={() => setMobileDockCollapsed(true)}
+                className="flex min-h-9 w-full shrink-0 items-center justify-center gap-1.5 text-xs text-muted transition hover:bg-card/60 hover:text-foreground"
+              >
+                <ChevronDown size={14} />
+                بستن ابزارها
+              </button>
+              <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-3">
+                <EditorSidePanel {...sidePanelProps} compact />
+              </div>
+            </div>
+          ) : null}
+          <div className="flex overflow-x-auto overscroll-x-contain">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                type="button"
+                data-editor-guide={`tab-${tab.id}`}
+                onClick={() => handleMobileTabChange(tab.id)}
+                className={`flex min-h-11 min-w-[4.5rem] flex-1 flex-col items-center justify-center gap-0.5 px-1 py-1.5 text-[10px] ${
+                  activeTab === tab.id && !mobileDockCollapsed
+                    ? "text-cyan-400"
+                    : "text-muted"
+                }`}
+              >
+                {tab.icon}
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {editorModals}
+      </div>
+    );
+  }
+
   return (
-    <div
-      className={`min-h-screen bg-background pt-20 md:pb-8 ${
-        isMobileViewport && !mobileBottomPadding
-          ? mobileDockCollapsed
-            ? "pb-14"
-            : "pb-24"
-          : ""
-      }`}
-      style={mobileBottomPadding ? { paddingBottom: mobileBottomPadding } : undefined}
-    >
+    <div className="min-h-screen bg-background pt-20 md:pb-8">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <WizardBreadcrumb
           crumbs={[
@@ -461,37 +741,16 @@ export default function EditorPageClient({
         <div className="mt-4 flex items-start gap-3 rounded-2xl border border-amber-500/30 bg-amber-500/10 px-5 py-4">
           <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-400" aria-hidden />
           <div className="min-w-0 flex-1">
-            <p
-              className={`text-sm leading-relaxed text-amber-100/90 ${
-                warningExpanded ? "" : "line-clamp-2 md:line-clamp-none"
-              }`}
-            >
+            <p className="text-sm leading-relaxed text-amber-100/90">
               تفاوت طراحی و قاب اصلی را چشم‌پوشی کنید. قبل از طراحی و ارسال، هماهنگی
               بابت تایید طراحی با شما انجام خواهد شد.
             </p>
-            <button
-              type="button"
-              onClick={() => setWarningExpanded((v) => !v)}
-              className="mt-1 flex items-center gap-1 text-xs text-amber-300/80 md:hidden"
-            >
-              {warningExpanded ? (
-                <>
-                  <ChevronUp size={14} />
-                  کمتر
-                </>
-              ) : (
-                <>
-                  <ChevronDown size={14} />
-                  بیشتر
-                </>
-              )}
-            </button>
           </div>
         </div>
 
         <div
           data-editor-guide="toolbar"
-          className="mt-4 flex scroll-mt-24 flex-wrap items-center gap-2 md:flex-nowrap"
+          className="mt-4 flex flex-wrap items-center gap-2 md:flex-nowrap"
         >
           <div className="flex flex-wrap items-center gap-2 md:flex-nowrap">
             <ToolbarButton onClick={undo} disabled={!canUndo()} icon={<Undo2 size={16} />} label="بازگشت" />
@@ -541,60 +800,15 @@ export default function EditorPageClient({
             </div>
           </div>
 
-          <div className="relative sm:hidden">
-            <ToolbarButton
-              onClick={() => setShowMoreMenu((v) => !v)}
-              icon={<MoreHorizontal size={16} />}
-              label="بیشتر"
-            />
-            {showMoreMenu ? (
-              <div className="absolute right-0 top-full z-50 mt-2 min-w-[10rem] rounded-xl border border-border bg-card p-1 shadow-xl">
-                <button
-                  type="button"
-                  onClick={() => {
-                    void handleShare();
-                    setShowMoreMenu(false);
-                  }}
-                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-xs text-foreground hover:bg-background"
-                >
-                  <Share2 size={14} />
-                  اشتراک
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    void handleDownload();
-                    setShowMoreMenu(false);
-                  }}
-                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-xs text-foreground hover:bg-background"
-                >
-                  <Download size={14} />
-                  دانلود
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    handleOpenEditorGuide();
-                    setShowMoreMenu(false);
-                  }}
-                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-xs text-foreground hover:bg-background"
-                >
-                  <GraduationCap size={14} />
-                  راهنما
-                </button>
-              </div>
-            ) : null}
-          </div>
-
           <button
             type="button"
             data-editor-guide="buy"
             onClick={() => void handleBuy()}
             disabled={buyBusy}
-            className="mr-auto flex min-h-11 scroll-mt-24 items-center gap-2 rounded-xl bg-cyan-500 px-4 py-2 text-sm font-bold text-black transition hover:bg-cyan-400 disabled:opacity-60"
+            className="mr-auto flex min-h-11 items-center gap-2 rounded-xl bg-cyan-500 px-4 py-2 text-sm font-bold text-black transition hover:bg-cyan-400 disabled:opacity-60"
           >
             <ShoppingCart size={16} />
-            <span className="hidden sm:inline">خرید — </span>
+            <span>خرید — </span>
             {formatToman(getCaseTotalPrice(caseType, true))}
           </button>
         </div>
@@ -612,140 +826,16 @@ export default function EditorPageClient({
           <div
             ref={canvasContainerRef}
             data-editor-guide="canvas"
-            className="relative flex min-h-[280px] w-full scroll-mt-24 scroll-mb-36 items-center justify-center overflow-hidden rounded-2xl border border-border bg-[radial-gradient(ellipse_at_50%_30%,rgba(34,211,238,0.12),transparent_55%),radial-gradient(ellipse_at_80%_80%,rgba(139,92,246,0.1),transparent_50%)] bg-card/40 p-4 md:sticky md:top-24 md:w-fit md:min-h-0 md:scroll-mb-0 md:scroll-mt-0 md:self-start md:p-8"
+            className="relative flex min-h-[280px] w-full items-center justify-center overflow-hidden rounded-2xl border border-border bg-[radial-gradient(ellipse_at_50%_30%,rgba(34,211,238,0.12),transparent_55%),radial-gradient(ellipse_at_80%_80%,rgba(139,92,246,0.1),transparent_50%)] bg-card/40 p-4 md:sticky md:top-24 md:w-fit md:min-h-0 md:self-start md:p-8"
           >
-            <div
-              className="pointer-events-none absolute inset-x-6 top-1/2 h-24 -translate-y-1/2 rounded-full bg-cyan-400/20 blur-3xl animate-preview-glow motion-reduce:animate-none"
-              aria-hidden
-            />
-            <CaseCanvas
-              caseColor={caseType.color}
-              caseMaterial={caseType.material}
-              onStageRef={(stage) => {
-                stageRef.current = stage;
-              }}
-              displayMaxWidth={canvasDisplaySize.width}
-              displayMaxHeight={canvasDisplaySize.height}
-              mobileTouchMode={isMobileViewport}
-            />
-            {analyzing ? (
-              <div
-                className="absolute inset-0 z-10 overflow-hidden rounded-2xl bg-black/50 backdrop-blur-[2px]"
-                aria-live="polite"
-              >
-                <div
-                  className="pointer-events-none absolute inset-0 opacity-25"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(to left, rgba(34,211,238,0.35) 1px, transparent 1px), linear-gradient(to bottom, rgba(34,211,238,0.35) 1px, transparent 1px)",
-                    backgroundSize: "18px 18px",
-                  }}
-                  aria-hidden
-                />
-                <div
-                  className="pointer-events-none absolute inset-x-4 top-0 h-16 -translate-y-1/2 bg-gradient-to-b from-cyan-400/0 via-cyan-300/70 to-cyan-400/0 animate-print-analyze-scan"
-                  aria-hidden
-                />
-                <div className="pointer-events-none absolute inset-5 rounded-xl border border-cyan-300/40" aria-hidden />
-                <div className="absolute inset-x-0 bottom-5 flex justify-center">
-                  <p className="rounded-full border border-cyan-400/40 bg-black/55 px-3 py-1.5 text-xs font-bold text-cyan-100">
-                    در حال بررسی چاپ…
-                  </p>
-                </div>
-              </div>
-            ) : null}
+            {canvasStage}
           </div>
 
-          {isSplitLayout ? (
-            <EditorSidePanel {...sidePanelProps} />
-          ) : null}
+          <EditorSidePanel {...sidePanelProps} />
         </div>
       </div>
 
-      {isMobileViewport ? (
-        <div
-          ref={mobileDockRef}
-          data-editor-guide="mobile-dock"
-          className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-background pb-[env(safe-area-inset-bottom)] md:hidden"
-        >
-          <div className="flex overflow-x-auto border-b border-border">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                type="button"
-                data-editor-guide={`tab-${tab.id}`}
-                onClick={() => handleMobileTabChange(tab.id)}
-                className={`flex min-h-11 min-w-[5rem] flex-1 flex-col items-center justify-center gap-1 py-2 text-xs ${
-                  activeTab === tab.id ? "text-cyan-400" : "text-muted"
-                }`}
-              >
-                {tab.icon}
-                {tab.label}
-              </button>
-            ))}
-          </div>
-          <button
-            type="button"
-            aria-expanded={!mobileDockCollapsed}
-            onClick={() => setMobileDockCollapsed((v) => !v)}
-            className="flex min-h-9 w-full items-center justify-center gap-1.5 border-b border-border text-xs text-muted transition hover:bg-card/60 hover:text-foreground"
-          >
-            {mobileDockCollapsed ? (
-              <>
-                <ChevronUp size={14} />
-                نمایش ابزارها
-              </>
-            ) : (
-              <>
-                <ChevronDown size={14} />
-                بستن ابزارها
-              </>
-            )}
-          </button>
-          {!mobileDockCollapsed ? (
-            <div className="max-h-[min(40dvh,280px)] overflow-y-auto overscroll-contain p-4">
-              <EditorSidePanel {...sidePanelProps} compact />
-            </div>
-          ) : null}
-        </div>
-      ) : null}
-
-      <AnimatePresence>
-        {showPreview ? (
-          <PreviewModal
-            key="case-preview"
-            caseColor={caseType.color}
-            caseMaterial={caseType.material}
-            onClose={() => {
-              setShowPreview(false);
-              setPreviewMode(false);
-            }}
-          />
-        ) : null}
-        {showSaveModal ? (
-          <SaveImageModal
-            key="save-image"
-            stage={stageRef.current}
-            brandSlug={brandSlug}
-            modelSlug={modelSlug}
-            loggedIn={Boolean(user)}
-            savingAccount={saving}
-            onSaveToAccount={handleSaveToAccount}
-            onClose={() => setShowSaveModal(false)}
-          />
-        ) : null}
-        {showEditorGuide ? (
-          <EditorGuideOverlay
-            key="editor-guide"
-            open={showEditorGuide}
-            onClose={() => setShowEditorGuide(false)}
-            onComplete={handleGuideComplete}
-            onTabChange={handleGuideTabChange}
-            onEnsureMobileDockOpen={handleEnsureMobileDockOpen}
-            isMobileViewport={isMobileViewport}
-          />
-        ) : null}
-      </AnimatePresence>
+      {editorModals}
     </div>
   );
 }
@@ -770,6 +860,31 @@ function ToolbarButton({
     >
       {icon}
       <span className="hidden sm:inline">{label}</span>
+    </button>
+  );
+}
+
+function MobileIconButton({
+  onClick,
+  disabled,
+  icon,
+  label,
+}: {
+  onClick: () => void;
+  disabled?: boolean;
+  icon: React.ReactNode;
+  label: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      aria-label={label}
+      title={label}
+      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-border text-muted transition hover:border-cyan-500/50 hover:text-foreground disabled:opacity-40"
+    >
+      {icon}
     </button>
   );
 }
@@ -828,10 +943,14 @@ function EditorSidePanel({
         </div>
       ) : null}
       <div className={compact ? "min-h-0" : "min-h-0 flex-1 overflow-y-auto overscroll-contain p-4"}>
-        {loadedTabs.has("layers") && activeTab === "layers" ? <LayersPanel /> : null}
-        {loadedTabs.has("text") && activeTab === "text" ? <TextPanel /> : null}
+        {loadedTabs.has("layers") && activeTab === "layers" ? (
+          <LayersPanel compact={compact} />
+        ) : null}
+        {loadedTabs.has("text") && activeTab === "text" ? (
+          <TextPanel compact={compact} />
+        ) : null}
         {loadedTabs.has("stickers") && activeTab === "stickers" ? (
-          <StickerPanel packs={stickerPacks} />
+          <StickerPanel packs={stickerPacks} compact={compact} />
         ) : null}
         {loadedTabs.has("upload") && activeTab === "upload" ? <UploadPanel /> : null}
         {loadedTabs.has("templates") && activeTab === "templates" ? (

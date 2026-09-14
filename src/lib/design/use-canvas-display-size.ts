@@ -9,6 +9,8 @@ export const DESKTOP_PHONE_WIDTH = 300;
 
 const DEFAULT_MAX_WIDTH = 280;
 const DEFAULT_MAX_HEIGHT = 480;
+const MOBILE_FALLBACK_WIDTH = 200;
+const MOBILE_FALLBACK_HEIGHT = 360;
 
 export type CanvasDisplayMode = "mobile" | "desktop";
 
@@ -17,22 +19,42 @@ type CanvasAspect = {
   height: number;
 };
 
+function fitAspect(
+  availableWidth: number,
+  availableHeight: number,
+  aspectW: number,
+  aspectH: number,
+) {
+  const ratio = aspectH / aspectW;
+  let width = availableWidth;
+  let height = width * ratio;
+  if (height > availableHeight) {
+    height = availableHeight;
+    width = height / ratio;
+  }
+  return {
+    width: Math.max(1, Math.round(width)),
+    height: Math.max(1, Math.round(height)),
+  };
+}
+
 export function useCanvasDisplaySize(
   containerRef: RefObject<HTMLElement | null>,
   enabled: boolean,
   mode: CanvasDisplayMode = "mobile",
   canvasAspect?: CanvasAspect,
 ) {
-  const { width, height } = useElementSize(containerRef);
+  const { width, height } = useElementSize(containerRef, mode);
 
   return useMemo(() => {
     if (!enabled) {
       return { width: DEFAULT_MAX_WIDTH, height: DEFAULT_MAX_HEIGHT };
     }
 
+    const aspectW = canvasAspect?.width ?? 1;
+    const aspectH = canvasAspect?.height ?? 2;
+
     if (mode === "desktop") {
-      const aspectW = canvasAspect?.width ?? 1;
-      const aspectH = canvasAspect?.height ?? 2;
       const ratio = aspectH / aspectW;
 
       let targetWidth = DESKTOP_PHONE_WIDTH;
@@ -51,17 +73,20 @@ export function useCanvasDisplaySize(
     }
 
     if (width <= 0 || height <= 0) {
-      return { width: DEFAULT_MAX_WIDTH, height: DEFAULT_MAX_HEIGHT };
+      return fitAspect(
+        MOBILE_FALLBACK_WIDTH,
+        MOBILE_FALLBACK_HEIGHT,
+        aspectW,
+        aspectH,
+      );
     }
 
-    const padding = 24;
-    const availableWidth = Math.max(160, width - padding);
-    const availableHeight = Math.max(240, height - padding);
-    const isWide = width >= 500;
-
-    return {
-      width: Math.min(availableWidth, isWide ? 340 : 320),
-      height: Math.min(availableHeight, 680),
-    };
+    const padding = 16;
+    return fitAspect(
+      Math.max(120, width - padding),
+      Math.max(160, height - padding),
+      aspectW,
+      aspectH,
+    );
   }, [enabled, mode, width, height, canvasAspect?.width, canvasAspect?.height]);
 }
