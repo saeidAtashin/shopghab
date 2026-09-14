@@ -56,7 +56,11 @@ import {
   SHORTCUT_HELP,
   useEditorShortcuts,
 } from "@/lib/design/use-editor-shortcuts";
-import { loadEditorFonts } from "@/lib/design/editor-fonts";
+import {
+  DEFAULT_EDITOR_FONT,
+  loadEditorFonts,
+  normalizeFontFamily,
+} from "@/lib/design/editor-fonts";
 import { useCanvasDisplaySize } from "@/lib/design/use-canvas-display-size";
 import { useMediaQuery } from "@/lib/design/use-media-query";
 import { formatToman } from "@/lib/shop/format";
@@ -158,12 +162,21 @@ export default function EditorPageClient({
   const canUndo = useEditorStore((s) => s.canUndo);
   const canRedo = useEditorStore((s) => s.canRedo);
   const setPreviewMode = useEditorStore((s) => s.setPreviewMode);
+  const [, setFontsTick] = useState(0);
 
   useEditorShortcuts();
 
   useEffect(() => {
-    void loadEditorFonts();
-  }, []);
+    const families = new Set<string>([DEFAULT_EDITOR_FONT]);
+    for (const layer of document.layers) {
+      if (layer.type === "text") {
+        families.add(normalizeFontFamily(layer.fontFamily));
+      }
+    }
+    void loadEditorFonts([...families]).then(() => {
+      setFontsTick((tick) => tick + 1);
+    });
+  }, [document.layers]);
 
   useEffect(() => {
     if (!isMobileViewport) return;

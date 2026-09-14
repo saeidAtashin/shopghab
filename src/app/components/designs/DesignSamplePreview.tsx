@@ -1,11 +1,15 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Group, Layer, Rect, Stage } from "react-konva";
 
 import DesignImageLayerNode from "@/app/components/case-editor/DesignImageLayerNode";
 import TextLayerNode from "@/app/components/case-editor/TextLayerNode";
-import { loadEditorFonts } from "@/lib/design/editor-fonts";
+import {
+  DEFAULT_EDITOR_FONT,
+  loadEditorFonts,
+  normalizeFontFamily,
+} from "@/lib/design/editor-fonts";
 import type { CaseTemplate } from "@/lib/design/types";
 import { isLayerVisible, type DesignLayer, type ImageLayer, type TextLayer } from "@/lib/design/types";
 
@@ -25,10 +29,23 @@ export default function DesignSamplePreview({
   const displayWidth = width * scale;
   const displayHeight = height * scale;
   const visibleLayers = template.layers.filter(isLayerVisible);
+  const [, setFontsTick] = useState(0);
+
+  const textFamilies = useMemo(() => {
+    const families = new Set<string>([DEFAULT_EDITOR_FONT]);
+    for (const layer of template.layers) {
+      if (layer.type === "text") {
+        families.add(normalizeFontFamily(layer.fontFamily));
+      }
+    }
+    return [...families];
+  }, [template.layers]);
 
   useEffect(() => {
-    void loadEditorFonts();
-  }, []);
+    void loadEditorFonts(textFamilies).then(() => {
+      setFontsTick((tick) => tick + 1);
+    });
+  }, [textFamilies]);
 
   return (
     <div

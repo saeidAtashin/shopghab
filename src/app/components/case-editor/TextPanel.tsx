@@ -1,9 +1,13 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { AlignCenter, AlignLeft, AlignRight } from "lucide-react";
 import { useEditorStore } from "@/lib/design/editor-store";
-import { EDITOR_FONT_OPTIONS, normalizeFontFamily } from "@/lib/design/editor-fonts";
+import {
+  EDITOR_FONT_OPTIONS,
+  loadEditorFonts,
+  normalizeFontFamily,
+} from "@/lib/design/editor-fonts";
 import type { DesignLayer, TextLayer } from "@/lib/design/types";
 
 const COLOR_OPTIONS = [
@@ -33,10 +37,23 @@ export default function TextPanel({ compact = false }: { compact?: boolean }) {
   const meta = useEditorStore((s) => s.meta);
   const canvasW = meta?.canvasWidth ?? 280;
   const canvasH = meta?.canvasHeight ?? 560;
+  const [fontQuery, setFontQuery] = useState("");
 
   const displayFont = textLayer
     ? normalizeFontFamily(textLayer.fontFamily)
     : undefined;
+
+  const filteredFonts = useMemo(() => {
+    const q = fontQuery.trim().toLowerCase();
+    const list = !q
+      ? EDITOR_FONT_OPTIONS
+      : EDITOR_FONT_OPTIONS.filter((font) =>
+          font.label.toLowerCase().includes(q),
+        );
+    if (!displayFont || list.some((f) => f.family === displayFont)) return list;
+    const current = EDITOR_FONT_OPTIONS.find((f) => f.family === displayFont);
+    return current ? [current, ...list] : list;
+  }, [fontQuery, displayFont]);
 
   const commitSlider = useCallback(() => {
     commitHistory();
@@ -48,6 +65,12 @@ export default function TextPanel({ compact = false }: { compact?: boolean }) {
     },
     [updateLayer],
   );
+
+  async function handleFontChange(family: string) {
+    if (!textLayer) return;
+    await loadEditorFonts([family]);
+    updateLayer(textLayer.id, { fontFamily: family });
+  }
 
   return (
     <div className={compact ? "space-y-2" : "space-y-4"}>
@@ -80,17 +103,28 @@ export default function TextPanel({ compact = false }: { compact?: boolean }) {
 
           <label className="block space-y-1">
             <span className="text-xs text-muted">فونت</span>
+            <input
+              type="search"
+              value={fontQuery}
+              onChange={(e) => setFontQuery(e.target.value)}
+              placeholder="جستجوی فونت…"
+              dir="rtl"
+              className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted"
+            />
             <select
               value={displayFont}
-              onChange={(e) => updateLayer(textLayer.id, { fontFamily: e.target.value })}
+              onChange={(e) => void handleFontChange(e.target.value)}
               className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground"
             >
-              {EDITOR_FONT_OPTIONS.map((f) => (
+              {filteredFonts.map((f) => (
                 <option key={f.family} value={f.family}>
                   {f.label}
                 </option>
               ))}
             </select>
+            <span className="block text-[10px] text-muted">
+              {filteredFonts.length} از {EDITOR_FONT_OPTIONS.length} فونت
+            </span>
           </label>
 
           <label className="block space-y-1">

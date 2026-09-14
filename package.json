@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "generate:phone-backs": "npx tsx scripts/generate-phone-backs.ts",
+    "generate:use-fonts": "npx tsx scripts/generate-use-fonts.ts",
     "setup:ghostscript": "powershell -ExecutionPolicy Bypass -File scripts/setup-ghostscript.ps1",
     "convert:designed": "npx tsx scripts/convert-designed-eps.ts"
   },
