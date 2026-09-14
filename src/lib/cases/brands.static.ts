@@ -47,6 +47,10 @@ export function isCaseTypeSelectable(slug: string): boolean {
   return slug === SELECTABLE_CASE_TYPE_SLUG;
 }
 
+export function buildCustomDesignPath(brandSlug: string, modelSlug: string): string {
+  return `/design/${brandSlug}/${modelSlug}/${SELECTABLE_CASE_TYPE_SLUG}`;
+}
+
 export const CASE_TYPES: CaseType[] = [
   {
     slug: "clear",

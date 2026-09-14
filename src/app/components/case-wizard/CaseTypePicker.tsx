@@ -7,6 +7,7 @@ import {
   getModelBySlug,
   isCaseTypeSelectable,
   SELECTABLE_CASE_TYPE_SLUG,
+  buildCustomDesignPath,
 } from "@/lib/cases/brands.static";
 import type { CaseType } from "@/lib/cases/types";
 import PhoneMockupPreview from "./PhoneMockupPreview";
@@ -40,7 +41,6 @@ export default function CaseTypePicker({
     caseTypes[0];
   const compact = variant === "compact";
   const selectableTypes = caseTypes.filter((c) => isCaseTypeSelectable(c.slug));
-  const upcomingTypes = caseTypes.filter((c) => !isCaseTypeSelectable(c.slug));
 
   const caseList = (
     <div className="space-y-3">
@@ -78,43 +78,9 @@ export default function CaseTypePicker({
         );
       })}
 
-      {upcomingTypes.length > 0 ? (
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-1 sm:gap-3">
-          {upcomingTypes.map((caseType) => (
-            <button
-              key={caseType.slug}
-              type="button"
-              disabled
-              aria-disabled="true"
-              title="به‌زودی"
-              className="flex w-full cursor-not-allowed items-center gap-2 rounded-xl border border-border/70 bg-card/40 p-2 text-right opacity-45 sm:items-start sm:gap-3 sm:rounded-2xl sm:p-3"
-            >
-              <div
-                className="h-6 w-6 shrink-0 rounded-md border border-border sm:mt-0.5 sm:h-8 sm:w-8 sm:rounded-lg"
-                style={{ backgroundColor: caseType.color }}
-              />
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center justify-between gap-1">
-                  <p className="truncate text-xs font-semibold text-foreground sm:text-sm">
-                    {caseType.name}
-                  </p>
-                  <span className="shrink-0 rounded-full bg-muted/20 px-1.5 py-0.5 text-[9px] text-muted sm:text-[10px]">
-                    به‌زودی
-                  </span>
-                </div>
-                <p className="mt-1 hidden text-xs text-muted sm:block">{caseType.description}</p>
-                <p className="mt-1 hidden text-xs font-semibold text-muted sm:block">
-                  {formatToman(caseType.price)}
-                </p>
-              </div>
-            </button>
-          ))}
-        </div>
-      ) : null}
-
       {showDesignLink && effectiveSlug ? (
         <Link
-          href={`/design/${brandSlug}/${modelSlug}/${effectiveSlug}`}
+          href={buildCustomDesignPath(brandSlug, modelSlug)}
           className="mt-4 flex w-full items-center justify-center rounded-xl bg-cyan-500 py-3.5 text-sm font-bold text-black transition hover:bg-cyan-400"
         >
           شروع طراحی

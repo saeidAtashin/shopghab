@@ -55,7 +55,6 @@ export default async function ModelCaseHubPage({ params }: Props) {
           brand={brand}
           model={model}
           caseTypes={CASE_TYPES}
-          templates={templates}
         />
       </Suspense>
     </>

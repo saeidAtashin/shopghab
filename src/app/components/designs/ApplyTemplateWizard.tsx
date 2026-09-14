@@ -5,16 +5,12 @@ import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { Check, Search, X } from "lucide-react";
 
-import CaseTypePicker from "@/app/components/case-wizard/CaseTypePicker";
 import { PhoneBackSvg } from "@/app/components/case-wizard/PhoneBackSvg";
 import { usePreferredBrandLoader } from "@/app/context/PreferredBrandLoaderContext";
 import DesignSamplePreview from "@/app/components/designs/DesignSamplePreview";
 import {
-  CASE_TYPES,
-  SELECTABLE_CASE_TYPE_SLUG,
+  buildCustomDesignPath,
   getBrandBySlug,
-  getCaseTypeBySlug,
-  getModelBySlug,
   getModelsByBrand,
   PHONE_BRANDS,
 } from "@/lib/cases/brands.static";
@@ -23,12 +19,11 @@ import type { PhoneModel } from "@/lib/cases/types";
 import type { CaseTemplate } from "@/lib/design/types";
 import { cn } from "@/lib/utils";
 
-type Step = "brand" | "model" | "caseType";
+type Step = "brand" | "model";
 
 const STEPS: { id: Step; label: string }[] = [
   { id: "brand", label: "برند" },
   { id: "model", label: "مدل" },
-  { id: "caseType", label: "قاب" },
 ];
 
 type Props = {
@@ -126,24 +121,33 @@ export default function ApplyTemplateWizard({
   const { setPreferredBrandSlug } = usePreferredBrandLoader();
   const [brandSlug, setBrandSlug] = useState(initialBrandSlug ?? "");
   const [modelSlug, setModelSlug] = useState(initialModelSlug ?? "");
-  const [caseTypeSlug, setCaseTypeSlug] = useState(SELECTABLE_CASE_TYPE_SLUG);
   const [modelQuery, setModelQuery] = useState("");
 
-  const initialStep: Step = initialModelSlug && initialBrandSlug
-    ? "caseType"
-    : initialBrandSlug
-      ? "model"
-      : "brand";
+  const initialStep: Step = initialBrandSlug ? "model" : "brand";
   const [step, setStep] = useState<Step>(initialStep);
 
   useEffect(() => {
     if (!open) return;
     setBrandSlug(initialBrandSlug ?? "");
     setModelSlug(initialModelSlug ?? "");
-    setCaseTypeSlug(SELECTABLE_CASE_TYPE_SLUG);
     setModelQuery("");
     setStep(initialStep);
-  }, [open, initialBrandSlug, initialModelSlug, initialStep]);
+
+    if (initialBrandSlug && initialModelSlug) {
+      router.push(
+        `${buildCustomDesignPath(initialBrandSlug, initialModelSlug)}?template=${template.slug}`,
+      );
+      onClose();
+    }
+  }, [
+    open,
+    initialBrandSlug,
+    initialModelSlug,
+    initialStep,
+    onClose,
+    router,
+    template.slug,
+  ]);
 
   useEffect(() => {
     if (!open) return;
@@ -165,8 +169,6 @@ export default function ApplyTemplateWizard({
   }, [open]);
 
   const brand = getBrandBySlug(brandSlug);
-  const model = brandSlug && modelSlug ? getModelBySlug(brandSlug, modelSlug) : undefined;
-  const selectedCaseType = getCaseTypeBySlug(caseTypeSlug);
   const models = useMemo(
     () => (brandSlug ? getModelsByBrand(brandSlug) : []),
     [brandSlug],
@@ -184,9 +186,11 @@ export default function ApplyTemplateWizard({
     onClose();
   }
 
-  function handleContinue() {
-    if (!brandSlug || !modelSlug) return;
-    router.push(`/design/${brandSlug}/${modelSlug}/${caseTypeSlug}?template=${template.slug}`);
+  function handleContinue(nextModelSlug = modelSlug) {
+    if (!brandSlug || !nextModelSlug) return;
+    router.push(
+      `${buildCustomDesignPath(brandSlug, nextModelSlug)}?template=${template.slug}`,
+    );
     handleClose();
   }
 
@@ -352,10 +356,7 @@ export default function ApplyTemplateWizard({
                     <button
                       key={item.slug}
                       type="button"
-                      onClick={() => {
-                        setModelSlug(item.slug);
-                        setStep("caseType");
-                      }}
+                      onClick={() => handleContinue(item.slug)}
                       className="group rounded-2xl border border-border bg-card/60 p-3 text-right transition hover:border-cyan-500/50 hover:bg-card sm:p-4"
                     >
                       <div className="relative mx-auto flex h-28 w-16 items-center justify-center sm:h-32 sm:w-20">
@@ -374,49 +375,7 @@ export default function ApplyTemplateWizard({
               )}
             </div>
           ) : null}
-
-          {step === "caseType" && brandSlug && modelSlug ? (
-            <div className="space-y-4">
-              <div className="flex items-center justify-between gap-2">
-                <p className="text-sm font-semibold text-foreground">نوع قاب را انتخاب کنید</p>
-                {!modelLocked ? (
-                  <button
-                    type="button"
-                    onClick={() => setStep("model")}
-                    className="shrink-0 text-xs text-cyan-400 hover:underline"
-                  >
-                    تغییر مدل
-                  </button>
-                ) : null}
-              </div>
-              <CaseTypePicker
-                brandSlug={brandSlug}
-                modelSlug={modelSlug}
-                caseTypes={CASE_TYPES}
-                selectedSlug={caseTypeSlug}
-                onSelect={setCaseTypeSlug}
-                showDesignLink={false}
-                variant="compact"
-              />
-            </div>
-          ) : null}
         </div>
-
-        {step === "caseType" && brandSlug && modelSlug ? (
-          <div className="shrink-0 border-t border-border bg-card/95 p-4 backdrop-blur-sm sm:p-5">
-            <p className="mb-3 truncate text-xs text-muted">
-              {model?.name}
-              {selectedCaseType ? ` · ${selectedCaseType.name}` : null}
-            </p>
-            <button
-              type="button"
-              onClick={handleContinue}
-              className="w-full rounded-xl bg-cyan-500 py-3.5 text-sm font-bold text-black transition hover:bg-cyan-400"
-            >
-              اعمال طراحی و ورود به ادیتور
-            </button>
-          </div>
-        ) : null}
       </div>
     </div>
   );

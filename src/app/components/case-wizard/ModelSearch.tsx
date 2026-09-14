@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Search } from "lucide-react";
+import { buildCustomDesignPath } from "@/lib/cases/brands.static";
 import { hasStrongModelMatch, searchPhoneModels } from "@/lib/cases/model-search";
 import type { ModelSearchResult } from "@/lib/cases/model-search";
 import { PhoneBackSvg } from "./PhoneBackSvg";
@@ -63,7 +64,7 @@ export default function ModelSearch({
     (result: ModelSearchResult) => {
       setOpen(false);
       setQuery("");
-      router.push(`/phones/${result.model.brandSlug}/${result.model.slug}`);
+      router.push(buildCustomDesignPath(result.model.brandSlug, result.model.slug));
     },
     [router],
   );
@@ -124,7 +125,7 @@ export default function ModelSearch({
           {results.map((result) => (
             <li key={`${result.model.brandSlug}-${result.model.slug}`} role="option">
               <Link
-                href={`/phones/${result.model.brandSlug}/${result.model.slug}`}
+                href={buildCustomDesignPath(result.model.brandSlug, result.model.slug)}
                 onClick={() => {
                   setOpen(false);
                   setQuery("");

@@ -3,6 +3,7 @@
 import { useReducedMotion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
 import { cn } from "@/lib/utils";
@@ -98,11 +99,17 @@ export default function HomeHero() {
           );
         })}
 
+        <Link
+          href="/create"
+          className="absolute inset-0 z-[1]"
+          aria-label="شروع طراحی"
+        />
+
         <div
           className={cn(
-            "absolute inset-0 z-10 transition-opacity",
+            "pointer-events-none absolute inset-0 z-10 transition-opacity",
             prefersReducedMotion ? "duration-0" : "duration-500",
-            activeSlide.hasContent ? "opacity-100" : "pointer-events-none opacity-0",
+            activeSlide.hasContent ? "opacity-100" : "opacity-0",
           )}
           inert={!activeSlide.hasContent}
           aria-hidden={!activeSlide.hasContent}
@@ -113,7 +120,7 @@ export default function HomeHero() {
           />
           <div className="relative flex h-full items-center justify-end overflow-hidden px-[2.5cqi] pb-[2.8cqi] pt-16 md:pt-20">
             <div
-              className="w-xl origin-left"
+              className="pointer-events-auto w-xl origin-left"
               style={{
                 zoom: "clamp(0.28, min(42cqi / 36rem, 70cqh / 32rem), 1)",
               }}
