@@ -12,7 +12,7 @@ import { HERO_HEADING } from "./hero.constants";
 
 const SLIDES = [
   {
-    src: "/banner.png",
+    src: "/banner.webp",
     alt: HERO_HEADING,
     hasContent: true,
   },
@@ -134,7 +134,7 @@ export default function HomeHero() {
           type="button"
           onClick={goPrev}
           aria-label="اسلاید قبلی"
-          className="absolute start-[1.5cqi] top-1/2 z-20 flex h-[clamp(1.75rem,3.2cqi,2.75rem)] w-[clamp(1.75rem,3.2cqi,2.75rem)] -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-black/35 text-white backdrop-blur-sm transition active:scale-95 hover:bg-black/50"
+          className="absolute start-2 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-black/35 text-white backdrop-blur-sm transition active:scale-95 hover:bg-black/50"
         >
           <ChevronRight className="h-[45%] w-[45%]" aria-hidden />
         </button>
@@ -143,12 +143,12 @@ export default function HomeHero() {
           type="button"
           onClick={goNext}
           aria-label="اسلاید بعدی"
-          className="absolute end-[1.5cqi] top-1/2 z-20 flex h-[clamp(1.75rem,3.2cqi,2.75rem)] w-[clamp(1.75rem,3.2cqi,2.75rem)] -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-black/35 text-white backdrop-blur-sm transition active:scale-95 hover:bg-black/50"
+          className="absolute end-2 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-black/35 text-white backdrop-blur-sm transition active:scale-95 hover:bg-black/50"
         >
           <ChevronLeft className="h-[45%] w-[45%]" aria-hidden />
         </button>
 
-        <div className="absolute bottom-[2.2cqi] left-1/2 z-20 flex -translate-x-1/2 gap-[0.55cqi]">
+        <div className="absolute bottom-1 left-1/2 z-20 flex -translate-x-1/2">
           {SLIDES.map((slide, index) => (
             <button
               key={slide.src}
@@ -156,13 +156,17 @@ export default function HomeHero() {
               onClick={() => goTo(index)}
               aria-label={`رفتن به اسلاید ${index + 1}`}
               aria-current={index === activeIndex ? "true" : undefined}
-              className={cn(
-                "rounded-full transition-all duration-300",
-                index === activeIndex
-                  ? "h-[0.45cqi] w-[1.6cqi] min-h-1.5 min-w-5 bg-cyan-400"
-                  : "h-[0.45cqi] w-[0.45cqi] min-h-1.5 min-w-1.5 bg-white/45 hover:bg-white/70",
-              )}
-            />
+              className="flex h-11 w-11 items-center justify-center"
+            >
+              <span
+                className={cn(
+                  "rounded-full transition-all duration-300",
+                  index === activeIndex
+                    ? "h-1.5 w-6 bg-cyan-400"
+                    : "h-1.5 w-1.5 bg-white/45",
+                )}
+              />
+            </button>
           ))}
         </div>
       </div>

@@ -49,7 +49,7 @@ export default function DashboardPage() {
 
   if (authLoading) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-background text-foreground">
+      <main id="main" tabIndex={-1} className="flex min-h-screen items-center justify-center bg-background text-foreground">
         <p className="text-muted">در حال بارگذاری...</p>
       </main>
     );
@@ -57,7 +57,7 @@ export default function DashboardPage() {
 
   if (!user) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-background text-foreground">
+      <main id="main" tabIndex={-1} className="flex min-h-screen items-center justify-center bg-background text-foreground">
         <h1 className="text-3xl text-red-500">شما دسترسی ندارید</h1>
       </main>
     );
@@ -66,7 +66,7 @@ export default function DashboardPage() {
   if (user.role === "admin") return null;
 
   return (
-    <main className="min-h-screen bg-[#030510] pt-24 pb-16 text-foreground">
+    <main id="main" tabIndex={-1} className="min-h-screen bg-[#030510] pt-24 pb-16 text-foreground">
       <div className="mx-auto max-w-4xl px-6">
         <header className="mb-10">
           <p className="text-sm text-cyan-400">پنل کاربری</p>

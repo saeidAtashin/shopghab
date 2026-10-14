@@ -17,7 +17,7 @@ export default function AuthPage() {
   };
 
   return (
-    <main className="min-h-screen bg-background text-foreground flex items-center justify-center px-4">
+    <main id="main" tabIndex={-1} className="min-h-screen bg-background text-foreground flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-surface border border-border rounded-3xl p-8 backdrop-blur-xl">
         <h1 className="text-3xl font-bold text-center mb-2">
           {mode === "login" ? "ورود" : "ثبت نام"}

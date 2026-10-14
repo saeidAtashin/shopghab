@@ -1,39 +1,52 @@
 import PageShell from "@/app/components/seo/PageShell";
+import JsonLd from "@/app/components/seo/JsonLd";
 import { createPageMetadata } from "@/lib/seo/metadata";
+import { faqPageJsonLd } from "@/lib/seo/jsonld";
 
 const PATH = "/faq";
 const TITLE = "سوالات متداول";
 const DESCRIPTION =
-  "پاسخ به سوالات رایج درباره زمان تعمیر، هزینه تقریبی، گارانتی خدمات و روند ثبت سفارش.";
+  "پاسخ به سوالات رایج درباره طراحی قاب، زمان چاپ، ارسال، مرجوعی و پیگیری سفارش شاپ‌قاب.";
 
 export const metadata = createPageMetadata({
   title: TITLE,
   description: DESCRIPTION,
   path: PATH,
-  keywords: ["سوالات متداول", "FAQ تعمیر کنسول", "گارانتی تعمیرات"],
+  keywords: ["سوالات متداول قاب", "زمان چاپ قاب", "ارسال قاب موبایل"],
 });
 
 const faqItems = [
   {
-    question: "زمان تقریبی تعمیر چقدر است؟",
+    question: "چطور قاب اختصاصی طراحی کنم؟",
     answer:
-      "بسته به نوع خرابی، زمان تعمیر می تواند از چند ساعت تا چند روز متغیر باشد. زمان دقیق پس از عیب یابی اعلام می شود.",
+      "برند و مدل گوشی را انتخاب کنید، متن یا طرح را در پیش‌نمایش اضافه کنید و سفارش را ثبت کنید. می‌توانید از طرح‌های آماده هم شروع کنید و بعد آن را ویرایش کنید.",
   },
   {
-    question: "آیا خدمات شامل گارانتی است؟",
+    question: "چاپ قاب چقدر طول می‌کشد؟",
     answer:
-      "بله، خدمات تعمیرات با ضمانت ارائه می شود و شرایط هر خدمت هنگام ثبت سفارش اعلام خواهد شد.",
+      "پس از تأیید طرح، چاپ معمولاً یک تا سه روز کاری زمان می‌برد. زمان دقیق آماده شدن در صفحه پیگیری سفارش به‌روز می‌شود.",
+  },
+  {
+    question: "ارسال به کدام شهرها انجام می‌شود؟",
+    answer:
+      "سفارش‌ها به سراسر ایران ارسال می‌شود. هزینه و بازه تحویل هنگام تسویه حساب مشخص می‌شود.",
+  },
+  {
+    question: "اگر قاب مطابق انتظار نباشد چه می‌شود؟",
+    answer:
+      "تا ۷ روز پس از تحویل می‌توانید درخواست بازگشت ثبت کنید. شرایط مرجوعی در صفحه قوانین و شرایط آمده است.",
   },
   {
     question: "چطور وضعیت سفارش را پیگیری کنم؟",
     answer:
-      "از طریق صفحه پیگیری تعمیر و کد سفارش می توانید آخرین وضعیت دستگاه خود را مشاهده کنید.",
+      "از صفحه پیگیری سفارش و با کد سفارش، مرحله چاپ و ارسال قاب را ببینید.",
   },
 ];
 
 export default function FaqPage() {
   return (
-    <main className="min-h-screen bg-background pt-24 text-foreground">
+    <main id="main" tabIndex={-1} className="min-h-screen bg-background pt-24 text-foreground outline-none">
+      <JsonLd data={faqPageJsonLd(faqItems)} />
       <PageShell
         currentPath={PATH}
         containerClassName="container mx-auto px-6"

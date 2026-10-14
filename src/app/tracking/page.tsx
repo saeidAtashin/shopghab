@@ -34,24 +34,24 @@ const STATUS_STEPS: {
   },
   {
     key: "checking",
-    title: "در انتظار بررسی",
-    description: "کارشناسان ما دستگاه شما را بررسی خواهند کرد.",
+    title: "در حال بررسی",
+    description: "سفارش قاب شما در صف بررسی و آماده‌سازی است.",
     icon: Clock3,
     iconWrapClass: "bg-yellow-500/10",
     iconClass: "text-yellow-400",
   },
   {
     key: "repairing",
-    title: "در حال تعمیر",
-    description: "دستگاه در حال تعمیر توسط تیم فنی است.",
+    title: "در حال چاپ",
+    description: "قاب در حال چاپ و آماده‌سازی برای ارسال است.",
     icon: Wrench,
     iconWrapClass: "bg-purple-500/10",
     iconClass: "text-purple-400",
   },
   {
     key: "completed",
-    title: "آماده تحویل",
-    description: "دستگاه آماده تحویل است.",
+    title: "آماده ارسال",
+    description: "قاب آماده ارسال است.",
     icon: Cpu,
     iconWrapClass: "bg-green-500/10",
     iconClass: "text-green-400",
@@ -119,17 +119,17 @@ export default function TrackingPage() {
   }
 
   return (
-    <div className="px-6 py-8 min-h-screen">
+    <main id="main" tabIndex={-1} className="min-h-screen px-6 py-8 outline-none">
       <div className="mx-auto max-w-3xl">
         <div className="text-center mb-12">
           <div className="w-20 h-20 rounded-3xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mx-auto mb-6">
             <CheckCircle2 className="w-10 h-10 text-cyan-400" />
           </div>
 
-          <h1 className="text-4xl md:text-5xl font-black mb-4">پیگیری تعمیر</h1>
+          <h1 className="text-4xl md:text-5xl font-black mb-4">پیگیری سفارش</h1>
 
           <p className="text-muted leading-8">
-            کد رهگیری خود را وارد کنید تا وضعیت دستگاه را ببینید.
+            کد سفارش را وارد کنید تا وضعیت چاپ و ارسال قاب را ببینید.
           </p>
         </div>
 
@@ -175,11 +175,11 @@ export default function TrackingPage() {
 
             <div className="mb-8 grid sm:grid-cols-2 gap-4 text-sm">
               <div>
-                <span className="text-muted">دستگاه:</span>
+                <span className="text-muted">محصول:</span>
                 <p className="mt-1">{order.device}</p>
               </div>
               <div>
-                <span className="text-muted">مشکل:</span>
+                <span className="text-muted">توضیح:</span>
                 <p className="mt-1">{order.issue || "—"}</p>
               </div>
             </div>
@@ -220,6 +220,6 @@ export default function TrackingPage() {
           </div>
         )}
       </div>
-    </div>
+    </main>
   );
 }

@@ -34,7 +34,7 @@ export default function CartPageClient() {
 
   if (displayItems.length === 0) {
     return (
-      <div className="mx-auto max-w-2xl px-4 pt-28 pb-16 text-center">
+      <main id="main" tabIndex={-1} className="mx-auto max-w-2xl px-4 pt-28 pb-16 text-center outline-none">
         <h1 className="text-2xl font-black text-foreground">سبد خرید خالی است</h1>
         <p className="mt-3 text-muted">یک طراحی انتخاب کن یا خودت قاب بساز</p>
         <div className="mt-6 flex justify-center gap-4">
@@ -45,12 +45,12 @@ export default function CartPageClient() {
             طراحی قاب
           </Link>
         </div>
-      </div>
+      </main>
     );
   }
 
   return (
-    <div className="mx-auto max-w-3xl px-4 pt-28 pb-16">
+    <main id="main" tabIndex={-1} className="mx-auto max-w-3xl px-4 pt-28 pb-16 outline-none">
       <h1 className="text-2xl font-black text-foreground">سبد خرید</h1>
       <ul className="mt-8 space-y-4">
         {displayItems.map((entry) => {
@@ -130,6 +130,6 @@ export default function CartPageClient() {
           ادامه و پرداخت
         </Link>
       </div>
-    </div>
+    </main>
   );
 }

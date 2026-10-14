@@ -44,6 +44,11 @@ body {
   color: var(--foreground);
 }
 
+:focus-visible {
+  outline: 2px solid #06b6d4;
+  outline-offset: 2px;
+}
+
 .dark body {
   background:
     radial-gradient(circle at top, rgba(37, 99, 235, 0.15), transparent 40%),
@@ -225,14 +230,6 @@ body {
 
 .noise-bg {
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='1'/></svg>");
-}
-
-.pixel2 {
-  font-family: var(--sorenapixelFont) !important;
-}
-
-.sorenanormal {
-  font-family: var(--font-Sorena-Pixel) !important;
 }
 
 .input-neon {

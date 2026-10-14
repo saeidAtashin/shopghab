@@ -7,6 +7,10 @@ import { Layers, Smartphone } from "lucide-react";
 
 import { designedAssetUrl } from "@/lib/designed-assets";
 import { categoryLabel } from "@/lib/designed-categories";
+import {
+  designPublicDescription,
+  designPublicTitle,
+} from "@/lib/seo/design-copy";
 import type { CaseTemplate } from "@/lib/design/types";
 import { cn } from "@/lib/utils";
 import DesignSamplePhoneHover from "./DesignSamplePhoneHover";
@@ -35,6 +39,8 @@ export default function DesignSampleCard({
   priority = false,
 }: Props) {
   const [isActive, setIsActive] = useState(false);
+  const title = designPublicTitle(template);
+  const description = designPublicDescription(template);
 
   const interactionHandlers = {
     onMouseEnter: () => setIsActive(true),
@@ -74,7 +80,7 @@ export default function DesignSampleCard({
           ) : (
             <Image
               src={designedAssetUrl(template.thumbnail)}
-              alt={template.title}
+              alt={title}
               width={280}
               height={560}
               className="h-full w-auto max-h-[132px] object-contain sm:max-h-[140px]"
@@ -100,9 +106,9 @@ export default function DesignSampleCard({
 
       <div className="border-t border-border/80 p-3">
         <h3 className="line-clamp-1 text-sm font-bold text-foreground transition-colors group-hover/card:text-cyan-400">
-          {template.title}
+          {title}
         </h3>
-        <p className="mt-0.5 line-clamp-1 text-xs text-muted">{template.description}</p>
+        <p className="mt-0.5 line-clamp-1 text-xs text-muted">{description}</p>
         <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] font-semibold text-cyan-400">
           <span className="inline-flex items-center gap-1">
             <Layers className="h-3 w-3 shrink-0" aria-hidden />

@@ -61,7 +61,7 @@ export default async function BrandPhonesPage({ params }: Props) {
           collectionPageJsonLd({ name: title, description, path }),
         ]}
       />
-      <div className="min-h-screen bg-background pt-24 pb-16 px-4 sm:px-6">
+      <main id="main" tabIndex={-1} className="min-h-screen bg-background pt-24 pb-16 px-4 text-foreground outline-none sm:px-6">
         <div className="mx-auto max-w-5xl">
           <WizardBreadcrumb
             crumbs={[
@@ -108,7 +108,7 @@ export default async function BrandPhonesPage({ params }: Props) {
             ))}
           </div>
         </div>
-      </div>
+      </main>
     </>
   );
 }

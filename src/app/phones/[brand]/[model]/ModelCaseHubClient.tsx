@@ -25,7 +25,7 @@ export default function ModelCaseHubClient({
   const [selectedCase, setSelectedCase] = useState(SELECTABLE_CASE_TYPE_SLUG);
 
   return (
-    <div className="min-h-screen bg-background pt-24 pb-16 px-4 sm:px-6">
+    <main id="main" tabIndex={-1} className="min-h-screen bg-background px-4 pt-24 pb-16 text-foreground outline-none sm:px-6">
       <div className="mx-auto max-w-5xl">
         <WizardBreadcrumb
           crumbs={[
@@ -77,6 +77,6 @@ export default function ModelCaseHubClient({
           </div>
         </section>
       </div>
-    </div>
+    </main>
   );
 }

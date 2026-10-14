@@ -3,15 +3,15 @@ import { createPageMetadata } from "../../lib/seo/metadata";
 import { webPageJsonLd } from "../../lib/seo/jsonld";
 
 const PATH = "/tracking";
-const TITLE = "پیگیری وضعیت تعمیر";
+const TITLE = "پیگیری سفارش";
 const DESCRIPTION =
-  "با کد پیگیری، وضعیت لحظه‌ای تعمیر کنسول خود را مشاهده کنید.";
+  "با کد سفارش، وضعیت چاپ و ارسال قاب موبایل را در شاپ‌قاب ببینید.";
 
 export const metadata = createPageMetadata({
   title: TITLE,
   description: DESCRIPTION,
   path: PATH,
-  keywords: ["پیگیری تعمیر کنسول", "کد پیگیری تعمیر"],
+  keywords: ["پیگیری سفارش قاب", "کد سفارش شاپ‌قاب"],
 });
 
 export default function TrackingLayout({
@@ -27,7 +27,7 @@ export default function TrackingLayout({
         description: DESCRIPTION,
         path: PATH,
       })}
-      className="min-h-screen bg-[#050816] text-foreground"
+      className="min-h-screen bg-background text-foreground"
       containerClassName="container mx-auto max-w-3xl px-6"
       breadcrumbClassName="mb-6 pt-24"
     >

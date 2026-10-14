@@ -7,9 +7,15 @@ import type { CaseTemplate } from "@/lib/design/types";
 
 type Props = {
   template: CaseTemplate;
+  title?: string;
+  description?: string;
 };
 
-export default function DesignDetailClient({ template }: Props) {
+export default function DesignDetailClient({
+  template,
+  title = template.title,
+  description = template.description,
+}: Props) {
   const [wizardOpen, setWizardOpen] = useState(false);
 
   return (
@@ -30,8 +36,8 @@ export default function DesignDetailClient({ template }: Props) {
               </span>
             ))}
           </div>
-          <h1 className="text-2xl font-black text-foreground sm:text-3xl">{template.title}</h1>
-          <p className="mt-4 text-sm leading-8 text-muted">{template.description}</p>
+          <h1 className="text-2xl font-black text-foreground sm:text-3xl">{title}</h1>
+          <p className="mt-4 text-sm leading-8 text-muted">{description}</p>
           <p className="mt-4 text-sm text-muted">
             {template.layers.length} لایه · سازگار با تمام برندها و مدل‌ها
           </p>

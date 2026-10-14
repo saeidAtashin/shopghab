@@ -29,7 +29,7 @@ export default function HomeCasePage() {
   const popularModels = getPopularModels();
 
   return (
-    <main className="min-h-screen bg-background">
+    <main id="main" tabIndex={-1} className="min-h-screen bg-background outline-none">
       <HomeHero />
 
       <section className="border-y border-border bg-background/50 px-4 py-8 sm:px-6">

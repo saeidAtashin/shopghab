@@ -176,14 +176,14 @@ export default function LoginPage() {
 
   if (authLoading || user) {
     return (
-      <main className="min-h-screen bg-background text-foreground flex items-center justify-center">
+      <main id="main" tabIndex={-1} className="min-h-screen bg-background text-foreground flex items-center justify-center">
         <p className="text-muted">در حال بارگذاری...</p>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-background text-foreground flex items-center justify-center px-4">
+    <main id="main" tabIndex={-1} className="min-h-screen bg-background text-foreground flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-surface border border-border rounded-3xl p-8 backdrop-blur-xl">
         <h1 className="text-3xl font-black mb-2 text-center">ورود</h1>
         <p className="text-muted text-center mb-8">ورود به حساب کاربری</p>

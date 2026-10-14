@@ -6,8 +6,8 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { usePreferredBrandLoader } from "@/app/context/PreferredBrandLoaderContext";
 import RouteLoaderSvg from "./RouteLoaderSvg";
 
-const MIN_VISIBLE_MS = 520;
-const FAILSAFE_HIDE_MS = 5000;
+const SHOW_DELAY_MS = 180;
+const FAILSAFE_HIDE_MS = 8000;
 
 function isInternalNavigationAnchor(element: HTMLAnchorElement) {
   const href = element.getAttribute("href") || "";
@@ -42,15 +42,14 @@ export default function RouteLoadingOverlay() {
   const [visible, setVisible] = useState(false);
   const [runId, setRunId] = useState(0);
   const pendingRef = useRef(false);
-  const startedAtRef = useRef(0);
   const initialRouteRef = useRef(true);
-  const hideTimeoutRef = useRef<number | null>(null);
+  const showDelayRef = useRef<number | null>(null);
   const failsafeTimeoutRef = useRef<number | null>(null);
 
   const clearTimers = () => {
-    if (hideTimeoutRef.current) {
-      window.clearTimeout(hideTimeoutRef.current);
-      hideTimeoutRef.current = null;
+    if (showDelayRef.current) {
+      window.clearTimeout(showDelayRef.current);
+      showDelayRef.current = null;
     }
     if (failsafeTimeoutRef.current) {
       window.clearTimeout(failsafeTimeoutRef.current);
@@ -60,17 +59,23 @@ export default function RouteLoadingOverlay() {
 
   const startLoader = () => {
     pendingRef.current = true;
-    startedAtRef.current = Date.now();
-    setRunId((value) => value + 1);
-    setVisible(true);
+    if (showDelayRef.current) window.clearTimeout(showDelayRef.current);
 
-    if (failsafeTimeoutRef.current) {
-      window.clearTimeout(failsafeTimeoutRef.current);
-    }
-    failsafeTimeoutRef.current = window.setTimeout(() => {
-      pendingRef.current = false;
-      setVisible(false);
-    }, FAILSAFE_HIDE_MS);
+    showDelayRef.current = window.setTimeout(() => {
+      showDelayRef.current = null;
+      if (!pendingRef.current) return;
+
+      setRunId((value) => value + 1);
+      setVisible(true);
+
+      if (failsafeTimeoutRef.current) {
+        window.clearTimeout(failsafeTimeoutRef.current);
+      }
+      failsafeTimeoutRef.current = window.setTimeout(() => {
+        pendingRef.current = false;
+        setVisible(false);
+      }, FAILSAFE_HIDE_MS);
+    }, SHOW_DELAY_MS);
   };
 
   useEffect(() => {
@@ -128,15 +133,8 @@ export default function RouteLoadingOverlay() {
     if (!pendingRef.current) return;
 
     pendingRef.current = false;
-    const elapsed = Date.now() - startedAtRef.current;
-    const remaining = Math.max(0, MIN_VISIBLE_MS - elapsed);
-
-    if (hideTimeoutRef.current) {
-      window.clearTimeout(hideTimeoutRef.current);
-    }
-    hideTimeoutRef.current = window.setTimeout(() => {
-      setVisible(false);
-    }, remaining);
+    clearTimers();
+    setVisible(false);
   }, [pathname, searchParams]);
 
   useEffect(() => {

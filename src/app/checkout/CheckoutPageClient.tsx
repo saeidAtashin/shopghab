@@ -100,17 +100,17 @@ export default function CheckoutPageClient() {
 
   if (displayItems.length === 0) {
     return (
-      <div className="mx-auto max-w-2xl px-4 pt-28 pb-16 text-center">
+      <main id="main" tabIndex={-1} className="mx-auto max-w-2xl px-4 pt-28 pb-16 text-center outline-none">
         <h1 className="text-2xl font-black text-foreground">سبد خرید خالی است</h1>
         <Link href="/cart" className="mt-4 inline-block text-cyan-400">
           بازگشت به سبد
         </Link>
-      </div>
+      </main>
     );
   }
 
   return (
-    <div className="mx-auto max-w-3xl px-4 pt-28 pb-16">
+    <main id="main" tabIndex={-1} className="mx-auto max-w-3xl px-4 pt-28 pb-16 outline-none">
       <h1 className="text-2xl font-black text-foreground">تسویه حساب</h1>
       <form onSubmit={onSubmit} className="mt-8 space-y-6">
         <div className="space-y-4 rounded-2xl border border-border bg-card/60 p-6">
@@ -188,6 +188,6 @@ export default function CheckoutPageClient() {
       </form>
 
       <PhoneVerificationModal {...modalProps} />
-    </div>
+    </main>
   );
 }

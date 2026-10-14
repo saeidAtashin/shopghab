@@ -76,9 +76,9 @@ export default function HomeHeroContent({ variant = "default" }: Props) {
         <HomeHeroBadge variant={variant} />
       </motion.div>
 
-      <motion.h1 id="home-hero-heading" variants={item} className={headingClass}>
+      <h1 id="home-hero-heading" className={headingClass}>
         {HERO_HEADING}
-      </motion.h1>
+      </h1>
 
       <motion.p variants={item} className={descriptionClass}>
         {HERO_DESCRIPTION}

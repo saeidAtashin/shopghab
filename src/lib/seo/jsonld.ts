@@ -1,4 +1,9 @@
 import { absoluteUrl, SITE_NAME } from "./site";
+
+/** Catalog prices are stored in toman; schema.org expects ISO 4217 rials. */
+function tomanToIrr(toman: number): number {
+  return toman * 10;
+}
 import type { ReadyCase } from "../cases/types";
 import type { ShopProduct } from "../shop";
 
@@ -149,7 +154,7 @@ export function readyCaseJsonLd(input: {
       : {}),
     offers: {
       "@type": "Offer",
-      price: input.product.price,
+      price: tomanToIrr(input.product.price),
       priceCurrency: "IRR",
       url: productUrl,
       availability,
@@ -187,7 +192,7 @@ export function productOfferJsonLd(input: {
     },
     offers: {
       "@type": "Offer",
-      price: input.product.price,
+      price: tomanToIrr(input.product.price),
       priceCurrency: "IRR",
       url: productUrl,
       availability,

@@ -2,7 +2,7 @@ import { createPageMetadata } from "../../lib/seo/metadata";
 
 export const metadata = createPageMetadata({
   title: "ثبت‌نام",
-  description: "ایجاد حساب کاربری در مرکز تعمیر کنسول.",
+  description: "ایجاد حساب کاربری در شاپ‌قاب برای سفارش قاب موبایل.",
   path: "/register",
   noIndex: true,
 });

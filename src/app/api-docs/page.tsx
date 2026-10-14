@@ -8,7 +8,7 @@ const SwaggerUI = dynamic(() => import("swagger-ui-react"), { ssr: false });
 
 export default function ApiDocsPage() {
   return (
-    <main className="min-h-screen bg-white invert" dir="ltr">
+    <main id="main" tabIndex={-1} className="min-h-screen bg-white invert" dir="ltr">
       <SwaggerUI
         url={`${getApiBaseUrl()}/api/openapi`}
         docExpansion="list"

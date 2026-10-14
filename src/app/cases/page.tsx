@@ -28,7 +28,7 @@ export default function CasesCatalogPage() {
           }),
         ]}
       />
-      <div className="min-h-screen bg-background pt-24 pb-16 px-4 sm:px-6">
+      <main id="main" tabIndex={-1} className="min-h-screen bg-background pt-24 pb-16 px-4 text-foreground outline-none sm:px-6">
         <div className="mx-auto max-w-6xl">
           <h1 className="text-2xl font-black text-foreground sm:text-3xl">قاب‌های آماده</h1>
           <p className="mt-2 text-muted">طراحی‌های از پیش ساخته‌شده — آماده ارسال</p>
@@ -38,7 +38,7 @@ export default function CasesCatalogPage() {
             ))}
           </div>
         </div>
-      </div>
+      </main>
     </>
   );
 }

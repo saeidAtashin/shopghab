@@ -44,7 +44,7 @@ export default async function BrandModelsPage({ params, searchParams }: Props) {
   const series = seriesSlug ? getSeriesBySlug(brandSlug, seriesSlug) : undefined;
 
   return (
-    <div className="min-h-screen bg-background pt-24 pb-16 px-4 sm:px-6">
+    <main id="main" tabIndex={-1} className="min-h-screen bg-background px-4 pt-24 pb-16 text-foreground outline-none sm:px-6">
       <div className="mx-auto max-w-5xl">
         <WizardBreadcrumb
           crumbs={[
@@ -78,6 +78,6 @@ export default async function BrandModelsPage({ params, searchParams }: Props) {
           <ModelGrid brandSlug={brandSlug} models={models} seriesSlug={seriesSlug} />
         </div>
       </div>
-    </div>
+    </main>
   );
 }

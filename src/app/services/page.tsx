@@ -38,7 +38,7 @@ export const metadata = createPageMetadata({
 
 export default function ServicesIndexPage() {
   return (
-    <main className="min-h-screen bg-background pt-24 text-foreground">
+    <main id="main" tabIndex={-1} className="min-h-screen bg-background pt-24 text-foreground">
       <PageShell
         currentPath={PATH}
         jsonLd={[

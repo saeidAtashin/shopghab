@@ -114,8 +114,11 @@ export const rootMetadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   icons: {
-    icon: "/logos/shop-ghab-logo.png",
-    shortcut: "/logos/shop-ghab-logo.png",
-    apple: "/logos/shop-ghab-logo.png",
+    icon: [
+      { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    shortcut: "/icons/icon-192.png",
+    apple: "/icons/icon-192.png",
   },
 };

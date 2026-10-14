@@ -69,7 +69,7 @@ export default async function ServicePage({ params }: Props) {
   const repairHref = buildRepairHref(consoleId ? { consoleId } : undefined);
 
   return (
-    <main className="min-h-screen bg-background pt-24 text-foreground">
+    <main id="main" tabIndex={-1} className="min-h-screen bg-background pt-24 text-foreground">
       <ServiceSchema
         title={service.title}
         description={service.seoDescription}

@@ -29,7 +29,7 @@ export default function DesignsGalleryPage() {
           }),
         ]}
       />
-      <div className="min-h-screen bg-background px-4 pb-16 pt-24 sm:px-6">
+      <main id="main" tabIndex={-1} className="min-h-screen bg-background px-4 pb-16 pt-24 text-foreground outline-none sm:px-6">
         <div className="mx-auto max-w-6xl">
           <h1 className="text-2xl font-black text-foreground sm:text-3xl">{TITLE}</h1>
           <p className="mt-2 max-w-2xl text-muted">
@@ -40,7 +40,7 @@ export default function DesignsGalleryPage() {
             <DesignsGalleryClient templates={templates} />
           </div>
         </div>
-      </div>
+      </main>
     </>
   );
 }

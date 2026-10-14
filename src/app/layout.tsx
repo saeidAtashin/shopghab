@@ -14,11 +14,12 @@ import { ShopCartProvider } from "./context/ShopCartContext";
 import { ThemeProvider } from "./providers/ThemeProvider";
 import ThemeColorMeta from "./components/ui/ThemeColorMeta";
 import { rootMetadata } from "../lib/seo/metadata";
+import { SITE_THEME_COLOR } from "../lib/seo/site";
 
 export const metadata: Metadata = rootMetadata;
 
 export const viewport: Viewport = {
-  themeColor: "#06b6d4",
+  themeColor: SITE_THEME_COLOR,
   width: "device-width",
   initialScale: 1,
 };
@@ -55,60 +56,6 @@ const vazirmatn = localFont({
   display: "swap",
 });
 
-const pixel = localFont({
-  src: "./fonts/A-Pixel.ttf",
-  variable: "--font-pixel",
-  display: "swap",
-});
-
-const pixel2 = localFont({
-  src: "./fonts/A-Pixel-2.ttf",
-  variable: "--Pixel2",
-  display: "swap",
-});
-
-const sorenanormal = localFont({
-  src: "./fonts/Sorena-Normal.ttf",
-  variable: "--font-Sorena-Normal",
-  display: "swap",
-});
-
-const sorenapixelFont = localFont({
-  src: "./fonts/Sorena-Pixel.ttf",
-  variable: "--font-Sorena-Pixel",
-  display: "swap",
-});
-
-const Cristik = localFont({
-  src: "./fonts/Cristik.ttf",
-  variable: "--Cristik",
-  display: "swap",
-});
-
-const Mojita = localFont({
-  src: "./fonts/Mojita.ttf",
-  variable: "--Mojita",
-  display: "swap",
-});
-
-const WAGHUBold = localFont({
-  src: "./fonts/WAGHUBold.ttf",
-  variable: "--WAGHUBold",
-  display: "swap",
-});
-
-const WAGHURegular = localFont({
-  src: "./fonts/WAGHURegular.ttf",
-  variable: "--WAGHURegular",
-  display: "swap",
-});
-
-const unixelFont = localFont({
-  src: "./fonts/unixel-Regular.woff2",
-  variable: "--font-unixel-Regular",
-  display: "swap",
-});
-
 export default function RootLayout({
   children,
 }: {
@@ -117,8 +64,14 @@ export default function RootLayout({
   return (
     <html lang="fa" dir="rtl" suppressHydrationWarning>
       <body
-        className={`${vazirmatn.variable} ${pixel.variable} ${pixel2.variable} ${sorenanormal.variable} ${sorenapixelFont.variable} ${Cristik.variable} ${Mojita.variable} ${WAGHUBold.variable} ${WAGHURegular.variable} ${unixelFont.variable} bg-background text-foreground`}
+        className={`${vazirmatn.variable} bg-background text-foreground`}
       >
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-[200] focus:rounded-xl focus:bg-cyan-400 focus:px-4 focus:py-3 focus:font-bold focus:text-zinc-950"
+        >
+          رفتن به محتوای اصلی
+        </a>
         <ThemeProvider>
         <AuthProvider>
           <ShopCartProvider>

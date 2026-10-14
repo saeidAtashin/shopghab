@@ -1,4 +1,6 @@
 import { PHONE_BRANDS, PHONE_MODELS } from "@/lib/cases/brands.static";
+import { READY_CASES } from "@/lib/cases/ready.static";
+import { getDesignedTemplates } from "@/lib/cases/templates.static";
 
 export type SitemapEntry = {
   path: string;
@@ -17,6 +19,8 @@ export type SitemapEntry = {
 export const PUBLIC_SITEMAP_ENTRIES: SitemapEntry[] = [
   { path: "/", changeFrequency: "weekly", priority: 1 },
   { path: "/create", changeFrequency: "weekly", priority: 0.95 },
+  { path: "/designs", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/cases", changeFrequency: "weekly", priority: 0.9 },
   ...PHONE_BRANDS.filter((b) => b.slug !== "other").map((brand) => ({
     path: `/phones/${brand.slug}`,
     changeFrequency: "weekly" as const,
@@ -32,10 +36,20 @@ export const PUBLIC_SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "weekly" as const,
     priority: 0.85,
   })),
-  { path: "/cart", changeFrequency: "monthly", priority: 0.5 },
-  { path: "/checkout", changeFrequency: "monthly", priority: 0.5 },
+  ...READY_CASES.map((product) => ({
+    path: `/cases/${product.slug}`,
+    changeFrequency: "weekly" as const,
+    priority: 0.75,
+  })),
+  ...getDesignedTemplates().map((template) => ({
+    path: `/designs/${template.slug}`,
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  })),
   { path: "/tracking", changeFrequency: "monthly", priority: 0.6 },
   { path: "/about-us", changeFrequency: "monthly", priority: 0.5 },
   { path: "/contact", changeFrequency: "monthly", priority: 0.5 },
   { path: "/faq", changeFrequency: "monthly", priority: 0.5 },
+  { path: "/terms", changeFrequency: "yearly", priority: 0.3 },
+  { path: "/privacy-policy", changeFrequency: "yearly", priority: 0.3 },
 ];
