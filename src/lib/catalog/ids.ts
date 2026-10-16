@@ -13,6 +13,14 @@ export function stableCategoryId(slug: string): string {
   return `cat_${createHash("sha256").update(slug.trim().toLowerCase()).digest("hex").slice(0, 12)}`;
 }
 
+export function seedRecordId(prefix: "cat" | "grp" | "val" | "col", key: string): string {
+  return `${prefix}_${createHash("sha256").update(`${prefix}:${key}`).digest("hex").slice(0, 12)}`;
+}
+
+export function randomPrefixedId(prefix: "grp" | "val" | "col"): string {
+  return `${prefix}_${randomBytes(6).toString("hex")}`;
+}
+
 export function randomDesignId(): string {
   return `dsn_${randomBytes(8).toString("hex")}`;
 }

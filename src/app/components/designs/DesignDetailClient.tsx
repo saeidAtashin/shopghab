@@ -26,6 +26,7 @@ type Props = {
   imageAlt: string;
   gallery: string[];
   categories: CategoryLink[];
+  collections?: CategoryLink[];
   tags: string[];
   related: RelatedDesign[];
 };
@@ -38,6 +39,7 @@ export default function DesignDetailClient({
   imageAlt,
   gallery,
   categories,
+  collections = [],
   tags,
   related,
 }: Props) {
@@ -94,6 +96,19 @@ export default function DesignDetailClient({
                   className="rounded-full bg-cyan-500/10 px-3 py-1 text-xs text-cyan-400 hover:underline"
                 >
                   {category.name}
+                </Link>
+              ))}
+            </div>
+          ) : null}
+          {collections.length > 0 ? (
+            <div className="mb-4 flex flex-wrap gap-2">
+              {collections.map((collection) => (
+                <Link
+                  key={collection.slug}
+                  href={`/designs/collection/${collection.slug}`}
+                  className="rounded-full border border-border px-3 py-1 text-xs text-muted hover:text-foreground"
+                >
+                  {collection.name}
                 </Link>
               ))}
             </div>

@@ -6,7 +6,7 @@ import { adminJson } from "@/app/components/admin/AdminShell";
 import CategoryEditorForm from "@/app/components/admin/CategoryEditorForm";
 import type { CategoryRecord } from "@/lib/catalog/schema";
 
-export default function CategoryEditorScreen({ id }: { id?: string }) {
+export default function CategoryEditorScreen({ id, parentId }: { id?: string; parentId?: string }) {
   const [category, setCategory] = useState<CategoryRecord | undefined>();
   const [categories, setCategories] = useState<CategoryRecord[]>([]);
   const [loading, setLoading] = useState(true);
@@ -38,5 +38,5 @@ export default function CategoryEditorScreen({ id }: { id?: string }) {
 
   if (loading) return <p className="text-muted">در حال بارگذاری فرم...</p>;
   if (error) return <p className="text-red-300">{error}</p>;
-  return <CategoryEditorForm category={category} categories={categories} />;
+  return <CategoryEditorForm category={category} categories={categories} parentId={parentId} />;
 }

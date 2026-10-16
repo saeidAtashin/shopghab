@@ -3,14 +3,18 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { adminJson } from "@/app/components/admin/AdminShell";
+import CategoryMultiSelect from "@/app/components/admin/CategoryMultiSelect";
 import { designedAssetUrl } from "@/lib/designed-assets";
 import {
   designWriteSchema,
+  type AttributeGroupRecord,
+  type AttributeValueRecord,
   type CategoryRecord,
+  type CollectionRecord,
   type DesignRecord,
   type DesignWriteInput,
 } from "@/lib/catalog/schema";
@@ -33,6 +37,8 @@ function emptyDesign(): DesignWriteInput {
     shortDescription: "",
     description: "",
     categoryIds: [],
+    attributeValueIds: [],
+    collectionIds: [],
     tags: [],
     colors: [],
     styles: [],
@@ -58,6 +64,8 @@ function fromDesign(design: DesignRecord): DesignWriteInput {
     shortDescription: design.shortDescription,
     description: design.description,
     categoryIds: design.categoryIds,
+    attributeValueIds: design.attributeValueIds,
+    collectionIds: design.collectionIds,
     tags: design.tags,
     colors: design.colors,
     styles: design.styles,
@@ -78,17 +86,21 @@ function fromDesign(design: DesignRecord): DesignWriteInput {
 type Props = {
   design?: DesignRecord;
   categories: CategoryRecord[];
+  groups: AttributeGroupRecord[];
+  values: AttributeValueRecord[];
+  collections: CollectionRecord[];
 };
 
-export default function DesignEditorForm({ design, categories }: Props) {
+export default function DesignEditorForm({ design, categories, groups, values, collections }: Props) {
   const router = useRouter();
   const defaults = design ? fromDesign(design) : emptyDesign();
   const [tagsText, setTagsText] = useState(defaults.tags.join("، "));
   const [colorsText, setColorsText] = useState(defaults.colors.join("، "));
   const [stylesText, setStylesText] = useState(defaults.styles.join("، "));
   const [galleryText, setGalleryText] = useState(defaults.gallery.join("\n"));
-  const [categoryQuery, setCategoryQuery] = useState("");
   const [selectedIds, setSelectedIds] = useState<string[]>(defaults.categoryIds);
+  const [selectedAttributeIds, setSelectedAttributeIds] = useState<string[]>(defaults.attributeValueIds ?? []);
+  const [selectedCollectionIds, setSelectedCollectionIds] = useState<string[]>(defaults.collectionIds ?? []);
   const [imagePath, setImagePath] = useState(defaults.imagePath);
   const [previewAlt, setPreviewAlt] = useState(defaults.alt || defaults.title);
   const [notice, setNotice] = useState("");
@@ -99,14 +111,6 @@ export default function DesignEditorForm({ design, categories }: Props) {
     resolver: zodResolver(designWriteSchema),
     defaultValues: defaults,
   });
-  const selected = categories.filter((category) => selectedIds.includes(category.id));
-  const visibleCategories = useMemo(() => {
-    const query = categoryQuery.trim();
-    if (!query) return categories;
-    return categories.filter(
-      (category) => category.name.includes(query) || category.slug.includes(query.toLowerCase()),
-    );
-  }, [categories, categoryQuery]);
 
   async function onSubmit(values: DesignWriteInput) {
     setSaving(true);
@@ -114,6 +118,9 @@ export default function DesignEditorForm({ design, categories }: Props) {
     setNotice("");
     const payload: DesignWriteInput = {
       ...values,
+      categoryIds: selectedIds,
+      attributeValueIds: selectedAttributeIds,
+      collectionIds: selectedCollectionIds,
       tags: splitList(tagsText),
       colors: splitList(colorsText),
       styles: splitList(stylesText),
@@ -141,13 +148,11 @@ export default function DesignEditorForm({ design, categories }: Props) {
     }
   }
 
-  function toggleCategory(id: string) {
-    const next = selectedIds.includes(id)
-      ? selectedIds.filter((item) => item !== id)
-      : [...selectedIds, id];
-    setSelectedIds(next);
-    form.setValue("categoryIds", next, { shouldValidate: true });
+  function toggleId(current: string[], id: string, setCurrent: (ids: string[]) => void) {
+    setCurrent(current.includes(id) ? current.filter((item) => item !== id) : [...current, id]);
   }
+
+  const sortedGroups = [...groups].sort((a, b) => a.sortOrder - b.sortOrder);
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-8 lg:grid-cols-[280px_1fr]">
@@ -194,42 +199,54 @@ export default function DesignEditorForm({ design, categories }: Props) {
           <textarea {...form.register("description")} rows={5} className={`${inputClass} mt-1`} />
         </label>
 
+        <CategoryMultiSelect
+          categories={categories}
+          selectedIds={selectedIds}
+          onChange={setSelectedIds}
+        />
+
         <fieldset className="rounded-3xl border border-border p-4">
-          <legend className="px-2 text-sm">دسته‌ها</legend>
-          <input
-            value={categoryQuery}
-            onChange={(event) => setCategoryQuery(event.target.value)}
-            placeholder="جستجوی دسته"
-            className={`${inputClass} mb-3`}
-            aria-label="جستجوی دسته"
-          />
-          {selected.length > 0 ? (
-            <ul className="mb-3 flex flex-wrap gap-2">
-              {selected.map((category) => (
-                <li key={category.id}>
-                  <button
-                    type="button"
-                    onClick={() => toggleCategory(category.id)}
-                    className="rounded-full bg-cyan-500/15 px-3 py-1 text-xs text-cyan-300"
-                  >
-                    {category.name} ×
-                  </button>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="mb-3 text-xs text-muted">دسته‌ای انتخاب نشده است.</p>
-          )}
-          <div className="max-h-48 space-y-2 overflow-auto">
-            {visibleCategories.map((category) => (
-              <label key={category.id} className="flex items-center gap-2 text-sm">
+          <legend className="px-2 text-sm">ویژگی‌ها</legend>
+          {sortedGroups.length === 0 ? <p className="text-sm text-muted">ویژگی‌ای ثبت نشده است.</p> : null}
+          <div className="grid gap-4">
+            {sortedGroups.map((group) => {
+              const groupValues = values
+                .filter((value) => value.groupId === group.id)
+                .sort((a, b) => a.sortOrder - b.sortOrder);
+              return (
+                <div key={group.id}>
+                  <p className="mb-2 text-sm font-semibold">{group.name}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {groupValues.map((value) => (
+                      <label key={value.id} className="flex items-center gap-2 rounded-full border border-border px-3 py-1 text-xs">
+                        <input
+                          type="checkbox"
+                          checked={selectedAttributeIds.includes(value.id)}
+                          onChange={() => toggleId(selectedAttributeIds, value.id, setSelectedAttributeIds)}
+                        />
+                        {value.name}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </fieldset>
+
+        <fieldset className="rounded-3xl border border-border p-4">
+          <legend className="px-2 text-sm">کالکشن‌ها</legend>
+          {collections.length === 0 ? <p className="text-sm text-muted">کالکشنی ثبت نشده است.</p> : null}
+          <div className="grid gap-2">
+            {collections.map((collection) => (
+              <label key={collection.id} className="flex items-center gap-2 text-sm">
                 <input
                   type="checkbox"
-                  checked={selectedIds.includes(category.id)}
-                  onChange={() => toggleCategory(category.id)}
+                  checked={selectedCollectionIds.includes(collection.id)}
+                  onChange={() => toggleId(selectedCollectionIds, collection.id, setSelectedCollectionIds)}
                 />
-                {category.name}
-                <span className="text-xs text-muted">{category.slug}</span>
+                {collection.name}
+                <span className="text-xs text-muted">{collection.slug}</span>
               </label>
             ))}
           </div>

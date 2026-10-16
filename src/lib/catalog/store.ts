@@ -10,7 +10,7 @@ import { mkdirSync, readFileSync, renameSync, statSync, writeFileSync, existsSyn
 import { dirname, join } from "node:path";
 
 import { emptyCatalog } from "./logic";
-import { catalogSchema, type DesignCatalog } from "./schema";
+import { catalogSchema, parseCatalogDocument, type DesignCatalog } from "./schema";
 
 type CacheEntry = {
   mtimeMs: number;
@@ -46,7 +46,7 @@ export function readCatalog(): DesignCatalog {
     return structuredClone(cache.catalog);
   }
 
-  const parsed = catalogSchema.parse(JSON.parse(readFileSync(file, "utf8")));
+  const parsed = parseCatalogDocument(JSON.parse(readFileSync(file, "utf8")));
   cache = { mtimeMs: stat.mtimeMs, catalog: parsed };
   return structuredClone(parsed);
 }

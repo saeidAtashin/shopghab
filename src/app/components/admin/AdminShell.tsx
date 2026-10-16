@@ -9,6 +9,8 @@ const LINKS = [
   { href: "/admin", label: "سفارش‌ها" },
   { href: "/admin/designs", label: "طرح‌ها" },
   { href: "/admin/categories", label: "دسته‌ها" },
+  { href: "/admin/attributes", label: "ویژگی‌ها" },
+  { href: "/admin/collections", label: "کالکشن‌ها" },
 ];
 
 export function AdminNav() {

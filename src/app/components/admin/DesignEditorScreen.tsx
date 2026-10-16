@@ -4,11 +4,20 @@ import { useEffect, useState } from "react";
 
 import { adminJson } from "@/app/components/admin/AdminShell";
 import DesignEditorForm from "@/app/components/admin/DesignEditorForm";
-import type { CategoryRecord, DesignRecord } from "@/lib/catalog/schema";
+import type {
+  AttributeGroupRecord,
+  AttributeValueRecord,
+  CategoryRecord,
+  CollectionRecord,
+  DesignRecord,
+} from "@/lib/catalog/schema";
 
 export default function DesignEditorScreen({ id }: { id?: string }) {
   const [design, setDesign] = useState<DesignRecord | undefined>();
   const [categories, setCategories] = useState<CategoryRecord[]>([]);
+  const [groups, setGroups] = useState<AttributeGroupRecord[]>([]);
+  const [values, setValues] = useState<AttributeValueRecord[]>([]);
+  const [collections, setCollections] = useState<CollectionRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -16,9 +25,13 @@ export default function DesignEditorScreen({ id }: { id?: string }) {
     let active = true;
     async function load() {
       try {
-        const categoryBody = await adminJson<{ categories: CategoryRecord[] }>(
-          "/api/admin/catalog/categories",
-        );
+        const [categoryBody, attributeBody, collectionBody] = await Promise.all([
+          adminJson<{ categories: CategoryRecord[] }>("/api/admin/catalog/categories"),
+          adminJson<{ groups: AttributeGroupRecord[]; values: AttributeValueRecord[] }>(
+            "/api/admin/catalog/attributes",
+          ),
+          adminJson<{ collections: CollectionRecord[] }>("/api/admin/catalog/collections"),
+        ]);
         let loaded: DesignRecord | undefined;
         if (id) {
           const designBody = await adminJson<{ design: DesignRecord }>(
@@ -28,6 +41,9 @@ export default function DesignEditorScreen({ id }: { id?: string }) {
         }
         if (!active) return;
         setCategories(categoryBody.categories);
+        setGroups(attributeBody.groups);
+        setValues(attributeBody.values);
+        setCollections(collectionBody.collections);
         setDesign(loaded);
       } catch (reason) {
         if (!active) return;
@@ -44,5 +60,13 @@ export default function DesignEditorScreen({ id }: { id?: string }) {
 
   if (loading) return <p className="text-muted">در حال بارگذاری فرم...</p>;
   if (error) return <p className="text-red-300">{error}</p>;
-  return <DesignEditorForm design={design} categories={categories} />;
+  return (
+    <DesignEditorForm
+      design={design}
+      categories={categories}
+      groups={groups}
+      values={values}
+      collections={collections}
+    />
+  );
 }

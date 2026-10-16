@@ -9,13 +9,17 @@ import {
   normalizeSourceKey,
   randomCategoryId,
   randomDesignId,
+  randomPrefixedId,
   stableCategoryId,
   stableDesignId,
   toPublicAssetPath,
 } from "./ids";
 import type {
+  AttributeCreateInput,
   CategoryRecord,
   CategoryWriteInput,
+  CollectionRecord,
+  CollectionWriteInput,
   DesignCatalog,
   DesignRecord,
   DesignWriteInput,
@@ -93,7 +97,16 @@ export type DesignedMetaLike = Record<
 >;
 
 export function emptyCatalog(): DesignCatalog {
-  return { version: 1, categories: [], designs: [], redirects: [] };
+  return {
+    version: 1,
+    categories: [],
+    designs: [],
+    redirects: [],
+    categoryRedirects: [],
+    attributeGroups: [],
+    attributeValues: [],
+    collections: [],
+  };
 }
 
 export function emptySyncReport(): SyncReport {
@@ -199,6 +212,7 @@ function ensureFolderCategory(
     seoDescription: "",
     coverImage: "",
     status: "active",
+    sortOrder: 0,
     createdAt: now,
     updatedAt: now,
   };
@@ -334,6 +348,8 @@ export function syncCatalog(
       tags: entry.tagsHint,
       colors: [],
       styles: [],
+      attributeValueIds: [],
+      collectionIds: [],
       alt: entry.titleHint,
       gallery: [],
       seoTitle: "",
@@ -370,6 +386,26 @@ function assertCategoryIds(catalog: DesignCatalog, categoryIds: string[]): strin
   for (const id of unique) {
     if (!catalog.categories.some((category) => category.id === id)) {
       throw new CatalogError("یکی از دسته‌های انتخاب‌شده وجود ندارد", 400);
+    }
+  }
+  return unique;
+}
+
+function assertAttributeValueIds(catalog: DesignCatalog, ids: string[]): string[] {
+  const unique = [...new Set(ids)];
+  for (const id of unique) {
+    if (!catalog.attributeValues.some((value) => value.id === id)) {
+      throw new CatalogError("یکی از ویژگی‌های انتخاب‌شده وجود ندارد", 400);
+    }
+  }
+  return unique;
+}
+
+function assertCollectionIds(catalog: DesignCatalog, ids: string[]): string[] {
+  const unique = [...new Set(ids)];
+  for (const id of unique) {
+    if (!catalog.collections.some((collection) => collection.id === id)) {
+      throw new CatalogError("یکی از کالکشن‌های انتخاب‌شده وجود ندارد", 400);
     }
   }
   return unique;
@@ -447,6 +483,8 @@ export function createDesign(
     tags: input.tags,
     colors: input.colors,
     styles: input.styles,
+    attributeValueIds: assertAttributeValueIds(next, input.attributeValueIds ?? []),
+    collectionIds: assertCollectionIds(next, input.collectionIds ?? []),
     alt: input.alt || input.title,
     gallery: input.gallery.filter(Boolean),
     seoTitle: input.seoTitle,
@@ -483,6 +521,12 @@ export function updateDesign(
   design.tags = input.tags;
   design.colors = input.colors;
   design.styles = input.styles;
+  if (input.attributeValueIds !== undefined) {
+    design.attributeValueIds = assertAttributeValueIds(next, input.attributeValueIds);
+  }
+  if (input.collectionIds !== undefined) {
+    design.collectionIds = assertCollectionIds(next, input.collectionIds);
+  }
   design.alt = input.alt;
   design.imagePath = input.imagePath;
   design.thumbnailPath = input.thumbnailPath || input.imagePath;
@@ -550,6 +594,50 @@ function assertCategorySlug(catalog: DesignCatalog, slug: string, ignoreId?: str
   if (catalog.categories.some((category) => category.slug === slug && category.id !== ignoreId)) {
     throw new CatalogError("این اسلاگ دسته قبلاً استفاده شده است", 409);
   }
+  if (
+    catalog.categoryRedirects.some(
+      (redirect) => redirect.fromSlug === slug && redirect.categoryId !== ignoreId,
+    )
+  ) {
+    throw new CatalogError("این اسلاگ دسته قبلاً استفاده شده است", 409);
+  }
+}
+
+function nextCategorySortOrder(catalog: DesignCatalog, parentId: string | null): number {
+  const siblings = catalog.categories.filter((category) => category.parentId === parentId);
+  return siblings.reduce((max, category) => Math.max(max, category.sortOrder), 0) + 10;
+}
+
+export function changeCategorySlug(
+  catalog: DesignCatalog,
+  category: CategoryRecord,
+  nextSlug: string,
+): void {
+  if (nextSlug === category.slug) return;
+  assertCategorySlug(catalog, nextSlug, category.id);
+
+  catalog.categoryRedirects = catalog.categoryRedirects.filter(
+    (redirect) => !(redirect.categoryId === category.id && redirect.fromSlug === nextSlug),
+  );
+
+  for (const redirect of catalog.categoryRedirects) {
+    if (redirect.categoryId === category.id && redirect.toSlug === category.slug) {
+      redirect.toSlug = nextSlug;
+    }
+  }
+
+  const alreadyTracked = catalog.categoryRedirects.some(
+    (redirect) => redirect.categoryId === category.id && redirect.fromSlug === category.slug,
+  );
+  if (!alreadyTracked) {
+    catalog.categoryRedirects.push({
+      fromSlug: category.slug,
+      toSlug: nextSlug,
+      categoryId: category.id,
+    });
+  }
+
+  category.slug = nextSlug;
 }
 
 export function createCategory(
@@ -570,6 +658,7 @@ export function createCategory(
     seoDescription: input.seoDescription,
     coverImage: input.coverImage,
     status: input.status,
+    sortOrder: input.sortOrder ?? nextCategorySortOrder(next, input.parentId),
     createdAt: now,
     updatedAt: now,
   };
@@ -586,18 +675,47 @@ export function updateCategory(
   const next = cloneCatalog(catalog);
   const category = next.categories.find((item) => item.id === id);
   if (!category) throw new CatalogError("دسته پیدا نشد", 404);
-  assertCategorySlug(next, input.slug, id);
   assertParent(next, id, input.parentId);
+  changeCategorySlug(next, category, input.slug);
   category.name = input.name;
-  category.slug = input.slug;
   category.parentId = input.parentId;
   category.description = input.description;
   category.seoTitle = input.seoTitle;
   category.seoDescription = input.seoDescription;
   category.coverImage = input.coverImage;
   category.status = input.status;
+  if (input.sortOrder !== undefined) category.sortOrder = input.sortOrder;
   category.updatedAt = now;
   return { catalog: next, category };
+}
+
+export function updateCategoryStatus(
+  catalog: DesignCatalog,
+  id: string,
+  status: CategoryRecord["status"],
+  now = new Date().toISOString(),
+): { catalog: DesignCatalog; category: CategoryRecord } {
+  const next = cloneCatalog(catalog);
+  const category = next.categories.find((item) => item.id === id);
+  if (!category) throw new CatalogError("دسته پیدا نشد", 404);
+  category.status = status;
+  category.updatedAt = now;
+  return { catalog: next, category };
+}
+
+export function reorderCategories(
+  catalog: DesignCatalog,
+  items: { id: string; sortOrder: number }[],
+  now = new Date().toISOString(),
+): DesignCatalog {
+  const next = cloneCatalog(catalog);
+  for (const item of items) {
+    const category = next.categories.find((entry) => entry.id === item.id);
+    if (!category) throw new CatalogError("دسته پیدا نشد", 404);
+    category.sortOrder = item.sortOrder;
+    category.updatedAt = now;
+  }
+  return next;
 }
 
 export function descendantCategoryIds(catalog: DesignCatalog, rootId: string): Set<string> {
@@ -670,6 +788,7 @@ export function queryDesigns(catalog: DesignCatalog, query: DesignQuery = {}) {
 
 export type PublicDesignQuery = {
   categoryId?: string;
+  collectionId?: string;
   includeDescendants?: boolean;
   q?: string;
   sort?: CatalogSort;
@@ -714,6 +833,7 @@ export function queryPublicDesigns(catalog: DesignCatalog, query: PublicDesignQu
   const filtered = catalog.designs.filter((design) => {
     if (!isPublishedDesign(design)) return false;
     if (categoryIds && !design.categoryIds.some((id) => categoryIds.has(id))) return false;
+    if (query.collectionId && !design.collectionIds.includes(query.collectionId)) return false;
     if (!q) return true;
     return (
       design.title.toLowerCase().includes(q) ||
@@ -753,10 +873,21 @@ export function findRedirectTarget(catalog: DesignCatalog, slug: string): Design
   return design;
 }
 
+export function compareCategories(a: CategoryRecord, b: CategoryRecord): number {
+  if (a.sortOrder !== b.sortOrder) return a.sortOrder - b.sortOrder;
+  return a.name.localeCompare(b.name, "fa");
+}
+
 export function activeCategories(catalog: DesignCatalog): CategoryRecord[] {
-  return catalog.categories
-    .filter((category) => category.status === "active")
-    .sort((a, b) => a.name.localeCompare(b.name, "fa"));
+  return catalog.categories.filter((category) => category.status === "active").sort(compareCategories);
+}
+
+export function rootCategories(catalog: DesignCatalog): CategoryRecord[] {
+  return activeCategories(catalog).filter((category) => !category.parentId);
+}
+
+export function directDesignCount(catalog: DesignCatalog, categoryId: string): number {
+  return catalog.designs.filter((design) => design.categoryIds.includes(categoryId)).length;
 }
 
 export function childCategories(catalog: DesignCatalog, parentId: string): CategoryRecord[] {
@@ -787,6 +918,25 @@ export function publishedCountForCategory(catalog: DesignCatalog, categoryId: st
 
 export function isCategoryIndexable(catalog: DesignCatalog, category: CategoryRecord): boolean {
   return category.status === "active" && publishedCountForCategory(catalog, category.id) > 0;
+}
+
+export function findCategoryRedirect(catalog: DesignCatalog, slug: string): CategoryRecord | undefined {
+  const redirect = catalog.categoryRedirects.find((item) => item.fromSlug === slug);
+  if (!redirect) return undefined;
+  const category = catalog.categories.find((item) => item.id === redirect.categoryId);
+  if (!category || category.status !== "active") return undefined;
+  if (category.slug === slug) return undefined;
+  return category;
+}
+
+export function isCollectionIndexable(catalog: DesignCatalog, collection: CollectionRecord): boolean {
+  if (collection.status !== "active") return false;
+  return catalog.designs.some(
+    (design) =>
+      design.status === "published" &&
+      designHasImage(design) &&
+      design.collectionIds.includes(collection.id),
+  );
 }
 
 export function relatedDesigns(
@@ -843,6 +993,14 @@ export function indexableCatalogPaths(catalog: DesignCatalog): CatalogSitemapEnt
       priority: 0.6,
     });
   }
+  for (const collection of catalog.collections) {
+    if (!isCollectionIndexable(catalog, collection)) continue;
+    paths.push({
+      path: `/designs/collection/${collection.slug}`,
+      changeFrequency: "weekly",
+      priority: 0.5,
+    });
+  }
   return paths;
 }
 
@@ -893,4 +1051,96 @@ export function primaryCategory(
     if (category) return category;
   }
   return undefined;
+}
+
+function assertCollectionSlug(catalog: DesignCatalog, slug: string, ignoreId?: string): void {
+  if (catalog.collections.some((collection) => collection.slug === slug && collection.id !== ignoreId)) {
+    throw new CatalogError("این اسلاگ کالکشن قبلاً استفاده شده است", 409);
+  }
+}
+
+export function createAttribute(
+  catalog: DesignCatalog,
+  input: AttributeCreateInput,
+  now = new Date().toISOString(),
+): DesignCatalog {
+  const next = cloneCatalog(catalog);
+  if (input.kind === "group") {
+    if (next.attributeGroups.some((group) => group.slug === input.slug)) {
+      throw new CatalogError("این اسلاگ گروه ویژگی قبلاً استفاده شده است", 409);
+    }
+    const sortOrder =
+      input.sortOrder ??
+      next.attributeGroups.reduce((max, group) => Math.max(max, group.sortOrder), 0) + 10;
+    next.attributeGroups.push({
+      id: randomPrefixedId("grp"),
+      name: input.name,
+      slug: input.slug,
+      sortOrder,
+      createdAt: now,
+      updatedAt: now,
+    });
+    return next;
+  }
+
+  if (!next.attributeGroups.some((group) => group.id === input.groupId)) {
+    throw new CatalogError("گروه ویژگی پیدا نشد", 404);
+  }
+  const siblings = next.attributeValues.filter((value) => value.groupId === input.groupId);
+  next.attributeValues.push({
+    id: randomPrefixedId("val"),
+    groupId: input.groupId,
+    name: input.name,
+    sortOrder: input.sortOrder ?? siblings.reduce((max, value) => Math.max(max, value.sortOrder), 0) + 10,
+    createdAt: now,
+    updatedAt: now,
+  });
+  return next;
+}
+
+export function createCollection(
+  catalog: DesignCatalog,
+  input: CollectionWriteInput,
+  now = new Date().toISOString(),
+): { catalog: DesignCatalog; collection: CollectionRecord } {
+  const next = cloneCatalog(catalog);
+  assertCollectionSlug(next, input.slug);
+  const collection: CollectionRecord = {
+    id: randomPrefixedId("col"),
+    name: input.name,
+    slug: input.slug,
+    description: input.description,
+    seoTitle: input.seoTitle,
+    seoDescription: input.seoDescription,
+    coverImage: input.coverImage,
+    status: input.status,
+    sortOrder:
+      input.sortOrder ?? next.collections.reduce((max, item) => Math.max(max, item.sortOrder), 0) + 10,
+    createdAt: now,
+    updatedAt: now,
+  };
+  next.collections.push(collection);
+  return { catalog: next, collection };
+}
+
+export function updateCollection(
+  catalog: DesignCatalog,
+  id: string,
+  input: CollectionWriteInput,
+  now = new Date().toISOString(),
+): { catalog: DesignCatalog; collection: CollectionRecord } {
+  const next = cloneCatalog(catalog);
+  const collection = next.collections.find((item) => item.id === id);
+  if (!collection) throw new CatalogError("کالکشن پیدا نشد", 404);
+  assertCollectionSlug(next, input.slug, id);
+  collection.name = input.name;
+  collection.slug = input.slug;
+  collection.description = input.description;
+  collection.seoTitle = input.seoTitle;
+  collection.seoDescription = input.seoDescription;
+  collection.coverImage = input.coverImage;
+  collection.status = input.status;
+  if (input.sortOrder !== undefined) collection.sortOrder = input.sortOrder;
+  collection.updatedAt = now;
+  return { catalog: next, collection };
 }

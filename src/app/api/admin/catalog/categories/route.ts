@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { catalogErrorResponse, isAdminSession, requireAdmin } from "@/lib/catalog/http";
-import { createCategory } from "@/lib/catalog/logic";
+import { compareCategories, createCategory, directDesignCount } from "@/lib/catalog/logic";
 import { categoryWriteSchema } from "@/lib/catalog/schema";
 import { mutateCatalog, readCatalog } from "@/lib/catalog/store";
 
@@ -11,10 +11,12 @@ export async function GET(request: Request) {
   const session = requireAdmin(request);
   if (!isAdminSession(session)) return session;
 
-  const categories = [...readCatalog().categories].sort((a, b) =>
-    a.name.localeCompare(b.name, "fa"),
+  const catalog = readCatalog();
+  const categories = [...catalog.categories].sort(compareCategories);
+  const designCounts = Object.fromEntries(
+    categories.map((category) => [category.id, directDesignCount(catalog, category.id)]),
   );
-  return NextResponse.json({ categories });
+  return NextResponse.json({ categories, designCounts });
 }
 
 export async function POST(request: Request) {

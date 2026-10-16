@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 
 import { catalogErrorResponse, isAdminSession, requireAdmin } from "@/lib/catalog/http";
-import { updateCategory } from "@/lib/catalog/logic";
-import { categoryWriteSchema } from "@/lib/catalog/schema";
+import { updateCategory, updateCategoryStatus } from "@/lib/catalog/logic";
+import { categoryStatusPatchSchema, categoryWriteSchema } from "@/lib/catalog/schema";
 import { mutateCatalog, readCatalog } from "@/lib/catalog/store";
 
 export const dynamic = "force-dynamic";
@@ -27,9 +27,12 @@ export async function PATCH(request: Request, context: RouteContext) {
 
   const { id } = await context.params;
   try {
-    const input = categoryWriteSchema.parse(await request.json());
+    const body: unknown = await request.json();
+    const statusPatch = categoryStatusPatchSchema.safeParse(body);
     const category = await mutateCatalog((catalog) => {
-      const updated = updateCategory(catalog, id, input);
+      const updated = statusPatch.success
+        ? updateCategoryStatus(catalog, id, statusPatch.data.status)
+        : updateCategory(catalog, id, categoryWriteSchema.parse(body));
       return { catalog: updated.catalog, result: updated.category };
     });
     return NextResponse.json({ category });

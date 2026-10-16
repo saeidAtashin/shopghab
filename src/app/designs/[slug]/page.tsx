@@ -58,6 +58,10 @@ export default async function DesignDetailPage({ params }: Props) {
     .map((id) => catalog.categories.find((item) => item.id === id && item.status === "active"))
     .filter((item): item is NonNullable<typeof item> => Boolean(item))
     .map((item) => ({ slug: item.slug, name: item.name }));
+  const collections = direct.collectionIds
+    .map((id) => catalog.collections.find((item) => item.id === id && item.status === "active"))
+    .filter((item): item is NonNullable<typeof item> => Boolean(item))
+    .map((item) => ({ slug: item.slug, name: item.name }));
   const crumbs = breadcrumbTrail(
     { label: "طراحی‌های آماده", href: "/designs" },
     ...(category
@@ -93,6 +97,7 @@ export default async function DesignDetailPage({ params }: Props) {
               imageAlt={direct.alt || direct.title}
               gallery={direct.gallery}
               categories={categories}
+              collections={collections}
               tags={direct.tags}
               related={related}
             />

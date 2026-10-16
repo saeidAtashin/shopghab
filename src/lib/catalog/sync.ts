@@ -10,6 +10,7 @@ import {
   type SyncReport,
 } from "./logic";
 import { catalogFileExists, mutateCatalog, readCatalog } from "./store";
+import { seedCatalogTaxonomy } from "./taxonomy";
 
 export async function applyManifestImport(
   entries: ManifestLikeEntry[],
@@ -24,7 +25,8 @@ export async function applyManifestImport(
 
   return mutateCatalog((catalog) => {
     const synced = syncCatalog(catalog, imports, { defaultStatus });
-    return { catalog: synced.catalog, result: synced.report };
+    const seeded = seedCatalogTaxonomy(synced.catalog);
+    return { catalog: seeded.catalog, result: synced.report };
   });
 }
 

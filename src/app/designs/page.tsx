@@ -4,9 +4,9 @@ import CatalogBreadcrumbs from "@/app/components/designs/CatalogBreadcrumbs";
 import CatalogListing from "@/app/components/designs/CatalogListing";
 import JsonLd from "@/app/components/seo/JsonLd";
 import {
-  activeCategories,
   parsePublicListingQuery,
   queryPublicDesigns,
+  rootCategories,
 } from "@/lib/catalog/logic";
 import { readCatalog } from "@/lib/catalog/store";
 import { breadcrumbJsonLd, breadcrumbTrail } from "@/lib/seo/breadcrumbs";
@@ -39,7 +39,7 @@ export default async function DesignsGalleryPage({ searchParams }: Props) {
   const result = queryPublicDesigns(catalog, query);
   if (query.page > result.pageCount && result.total > 0) notFound();
 
-  const categories = activeCategories(catalog).map((category) => ({
+  const categories = rootCategories(catalog).map((category) => ({
     slug: category.slug,
     name: category.name,
   }));

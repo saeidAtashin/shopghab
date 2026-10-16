@@ -1,17 +1,18 @@
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 
 import CatalogBreadcrumbs from "@/app/components/designs/CatalogBreadcrumbs";
 import CatalogListing from "@/app/components/designs/CatalogListing";
 import JsonLd from "@/app/components/seo/JsonLd";
 import {
-  activeCategories,
   categoryChain,
   categorySeoDescription,
   categorySeoTitle,
   childCategories,
+  findCategoryRedirect,
   isCategoryIndexable,
   parsePublicListingQuery,
   queryPublicDesigns,
+  rootCategories,
 } from "@/lib/catalog/logic";
 import { readCatalog } from "@/lib/catalog/store";
 import { breadcrumbJsonLd, breadcrumbTrail } from "@/lib/seo/breadcrumbs";
@@ -29,6 +30,8 @@ export async function generateMetadata({ params, searchParams }: Props) {
   const { slug } = await params;
   const query = parsePublicListingQuery(await searchParams);
   const catalog = readCatalog();
+  const redirected = findCategoryRedirect(catalog, slug);
+  if (redirected) permanentRedirect(`/designs/category/${redirected.slug}`);
   const category = catalog.categories.find((item) => item.slug === slug);
   if (!category || category.status !== "active") return {};
 
@@ -45,6 +48,8 @@ export default async function DesignCategoryPage({ params, searchParams }: Props
   const { slug } = await params;
   const query = parsePublicListingQuery(await searchParams);
   const catalog = readCatalog();
+  const redirected = findCategoryRedirect(catalog, slug);
+  if (redirected) permanentRedirect(`/designs/category/${redirected.slug}`);
   const category = catalog.categories.find((item) => item.slug === slug);
   if (!category || category.status !== "active") notFound();
 
@@ -63,7 +68,7 @@ export default async function DesignCategoryPage({ params, searchParams }: Props
         : { label: item.name, href: `/designs/category/${item.slug}` },
     ),
   );
-  const categories = activeCategories(catalog).map((item) => ({
+  const categories = rootCategories(catalog).map((item) => ({
     slug: item.slug,
     name: item.name,
   }));
