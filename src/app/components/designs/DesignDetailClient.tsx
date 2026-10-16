@@ -24,6 +24,8 @@ type Props = {
   description: string;
   imageSrc: string;
   imageAlt: string;
+  imageWidth: number;
+  imageHeight: number;
   gallery: string[];
   categories: CategoryLink[];
   collections?: CategoryLink[];
@@ -37,6 +39,8 @@ export default function DesignDetailClient({
   description,
   imageSrc,
   imageAlt,
+  imageWidth,
+  imageHeight,
   gallery,
   categories,
   collections = [],
@@ -58,9 +62,10 @@ export default function DesignDetailClient({
               <Image
                 src={designedAssetUrl(activeImage)}
                 alt={imageAlt}
-                width={640}
-                height={640}
+                width={imageWidth > 0 ? imageWidth : 1600}
+                height={imageHeight > 0 ? imageHeight : 1600}
                 priority
+                sizes="(max-width: 1024px) 100vw, 640px"
                 className="h-auto max-h-[28rem] w-full object-contain"
               />
             ) : (
@@ -79,7 +84,7 @@ export default function DesignDetailClient({
                   }`}
                   aria-label="نمایش تصویر"
                 >
-                  <Image src={designedAssetUrl(src)} alt="" fill sizes="64px" className="object-cover" />
+                  <Image src={designedAssetUrl(src)} alt="" fill sizes="64px" loading="lazy" className="object-cover" />
                 </button>
               ))}
             </div>
@@ -194,7 +199,8 @@ export default function DesignDetailClient({
                       src={designedAssetUrl(item.image)}
                       alt={item.alt}
                       fill
-                      sizes="25vw"
+                      sizes="(max-width: 1024px) 50vw, 25vw"
+                      loading="lazy"
                       className="object-contain p-2"
                     />
                   ) : null}

@@ -103,6 +103,25 @@ export async function refreshAccessToken(refresh: string): Promise<RefreshResult
   return { access, refresh: rotatedRefresh ?? undefined };
 }
 
+export async function ensureCatalogCookie(): Promise<boolean> {
+  const existing = await fetch("/api/admin/session", { credentials: "include" });
+  if (existing.ok) return true;
+
+  const refresh = getRefreshToken();
+  if (!refresh) return false;
+
+  const renewed = await fetch("/api/admin/session", {
+    method: "PUT",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ refresh }),
+  });
+  const body = (await renewed.json().catch(() => ({}))) as { access?: string; refresh?: string };
+  if (typeof body.access === "string" && body.access) setAuthToken(body.access);
+  if (typeof body.refresh === "string" && body.refresh) setRefreshToken(body.refresh);
+  return renewed.ok;
+}
+
 export async function restoreSession(): Promise<SessionUser | null> {
   const refresh = getRefreshToken();
   const phone = getSessionPhone();

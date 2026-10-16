@@ -1,3 +1,4 @@
+import { selectProductImages } from "@/lib/mockups/display";
 import { categoryLabel, subcategoryLabel } from "@/lib/designed-categories";
 import {
   designPublicDescription,
@@ -16,6 +17,8 @@ import {
 } from "./ids";
 import type {
   AttributeCreateInput,
+  AttributeDeleteInput,
+  AttributeUpdateInput,
   CategoryRecord,
   CategoryWriteInput,
   CollectionRecord,
@@ -352,6 +355,7 @@ export function syncCatalog(
       collectionIds: [],
       alt: entry.titleHint,
       gallery: [],
+      mockups: [],
       seoTitle: "",
       seoDescription: "",
       ogImage: "",
@@ -487,6 +491,7 @@ export function createDesign(
     collectionIds: assertCollectionIds(next, input.collectionIds ?? []),
     alt: input.alt || input.title,
     gallery: input.gallery.filter(Boolean),
+    mockups: [],
     seoTitle: input.seoTitle,
     seoDescription: input.seoDescription,
     ogImage: input.ogImage,
@@ -1024,10 +1029,15 @@ export function designSeoDescription(
 }
 
 export function designOgImage(
-  design: Pick<DesignRecord, "ogImage" | "thumbnailPath" | "imagePath">,
+  design: Pick<
+    DesignRecord,
+    "ogImage" | "thumbnailPath" | "imagePath" | "gallery" | "mockups" | "width" | "height" | "alt" | "title"
+  >,
 ): string | undefined {
-  const candidate = design.ogImage.trim() || design.thumbnailPath.trim() || design.imagePath.trim();
-  return candidate || undefined;
+  const custom = design.ogImage.trim();
+  if (custom) return custom;
+  const hero = selectProductImages(design).hero.trim();
+  return hero || undefined;
 }
 
 export function categorySeoTitle(category: CategoryRecord): string {
@@ -1095,6 +1105,58 @@ export function createAttribute(
     createdAt: now,
     updatedAt: now,
   });
+  return next;
+}
+
+export function updateAttribute(
+  catalog: DesignCatalog,
+  input: AttributeUpdateInput,
+  now = new Date().toISOString(),
+): DesignCatalog {
+  const next = cloneCatalog(catalog);
+  if (input.kind === "group") {
+    const group = next.attributeGroups.find((item) => item.id === input.id);
+    if (!group) throw new CatalogError("گروه ویژگی پیدا نشد", 404);
+    if (next.attributeGroups.some((item) => item.slug === input.slug && item.id !== input.id)) {
+      throw new CatalogError("این اسلاگ گروه ویژگی قبلاً استفاده شده است", 409);
+    }
+    group.name = input.name;
+    group.slug = input.slug;
+    group.updatedAt = now;
+    return next;
+  }
+
+  const value = next.attributeValues.find((item) => item.id === input.id);
+  if (!value) throw new CatalogError("مقدار ویژگی پیدا نشد", 404);
+  value.name = input.name;
+  value.updatedAt = now;
+  return next;
+}
+
+export function deleteAttribute(catalog: DesignCatalog, input: AttributeDeleteInput): DesignCatalog {
+  const next = cloneCatalog(catalog);
+  if (input.kind === "value") {
+    if (!next.attributeValues.some((item) => item.id === input.id)) {
+      throw new CatalogError("مقدار ویژگی پیدا نشد", 404);
+    }
+    next.attributeValues = next.attributeValues.filter((item) => item.id !== input.id);
+    for (const design of next.designs) {
+      design.attributeValueIds = design.attributeValueIds.filter((id) => id !== input.id);
+    }
+    return next;
+  }
+
+  if (!next.attributeGroups.some((item) => item.id === input.id)) {
+    throw new CatalogError("گروه ویژگی پیدا نشد", 404);
+  }
+  const removedValueIds = new Set(
+    next.attributeValues.filter((item) => item.groupId === input.id).map((item) => item.id),
+  );
+  next.attributeGroups = next.attributeGroups.filter((item) => item.id !== input.id);
+  next.attributeValues = next.attributeValues.filter((item) => item.groupId !== input.id);
+  for (const design of next.designs) {
+    design.attributeValueIds = design.attributeValueIds.filter((id) => !removedValueIds.has(id));
+  }
   return next;
 }
 

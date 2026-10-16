@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { designImageAlt } from "@/lib/mockups/display";
 import { designedAssetUrl } from "@/lib/designed-assets";
 import type { PublicDesign } from "@/lib/catalog/schema";
 
@@ -12,7 +13,7 @@ type Props = {
 
 export default function CatalogDesignCard({ design, categoryName, priority = false }: Props) {
   const image = design.thumbnailPath || design.imagePath;
-  const alt = design.alt.trim() || design.title;
+  const alt = designImageAlt(design);
 
   return (
     <Link

@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 
 import {
   buildUserFromPhone,
+  ensureCatalogCookie,
   extractAuthTokenData,
   refreshAccessToken,
   restoreSession,
@@ -51,9 +52,12 @@ type AuthPayload = AuthLoginPayload & {
   devCode?: string;
 };
 
+export type CatalogSession = "ready" | "login-required" | "skipped";
+
 type AuthContextType = {
   user: SessionUser | null;
   loading: boolean;
+  catalogSession: CatalogSession;
   loginWithPassword: (phone_number: string, password: string) => Promise<SessionUser | null>;
   sendOtp: (phone_number: string) => Promise<SendOtpResult>;
   loginWithOtp: (
@@ -96,15 +100,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const [user, setUser] = useState<SessionUser | null>(null);
   const [loading, setLoading] = useState(true);
+  const [catalogSession, setCatalogSession] = useState<CatalogSession>("skipped");
 
   useEffect(() => {
-    void restoreSession()
-      .then((sessionUser) => setUser(sessionUser))
-      .catch(() => {
+    void (async () => {
+      try {
+        const sessionUser = await restoreSession();
+        if (sessionUser?.role === "admin") {
+          const ok = await ensureCatalogCookie().catch(() => false);
+          setCatalogSession(ok ? "ready" : "login-required");
+        } else {
+          setCatalogSession("skipped");
+        }
+        setUser(sessionUser);
+      } catch {
         clearAuthSession();
         setUser(null);
-      })
-      .finally(() => setLoading(false));
+        setCatalogSession("skipped");
+      } finally {
+        setLoading(false);
+      }
+    })();
   }, []);
 
   const completeLoginSession = useCallback(
@@ -123,6 +139,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         const sessionUser = buildUserFromPhone(phone_number);
         setUser(sessionUser);
+        setCatalogSession(sessionUser.role === "admin" ? "ready" : "skipped");
 
         if (redirect) {
           router.replace(getPostLoginPath(sessionUser.role));
@@ -242,6 +259,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const register = useCallback((name: string) => {
     setUser({ name, role: "user" });
+    setCatalogSession("skipped");
   }, []);
 
   const logout = useCallback(async () => {
@@ -257,6 +275,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
     clearAuthSession();
     setUser(null);
+    setCatalogSession("skipped");
     router.replace("/");
   }, [router]);
 
@@ -265,6 +284,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       value={{
         user,
         loading,
+        catalogSession,
         loginWithPassword,
         sendOtp,
         loginWithOtp,

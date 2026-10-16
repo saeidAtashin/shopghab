@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { selectProductImages } from "@/lib/mockups/display";
+
 export const designStatusSchema = z.enum(["draft", "published", "archived"]);
 export const categoryStatusSchema = z.enum(["active", "inactive", "archived"]);
 
@@ -15,6 +17,21 @@ const assetPathSchema = z
     (value) => value === "" || (value.startsWith("/designed/") && !value.includes("..")),
     "مسیر تصویر باید داخل /designed/ باشد",
   );
+
+export const mockupStatusSchema = z.enum(["ready", "error", "skipped"]);
+
+export const mockupRecordSchema = z.object({
+  templateId: z.string(),
+  path: z.string(),
+  thumbPath: z.string(),
+  width: z.number(),
+  height: z.number(),
+  contentHash: z.string(),
+  templateVersion: z.string(),
+  generatedAt: z.string(),
+  status: mockupStatusSchema,
+  error: z.string(),
+});
 
 export const designRecordSchema = z.object({
   id: z.string().min(1),
@@ -38,6 +55,7 @@ export const designRecordSchema = z.object({
   collectionIds: z.array(z.string()),
   alt: z.string(),
   gallery: z.array(z.string()),
+  mockups: z.array(mockupRecordSchema),
   seoTitle: z.string(),
   seoDescription: z.string(),
   ogImage: z.string(),
@@ -196,6 +214,31 @@ export const attributeCreateSchema = z.discriminatedUnion("kind", [
   }),
 ]);
 
+export const attributeUpdateSchema = z.discriminatedUnion("kind", [
+  z.object({
+    kind: z.literal("group"),
+    id: z.string().min(1),
+    name: z.string().trim().min(1, "نام گروه الزامی است").max(80),
+    slug: slugSchema,
+  }),
+  z.object({
+    kind: z.literal("value"),
+    id: z.string().min(1),
+    name: z.string().trim().min(1, "نام ویژگی الزامی است").max(80),
+  }),
+]);
+
+export const attributeDeleteSchema = z.discriminatedUnion("kind", [
+  z.object({
+    kind: z.literal("group"),
+    id: z.string().min(1),
+  }),
+  z.object({
+    kind: z.literal("value"),
+    id: z.string().min(1),
+  }),
+]);
+
 export const collectionWriteSchema = z.object({
   name: z.string().trim().min(1, "نام کالکشن الزامی است").max(120),
   slug: slugSchema,
@@ -220,6 +263,8 @@ export type DesignCatalog = z.infer<typeof catalogSchema>;
 export type DesignWriteInput = z.infer<typeof designWriteSchema>;
 export type CategoryWriteInput = z.infer<typeof categoryWriteSchema>;
 export type AttributeCreateInput = z.infer<typeof attributeCreateSchema>;
+export type AttributeUpdateInput = z.infer<typeof attributeUpdateSchema>;
+export type AttributeDeleteInput = z.infer<typeof attributeDeleteSchema>;
 export type CollectionWriteInput = z.infer<typeof collectionWriteSchema>;
 
 export type PublicDesign = {
@@ -249,6 +294,7 @@ export type PublicDesign = {
 };
 
 export function toPublicDesign(design: DesignRecord): PublicDesign {
+  const images = selectProductImages(design);
   return {
     id: design.id,
     slug: design.slug,
@@ -257,10 +303,10 @@ export function toPublicDesign(design: DesignRecord): PublicDesign {
     titleEn: design.titleEn,
     shortDescription: design.shortDescription,
     description: design.description,
-    alt: design.alt,
-    imagePath: design.imagePath,
-    thumbnailPath: design.thumbnailPath,
-    gallery: design.gallery,
+    alt: images.alt,
+    imagePath: images.hero,
+    thumbnailPath: images.thumb,
+    gallery: images.gallery,
     tags: design.tags,
     colors: design.colors,
     styles: design.styles,
@@ -300,6 +346,7 @@ export function parseCatalogDocument(raw: unknown): DesignCatalog {
           ...design,
           attributeValueIds: Array.isArray(design.attributeValueIds) ? design.attributeValueIds : [],
           collectionIds: Array.isArray(design.collectionIds) ? design.collectionIds : [],
+          mockups: Array.isArray(design.mockups) ? design.mockups : [],
         };
       })
     : [];

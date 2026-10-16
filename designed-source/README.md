@@ -33,4 +33,6 @@ Files that do **not** match `vecteezy_{word}-...` go into subcategory **others**
 5. `designed.meta.json` is still read as a hint for the editor template title. Admin edits belong in the catalog, not in that file.
 6. To refresh catalog rows from the current manifest without converting images again, run `npm run catalog:sync`.
 
+Product photos are a separate step. PSD mockup templates live in `mockup-templates/` and are rendered with `npm run mockups:generate` after the artwork WebP exists. See `mockup-templates/README.md`.
+
 **Do not commit EPS/JPG originals** — they stay local or in cloud storage. Only converted assets in `public/designed/` belong in git (or on CDN via `NEXT_PUBLIC_DESIGNED_CDN_URL`).

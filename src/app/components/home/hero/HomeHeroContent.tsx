@@ -35,11 +35,11 @@ export default function HomeHeroContent({ variant = "default" }: Props) {
   const onDark = variant === "onDark";
 
   const headingClass = onDark
-    ? "mt-5 max-w-2xl text-[2.55rem] font-black leading-[1.08] tracking-tight text-white"
+    ? "mt-3 max-w-md text-[clamp(1.7rem,2.8vw,2.85rem)] font-black leading-[1.15] tracking-tight text-white"
     : "mt-6 max-w-2xl text-[clamp(2rem,4.5vw,3.75rem)] font-black leading-[1.08] tracking-tight text-foreground";
 
   const descriptionClass = onDark
-    ? "mt-4 max-w-xl text-base leading-7 text-white/80"
+    ? "mt-2 max-w-md text-sm leading-6 text-white/80 md:text-base md:leading-7"
     : "mt-5 max-w-xl text-base leading-8 text-muted sm:text-lg";
 
   const stackClass = "flex flex-col items-start text-right";
@@ -52,13 +52,15 @@ export default function HomeHeroContent({ variant = "default" }: Props) {
           {HERO_HEADING}
         </h1>
         <p className={descriptionClass}>{HERO_DESCRIPTION}</p>
-        <div className={onDark ? "mt-6 w-full" : "mt-8 w-full"}>
-          <HomeHeroTrustBadges variant={variant} />
-        </div>
-        <div className={onDark ? "mt-6" : "mt-8"}>
+        {onDark ? null : (
+          <div className="mt-8 w-full">
+            <HomeHeroTrustBadges variant={variant} />
+          </div>
+        )}
+        <div className={onDark ? "mt-4" : "mt-8"}>
           <HomeHeroCta variant={variant} />
         </div>
-        <div className={onDark ? "mt-4" : "mt-6"}>
+        <div className={onDark ? "mt-3" : "mt-6"}>
           <HomeHeroRating variant={variant} />
         </div>
       </div>
@@ -84,15 +86,17 @@ export default function HomeHeroContent({ variant = "default" }: Props) {
         {HERO_DESCRIPTION}
       </motion.p>
 
-      <motion.div variants={item} className={onDark ? "mt-6 w-full" : "mt-8 w-full"}>
-        <HomeHeroTrustBadges variant={variant} />
-      </motion.div>
+      {onDark ? null : (
+        <motion.div variants={item} className="mt-8 w-full">
+          <HomeHeroTrustBadges variant={variant} />
+        </motion.div>
+      )}
 
-      <motion.div variants={item} className={onDark ? "mt-6" : "mt-8"}>
+      <motion.div variants={item} className={onDark ? "mt-4" : "mt-8"}>
         <HomeHeroCta variant={variant} />
       </motion.div>
 
-      <motion.div variants={item} className={onDark ? "mt-4" : "mt-6"}>
+      <motion.div variants={item} className={onDark ? "mt-3" : "mt-6"}>
         <HomeHeroRating variant={variant} />
       </motion.div>
     </motion.div>

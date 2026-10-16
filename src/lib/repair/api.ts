@@ -136,6 +136,60 @@ export async function fetchRepairRequests(
   return unwrapResults(response);
 }
 
+export async function fetchAllRepairRequests(): Promise<RepairRequestItem[]> {
+  const items: RepairRequestItem[] = [];
+  const seen = new Set<number>();
+
+  for (let page = 1; page <= 50; page += 1) {
+    const response = await apiRequest<
+      ApiWrapper<PaginatedResults<RepairRequestItem>>
+    >(`/repair/requests/?page=${page}&page_size=100`);
+    const data = unwrapData(response);
+    const batch = data.results ?? [];
+    if (batch.length === 0) break;
+
+    for (const item of batch) {
+      if (item.id != null) {
+        if (seen.has(item.id)) continue;
+        seen.add(item.id);
+      }
+      items.push(item);
+    }
+
+    if (!data.next) break;
+  }
+
+  return items;
+}
+
+export type RepairRequestPatch = {
+  status?: RepairRequestStatus;
+  estimated_price?: number | null;
+  final_price?: number | null;
+  admin_note?: string | null;
+};
+
+export async function updateRepairRequest(
+  id: number,
+  patch: RepairRequestPatch,
+): Promise<RepairRequestItem> {
+  const response = await apiRequest<
+    ApiWrapper<RepairRequestItem> | RepairRequestItem
+  >(`/repair/requests/${id}/`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(patch),
+  });
+
+  if (response && typeof response === "object" && "data" in response && response.data) {
+    return response.data;
+  }
+  if (response && typeof response === "object" && "status" in response) {
+    return response;
+  }
+  throw new Error("پاسخ به‌روزرسانی نامعتبر است");
+}
+
 export function matchProblemTypeForGameInstall(
   types: RepairProblemType[],
 ): RepairProblemType | undefined {
@@ -224,20 +278,42 @@ export async function fetchProblemTypeNameMap(
   return map;
 }
 
+export type AdminRepairOrder = {
+  id: number | null;
+  trackingCode: string;
+  name: string;
+  phone: string;
+  device: string;
+  issue: string;
+  description: string;
+  image: string | null;
+  status: RepairRequestStatus;
+  estimatedPrice: number | null;
+  finalPrice: number | null;
+  adminNote: string;
+  createdAt: string;
+};
+
 export function mapRepairRequestToAdminOrder(
   item: RepairRequestItem,
   index: number,
   deviceNames: Map<number, string>,
   problemNames: Map<number, string>,
-) {
+): AdminRepairOrder {
   return {
+    id: item.id ?? null,
     trackingCode:
       item.id != null ? String(item.id) : `${item.phone_number}-${index}`,
     name: item.name,
     phone: item.phone_number,
     device: deviceNames.get(item.device_type) ?? String(item.device_type),
     issue: problemNames.get(item.problem_type) ?? String(item.problem_type),
+    description: item.description?.trim() ?? "",
+    image: item.image?.trim() ? item.image : null,
     status: item.status,
+    estimatedPrice: item.estimated_price ?? null,
+    finalPrice: item.final_price ?? null,
+    adminNote: item.admin_note ?? "",
     createdAt: item.created_at ?? "",
   };
 }

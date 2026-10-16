@@ -885,6 +885,16 @@ async function main(): Promise<void> {
   const report = await applyManifestImport(manifest, meta);
   printSyncReport(report);
 
+  try {
+    const { generateMockupsForDesigns } = await import("../src/lib/mockups/generate");
+    const mockupReport = await generateMockupsForDesigns({ slugs: manifest.map((entry) => entry.slug) });
+    console.log(
+      `Mockups: ${mockupReport.ready} written, ${mockupReport.reused} reused, ${mockupReport.errors} error(s).`,
+    );
+  } catch {
+    console.warn("Mockup generation did not finish. Artwork import was kept.");
+  }
+
   const totalBytes = manifest.reduce((sum, entry) => {
     const main = join(ROOT, "public", entry.outputPath);
     const thumb = join(ROOT, "public", entry.thumbnailPath);

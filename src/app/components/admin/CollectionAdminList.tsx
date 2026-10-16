@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { adminJson } from "@/app/components/admin/AdminShell";
-import type { CollectionRecord } from "@/lib/catalog/schema";
+import type { CategoryStatus, CollectionRecord } from "@/lib/catalog/schema";
 
 const STATUS_LABEL = {
   active: "فعال",
@@ -16,6 +16,7 @@ export default function CollectionAdminList() {
   const [collections, setCollections] = useState<CollectionRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [busyId, setBusyId] = useState("");
 
   useEffect(() => {
     void adminJson<{ collections: CollectionRecord[] }>("/api/admin/catalog/collections")
@@ -25,6 +26,36 @@ export default function CollectionAdminList() {
       })
       .finally(() => setLoading(false));
   }, []);
+
+  async function setStatus(collection: CollectionRecord, status: CategoryStatus) {
+    setBusyId(collection.id);
+    setError("");
+    try {
+      const body = await adminJson<{ collection: CollectionRecord }>(
+        `/api/admin/catalog/collections/${collection.id}`,
+        {
+          method: "PATCH",
+          body: JSON.stringify({
+            name: collection.name,
+            slug: collection.slug,
+            description: collection.description,
+            seoTitle: collection.seoTitle,
+            seoDescription: collection.seoDescription,
+            coverImage: collection.coverImage,
+            status,
+            sortOrder: collection.sortOrder,
+          }),
+        },
+      );
+      setCollections((current) =>
+        current.map((item) => (item.id === collection.id ? body.collection : item)),
+      );
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "تغییر وضعیت انجام نشد");
+    } finally {
+      setBusyId("");
+    }
+  }
 
   return (
     <div className="space-y-6">
@@ -47,9 +78,40 @@ export default function CollectionAdminList() {
                 {collection.slug} · {STATUS_LABEL[collection.status]}
               </p>
             </div>
-            <Link href={`/admin/collections/${collection.id}`} className="rounded-2xl border border-border px-4 py-2 text-sm">
-              ویرایش
-            </Link>
+            <div className="flex flex-wrap gap-2">
+              {collection.status === "active" ? (
+                <button
+                  type="button"
+                  disabled={busyId === collection.id}
+                  onClick={() => void setStatus(collection, "inactive")}
+                  className="rounded-2xl border border-border px-3 py-2 text-sm disabled:opacity-60"
+                >
+                  غیرفعال
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  disabled={busyId === collection.id}
+                  onClick={() => void setStatus(collection, "active")}
+                  className="rounded-2xl border border-border px-3 py-2 text-sm disabled:opacity-60"
+                >
+                  فعال
+                </button>
+              )}
+              {collection.status !== "archived" ? (
+                <button
+                  type="button"
+                  disabled={busyId === collection.id}
+                  onClick={() => void setStatus(collection, "archived")}
+                  className="rounded-2xl border border-border px-3 py-2 text-sm disabled:opacity-60"
+                >
+                  بایگانی
+                </button>
+              ) : null}
+              <Link href={`/admin/collections/${collection.id}`} className="rounded-2xl border border-border px-4 py-2 text-sm">
+                ویرایش
+              </Link>
+            </div>
           </article>
         ))}
       </div>

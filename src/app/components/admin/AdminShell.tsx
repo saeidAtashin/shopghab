@@ -48,7 +48,7 @@ export default function AdminShell({
   description?: string;
   children: React.ReactNode;
 }) {
-  const { user, loading } = useAuth();
+  const { user, loading, catalogSession } = useAuth();
 
   if (loading) {
     return (
@@ -62,6 +62,18 @@ export default function AdminShell({
     return (
       <main className="flex min-h-screen items-center justify-center bg-[#050816] text-foreground">
         <h1 className="text-3xl text-red-500">شما دسترسی ندارید</h1>
+      </main>
+    );
+  }
+
+  if (catalogSession === "login-required") {
+    return (
+      <main className="flex min-h-screen flex-col items-center justify-center gap-4 bg-[#050816] px-6 text-center text-foreground">
+        <h1 className="text-3xl font-black text-cyan-400">نشست مدیریت کاتالوگ منقضی شده</h1>
+        <p className="max-w-md text-muted">برای ویرایش طرح‌ها، دسته‌ها و کالکشن‌ها دوباره وارد شوید.</p>
+        <Link href="/login" className="rounded-2xl bg-cyan-500 px-5 py-3 text-sm font-bold text-black">
+          ورود دوباره
+        </Link>
       </main>
     );
   }

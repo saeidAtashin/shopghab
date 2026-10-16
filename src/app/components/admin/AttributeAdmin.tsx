@@ -87,6 +87,44 @@ export default function AttributeAdmin() {
     }
   }
 
+  async function saveGroup(group: AttributeGroupRecord, name: string, slug: string) {
+    setError("");
+    setNotice("");
+    await adminJson("/api/admin/catalog/attributes", {
+      method: "PATCH",
+      body: JSON.stringify({ kind: "group", id: group.id, name, slug }),
+    });
+    setNotice("گروه ویژگی ذخیره شد.");
+    await load();
+  }
+
+  async function saveValue(value: AttributeValueRecord, name: string) {
+    setError("");
+    setNotice("");
+    await adminJson("/api/admin/catalog/attributes", {
+      method: "PATCH",
+      body: JSON.stringify({ kind: "value", id: value.id, name }),
+    });
+    setNotice("مقدار ویژگی ذخیره شد.");
+    await load();
+  }
+
+  async function remove(kind: "group" | "value", id: string, label: string) {
+    if (!window.confirm(`${label} حذف شود؟`)) return;
+    setError("");
+    setNotice("");
+    try {
+      await adminJson("/api/admin/catalog/attributes", {
+        method: "DELETE",
+        body: JSON.stringify({ kind, id }),
+      });
+      setNotice(kind === "group" ? "گروه ویژگی حذف شد." : "مقدار ویژگی حذف شد.");
+      await load();
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "حذف انجام نشد");
+    }
+  }
+
   if (loading) return <p className="text-muted">در حال دریافت ویژگی‌ها...</p>;
 
   return (
@@ -97,19 +135,18 @@ export default function AttributeAdmin() {
       {groups.length === 0 ? <p className="text-muted">گروه ویژگی‌ای ثبت نشده است.</p> : null}
       <div className="grid gap-4">
         {groups.map((group) => (
-          <section key={group.id} className="rounded-3xl border border-border bg-surface p-4">
-            <h2 className="font-bold">{group.name}</h2>
-            <p className="text-xs text-muted">{group.slug}</p>
-            <ul className="mt-3 flex flex-wrap gap-2">
-              {values
-                .filter((value) => value.groupId === group.id)
-                .map((value) => (
-                  <li key={value.id} className="rounded-full border border-border px-3 py-1 text-xs">
-                    {value.name}
-                  </li>
-                ))}
-            </ul>
-          </section>
+          <GroupEditor
+            key={`${group.id}:${group.updatedAt}`}
+            group={group}
+            values={values.filter((value) => value.groupId === group.id)}
+            onSaveGroup={saveGroup}
+            onSaveValue={saveValue}
+            onDelete={remove}
+            onError={(message) => {
+              setNotice("");
+              setError(message);
+            }}
+          />
         ))}
       </div>
       <form onSubmit={(event) => void createGroup(event)} className="grid max-w-xl gap-3 rounded-3xl border border-border p-4">
@@ -129,5 +166,118 @@ export default function AttributeAdmin() {
         <button type="submit" className="rounded-2xl bg-cyan-500 px-4 py-2 text-sm font-bold text-black">ذخیره مقدار</button>
       </form>
     </div>
+  );
+}
+
+function GroupEditor({
+  group,
+  values,
+  onSaveGroup,
+  onSaveValue,
+  onDelete,
+  onError,
+}: {
+  group: AttributeGroupRecord;
+  values: AttributeValueRecord[];
+  onSaveGroup: (group: AttributeGroupRecord, name: string, slug: string) => Promise<void>;
+  onSaveValue: (value: AttributeValueRecord, name: string) => Promise<void>;
+  onDelete: (kind: "group" | "value", id: string, label: string) => Promise<void>;
+  onError: (message: string) => void;
+}) {
+  const [name, setName] = useState(group.name);
+  const [slug, setSlug] = useState(group.slug);
+  const [saving, setSaving] = useState(false);
+
+  async function save(event: FormEvent) {
+    event.preventDefault();
+    setSaving(true);
+    try {
+      await onSaveGroup(group, name, slug);
+    } catch (reason) {
+      onError(reason instanceof Error ? reason.message : "ذخیره انجام نشد");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <section className="rounded-3xl border border-border bg-surface p-4">
+      <form onSubmit={(event) => void save(event)} className="grid gap-3 md:grid-cols-[1fr_1fr_auto_auto] md:items-end">
+        <label className="text-sm">
+          نام گروه
+          <input value={name} onChange={(event) => setName(event.target.value)} className={`${inputClass} mt-1`} required />
+        </label>
+        <label className="text-sm">
+          اسلاگ
+          <input value={slug} onChange={(event) => setSlug(event.target.value)} dir="ltr" className={`${inputClass} mt-1 text-left`} required />
+        </label>
+        <button type="submit" disabled={saving} className="rounded-2xl bg-cyan-500 px-4 py-3 text-sm font-bold text-black disabled:opacity-60">
+          ذخیره
+        </button>
+        <button
+          type="button"
+          onClick={() => void onDelete("group", group.id, `گروه «${group.name}» و مقدارهایش`)}
+          className="rounded-2xl border border-border px-4 py-3 text-sm"
+        >
+          حذف
+        </button>
+      </form>
+      <ul className="mt-4 grid gap-2">
+        {values.map((value) => (
+          <ValueEditor
+            key={`${value.id}:${value.updatedAt}`}
+            value={value}
+            onSave={onSaveValue}
+            onDelete={onDelete}
+            onError={onError}
+          />
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+function ValueEditor({
+  value,
+  onSave,
+  onDelete,
+  onError,
+}: {
+  value: AttributeValueRecord;
+  onSave: (value: AttributeValueRecord, name: string) => Promise<void>;
+  onDelete: (kind: "group" | "value", id: string, label: string) => Promise<void>;
+  onError: (message: string) => void;
+}) {
+  const [name, setName] = useState(value.name);
+  const [saving, setSaving] = useState(false);
+
+  async function save(event: FormEvent) {
+    event.preventDefault();
+    setSaving(true);
+    try {
+      await onSave(value, name);
+    } catch (reason) {
+      onError(reason instanceof Error ? reason.message : "ذخیره انجام نشد");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <li>
+      <form onSubmit={(event) => void save(event)} className="flex flex-wrap items-center gap-2">
+        <input value={name} onChange={(event) => setName(event.target.value)} className={`${inputClass} max-w-xs`} required aria-label={`نام ${value.name}`} />
+        <button type="submit" disabled={saving} className="rounded-2xl border border-border px-3 py-2 text-xs disabled:opacity-60">
+          ذخیره
+        </button>
+        <button
+          type="button"
+          onClick={() => void onDelete("value", value.id, `مقدار «${value.name}»`)}
+          className="rounded-2xl border border-border px-3 py-2 text-xs"
+        >
+          حذف
+        </button>
+      </form>
+    </li>
   );
 }

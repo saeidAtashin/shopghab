@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 
 import { catalogErrorResponse, isAdminSession, requireAdmin } from "@/lib/catalog/http";
-import { createAttribute } from "@/lib/catalog/logic";
-import { attributeCreateSchema } from "@/lib/catalog/schema";
+import { createAttribute, deleteAttribute, updateAttribute } from "@/lib/catalog/logic";
+import { attributeCreateSchema, attributeDeleteSchema, attributeUpdateSchema } from "@/lib/catalog/schema";
 import { mutateCatalog, readCatalog } from "@/lib/catalog/store";
 
 export const dynamic = "force-dynamic";
@@ -29,6 +29,38 @@ export async function POST(request: Request) {
       result: null,
     }));
     return NextResponse.json({ ok: true }, { status: 201 });
+  } catch (error) {
+    return catalogErrorResponse(error);
+  }
+}
+
+export async function PATCH(request: Request) {
+  const session = requireAdmin(request);
+  if (!isAdminSession(session)) return session;
+
+  try {
+    const input = attributeUpdateSchema.parse(await request.json());
+    await mutateCatalog((catalog) => ({
+      catalog: updateAttribute(catalog, input),
+      result: null,
+    }));
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    return catalogErrorResponse(error);
+  }
+}
+
+export async function DELETE(request: Request) {
+  const session = requireAdmin(request);
+  if (!isAdminSession(session)) return session;
+
+  try {
+    const input = attributeDeleteSchema.parse(await request.json());
+    await mutateCatalog((catalog) => ({
+      catalog: deleteAttribute(catalog, input),
+      result: null,
+    }));
+    return NextResponse.json({ ok: true });
   } catch (error) {
     return catalogErrorResponse(error);
   }

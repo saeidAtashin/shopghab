@@ -191,5 +191,6 @@ test("older catalog files gain the new fields on read", () => {
   assert.equal(parsed.categories[0]?.sortOrder, 0);
   assert.deepEqual(parsed.designs[0]?.attributeValueIds, []);
   assert.deepEqual(parsed.designs[0]?.collectionIds, []);
+  assert.deepEqual(parsed.designs[0]?.mockups, []);
   assert.deepEqual(parsed.collections, []);
 });

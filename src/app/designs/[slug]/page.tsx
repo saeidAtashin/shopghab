@@ -14,6 +14,7 @@ import {
   primaryCategory,
   relatedDesigns,
 } from "@/lib/catalog/logic";
+import { selectProductImages } from "@/lib/mockups/display";
 import { readCatalog } from "@/lib/catalog/store";
 import { breadcrumbJsonLd, breadcrumbTrail } from "@/lib/seo/breadcrumbs";
 import { webPageJsonLd } from "@/lib/seo/jsonld";
@@ -70,11 +71,12 @@ export default async function DesignDetailPage({ params }: Props) {
     { label: direct.title },
   );
   const template = getCaseTemplateBySlug(direct.templateSlug) ?? null;
+  const images = selectProductImages(direct);
   const related = relatedDesigns(catalog, direct).map((item) => ({
     slug: item.slug,
     title: item.title,
-    image: item.thumbnailPath || item.imagePath,
-    alt: item.alt || item.title,
+    image: item.thumbnailPath,
+    alt: item.alt,
   }));
 
   return (
@@ -93,9 +95,11 @@ export default async function DesignDetailPage({ params }: Props) {
               template={template}
               title={direct.title}
               description={direct.description || direct.shortDescription || description}
-              imageSrc={direct.imagePath}
-              imageAlt={direct.alt || direct.title}
-              gallery={direct.gallery}
+              imageSrc={images.hero}
+              imageAlt={images.alt}
+              imageWidth={images.width}
+              imageHeight={images.height}
+              gallery={images.gallery}
               categories={categories}
               collections={collections}
               tags={direct.tags}

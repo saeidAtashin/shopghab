@@ -1,5 +1,8 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 
+import { resolveRoleForPhone } from "@/lib/auth-shared";
+import { normalizeIranPhone } from "@/lib/phone";
+
 export const ADMIN_SESSION_COOKIE = "catalog_admin";
 const SESSION_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 
@@ -72,4 +75,41 @@ export function readSessionToken(request: Request): string | undefined {
 
 export function adminSessionFromRequest(request: Request): { phone: string } | null {
   return verifyAdminSessionToken(readSessionToken(request));
+}
+
+function collectPhones(value: unknown, found: Set<string>, depth: number): void {
+  if (depth > 6 || value == null) return;
+  if (typeof value === "string") {
+    const phone = normalizeIranPhone(value);
+    if (phone) found.add(phone);
+    return;
+  }
+  if (Array.isArray(value)) {
+    for (const item of value) collectPhones(item, found, depth + 1);
+    return;
+  }
+  if (typeof value === "object") {
+    for (const item of Object.values(value)) collectPhones(item, found, depth + 1);
+  }
+}
+
+function decodeJwtPayload(token: string): unknown {
+  const body = token.split(".")[1];
+  if (!body) return null;
+  try {
+    return JSON.parse(Buffer.from(body, "base64url").toString("utf8")) as unknown;
+  } catch {
+    return null;
+  }
+}
+
+/** Phone must come from the upstream body or access-token claims, never from the client alone. */
+export function findAdminPhone(upstream: unknown, accessToken?: string): string | null {
+  const phones = new Set<string>();
+  collectPhones(upstream, phones, 0);
+  if (accessToken) collectPhones(decodeJwtPayload(accessToken), phones, 0);
+  for (const phone of phones) {
+    if (resolveRoleForPhone(phone) === "admin") return phone;
+  }
+  return null;
 }

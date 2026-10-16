@@ -6,11 +6,14 @@ import {
   CatalogError,
   categoryCreatesCycle,
   changeDesignSlug,
+  createAttribute,
   createCategory,
   createDesign,
+  deleteAttribute,
   emptyCatalog,
   indexableCatalogPaths,
   syncCatalog,
+  updateAttribute,
   updateCategory,
   updateDesign,
   type CatalogImportEntry,
@@ -103,6 +106,43 @@ test("re-import does not duplicate or overwrite editorial fields", () => {
   assert.equal(second.catalog.designs[0]?.status, "published");
   assert.equal(second.catalog.designs[0]?.imagePath, "/designed/space-cat-2.webp");
   assert.equal(second.catalog.designs[0]?.width, 20);
+});
+
+test("re-import keeps mockup metadata and the editorial gallery", () => {
+  const first = syncCatalog(emptyCatalog(), [entry()], {
+    now: NOW,
+    defaultStatus: "published",
+  });
+  const design = first.catalog.designs[0];
+  assert.ok(design);
+  design.gallery = ["/designed/extra.webp"];
+  design.mockups = [
+    {
+      templateId: "flat-case",
+      path: "/designed/mockups/space-cat/flat-case.webp",
+      thumbPath: "/designed/mockups/space-cat/flat-case.thumb.webp",
+      width: 80,
+      height: 80,
+      contentHash: "abc",
+      templateVersion: "1",
+      generatedAt: NOW,
+      status: "ready",
+      error: "",
+    },
+  ];
+  design.title = "عنوان دستی";
+
+  const second = syncCatalog(
+    first.catalog,
+    [entry({ imagePath: "/designed/space-cat-2.webp", width: 20 })],
+    { now: "2026-02-01T00:00:00.000Z", defaultStatus: "draft" },
+  );
+
+  assert.equal(second.catalog.designs[0]?.title, "عنوان دستی");
+  assert.deepEqual(second.catalog.designs[0]?.gallery, ["/designed/extra.webp"]);
+  assert.equal(second.catalog.designs[0]?.mockups[0]?.templateId, "flat-case");
+  assert.equal(second.catalog.designs[0]?.mockups[0]?.status, "ready");
+  assert.equal(second.catalog.designs[0]?.imagePath, "/designed/space-cat-2.webp");
 });
 
 test("missing source files are kept and reported", () => {
@@ -206,6 +246,64 @@ test("sitemap includes published designs and categories and skips drafts", () =>
   assert.ok(paths.includes("/designs/space-cat"));
   assert.ok(paths.includes("/designs/category/abstract"));
   assert.equal(paths.includes("/designs/draft-cat"), false);
+});
+
+test("attribute update renames a group and rejects a duplicate slug", () => {
+  let catalog = createAttribute(emptyCatalog(), { kind: "group", name: "رنگ", slug: "color" }, NOW);
+  catalog = createAttribute(catalog, { kind: "group", name: "سبک", slug: "style" }, NOW);
+  const color = catalog.attributeGroups.find((group) => group.slug === "color");
+  assert.ok(color);
+
+  catalog = updateAttribute(catalog, { kind: "group", id: color.id, name: "فام", slug: "hue" }, NOW);
+  assert.equal(catalog.attributeGroups.find((group) => group.id === color.id)?.name, "فام");
+  assert.equal(catalog.attributeGroups.find((group) => group.id === color.id)?.slug, "hue");
+
+  assert.throws(
+    () => updateAttribute(catalog, { kind: "group", id: color.id, name: "سبک", slug: "style" }, NOW),
+    (error: unknown) => error instanceof CatalogError && error.status === 409,
+  );
+});
+
+test("deleting an attribute value removes it from designs", () => {
+  let catalog = createAttribute(emptyCatalog(), { kind: "group", name: "رنگ", slug: "color" }, NOW);
+  const group = catalog.attributeGroups[0];
+  assert.ok(group);
+  catalog = createAttribute(catalog, { kind: "value", groupId: group.id, name: "آبی" }, NOW);
+  const value = catalog.attributeValues[0];
+  assert.ok(value);
+  catalog = createDesign(
+    catalog,
+    writeInput({ attributeValueIds: [value.id] }),
+    NOW,
+  ).catalog;
+
+  catalog = deleteAttribute(catalog, { kind: "value", id: value.id });
+  assert.equal(catalog.attributeValues.length, 0);
+  assert.deepEqual(catalog.designs[0]?.attributeValueIds, []);
+});
+
+test("deleting an attribute group removes its values from designs", () => {
+  let catalog = createAttribute(emptyCatalog(), { kind: "group", name: "رنگ", slug: "color" }, NOW);
+  const group = catalog.attributeGroups[0];
+  assert.ok(group);
+  catalog = createAttribute(catalog, { kind: "value", groupId: group.id, name: "آبی" }, NOW);
+  const value = catalog.attributeValues[0];
+  assert.ok(value);
+  catalog = createDesign(
+    catalog,
+    writeInput({ attributeValueIds: [value.id] }),
+    NOW,
+  ).catalog;
+
+  catalog = deleteAttribute(catalog, { kind: "group", id: group.id });
+  assert.equal(catalog.attributeGroups.length, 0);
+  assert.equal(catalog.attributeValues.length, 0);
+  assert.deepEqual(catalog.designs[0]?.attributeValueIds, []);
+
+  assert.throws(
+    () => deleteAttribute(catalog, { kind: "group", id: group.id }),
+    (error: unknown) => error instanceof CatalogError && error.status === 404,
+  );
 });
 
 function updateDesignStatusOnly(catalog: ReturnType<typeof emptyCatalog>, id: string) {

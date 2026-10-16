@@ -48,3 +48,11 @@ next-env.d.ts
 # case design source files (EPS/JPG originals — not served on web)
 /designed-source/*
 !/designed-source/README.md
+
+# phone-case mockup masters and prepared stacks (never served)
+/mockup-templates/psd/*
+!/mockup-templates/psd/.gitkeep
+/mockup-templates/prepared/*
+!/mockup-templates/prepared/.gitkeep
+/mockup-templates/inspection/*
+!/mockup-templates/inspection/.gitkeep
