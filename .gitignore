@@ -45,6 +45,9 @@ next-env.d.ts
 # uploads
 /public/uploads/
 
+# PSD masters must not be publicly served; originals live in the separate LFS repo
+/public/psds/
+
 # case design source files (EPS/JPG originals — not served on web)
 /designed-source/*
 !/designed-source/README.md

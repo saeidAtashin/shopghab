@@ -13,7 +13,7 @@ npm run mockups:status
 
 ## Layout
 
-- `psd/` — original PSD files. Do not edit them. They are gitignored.
+- `psd/` — original PSD files. Do not edit them. The shop repo ignores these bytes. The same files are stored with Git LFS in the private repo `shopghab-mockup-psds`.
 - `prepared/{template-id}/` — one-time exports used by the portable renderer: `base.png`, `mask.png`, optional `shade.png`, `highlight.png`, and `displacement.png`.
 - `inspection/` — structure reports from `mockups:inspect`. Not a proof that a Smart Object can be replaced.
 - `templates.config.ts` — one entry per template.
