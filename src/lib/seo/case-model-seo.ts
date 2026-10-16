@@ -4,7 +4,6 @@ import {
   CASE_TYPES,
 } from "@/lib/cases/brands.static";
 import type { PhoneBrand, PhoneModel } from "@/lib/cases/types";
-import type { CaseTemplate } from "@/lib/design/types";
 import { breadcrumbJsonLd } from "./breadcrumbs";
 import { faqPageJsonLd, itemListJsonLd, webPageJsonLd } from "./jsonld";
 import { DEFAULT_OG_IMAGE } from "./site";
@@ -79,7 +78,7 @@ const MODEL_FAQ = [
 
 export function modelPageJsonLd(
   ctx: ModelSeoContext,
-  templates: CaseTemplate[],
+  templates: { title: string; slug: string }[],
 ): Record<string, unknown>[] {
   const schemas: Record<string, unknown>[] = [
     webPageJsonLd({

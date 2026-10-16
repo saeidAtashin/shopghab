@@ -17,8 +17,9 @@ import {
   type AuthLoginPayload,
   type SessionUser,
 } from "@/lib/auth-api";
-import { getPostLoginPath } from "@/lib/auth-shared";
+import { getPostLoginPath, resolveRoleForPhone } from "@/lib/auth-shared";
 import { apiRequest, ApiError } from "@/lib/api-client";
+import { normalizeIranPhone } from "@/lib/phone";
 import {
   clearAuthSession,
   setAuthToken,
@@ -71,6 +72,26 @@ function isSuccessfulPayload(payload: AuthPayload): boolean {
   return payload.success !== false;
 }
 
+function isAdminPhone(phone: string): boolean {
+  const normalized = normalizeIranPhone(phone);
+  return normalized != null && resolveRoleForPhone(normalized) === "admin";
+}
+
+async function loginThroughAdminSession(body: {
+  phone_number: string;
+  password?: string;
+  otp?: string;
+}): Promise<AuthPayload | null> {
+  const response = await fetch("/api/admin/session", {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  if (!response.ok) return null;
+  return (await response.json()) as AuthPayload;
+}
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const [user, setUser] = useState<SessionUser | null>(null);
@@ -118,13 +139,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const loginWithPassword = useCallback(
     async (phone_number: string, password: string): Promise<SessionUser | null> => {
       try {
-        const data = await apiRequest<AuthPayload>("/auth/login/", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ phone_number, password }),
-          auth: false,
-        });
+        const data = isAdminPhone(phone_number)
+          ? await loginThroughAdminSession({ phone_number, password })
+          : await apiRequest<AuthPayload>("/auth/login/", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ phone_number, password }),
+              auth: false,
+            });
 
+        if (!data) return null;
         const tokenData = extractAuthTokenData(data);
         if (!isSuccessfulPayload(data) || !tokenData?.refresh) {
           return null;
@@ -173,12 +197,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       options: LoginSessionOptions = {},
     ): Promise<LoginWithOtpResult> => {
       try {
-        const data = await apiRequest<AuthPayload>("/auth/verify-otp/", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ phone_number, otp }),
-          auth: false,
-        });
+        const data = isAdminPhone(phone_number)
+          ? await loginThroughAdminSession({ phone_number, otp })
+          : await apiRequest<AuthPayload>("/auth/verify-otp/", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ phone_number, otp }),
+              auth: false,
+            });
+
+        if (!data) {
+          return { user: null, message: "ورود مدیر تایید نشد" };
+        }
 
         const tokenData = extractAuthTokenData(data);
         if (!isSuccessfulPayload(data) || !tokenData?.refresh) {
@@ -215,6 +245,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const logout = useCallback(async () => {
+    try {
+      await fetch("/api/admin/session", { method: "DELETE", credentials: "include" });
+    } catch {
+      // The catalog cookie is cleared locally when the response arrives.
+    }
     try {
       await apiRequest("/api/auth/logout", { method: "POST" });
     } catch {

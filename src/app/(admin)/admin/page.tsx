@@ -1,6 +1,7 @@
 "use client";
 
 import { useAuth } from "@/app/context/AuthContext";
+import { AdminNav } from "@/app/components/admin/AdminShell";
 import { useEffect, useState } from "react";
 import { apiRequest, ApiError } from "@/lib/api-client";
 import {
@@ -111,6 +112,7 @@ export default function AdminPage() {
     <main id="main" tabIndex={-1} className="min-h-screen  bg-[#050816] text-foreground p-6 md:p-10">
       <div className="max-w-7xl mx-auto pt-14">
         <div className="mb-10">
+          <AdminNav />
           <h1 className="text-4xl font-black text-cyan-400 mb-3">پنل مدیریت</h1>
 
           <p className="text-muted">

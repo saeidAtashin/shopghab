@@ -1,0 +1,217 @@
+import assert from "node:assert/strict";
+import test from "node:test";
+
+import { stableDesignId } from "./ids";
+import {
+  CatalogError,
+  categoryCreatesCycle,
+  changeDesignSlug,
+  createCategory,
+  createDesign,
+  emptyCatalog,
+  indexableCatalogPaths,
+  syncCatalog,
+  updateCategory,
+  updateDesign,
+  type CatalogImportEntry,
+} from "./logic";
+import type { DesignWriteInput } from "./schema";
+
+const NOW = "2026-01-01T00:00:00.000Z";
+
+function entry(overrides: Partial<CatalogImportEntry> = {}): CatalogImportEntry {
+  return {
+    sourceKey: "abstract/space-cat.eps",
+    templateSlug: "space-cat",
+    categorySlug: "abstract",
+    subcategory: "others",
+    titleHint: "گربه فضایی",
+    descriptionHint: "طرح گربه فضایی",
+    tagsHint: ["گربه"],
+    imagePath: "/designed/space-cat.webp",
+    thumbnailPath: "/designed/thumbs/space-cat.webp",
+    width: 1000,
+    height: 1000,
+    ...overrides,
+  };
+}
+
+function writeInput(overrides: Partial<DesignWriteInput> = {}): DesignWriteInput {
+  return {
+    title: "گربه فضایی",
+    titleEn: "Space Cat",
+    slug: "space-cat",
+    shortDescription: "کوتاه",
+    description: "کامل",
+    categoryIds: [],
+    tags: ["گربه"],
+    colors: ["آبی"],
+    styles: ["مینیمال"],
+    alt: "گربه فضایی",
+    imagePath: "/designed/space-cat.webp",
+    thumbnailPath: "/designed/thumbs/space-cat.webp",
+    gallery: [],
+    seoTitle: "سئو گربه",
+    seoDescription: "توضیح سئو",
+    ogImage: "",
+    status: "published",
+    featured: true,
+    sortOrder: 1,
+    templateSlug: "space-cat",
+    ...overrides,
+  };
+}
+
+test("import creates one catalog record with a stable id", () => {
+  const result = syncCatalog(emptyCatalog(), [entry()], {
+    now: NOW,
+    defaultStatus: "draft",
+  });
+
+  assert.equal(result.report.created.length, 1);
+  assert.equal(result.catalog.designs.length, 1);
+  assert.equal(result.catalog.designs[0]?.id, stableDesignId("abstract/space-cat.eps"));
+  assert.equal(result.catalog.designs[0]?.status, "draft");
+  assert.equal(result.catalog.designs[0]?.categoryIds.length, 1);
+});
+
+test("re-import does not duplicate or overwrite editorial fields", () => {
+  const first = syncCatalog(emptyCatalog(), [entry()], {
+    now: NOW,
+    defaultStatus: "published",
+  });
+  const design = first.catalog.designs[0];
+  assert.ok(design);
+  const categoryId = first.catalog.categories[0]?.id;
+  assert.ok(categoryId);
+
+  const edited = updateDesign(first.catalog, design.id, writeInput({ categoryIds: [categoryId] }), NOW);
+  edited.design.title = "عنوان دستی";
+
+  const second = syncCatalog(
+    edited.catalog,
+    [entry({ titleHint: "عنوان جدید فایل", imagePath: "/designed/space-cat-2.webp", width: 20 })],
+    { now: "2026-02-01T00:00:00.000Z", defaultStatus: "draft" },
+  );
+
+  assert.equal(second.catalog.designs.length, 1);
+  assert.equal(second.report.created.length, 0);
+  assert.equal(second.report.editorialPreserved.length, 1);
+  assert.equal(second.catalog.designs[0]?.title, "عنوان دستی");
+  assert.equal(second.catalog.designs[0]?.seoTitle, "سئو گربه");
+  assert.deepEqual(second.catalog.designs[0]?.categoryIds, [categoryId]);
+  assert.equal(second.catalog.designs[0]?.status, "published");
+  assert.equal(second.catalog.designs[0]?.imagePath, "/designed/space-cat-2.webp");
+  assert.equal(second.catalog.designs[0]?.width, 20);
+});
+
+test("missing source files are kept and reported", () => {
+  const first = syncCatalog(emptyCatalog(), [entry(), entry({
+    sourceKey: "islamic/moon.eps",
+    templateSlug: "moon",
+    categorySlug: "islamic",
+    titleHint: "ماه",
+  })], { now: NOW, defaultStatus: "published" });
+
+  const second = syncCatalog(first.catalog, [entry()], {
+    now: "2026-02-01T00:00:00.000Z",
+    defaultStatus: "draft",
+  });
+
+  assert.equal(second.catalog.designs.length, 2);
+  assert.equal(second.report.missingAssets.length, 1);
+  const missing = second.catalog.designs.find((design) => design.templateSlug === "moon");
+  assert.equal(missing?.assetMissing, true);
+  assert.equal(missing?.title, "ماه");
+});
+
+test("slug changes keep a permanent redirect and reject duplicates", () => {
+  const created = createDesign(emptyCatalog(), writeInput(), NOW);
+  const design = created.design;
+  changeDesignSlug(created.catalog, design, "space-cat-new");
+  assert.equal(design.slug, "space-cat-new");
+  assert.deepEqual(created.catalog.redirects, [
+    { fromSlug: "space-cat", toSlug: "space-cat-new", designId: design.id },
+  ]);
+
+  const other = createDesign(created.catalog, writeInput({ slug: "other", title: "دیگر" }), NOW);
+  assert.throws(
+    () => changeDesignSlug(other.catalog, other.design, "space-cat-new"),
+    (error: unknown) => error instanceof CatalogError && error.status === 409,
+  );
+});
+
+test("category parent cycles are rejected", () => {
+  let catalog = emptyCatalog();
+  const parent = createCategory(catalog, {
+    name: "فضا",
+    slug: "space",
+    parentId: null,
+    description: "",
+    seoTitle: "",
+    seoDescription: "",
+    coverImage: "",
+    status: "active",
+  }, NOW);
+  catalog = parent.catalog;
+  const child = createCategory(catalog, {
+    name: "گربه",
+    slug: "cats",
+    parentId: parent.category.id,
+    description: "",
+    seoTitle: "",
+    seoDescription: "",
+    coverImage: "",
+    status: "active",
+  }, NOW);
+  catalog = child.catalog;
+
+  assert.equal(
+    categoryCreatesCycle(catalog.categories, parent.category.id, child.category.id),
+    true,
+  );
+  assert.throws(
+    () =>
+      updateCategory(catalog, parent.category.id, {
+        name: "فضا",
+        slug: "space",
+        parentId: child.category.id,
+        description: "",
+        seoTitle: "",
+        seoDescription: "",
+        coverImage: "",
+        status: "active",
+      }),
+    (error: unknown) => error instanceof CatalogError && error.status === 400,
+  );
+});
+
+test("sitemap includes published designs and categories and skips drafts", () => {
+  const imported = syncCatalog(
+    emptyCatalog(),
+    [
+      entry(),
+      entry({
+        sourceKey: "abstract/draft-cat.eps",
+        templateSlug: "draft-cat",
+        titleHint: "پیش‌نویس",
+        imagePath: "/designed/draft-cat.webp",
+      }),
+    ],
+    { now: NOW, defaultStatus: "draft" },
+  );
+  const published = updateDesignStatusOnly(imported.catalog, imported.catalog.designs[0]?.id ?? "");
+  const paths = indexableCatalogPaths(published).map((item) => item.path);
+
+  assert.ok(paths.includes("/designs/space-cat"));
+  assert.ok(paths.includes("/designs/category/abstract"));
+  assert.equal(paths.includes("/designs/draft-cat"), false);
+});
+
+function updateDesignStatusOnly(catalog: ReturnType<typeof emptyCatalog>, id: string) {
+  const design = catalog.designs.find((item) => item.id === id);
+  assert.ok(design);
+  design.status = "published";
+  design.publishedAt = NOW;
+  return catalog;
+}

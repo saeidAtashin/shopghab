@@ -1,6 +1,5 @@
 import { PHONE_BRANDS, PHONE_MODELS } from "@/lib/cases/brands.static";
 import { READY_CASES } from "@/lib/cases/ready.static";
-import { getDesignedTemplates } from "@/lib/cases/templates.static";
 
 export type SitemapEntry = {
   path: string;
@@ -40,11 +39,6 @@ export const PUBLIC_SITEMAP_ENTRIES: SitemapEntry[] = [
     path: `/cases/${product.slug}`,
     changeFrequency: "weekly" as const,
     priority: 0.75,
-  })),
-  ...getDesignedTemplates().map((template) => ({
-    path: `/designs/${template.slug}`,
-    changeFrequency: "monthly" as const,
-    priority: 0.6,
   })),
   { path: "/tracking", changeFrequency: "monthly", priority: 0.6 },
   { path: "/about-us", changeFrequency: "monthly", priority: 0.5 },

@@ -9,7 +9,9 @@
     "generate:phone-backs": "npx tsx scripts/generate-phone-backs.ts",
     "generate:use-fonts": "npx tsx scripts/generate-use-fonts.ts",
     "setup:ghostscript": "powershell -ExecutionPolicy Bypass -File scripts/setup-ghostscript.ps1",
-    "convert:designed": "npx tsx scripts/convert-designed-eps.ts"
+    "convert:designed": "npx tsx scripts/convert-designed-eps.ts",
+    "catalog:sync": "npx tsx scripts/catalog-sync.ts",
+    "test": "npx tsx --test src/lib/catalog/catalog.test.ts src/lib/catalog/catalog-route.test.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

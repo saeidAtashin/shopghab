@@ -5,6 +5,10 @@ import HomeHero from "@/app/components/home/hero/HomeHero";
 import { PhoneBackSvg } from "@/app/components/case-wizard/PhoneBackSvg";
 import { getHeroTemplates } from "@/app/components/home/hero/hero.constants";
 import { getModelBySlug } from "@/lib/cases/brands.static";
+import { getCaseTemplateBySlug } from "@/lib/cases/templates.static";
+import { designHasImage, isPublishedDesign } from "@/lib/catalog/logic";
+import { readCatalog } from "@/lib/catalog/store";
+import type { CaseTemplate } from "@/lib/design/types";
 
 const POPULAR_MODELS = [
   { brandSlug: "apple", modelSlug: "iphone-16-pro" },
@@ -24,8 +28,28 @@ function getPopularModels() {
   return models;
 }
 
+function publishedHomeTemplates() {
+  const published = readCatalog()
+    .designs.filter((design) => isPublishedDesign(design) && designHasImage(design))
+    .sort((a, b) => {
+      if (a.featured !== b.featured) return a.featured ? -1 : 1;
+      if (a.sortOrder !== b.sortOrder) return a.sortOrder - b.sortOrder;
+      return (b.publishedAt ?? b.createdAt).localeCompare(a.publishedAt ?? a.createdAt);
+    });
+
+  const templates: CaseTemplate[] = [];
+  for (const design of published) {
+    const template = getCaseTemplateBySlug(design.templateSlug);
+    if (!template) continue;
+    templates.push(template);
+    if (templates.length === 4) break;
+  }
+
+  return templates.length > 0 ? templates : getHeroTemplates().slice(0, 4);
+}
+
 export default function HomeCasePage() {
-  const heroTemplates = getHeroTemplates();
+  const heroTemplates = publishedHomeTemplates();
   const popularModels = getPopularModels();
 
   return (
