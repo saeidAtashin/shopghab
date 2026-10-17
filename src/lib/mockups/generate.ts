@@ -3,6 +3,8 @@ import { assertSafeId } from "./paths";
 import { renderDesignTemplates } from "./render";
 import type { MockupRecord, MockupTemplateConfig } from "./types";
 
+type MutateCatalog = typeof import("../catalog/store").mutateCatalog;
+
 export type GenerateMockupReport = {
   designs: number;
   ready: number;
@@ -60,7 +62,7 @@ function outputFolder(id: string, slug: string): string {
 }
 
 async function saveDesignMockups(
-  mutateCatalog: <T>(fn: (catalog: { designs: { id: string; mockups: MockupRecord[] }[] }) => { catalog: { designs: { id: string; mockups: MockupRecord[] }[] }; result: T }) => Promise<T>,
+  mutateCatalog: MutateCatalog,
   designId: string,
   updates: MockupRecord[],
 ): Promise<void> {
