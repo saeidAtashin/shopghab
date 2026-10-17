@@ -10,6 +10,7 @@ import sharp from "sharp";
 import { validateMockupTemplates } from "./config";
 import { buildPrintableTexture } from "./composite";
 import { selectProductImages } from "./display";
+import { templateForDesign } from "./generate";
 import { MockupError } from "./errors";
 import { artworkFullyInside, aspectPreserved, containPlacement, filledTextureSize } from "./fit";
 import { inspectPsdBuffer } from "./inspect";
@@ -287,6 +288,23 @@ test("perspective warp keeps source color inside the quad and transparency outsi
   const inside = (4 * 8 + 4) * 4;
   assert.ok((warped.data[inside + 3] ?? 0) > 200);
   assert.ok((warped.data[inside] ?? 0) > 200);
+});
+
+test("each design keeps one stable mockup template", () => {
+  const templates = [
+    placementTemplate({ id: "cover", default: true }),
+    placementTemplate({ id: "case", default: false }),
+    placementTemplate({ id: "pro", default: false }),
+    placementTemplate({ id: "perspective", default: false }),
+  ];
+  const chosen = templateForDesign("dsn_one", templates);
+  assert.equal(templateForDesign("dsn_one", templates).id, chosen.id);
+  const ids = new Set(
+    ["dsn_one", "dsn_two", "dsn_three", "dsn_four", "dsn_five", "dsn_six", "dsn_seven", "dsn_eight"].map(
+      (id) => templateForDesign(id, templates).id,
+    ),
+  );
+  assert.ok(ids.size > 1);
 });
 
 test("storefront uses the first ready mockup and keeps editorial gallery frames", () => {

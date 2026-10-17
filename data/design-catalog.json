@@ -11,9 +11,9 @@
       "seoDescription": "",
       "coverImage": "",
       "status": "active",
-      "sortOrder": 0,
+      "sortOrder": 10,
       "createdAt": "2026-10-16T18:51:06.284Z",
-      "updatedAt": "2026-10-16T18:51:06.284Z"
+      "updatedAt": "2026-10-17T08:21:00.040Z"
     },
     {
       "id": "cat_0feae16d5536",
@@ -25,9 +25,9 @@
       "seoDescription": "",
       "coverImage": "",
       "status": "active",
-      "sortOrder": 0,
+      "sortOrder": 20,
       "createdAt": "2026-10-16T18:51:06.284Z",
-      "updatedAt": "2026-10-16T18:51:06.284Z"
+      "updatedAt": "2026-10-17T08:21:00.040Z"
     },
     {
       "id": "cat_f2b5ed7f94e6",
@@ -39,9 +39,9 @@
       "seoDescription": "",
       "coverImage": "",
       "status": "active",
-      "sortOrder": 0,
+      "sortOrder": 30,
       "createdAt": "2026-10-16T18:51:06.284Z",
-      "updatedAt": "2026-10-16T18:51:06.284Z"
+      "updatedAt": "2026-10-17T08:21:00.040Z"
     },
     {
       "id": "cat_13c8bb6d4284",
@@ -53,9 +53,9 @@
       "seoDescription": "",
       "coverImage": "",
       "status": "active",
-      "sortOrder": 100,
+      "sortOrder": 40,
       "createdAt": "2026-10-16T19:38:05.400Z",
-      "updatedAt": "2026-10-16T19:38:05.400Z"
+      "updatedAt": "2026-10-17T08:21:00.040Z"
     },
     {
       "id": "cat_ceb5e6ab1679",
@@ -207,9 +207,9 @@
       "seoDescription": "",
       "coverImage": "",
       "status": "active",
-      "sortOrder": 200,
+      "sortOrder": 50,
       "createdAt": "2026-10-16T19:38:05.400Z",
-      "updatedAt": "2026-10-16T19:38:05.400Z"
+      "updatedAt": "2026-10-17T08:21:00.040Z"
     },
     {
       "id": "cat_d4f343f4b3a5",
@@ -417,9 +417,9 @@
       "seoDescription": "",
       "coverImage": "",
       "status": "active",
-      "sortOrder": 300,
+      "sortOrder": 60,
       "createdAt": "2026-10-16T19:38:05.400Z",
-      "updatedAt": "2026-10-16T19:38:05.400Z"
+      "updatedAt": "2026-10-17T08:21:00.040Z"
     },
     {
       "id": "cat_6cf551896e83",
@@ -627,9 +627,9 @@
       "seoDescription": "",
       "coverImage": "",
       "status": "active",
-      "sortOrder": 400,
+      "sortOrder": 70,
       "createdAt": "2026-10-16T19:38:05.400Z",
-      "updatedAt": "2026-10-16T19:38:05.400Z"
+      "updatedAt": "2026-10-17T08:21:00.040Z"
     },
     {
       "id": "cat_e1d11e42e5c2",
@@ -823,9 +823,9 @@
       "seoDescription": "",
       "coverImage": "",
       "status": "active",
-      "sortOrder": 500,
+      "sortOrder": 80,
       "createdAt": "2026-10-16T19:38:05.400Z",
-      "updatedAt": "2026-10-16T19:38:05.400Z"
+      "updatedAt": "2026-10-17T08:21:00.040Z"
     },
     {
       "id": "cat_995479386f87",
@@ -1005,9 +1005,9 @@
       "seoDescription": "",
       "coverImage": "",
       "status": "active",
-      "sortOrder": 600,
+      "sortOrder": 90,
       "createdAt": "2026-10-16T19:38:05.400Z",
-      "updatedAt": "2026-10-16T19:38:05.400Z"
+      "updatedAt": "2026-10-17T08:21:00.040Z"
     },
     {
       "id": "cat_17754439c885",
@@ -1159,9 +1159,9 @@
       "seoDescription": "",
       "coverImage": "",
       "status": "active",
-      "sortOrder": 700,
+      "sortOrder": 100,
       "createdAt": "2026-10-16T19:38:05.400Z",
-      "updatedAt": "2026-10-16T19:38:05.400Z"
+      "updatedAt": "2026-10-17T08:21:00.040Z"
     },
     {
       "id": "cat_c01c7694d73f",
@@ -1369,9 +1369,9 @@
       "seoDescription": "",
       "coverImage": "",
       "status": "active",
-      "sortOrder": 800,
+      "sortOrder": 110,
       "createdAt": "2026-10-16T19:38:05.400Z",
-      "updatedAt": "2026-10-16T19:38:05.400Z"
+      "updatedAt": "2026-10-17T08:21:00.040Z"
     },
     {
       "id": "cat_8af2179a66f2",
@@ -1509,9 +1509,9 @@
       "seoDescription": "",
       "coverImage": "",
       "status": "active",
-      "sortOrder": 900,
+      "sortOrder": 120,
       "createdAt": "2026-10-16T19:38:05.400Z",
-      "updatedAt": "2026-10-16T19:38:05.400Z"
+      "updatedAt": "2026-10-17T08:21:00.040Z"
     },
     {
       "id": "cat_e9b702e4bf28",
@@ -1677,9 +1677,9 @@
       "seoDescription": "",
       "coverImage": "",
       "status": "active",
-      "sortOrder": 1000,
+      "sortOrder": 130,
       "createdAt": "2026-10-16T19:38:05.400Z",
-      "updatedAt": "2026-10-16T19:38:05.400Z"
+      "updatedAt": "2026-10-17T08:21:00.040Z"
     },
     {
       "id": "cat_6fd276510973",
@@ -1859,9 +1859,9 @@
       "seoDescription": "",
       "coverImage": "",
       "status": "active",
-      "sortOrder": 1100,
+      "sortOrder": 140,
       "createdAt": "2026-10-16T19:38:05.400Z",
-      "updatedAt": "2026-10-16T19:38:05.400Z"
+      "updatedAt": "2026-10-17T08:21:00.040Z"
     },
     {
       "id": "cat_487b4e05ca10",
@@ -2013,9 +2013,9 @@
       "seoDescription": "",
       "coverImage": "",
       "status": "active",
-      "sortOrder": 1200,
+      "sortOrder": 150,
       "createdAt": "2026-10-16T19:38:05.400Z",
-      "updatedAt": "2026-10-16T19:38:05.400Z"
+      "updatedAt": "2026-10-17T08:21:00.040Z"
     },
     {
       "id": "cat_a641f60d8c1e",
@@ -2181,9 +2181,9 @@
       "seoDescription": "",
       "coverImage": "",
       "status": "active",
-      "sortOrder": 1300,
+      "sortOrder": 160,
       "createdAt": "2026-10-16T19:38:05.400Z",
-      "updatedAt": "2026-10-16T19:38:05.400Z"
+      "updatedAt": "2026-10-17T08:21:00.040Z"
     },
     {
       "id": "cat_279c1e2a61a4",
@@ -2335,9 +2335,9 @@
       "seoDescription": "",
       "coverImage": "",
       "status": "active",
-      "sortOrder": 1400,
+      "sortOrder": 170,
       "createdAt": "2026-10-16T19:38:05.400Z",
-      "updatedAt": "2026-10-16T19:38:05.400Z"
+      "updatedAt": "2026-10-17T08:21:00.040Z"
     },
     {
       "id": "cat_dfae3c5b3dcf",
@@ -2489,9 +2489,9 @@
       "seoDescription": "",
       "coverImage": "",
       "status": "active",
-      "sortOrder": 1500,
+      "sortOrder": 180,
       "createdAt": "2026-10-16T19:38:05.400Z",
-      "updatedAt": "2026-10-16T19:38:05.400Z"
+      "updatedAt": "2026-10-17T08:21:00.040Z"
     },
     {
       "id": "cat_dbdf8a34dab5",
@@ -2671,9 +2671,9 @@
       "seoDescription": "",
       "coverImage": "",
       "status": "active",
-      "sortOrder": 1600,
+      "sortOrder": 190,
       "createdAt": "2026-10-16T19:38:05.400Z",
-      "updatedAt": "2026-10-16T19:38:05.400Z"
+      "updatedAt": "2026-10-17T08:21:00.040Z"
     },
     {
       "id": "cat_e5acd9fb29a7",
@@ -2895,9 +2895,9 @@
       "seoDescription": "",
       "coverImage": "",
       "status": "active",
-      "sortOrder": 1700,
+      "sortOrder": 200,
       "createdAt": "2026-10-16T19:38:05.400Z",
-      "updatedAt": "2026-10-16T19:38:05.400Z"
+      "updatedAt": "2026-10-17T08:21:00.040Z"
     },
     {
       "id": "cat_3d002c5c7782",
@@ -3013,6 +3013,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی 1164",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/1164/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/1164/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "e9ec735ee4cb4073fa5eb1eefbc6cdda3f589586146e358507a979ccc30af667",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:07:55.963Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -3052,6 +3066,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی 14507",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/14507_generated/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/14507_generated/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "04025055efcfcaa3bb5a0a8ea76e7a8bd6ae1b0712632b083c51794d0f79bfb2",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:14:22.370Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -3091,6 +3119,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی 1977",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/1977/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/1977/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "9970d4e6c9b0a6750710eed59fdec8ee9718eec5b9d6f64099a4c88033cfc8da",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:14:23.871Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -3130,6 +3172,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی 2",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/2/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/2/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "5b11c9eef03ea38b4940bbbd2a8a126ec8b7d3236b5e19979daf276b9698ac5c",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:14:25.037Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -3169,6 +3225,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی 27",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/27_generated/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/27_generated/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "0c3ce9e135963137add376d7c4f8e369eb6f1a523b3f92b4be61ee85af21a820",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:14:26.570Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -3208,6 +3278,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی 3",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/3/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/3/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "7bd70bd0d88f353829aca9075f603b752f591cd33666e0f19646bc76da29152c",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:14:27.867Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -3247,6 +3331,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی 4",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/4_generated/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/4_generated/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "d4739077c9bed149a4624b915950a5121d2b8bfa707542d51d184011301ce1fd",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:14:29.071Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -3286,6 +3384,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی 6",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/6/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/6/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "9e5641425be17080cc79180fadab86449f1ef11dd689d3a7d919863f10ba6048",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:14:30.246Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -3325,6 +3437,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی 7600089",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/7600089/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/7600089/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "19d841665fe9346d9c45e88fa452936d4cde3093a77098a573845582a535b1ca",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:14:31.369Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -3364,6 +3490,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی 89 2",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/89-2_generated/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/89-2_generated/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "efa37a86d42db5ab4ef71cc8b7240a0825bcdd411ff12895dd8f26b4dd01b75a",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:14:32.632Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -3403,6 +3543,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی 95",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/95/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/95/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "8dc747be79d68add2f27efa18d0b951b8dc6648831abb878c720281e0b1bb45e",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:14:34.451Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -3442,6 +3596,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی 97",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/97/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/97/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "8fc72109ba93eb2c0292a033de95ba74a3bd3c3e9dfb9510cd745b484aabecca",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:14:35.897Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -3481,6 +3649,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Pattern Background Vector",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/abstract-pattern-background-vector/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/abstract-pattern-background-vector/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "ee8d03c83f4488629a9d798cdc24bd4cf68a104aa023badd950daecff2ef71c7",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:14:37.006Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -3520,6 +3702,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Background design 9",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/dsn_6b199ab8bdb76f46/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/dsn_6b199ab8bdb76f46/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "86993bb115db7a65cbda671d332e5a342ef7d4349ce88a3aaa81989881a7a484",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:18:44.227Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -3559,6 +3755,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی DD Grunge Lines Background 22090 Preview",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/dsn_1c67af4062a65321/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/dsn_1c67af4062a65321/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "9176bb528d8fce0fd453667bf534c7ca9020ddca53fb694a71fdd8e8b1607e96",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:18:45.246Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -3598,6 +3808,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Forest3",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/forest3_generated/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/forest3_generated/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "847cbe0caa5d9a68c30510a326b8a532e44135a9e5960c9eac23a1fbf8f4278c",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:13.092Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -3637,6 +3861,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Free Star Background Vector 1",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/dsn_577a0fbf4edec958/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/dsn_577a0fbf4edec958/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "7c21aa2460f6e83b8bfe5ed4880efbff9fc6aa61d6724ef16e23d3419286b45a",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:18:46.184Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -3675,6 +3913,20 @@
       "collectionIds": [],
       "alt": "برگ نخل",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/palm-tree-leaves/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/palm-tree-leaves/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "aa2831b9647fcbe25912653b01205c2c2803b9d61cc7d455d13a527519ae64a2",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:14.742Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -3714,6 +3966,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Patt 121",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/dsn_3cf63ba1aedb2c52/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/dsn_3cf63ba1aedb2c52/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "38dfaeac7e4211a217b9b0a871dea373aef683778e21de0d3b63e8f3cff31ee1",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:18:47.779Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -3753,6 +4019,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Q63",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/dsn_ec4492b5185c1646/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/dsn_ec4492b5185c1646/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "34af519abf7844b283b1fac064c12b2f7dbd5ad8264813d13762236246816a0a",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:18:48.945Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -3792,6 +4072,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی 3d Modern Wave Curve Abstract Presentation Background Lines",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_3d-modern-wave-curve-abstract-presentation-background-lines_13559780-1/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_3d-modern-wave-curve-abstract-presentation-background-lines_13559780-1/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "86317bb0c2ec2c162f357499052e1cdddd5b740dee15ff25cbceb794883e30cb",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:16.509Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -3831,6 +4125,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی A Collection Of Abstract Floral Patterns Designed In Simple",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_a-collection-of-abstract-floral-patterns-designed-in-simple_6873270/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_a-collection-of-abstract-floral-patterns-designed-in-simple_6873270/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "048b30b3dc2ff5bc338d61d433fa332ae1de7e54ce55a01b184bb1fa5974841b",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:17.750Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -3870,6 +4178,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Art Woodland Jungle Camouflage Stripes Seamless",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/dsn_0685754a524d9e1c/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/dsn_0685754a524d9e1c/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "c60f0309f376c44335f6c28702a6e283ed49cb4b9651a83a452e08685bcd3a66",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:18:49.912Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -3909,6 +4231,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Background Black And White Ball Repeat Pattern",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-background-black-and-white-ball-repeat-pattern_53688284/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-black-and-white-ball-repeat-pattern_53688284/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "9831aba8b5ac524010b771e09007496a0c8b265059b4cc77f4620d432d927f84",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:18.717Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -3948,6 +4284,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Background Fluid Shapes Composition Abstract",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-background-fluid-shapes-composition-abstract_7324875/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-fluid-shapes-composition-abstract_7324875/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "f3459ec4a54d657a085155a862b921b115f8d2d8f7c22d848aa1cbec0b504d88",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:19.650Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -3987,6 +4337,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Background Fluid Shapes Composition Abstract",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_abstract-background-fluid-shapes-composition-abstract_7324876/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-fluid-shapes-composition-abstract_7324876/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "2fc0161ade5ae8a59803e7b2a904b0c1607514dff27e21bfb5a299cabb8d9854",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:20.560Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -4026,6 +4390,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Background Of Overlapping Geometric Triangle Pattern",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_abstract-background-of-overlapping-geometric-triangle-pattern_48692377/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-of-overlapping-geometric-triangle-pattern_48692377/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "ccda24f714471efecd27275b43f6dffbc741c058cddf822fba410fda0648a996",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:21.785Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -4065,6 +4443,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Background With A Turin Style Pattern In Shades Of",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_abstract-background-with-a-turin-style-pattern-in-shades-of_68183158/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-with-a-turin-style-pattern-in-shades-of_68183158/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "e34ee55264a54e21982c21ad796c104e6e8c6625e2083ee36f9867e3990411e4",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:22.886Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -4104,6 +4496,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Background With An Organic Turing Pattern Design",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-background-with-an-organic-turing-pattern-design_17697618/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-with-an-organic-turing-pattern-design_17697618/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "33331eee09752cda5a9b0bcad463715657b09f44c980fdacf85637b8ac5bdab2",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:24.273Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -4143,6 +4549,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Background With Colorful Dynamic Effect Modern",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-background-with-colorful-dynamic-effect-modern_7381368-1/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-with-colorful-dynamic-effect-modern_7381368-1/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "a32012bc8b37c903842aa156abb29f5b9a1dd9d712cd7532210940e60d403c10",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:25.887Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -4182,6 +4602,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Background With Grunge Pattern",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-background-with-grunge-pattern_21491966/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-with-grunge-pattern_21491966/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "3f4da0a8f4214e8893d79c8795d41bf9bfc9ba9d3ee0b915c737e4b6986655dc",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:26.955Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -4221,6 +4655,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Background With Sport Pattern For Leggings",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_abstract-background-with-sport-pattern-for-leggings_21491947/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-with-sport-pattern-for-leggings_21491947/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "bd36ff9a8db84157e555404e4ac9e1da27fff170e424e50dbb9d6b2f3d9ae73d",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:28.123Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -4260,6 +4708,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Background With Tiger And Zebra Pattern",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-background-with-tiger-and-zebra-pattern_21492341/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-with-tiger-and-zebra-pattern_21492341/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "d1c698ff340da88d9737e6c60eaed25a7efc7b80cb4f446d12bede59abd131d7",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:29.348Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -4299,6 +4761,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Banner Background Template With Grunge Texture",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/dsn_4a2d846c4624db4c/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/dsn_4a2d846c4624db4c/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "4b2a78bda7b3a44c4acb3bd2635a9d0c49be9c6e2e1288b840b54632641420b1",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:18:51.263Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -4338,6 +4814,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Beer Mug With Retro Pattern Fill Art",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-beer-mug-with-retro-pattern-fill-art_77472028/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-beer-mug-with-retro-pattern-fill-art_77472028/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "7f58517efb48ac5c95811a48ff8c980db042e72c9af00cb246e6fae9db9180ce",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:30.851Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -4377,6 +4867,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Bird Illustration With Dynamic Lines And Bold Patterns",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_abstract-bird-illustration-with-dynamic-lines-and-bold-patterns_54653613/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-bird-illustration-with-dynamic-lines-and-bold-patterns_54653613/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "bd148425b9be72fc6765ff047adf10e71415eb3b34d472e5758331c02e03d0a8",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:31.628Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -4416,6 +4920,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Black Background With Diagonal Wave Lines Gradient",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_abstract-black-background-with-diagonal-wave-lines-gradient_6937920-1/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-black-background-with-diagonal-wave-lines-gradient_6937920-1/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "769bff1e2452aa86f22a4f5a6d148f1ee48898a78a6cdc335643bac85a4e078c",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:32.784Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -4455,6 +4973,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Brush Art Camouflage Jungle Forest Pattern Military",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-brush-art-camouflage-jungle-forest-pattern-military_6145399/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-brush-art-camouflage-jungle-forest-pattern-military_6145399/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "57f15783dbd77781caba1c74d574b0957a0f3a4e18a0258c2b2aeaba63dad104",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:33.878Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -4494,6 +5026,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Brush Background Seamless Pattern",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-brush-background-seamless-pattern_28154937/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-brush-background-seamless-pattern_28154937/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "aeda574fa5f767e9348f4a782e111884b0fdece495f561ad91c0bddbd286af04",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:35.255Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -4533,6 +5079,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Circle Geometric Pattern Vector Design 3d Abstract",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_abstract-circle-geometric-pattern-vector-design-3d-abstract_15735074/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-circle-geometric-pattern-vector-design-3d-abstract_15735074/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "4273ae3d61ff5a16cb0f6038a274d6d894af1a48fe2af6ab8087fcdbabaab178",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:36.408Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -4572,6 +5132,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Circle In Triangle Style Pattern",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-circle-in-triangle-style-pattern_21618756/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-circle-in-triangle-style-pattern_21618756/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "adcc2c2900df4dc948e10dca50608fa80e52a8536783643473eae2aa11115a6a",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:37.839Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -4611,6 +5185,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Circles Lines Overlapping Shape And Stack Up From",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-circles-lines-overlapping-shape-and-stack-up-from_7169517/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-circles-lines-overlapping-shape-and-stack-up-from_7169517/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "19ca3581dfeb5fe4131bf0bb96e7fdc4c642a47c970c44d2ea4ba1a579e878a1",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:38.833Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -4650,6 +5238,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Colorful Geometric Background 3d Effect Trendy Colors",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/dsn_9b404be6019ee192/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/dsn_9b404be6019ee192/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "2cb6c335455de11a434eafabe495d8a4eeb133e0a354742d4757188f3c0e37df",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:18:52.258Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -4689,6 +5291,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Different Stroke And Dots Pattern Vector Background",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_abstract-different-stroke-and-dots-pattern-vector-background_7684548/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-different-stroke-and-dots-pattern-vector-background_7684548/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "75d59f121118bef06ccf3666d439ee69abc28cbffb72074781ddca5f8a3ae88e",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:40.677Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -4728,6 +5344,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Elegance Floral Background Seamless Pattern",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-elegance-floral-background-seamless-pattern_9939915/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-elegance-floral-background-seamless-pattern_9939915/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "48f5026368d976e835b8f45c259b87c5713fc01b07c33ae7f46577e06084951e",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:41.776Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -4767,6 +5397,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Ethnic Geometric Pattern Background Design",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-ethnic-geometric-pattern-background-design_13991673/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-ethnic-geometric-pattern-background-design_13991673/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "0e89df9c2024cf41f3d9846fd058eafb12150b597ded7566a6cbd49fcaa99470",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:42.694Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -4806,6 +5450,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Ethnic Geometric Pattern Design For Background Or",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_abstract-ethnic-geometric-pattern-design-for-background-or_5454847/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-ethnic-geometric-pattern-design-for-background-or_5454847/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "95c1cd32064ec8ee77b2b6e47948ec86a07f5641e5cab76f01f51fa9fefd775f",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:43.967Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -4845,6 +5503,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Ethnic Ikat Chevron Pattern Background",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-ethnic-ikat-chevron-pattern-background_7197549/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-ethnic-ikat-chevron-pattern-background_7197549/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "ace6b399afbc300dc4300a86c97dae99277aff1b8bbbdfa71ac71f80500e361d",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:45.318Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -4884,6 +5556,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Ethnic Pattern Design With Ikat Style",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-ethnic-pattern-design-with-ikat-style_21628351/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-ethnic-pattern-design-with-ikat-style_21628351/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "81a2f1f3f76a9f300a3434546f8fe6e7ee3ff292364b0ad061a5018d38f61326",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:46.707Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -4923,6 +5609,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Etnic Seamless Geometric Pattern",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-etnic-seamless-geometric-pattern_29213148/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-etnic-seamless-geometric-pattern_29213148/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "1b4401559bbd7b7d583d6b8fa225620566f64b42fa21ca9ee45516f9d99d17b7",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:48.702Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -4962,6 +5662,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Fabric Textile Pattern Design Template Vector",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-fabric-textile-pattern-design-template-vector_10407599/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-fabric-textile-pattern-design-template-vector_10407599/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "e157e424b790a62082730b29d777a928c082df9c70a4abf22ee9ec26b2296b70",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:50.311Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -5001,6 +5715,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Floral Pattern With One Line Rose And Cotton Flower",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-floral-pattern-with-one-line-rose-and-cotton-flower_66187381/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-floral-pattern-with-one-line-rose-and-cotton-flower_66187381/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "2939e98bf4e262425eb17dada99657f36f2103db9f26f98bdede1b751bbeb509",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:51.460Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -5040,6 +5768,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Floral Shirt Neck Design Blue Yellow Orange",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-floral-shirt-neck-design-blue-yellow-orange_49206542/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-floral-shirt-neck-design-blue-yellow-orange_49206542/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "163ac557921169110b35f27b6474260fa0325824a7bf638e9918a8de08da8034",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:52.424Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -5079,6 +5821,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Geometric Blue Line Pattern Background Design",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-geometric-blue-line-pattern-background-design_7167526/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-geometric-blue-line-pattern-background-design_7167526/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "13047e3a76c14cc5ec71a764d98e5be44eef153bdec8a8413506604583b23276",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:53.856Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -5118,6 +5874,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Geometric Graphic Design Halftone Pattern Background",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/dsn_badcac9d5d49d3e0/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/dsn_badcac9d5d49d3e0/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "183c38ea14718341bd8fdc245d01ea60c313e587211e75499cb6fd28dc15e142",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:18:53.175Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -5157,6 +5927,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Geometric Mosaic Seamless Pattern Background In The",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_abstract-geometric-mosaic-seamless-pattern-background-in-the_8138251/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-geometric-mosaic-seamless-pattern-background-in-the_8138251/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "f177288de72acafdb8f8286b9edb453e763f2624ebf6a182bb6a2c3597ee3b0a",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:55.584Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -5196,6 +5980,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Geometric Pattern Flat Design",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/dsn_feb56431a8e6d0e6/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/dsn_feb56431a8e6d0e6/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "dca349662d908d5a114f25a5287fa45f93ced0004d1634592deae593021153e7",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:18:54.623Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -5235,6 +6033,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Geometric Pattern With Hexagon And Triangle Shape",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-geometric-pattern-with-hexagon-and-triangle-shape_23549895/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-geometric-pattern-with-hexagon-and-triangle-shape_23549895/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "f8f65e328e6d8bef21ba456710addf63457ebb2ab69f853b1f9ba77ec917423a",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:56.634Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -5274,6 +6086,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Geometric Seamless Pattern",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-geometric-seamless-pattern_11641980/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-geometric-seamless-pattern_11641980/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "9e61321437f9b086bf13b46465c0678f955ea7251467949dbba725e9ce1d9bc8",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:57.607Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -5313,6 +6139,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Geometric Seamless Pattern",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-geometric-seamless-pattern_11641983/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-geometric-seamless-pattern_11641983/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "ac662f2bdf7571517d75b798d3157340e61bdb1d1a2996c4a83421687faac415",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:58.522Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -5352,6 +6192,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Geometric With Circle Pattern",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-geometric-with-circle-pattern_4689414/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-geometric-with-circle-pattern_4689414/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "5b36a362787518e691236300f554bf6ae65e48066469e6e3e492b149802db30f",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:16:59.425Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -5391,6 +6245,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Graffiti Art Background With Scribble Throw Up And",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_abstract-graffiti-art-background-with-scribble-throw-up-and_17396927/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-graffiti-art-background-with-scribble-throw-up-and_17396927/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "49046c2ece8d774b6095b3b264bb5f2d74a96b3e8e0946f6ee0e1391126c86c1",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:17:00.379Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -5430,6 +6298,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Graffiti Art Background With Scribble Throw Up And",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-graffiti-art-background-with-scribble-throw-up-and_17396936/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-graffiti-art-background-with-scribble-throw-up-and_17396936/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "6d4022ec3fbdb4b9278047bb44f270d037a49dbb7ecb3505e89d7a47ea22ff50",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:17:01.542Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -5469,6 +6351,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Graphic Line Pattern Texture For Textile Design And",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-graphic-line-pattern-texture-for-textile-design-and_55179443/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-graphic-line-pattern-texture-for-textile-design-and_55179443/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "0efba35ddd1c6d42108add76b07c7ec5e737d929eade2ecede642218ca7cc126",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:17:02.865Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -5508,6 +6404,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Grey White Waves And Lines Pattern",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-grey-white-waves-and-lines-pattern_5918593/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-grey-white-waves-and-lines-pattern_5918593/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "81c7877186f35750107c6dea8db6ba925f7f725b7c448f55a9502808e121df5c",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:17:04.310Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -5547,6 +6457,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Hand Draw Doodle Pattern Set Design",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/dsn_63a61d6e55acf444/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/dsn_63a61d6e55acf444/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "8955bd9c68c85f50b70671dd1ec2ca5fd5149c61d4bffeeda97c5be2d92bffc1",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:18:55.936Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -5586,6 +6510,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Hand Drawn Colourful Doodle Background",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-hand-drawn-colourful-doodle-background_47111204/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-hand-drawn-colourful-doodle-background_47111204/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "a5144ab1c129d73e7a8816deaa31d51a6956f2ed025b3ea02db74b6b12118550",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:17:05.756Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -5625,6 +6563,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Heart Seamless Pattern Background Vector Illustration",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/dsn_64681bf5b276945f/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/dsn_64681bf5b276945f/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "6aa5ffcf864ea5afd81947503555d35c2644b0cfb0adc9caa48e1a8fc7e3b601",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:18:57.333Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -5664,6 +6616,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Hexagon Pattern Vector Background",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-hexagon-pattern-vector-background_11020211/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-hexagon-pattern-vector-background_11020211/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "37b142b435b05df7d1e790c7fcae57dcaa52daea1f9db10b024cea88d3948563",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:18:58.298Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -5703,6 +6669,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Leaves And Circles Mosaic Seamless Pattern Design",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-leaves-and-circles-mosaic-seamless-pattern-design_14954432/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-leaves-and-circles-mosaic-seamless-pattern-design_14954432/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "510b6e6fe6f1a860e7ed362133104ce134a0575bda563789bbfd76b230d90653",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:18:59.076Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -5742,6 +6722,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Leaves Background With Japanese Wave Pattern",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-leaves-background-with-japanese-wave-pattern_16758707/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-leaves-background-with-japanese-wave-pattern_16758707/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "491cf855a8e45d5dda0db9e6fd977468ad7c2eef40d0ccbf18752ceeedb409b6",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:18:59.834Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -5781,6 +6775,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Liquid Shape Fluid Geometric Design Isolated",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-liquid-shape-fluid-geometric-design-isolated_9158803/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-liquid-shape-fluid-geometric-design-isolated_9158803/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "cbaced02f2e46d31d0e68214efca97b2018920f7fe4aaed7e0839c8b6409923d",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:00.628Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -5820,6 +6828,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Marble Liquid Pattern In Green And Gold Colour",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_abstract-marble-liquid-pattern-in-green-and-gold-colour_12766698/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-marble-liquid-pattern-in-green-and-gold-colour_12766698/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "8cfc49d6ab496cca7d5b50bbdeda66fdb97c65f4197d46e0e85041547b5557ba",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:01.519Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -5859,6 +6881,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Marine Seamless Pattern",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-marine-seamless-pattern_11559382/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-marine-seamless-pattern_11559382/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "dea1c4b25a11bd7da08d3ef1b2c53b92810e8ce5c6b2d856b14b3f6c88d64da7",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:02.777Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -5898,6 +6934,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Marine Seamless Pattern With Hand Drawn Textures",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-marine-seamless-pattern-with-hand-drawn-textures_11559475/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-marine-seamless-pattern-with-hand-drawn-textures_11559475/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "c98cbe48c9ee239775ae0007e2ca1d6446f37c7d9a1c7d70ea56f3711a2831c8",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:04.313Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -5937,6 +6987,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Maze Design Pattern Background",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_abstract-maze-design-pattern-background_6954141/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-maze-design-pattern-background_6954141/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "6cd78e2ddaa3478428bc7be47b635dacd07619e0a52e31ce291d1ed30acd925d",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:05.871Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -5976,6 +7040,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Multicolored Maze Like Pattern With Dotted Details",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_abstract-multicolored-maze-like-pattern-with-dotted-details_52939688/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-multicolored-maze-like-pattern-with-dotted-details_52939688/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "ec1ae57efebeae7681c1d643a13438f2447ddac89a4b593e215229d578efff88",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:07.064Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -6015,6 +7093,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Pattern Background",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_abstract-pattern-background_7629334-1/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-pattern-background_7629334-1/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "59d975aac538505643013d37b026d434febcd9dbcfd9064871c28eee804c58fc",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:08.372Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -6054,6 +7146,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Pattern Background Design",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/dsn_08104ca6da2d6dfb/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/dsn_08104ca6da2d6dfb/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "5db7c0fe653c2e6af5d606159eef1466b6877226f093b1f227173b10318557d5",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:09.409Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -6093,6 +7199,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Pattern Design Background",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-pattern-design-background_26974919/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-pattern-design-background_26974919/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "a7182036d4aa681b144f202119281fa6db75365c047ffbc537586c2ba2cdb700",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:10.459Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -6132,6 +7252,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Pattern Football Jersey Sublimation Ready Custom",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-pattern-football-jersey-sublimation-ready-custom_75703290/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-pattern-football-jersey-sublimation-ready-custom_75703290/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "545d27f6eea1e26cdb5e36eeb504caaf96fad9ee9d2fc124be9aaa46286bb833",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:11.310Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -6171,6 +7305,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Pattern Grunge Vector",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-pattern-grunge-vector_6116628-1/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-pattern-grunge-vector_6116628-1/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "6dd36058f479c45fae02f1597aa9df818d5886516ec8c1b9a17c22e2fc71bf43",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:12.158Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -6210,6 +7358,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Pattern Seamless Pattern Print",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-pattern-seamless-pattern-print_5844933/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-pattern-seamless-pattern-print_5844933/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "f1baaf94a6162b9c1fbb4a466e4299afa0a2331c5ccbbebe67179964153f88e9",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:13.428Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -6249,6 +7411,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Pattern With Wood Colour Wood Design Background",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/dsn_aa8577a5591789e5/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/dsn_aa8577a5591789e5/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "7421bf01d8cef5fbd9dc52d1253f937c9aaf992beac994413fabf63eb6346895",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:14.596Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -6288,6 +7464,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Pixelated Black And Yellow Glitch Pattern Pixel",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-pixelated-black-and-yellow-glitch-pattern-pixel_81628022/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-pixelated-black-and-yellow-glitch-pattern-pixel_81628022/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "77b4ace08827f47d560052fce386887387208586edcc56fd0b6a81f1effb1994",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:15.637Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -6327,6 +7517,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Rainbow Coloured Doodle Pattern Design",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/dsn_77718e04f23bd89d/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/dsn_77718e04f23bd89d/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "a88102e11d161f56ca5aaf06e61b7e89554996723e5dec7a8360674cfac81757",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:16.566Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -6366,6 +7570,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Seamless Background Pattern For Print",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-seamless-background-pattern-for-print_9251179/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-seamless-background-pattern-for-print_9251179/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "be2edd5e73d50c88d682973175774d9f47820be2cdbc5235e41e82b5d4cc9473",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:17.976Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -6405,6 +7623,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Seamless Colorful Brush Strokes Pattern Background",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/dsn_b3452dde5c3ebd4a/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/dsn_b3452dde5c3ebd4a/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "d4abe93b5018fccd9a404f429c7ea6b8553e05c68abd22595fd542240c7d224e",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:19.478Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -6444,6 +7676,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Seamless Geometrical Pattern With Colored Squares",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-seamless-geometrical-pattern-with-colored-squares_12721752/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-seamless-geometrical-pattern-with-colored-squares_12721752/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "2bfbd7eb61e4c2182236524689264b961ded568a96850839471dff448d92aabc",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:20.486Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -6483,6 +7729,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Seamless Pattern With Grunge Paint Brush Stroke",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-seamless-pattern-with-grunge-paint-brush-stroke_7538635/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-seamless-pattern-with-grunge-paint-brush-stroke_7538635/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "e19a0edbaf4fecb3bf12a7526a256e1ce7f513b2e402694683ad3c496d512bac",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:21.465Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -6522,6 +7782,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Shape Leaf And Flower Organic Pattern Black Floral",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-shape-leaf-and-flower-organic-pattern-black-floral_47372558/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-shape-leaf-and-flower-organic-pattern-black-floral_47372558/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "9a6181e8aa6cf6096d8b125ad805d8d63e697660bb9b50e3f67a3f1ae4f2c268",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:22.712Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -6561,6 +7835,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Shape Leaf And Flower Organic Pattern Black Floral",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-shape-leaf-and-flower-organic-pattern-black-floral_47372580/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-shape-leaf-and-flower-organic-pattern-black-floral_47372580/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "10696d8a28acfe58b817f850f9f9645a2ffe2f981d90a327d80b813e63cdcca1",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:23.538Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -6600,6 +7888,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Small Random Geometric Shape Colorful Blue Yellow",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-small-random-geometric-shape-colorful-blue-yellow_6836803/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-small-random-geometric-shape-colorful-blue-yellow_6836803/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "bfb3f3241576a3b39cc4da16da975b4dffa3d6f47d2b3e8f902aaa035af96b67",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:24.517Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -6639,6 +7941,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Symmetrical Camouflage Pattern Psychedelic Camo",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_abstract-symmetrical-camouflage-pattern-psychedelic-camo_52265384/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-symmetrical-camouflage-pattern-psychedelic-camo_52265384/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "10495685363cc315fcaf6bd63ed6ca54604e7e13c3ff04a58625cee1567c7b82",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:25.392Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -6678,6 +7994,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Texture Seamless Repeat Pattern",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-texture-seamless-repeat-pattern_7254934/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-texture-seamless-repeat-pattern_7254934/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "856dad0c006f8e46605cd7b6a30f400164c50ec2c69d76ebb3eb2cceafc2c1b0",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:26.552Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -6717,6 +8047,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Texture Vector Pattern Of Cracks Watercolor",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-texture-vector-pattern-of-cracks-watercolor_24309200/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-texture-vector-pattern-of-cracks-watercolor_24309200/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "1dfa1e73cc249d869b31f2035cbc368272cbc7f5c759dd993d24851f3656f781",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:27.662Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -6756,6 +8100,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Textured Grunge Brush Strokes Geometric Striped",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_abstract-textured-grunge-brush-strokes-geometric-striped_48692342/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-textured-grunge-brush-strokes-geometric-striped_48692342/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "bf56b1b39dec114944c425b3c6fd9962970d1226635303fade888047977d1ddb",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:28.760Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -6795,6 +8153,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Topographic Contour Line Pattern Solid Background",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-topographic-contour-line-pattern-solid-background_14399735/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-topographic-contour-line-pattern-solid-background_14399735/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "815d9572493b4270d51b644fe019556f6552485842145a3b35214986475d59d4",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:30.026Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -6834,6 +8206,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Topographic Pattern Dark Background Golden Lines",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-topographic-pattern-dark-background-golden-lines_59524172/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-topographic-pattern-dark-background-golden-lines_59524172/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "2ae0ae2e592a627d7cfd8d7f46e6249b2d977da02cd4dc02715c222d749388b7",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:30.837Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -6873,6 +8259,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Tropical Palm Leaf Seamless Pattern Background",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/dsn_0a5c7f29afbdf9b2/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/dsn_0a5c7f29afbdf9b2/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "13948a5f6d6c070d2d8a968ebac6c86ec58528f13faff5bf6f8ebab19701afd6",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:31.731Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -6912,6 +8312,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Urban Brush Green Jungle Camouflage Pattern",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-urban-brush-green-jungle-camouflage-pattern_4249099/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-urban-brush-green-jungle-camouflage-pattern_4249099/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "6944521047e9a894a1bd409bcc0a39dc2645fa1f4b5077ab18782d53af8e3643",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:33.014Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -6951,6 +8365,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Vector Pattern With Bold And Expressive Graphics",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-vector-pattern-with-bold-and-expressive-graphics_25366621/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-vector-pattern-with-bold-and-expressive-graphics_25366621/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "48c7dc9786ae3c62a56501253f8a2d6c0ee16638311d8b279cd0bf0e2f84081f",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:34.196Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -6990,6 +8418,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Voroni Pattern Design Background",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-voroni-pattern-design-background_12283767/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-voroni-pattern-design-background_12283767/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "29d6c298414c272d5686f2ba2659636f6d49187529fe54d5be3e4c47da300b1b",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:35.465Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -7029,6 +8471,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Wave Style Background With Geometric Japanese",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-wave-style-background-with-geometric-japanese_6570494-1/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-wave-style-background-with-geometric-japanese_6570494-1/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "bf9ebc183ab702047c5d9c7af23c6acb42c31f38b15406e6b8e4619c9d4a864e",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:36.629Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -7068,6 +8524,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Wave Style Background With Geometric Japanese",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-wave-style-background-with-geometric-japanese_6570581-1/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-wave-style-background-with-geometric-japanese_6570581-1/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "fdcb485244284ac49adc36d57f0c6c4c83a91ef49d0035e472d28e6d2bbf4634",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:37.465Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -7107,6 +8577,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Wavy Style Background With Japanese Pattern",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-wavy-style-background-with-japanese-pattern_6319681/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-wavy-style-background-with-japanese-pattern_6319681/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "20b86337171c2ff2ed099617bc5027fea2c41cf24abb3ef0534f5b7919727fd7",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:38.389Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -7146,6 +8630,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract White Background Of Embossed Surface",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-white-background-of-embossed-surface_31974132/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-white-background-of-embossed-surface_31974132/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "69a65c481adcf1d52c1b7274b6eb7de810edf718e8b8ed356960618726a9b16e",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:39.631Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -7185,6 +8683,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract White Marble Striped Pattern Surface Background",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-white-marble-striped-pattern-surface-background_16596771/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-white-marble-striped-pattern-surface-background_16596771/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "6c757398021381771c05ff515b2c09804a21d238471acc1fefd963fd46ffebd3",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:40.741Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -7224,6 +8736,20 @@
       "collectionIds": [],
       "alt": "طرح قاب اسلامی Arabic Luxury And Elegant Islamic Background With Pattern",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_arabic-luxury-and-elegant-islamic-background-with-pattern_9922551/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_arabic-luxury-and-elegant-islamic-background-with-pattern_9922551/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "370d688ea379df08161f90677ecd4867f8a3ac91d4d4787815310a4300dc5d94",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:41.573Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -7263,6 +8789,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Bauhaus Pattern Design Of Abstract Background",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/dsn_f41f914ead77f8b9/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/dsn_f41f914ead77f8b9/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "69c9aa06bedf4e9f4087f499677059131af0dceccc0c575920c5abf345f0b851",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:42.348Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -7302,6 +8842,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Black And White Abstract Wall Art Modern Minimalist Ink",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_black-and-white-abstract-wall-art-modern-minimalist-ink_59489237/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_black-and-white-abstract-wall-art-modern-minimalist-ink_59489237/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "1d7d43129acee34b6c4c79096f46e0331d64b98bb6efdc69ccb322953a9a2511",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:43.333Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -7341,6 +8895,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Black History Month Abstract Backgrounds With Hand Drawn",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_black-history-month-abstract-backgrounds-with-hand-drawn_53302664/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_black-history-month-abstract-backgrounds-with-hand-drawn_53302664/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "88f2e76b28e85f1fe0500d45528395225bbcd2d3b98809f705a9fc802d1fbda4",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:44.406Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -7380,6 +8948,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Brown Abstract Floral Seamless Pattern Design For Fashion",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_brown-abstract-floral-seamless-pattern-design-for-fashion_24720806/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_brown-abstract-floral-seamless-pattern-design-for-fashion_24720806/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "ce53ec134323804a269feed4d4715de1d8df97d81cefbf0380f92d7091e33c38",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:45.535Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -7419,6 +9001,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Brown Floral Brush Strokes Seamless Pattern Background",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/dsn_d3f3811ffd0215f8/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/dsn_d3f3811ffd0215f8/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "2ee8f3f87619c543f139d6a804cf3f812c0444f04a7fcffb2b823426acb36206",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:46.821Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -7458,6 +9054,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Collection Of Seamless Abstract Patterns With Trendy Hand Drawn",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_collection-of-seamless-abstract-patterns-with-trendy-hand-drawn_6033192/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_collection-of-seamless-abstract-patterns-with-trendy-hand-drawn_6033192/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "431944eb5652b73551370fb5fe248162364bafda032b3d876c00fa4a5b00c203",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:48.030Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -7497,6 +9107,20 @@
       "collectionIds": [],
       "alt": "طرح قاب اسلامی Color Ornamental Patterned Stone Relief In Arabic",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_color-ornamental-patterned-stone-relief-in-arabic_5939891/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_color-ornamental-patterned-stone-relief-in-arabic_5939891/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "bc53f27d67869a50395eeeba70104d832067ab976c504f5b636809959c9032b6",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:49.414Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -7536,6 +9160,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Colorful Abstract Geometric Pattern Design",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_colorful-abstract-geometric-pattern-design_6626771/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_colorful-abstract-geometric-pattern-design_6626771/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "70b4a50f73616f5224a519cf8409022e74de5e84a542a14571b6beb96347ec01",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:50.724Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -7575,6 +9213,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Colorful Abstract Shape Pattern With Hand Drawn Texture",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_colorful-abstract-shape-pattern-with-hand-drawn-texture_76268086/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_colorful-abstract-shape-pattern-with-hand-drawn-texture_76268086/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "b723f5cd584f4416e94ece7e66f9d7acb9d7708ce2aa4ba080520c64cf67f16b",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:51.840Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -7614,6 +9266,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Colorful Line Wave Background Stylish Smooth Dynamic",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_colorful-line-wave-background-stylish-smooth-dynamic_7546109/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_colorful-line-wave-background-stylish-smooth-dynamic_7546109/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "e8bff09bc0cc0e85211520cb3552f8b1f0e3c3cce4f25006ccca9a252c553f80",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:52.700Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -7653,6 +9319,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Colorful Sea Shells Seamless Pattern On A Dark Blue",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/dsn_68247c3a080ba9c2/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/dsn_68247c3a080ba9c2/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "88677a690708e209fd09fc5f28bd3224d17ac6145d06dd02b78844b0a5e53e3e",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:53.601Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -7692,6 +9372,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Colorful Seamless Pattern With Hand Drawn Stylized Trees On",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_colorful-seamless-pattern-with-hand-drawn-stylized-trees-on_54842400/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_colorful-seamless-pattern-with-hand-drawn-stylized-trees-on_54842400/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "75c6081ff91bfcc719506d592033bee9c1d594687bee1b20cb9bb3ff71b2df4b",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:54.860Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -7731,6 +9425,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Coloring Pages For Adult Coloring Book Antistress",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_coloring-pages-for-adult-coloring-book-antistress_7955562/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_coloring-pages-for-adult-coloring-book-antistress_7955562/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "1f804e42d627938f883b2e8866a89e4cf3f7e6d82ecbcaf8ecbab4ff6e8bac5e",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:56.276Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -7770,6 +9478,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Creative Horizontal Abstract Hand Drawn Pattern On",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_creative-horizontal-abstract-hand-drawn-pattern-on_6873108/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_creative-horizontal-abstract-hand-drawn-pattern-on_6873108/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "cceef8a8c80e9187975deda7b9e0939c23f5975125948f7f09313820bc8f1470",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:57.093Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -7809,6 +9531,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Creative Minimalist Modern Line Art Pattern Abstract Wave",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_creative-minimalist-modern-line-art-pattern-abstract-wave_7047629-1/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_creative-minimalist-modern-line-art-pattern-abstract-wave_7047629-1/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "01127bdc77ff5dfc9a5699199b0625dafdbea423a63f789c8c80eb0f6a907c96",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:57.974Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -7848,6 +9584,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Dark Blue Vector Pattern With Symbol Of Cards And Colored",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_dark-blue-vector-pattern-with-symbol-of-cards-and-colored_8802594/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_dark-blue-vector-pattern-with-symbol-of-cards-and-colored_8802594/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "5f091d874258f173c8d0b1a27cdd254664f0d56f39a42570b22ea56034df623c",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:58.730Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -7887,6 +9637,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Detailed Abstract Maze Pattern Background",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_detailed-abstract-maze-pattern-background_6954143/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_detailed-abstract-maze-pattern-background_6954143/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "779099bef0a65101dade003097d59a31675cc61409424b6eb2f212b262cbc25e",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:19:59.532Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -7926,6 +9690,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Digital Effect Pattern Art Print",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_digital-effect-pattern-art-print_12394620/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_digital-effect-pattern-art-print_12394620/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "0669283e268ca764a3f1e6e973f138102bb111bdefd13acb7c5dbb3e1ee6ae81",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:00.775Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -7965,6 +9743,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Digital Effect Pattern Art Print",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_digital-effect-pattern-art-print_12394656/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_digital-effect-pattern-art-print_12394656/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "bfaa94851c7f44e2fa6bb7ae47a9838ce8456dc70fd923ad45ce5fb57a3ab417",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:02.151Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -8004,6 +9796,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Doodle Vector Illustration Hand Drawn Line Arts Abstract",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_doodle-vector-illustration-hand-drawn-line-arts-abstract_20664357/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_doodle-vector-illustration-hand-drawn-line-arts-abstract_20664357/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "b9c5d10115126e6fa7131b4cc18650f76e749d16bfb22324eab00c38857f4564",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:03.526Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -8043,6 +9849,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Dynamic Ikat Inspired Zigzag Wave Texture Abstract Ikat Art",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_dynamic-ikat-inspired-zigzag-wave-texture-abstract-ikat-art_77383745/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_dynamic-ikat-inspired-zigzag-wave-texture-abstract-ikat-art_77383745/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "b81bc5d425586a9094ba75482e7df208b395110a3031e81be003578888f3284c",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:04.894Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -8082,6 +9902,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Elegant Abstract Swirl Pattern With Flowing Lines Perfect",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_elegant-abstract-swirl-pattern-with-flowing-lines-perfect_69377971/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_elegant-abstract-swirl-pattern-with-flowing-lines-perfect_69377971/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "a81a53ba6ace17b7c85b08047698cda3908f08ed244fa9a4f2143e757223d956",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:06.041Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -8121,6 +9955,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Exploring The Intricate Symphony Abstract Pattern",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_exploring-the-intricate-symphony-abstract-pattern_23906676/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_exploring-the-intricate-symphony-abstract-pattern_23906676/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "789d8dad2fc8d8b7d1280bc47b138463099f6e7a7262a6570cd4858c70b099f4",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:07.673Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -8160,6 +10008,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Flower And Square Abstract Pattern",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_flower-and-square-abstract-pattern_52523309/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_flower-and-square-abstract-pattern_52523309/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "67abe53e162651827975060e9b75b0cdbc2e4707b2ab1168c155af9e5bc48cb2",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:09.127Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -8199,6 +10061,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Flower Background Floral Seamless Pattern Decoration Vintage",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_flower-background-floral-seamless-pattern-decoration-vintage_7892526/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_flower-background-floral-seamless-pattern-decoration-vintage_7892526/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "91fb5cea37dbe919bd321fd6a98ada4dfecfe9eb8141adeabe0984662236ed57",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:10.736Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -8238,6 +10114,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Frame With Abstract Pattern Of Smoke",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_frame-with-abstract-pattern-of-smoke_11051808/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_frame-with-abstract-pattern-of-smoke_11051808/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "5977e72f27062417a25f0209eca3774af9b37bfdf4270d7729d134d12fa7d636",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:12.692Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -8277,6 +10167,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Geometric Pattern Background With Abstract Grunge Brush Strokes",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_geometric-pattern-background-with-abstract-grunge-brush-strokes_50561311/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_geometric-pattern-background-with-abstract-grunge-brush-strokes_50561311/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "b874b7dd3bbfa27cddfd0476bb7991497bab8104ae530465dce29c939b336779",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:13.835Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -8316,6 +10220,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Geometric Seamless Pattern Abstract Geometric Hexagonal",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_geometric-seamless-pattern-abstract-geometric-hexagonal_32403506/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_geometric-seamless-pattern-abstract-geometric-hexagonal_32403506/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "77ca4e15232e0d8c58d3519c10531332c00e24b7da89b5c7e89a70197f71ff4c",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:15.169Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -8355,6 +10273,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Graffiti Seamless Pattern Monochrome Black And White With",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_graffiti-seamless-pattern-monochrome-black-and-white-with_26229051/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_graffiti-seamless-pattern-monochrome-black-and-white-with_26229051/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "c8a60222f5016f68ed47a6abf985377a2e6452489996f438dfc7425a7407ea99",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:16.471Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -8394,6 +10326,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Grunge Lines Background Hand Drawn Lines Abstract Pattern",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_grunge-lines-background-hand-drawn-lines-abstract-pattern_7746312/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_grunge-lines-background-hand-drawn-lines-abstract-pattern_7746312/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "3355ddc818b987f990107df6eb38c73e23280df5a87c4ebab912a9bfcaabdf57",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:17.772Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -8433,6 +10379,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Halftone Wave Dots Abstract Black Halftone Waves And Dotted",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_halftone-wave-dots-abstract-black-halftone-waves-and-dotted_80400495/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_halftone-wave-dots-abstract-black-halftone-waves-and-dotted_80400495/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "8925a2e7acfca8a0858286ea24d9e7dc0b0f280569bef361383f9786636e4887",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:18.633Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -8472,6 +10432,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Japanese Background With Line Wave Pattern Vector Abstract",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_japanese-background-with-line-wave-pattern-vector-abstract_11219294/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_japanese-background-with-line-wave-pattern-vector-abstract_11219294/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "fc8699c5f67a58fe2425924199822087b09f03ab7e57163cddbb781314b27028",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:19.641Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -8511,6 +10485,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Japanese Wave Pattern With Abstract Background Vector Line",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_japanese-wave-pattern-with-abstract-background-vector-line_16758697/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_japanese-wave-pattern-with-abstract-background-vector-line_16758697/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "cbb8f646a7edb59826eb3fbe55dab0b1d046542dc3997ea256207933541e542a",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:21.185Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -8550,6 +10538,20 @@
       "collectionIds": [],
       "alt": "طرح قاب اسلامی Luxury Mandala Background With Arabesque Arabic Islamic East",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_luxury-mandala-background-with-arabesque-arabic-islamic-east_6626837/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_luxury-mandala-background-with-arabesque-arabic-islamic-east_6626837/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "f925b6180bdf63ff3a43a022dbf2f2a643065013b13da04534f564864d1bf42e",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:22.097Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -8589,6 +10591,20 @@
       "collectionIds": [],
       "alt": "طرح قاب اسلامی Luxury Mandala Islamic Background With Golden Arabesque",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_luxury-mandala-islamic-background-with-golden-arabesque_6917214/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_luxury-mandala-islamic-background-with-golden-arabesque_6917214/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "7c7ea02a95f27bef73116d090bd850982a05c20f479c4c4e7865827271e2dfc4",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:23.386Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -8628,6 +10644,20 @@
       "collectionIds": [],
       "alt": "طرح قاب اسلامی Luxury Ornamental Mandala Background With Arabic Islamic",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/dsn_6fdc160ec4a57a6b/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/dsn_6fdc160ec4a57a6b/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "c6147e68b2bd172bb7f80a40755e66e6fccd9296036ab3cbc36e7029613b4be3",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:24.460Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -8667,6 +10697,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Mid Century Geometric Abstract Pattern With Simple Shapes",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_mid-century-geometric-abstract-pattern-with-simple-shapes_14451190/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_mid-century-geometric-abstract-pattern-with-simple-shapes_14451190/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "e7e2399379a42619b1513bb02a8a78dc64a42bef271a4fe83de86270fc82c0ca",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:25.544Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -8706,6 +10750,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Modern Abstract Geometric Lines Pattern Red Color Vector",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_modern-abstract-geometric-lines-pattern-red-color-vector_8070505/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_modern-abstract-geometric-lines-pattern-red-color-vector_8070505/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "7010830b9b7336663e6120aeaf1b720410ce0bdf3f183c8da539fcbcb54d0119",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:26.672Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -8745,6 +10803,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Modern Abstract Geometric Vector Pattern Background",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_modern-abstract-geometric-vector-pattern-background_27463629/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_modern-abstract-geometric-vector-pattern-background_27463629/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "a9d04444eddd44896b2e8f2ce0007a351c82efb59a22433ea8d1c4a1f54334fc",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:28.008Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -8784,6 +10856,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Modern Abstract High Speed Movement Colorful Dynamic Arrows",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/dsn_749f1044a5af4504/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/dsn_749f1044a5af4504/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "56cb9f05e34a44168d2fbde6333850b97f3690892881667eee583e68d8b2f84f",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:29.060Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -8823,6 +10909,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Modern Abstract High Speed Movement Colourful Dynamic",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/dsn_01edaa865a08a1ff/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/dsn_01edaa865a08a1ff/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "d5672c9e441d0e0aa29c28f6635a02fb59e57318425e63264fafe15edd1013b0",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:30.411Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -8862,6 +10962,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Mustard Yellow Minimalist Abstract Line Pattern With",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_mustard-yellow-minimalist-abstract-line-pattern-with_75648818/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_mustard-yellow-minimalist-abstract-line-pattern-with_75648818/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "02d1e6d5a6c1c9c0dd65b646b442d162903291312eeb34f72269fdab4092c0a1",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:31.516Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -8901,6 +11015,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Olive Abstract Military Background The Modern Wavy",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_olive-abstract-military-background-the-modern-wavy_7545969/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_olive-abstract-military-background-the-modern-wavy_7545969/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "77e1668dad3f1d169f23a1a4c3168e7a4bf59e922857a9bca66d9bdb8af65008",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:33.828Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -8940,6 +11068,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Red And Black Pattern With A Black Graphic Design In The",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_red-and-black-pattern-with-a-black-graphic-design-in-the_29774467/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_red-and-black-pattern-with-a-black-graphic-design-in-the_29774467/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "468119a12c81310b757b996ba710716668667fd6c0936c3a61ca8fb60d30cc0c",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:35.691Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -8979,6 +11121,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Red Pattern With Abstract Artistic Branches Leaves Fern",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_red-pattern-with-abstract-artistic-branches-leaves-fern_48262786/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_red-pattern-with-abstract-artistic-branches-leaves-fern_48262786/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "e96353d86e55d9482ed4c3299a922762640d6892cc084c99e33fe82a04435385",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:37.124Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -9018,6 +11174,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Retro Groovy Corner Frame Isolated On White Background",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_retro-groovy-corner-frame-isolated-on-white-background_47724889/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_retro-groovy-corner-frame-isolated-on-white-background_47724889/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "e36ec5e2789cb173d327ba7976c91a1cf689393ea63539bfe46dfe18c20ab471",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:38.684Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -9057,6 +11227,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Seamless Abstract Pattern With Bold Black Shapes And Rough",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_seamless-abstract-pattern-with-bold-black-shapes-and-rough_76663794/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_seamless-abstract-pattern-with-bold-black-shapes-and-rough_76663794/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "69b28025fd64464bc33d8229a00eac5ba9d8259777f7f6a8b4eb0aff737bdb54",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:39.684Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -9096,6 +11280,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Seamless Paisley Pattern Ornament Bandana Print Silk Neck",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_seamless-paisley-pattern-ornament-bandana-print-silk-neck_15870055/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_seamless-paisley-pattern-ornament-bandana-print-silk-neck_15870055/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "0e44cc1623edbdd7f8f67e8800f448624f7c0940319062c0fa9b2103eab60bbe",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:40.854Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -9135,6 +11333,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Seamless Pattern With A Forest Natural Print Wild Forest",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_seamless-pattern-with-a-forest-natural-print-wild-forest_8575642/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_seamless-pattern-with-a-forest-natural-print-wild-forest_8575642/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "e45e0da6032a156b00f960a32161677452146f51fb0f666428efe3ac0c1ff75c",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:41.924Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -9174,6 +11386,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Seamless Pattern With A Simple Scandinavian Ornament With A",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_seamless-pattern-with-a-simple-scandinavian-ornament-with-a_8239012/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_seamless-pattern-with-a-simple-scandinavian-ornament-with-a_8239012/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "78ced3d6004a334d6ea3d829a685934fe15c257db7bd5856704cfea2d2d75660",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:43.388Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -9213,6 +11439,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Seamless Pattern With Abstract Blue Weaving Lines Vector",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/dsn_959d4d44cb108f5b/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/dsn_959d4d44cb108f5b/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "e6835ce2fe9be16a0a419e3cf2dd54ff7aad1099c1a072566e53184b9f4ca087",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:44.318Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -9252,6 +11492,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Seamless Pattern With Abstract Feather",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_seamless-pattern-with-abstract-feather_7215220/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_seamless-pattern-with-abstract-feather_7215220/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "a70ea018dea7e8f0e9985fa6e274e6ef75c8151423d462acb7f425db0fbe0b14",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:45.576Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -9291,6 +11545,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Seamless Pattern With Abstract Hand Drawn Waves Colorful",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/dsn_7cdf52cb89a3e281/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/dsn_7cdf52cb89a3e281/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "c13a34954b8a6b4e886b8f168a598f008b1c02383db0da8b7232446679399d28",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:47.075Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -9330,6 +11598,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Seamless Pattern With Abstract Silhouettes Of Leaves",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_seamless-pattern-with-abstract-silhouettes-of-leaves_48962707/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_seamless-pattern-with-abstract-silhouettes-of-leaves_48962707/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "acaf97ea7217ac850d1d13e3612eb1ed5869b95ef0016052f6e5a674f5990cbd",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:48.466Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -9369,6 +11651,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Seamless Pattern With Tropical Exotic Ornament With Palm",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_seamless-pattern-with-tropical-exotic-ornament-with-palm_7957108/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_seamless-pattern-with-tropical-exotic-ornament-with-palm_7957108/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "b31a0f92c0a4db174aa93bd27223950057f96aebf9edf0d791eedcde33578d0c",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:50.329Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -9408,6 +11704,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Set Of Abstract Geometric Pattern Poster Design With Touch",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_set-of-abstract-geometric-pattern-poster-design-with-touch_26638920-1/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_set-of-abstract-geometric-pattern-poster-design-with-touch_26638920-1/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "21ebefa7604ece52133dddf6934c083679fce1283323bf865370d1b704c84e11",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:51.791Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -9447,6 +11757,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Set Of Backgrounds For Social Media Posts Black History",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_set-of-backgrounds-for-social-media-posts-black-history_53302654/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_set-of-backgrounds-for-social-media-posts-black-history_53302654/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "daa121bdd83930c2f2feb98df05b3a0f3a9649b9271bfe7820e866332bb59c31",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:52.741Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -9486,6 +11810,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Set Of Modern Print Patterns With Abstract Minimalist",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_set-of-modern-print-patterns-with-abstract-minimalist_14089645/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_set-of-modern-print-patterns-with-abstract-minimalist_14089645/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "97c9a5004cb4601f63acfc54794acb5d03b0335ca32c9a48391dfff6203cac50",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:54.281Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -9525,6 +11863,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Soccer Jersey Design For Sublimation Abstract Background",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/dsn_8e483f56e5581483/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/dsn_8e483f56e5581483/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "919babac64c3a998fdc19bc0ba3096e78e034e320169737a1950d3b978a56dc1",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:55.298Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -9564,6 +11916,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Spring Background Of Abstract Shapes Waves And Leaves",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_spring-background-of-abstract-shapes-waves-and-leaves_22633135/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_spring-background-of-abstract-shapes-waves-and-leaves_22633135/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "551fe86deb9e702da2ada5c9f848a7d2407a6dec007ead61f118957ac73eb432",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:56.360Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -9603,6 +11969,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Stripe Pattern Gold Luxury Color Gold Glitter Stripes",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/vecteezy_stripe-pattern-gold-luxury-color-gold-glitter-stripes_4397044-1/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/vecteezy_stripe-pattern-gold-luxury-color-gold-glitter-stripes_4397044-1/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "85bbb5b715b17ab8ba3afaf6823e7ee926cf3fd03c3353ed6f3b0ede94cc139b",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:57.476Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -9642,6 +12022,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Uzbek Ikat Pattern And Fabric In Uzbekistan Abstract",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/dsn_283d90015d2878e4/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/dsn_283d90015d2878e4/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "a0668c1182c2c6b840d3a2744fe2f49adc0e50c67afcbe0927592f105256795f",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:58.472Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -9681,6 +12075,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Uzbek Ikat Pattern And Fabric In Uzbekistan Abstract",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_uzbek-ikat-pattern-and-fabric-in-uzbekistan-abstract_36287051/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_uzbek-ikat-pattern-and-fabric-in-uzbekistan-abstract_36287051/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "ad348686d054ecf11149509ea7e886198e430aa94f0e4ecfcd884d30980d9e52",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:20:59.717Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -9720,6 +12128,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Vector Abstract Geometric Seamless Pattern With Wave Fading",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_vector-abstract-geometric-seamless-pattern-with-wave-fading_12997972/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_vector-abstract-geometric-seamless-pattern-with-wave-fading_12997972/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "619f71068ac7a8cd2bcffa341a930674d172b0b9138995572a4114cb5cf6a452",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:21:00.699Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -9759,6 +12181,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Vector Stripe Pattern Geometric Texture Background",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_vector-stripe-pattern-geometric-texture-background_7723467-1/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_vector-stripe-pattern-geometric-texture-background_7723467-1/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "7e12bf35eb0018d72c31fbc20f6ca5be824b51eb20c2c62f10605458be84f356",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:21:02.265Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -9798,6 +12234,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Vector JUL 2020 92",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/dsn_bc1e9b1bc79677a4/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/dsn_bc1e9b1bc79677a4/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "7369a543da4180ee8d8b15dc4aafc67598b09e16492d4319c2038d370500df0b",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:21:03.884Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -9837,6 +12287,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی VO15",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/dsn_2526b9e6ebc8ca7e/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/dsn_2526b9e6ebc8ca7e/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "c9ff75e11f85b775add9b3259be0d0abd62a775507ebe4c17b7ef13974e5a1bd",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:21:05.039Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -9876,6 +12340,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی VO55",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/dsn_f29393d9e3a6debc/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/dsn_f29393d9e3a6debc/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "72c18b8579a765891f13b4b693084858a046bae08fa55285f2cc64c50a336ed8",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:21:06.550Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -9915,6 +12393,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی X58",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/dsn_bc93fbf5936ac7c6/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/dsn_bc93fbf5936ac7c6/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "7c42db50b4b5ca4482e728cfc56db10a711d10a720d32d49673738ac986bd5d5",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:21:07.970Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -9954,6 +12446,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Y2016 08 15 07",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/y2016-08-15-07_generated/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/y2016-08-15-07_generated/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "d32df147ab9a2acff15d072e1e5d9994f92eabb854d5b55a357b820c368d3bfb",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:21:09.309Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -9993,6 +12499,20 @@
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Y2017 02 16 20",
       "gallery": [],
+      "mockups": [
+        {
+          "templateId": "iphone-17-perspective",
+          "path": "/designed/mockups/y2017-02-16-20_generated/iphone-17-perspective.webp",
+          "thumbPath": "/designed/mockups/y2017-02-16-20_generated/iphone-17-perspective.thumb.webp",
+          "width": 1600,
+          "height": 1600,
+          "contentHash": "911ec5cb71300164efe62f1931853c15e9d5baef292098d0b9583303d1957dd0",
+          "templateVersion": "2",
+          "generatedAt": "2026-10-17T08:21:11.232Z",
+          "status": "ready",
+          "error": ""
+        }
+      ],
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",

@@ -1,23 +1,33 @@
 import type { MockupTemplateConfig } from "@/lib/mockups/types";
 
 /**
- * These four PSDs are registered but disabled. `npm run mockups:inspect` lists
- * layers and Smart Objects only. Leave `enabled` false until a printable region
- * or Smart Object name from that report is filled in. Do not guess coordinates.
+ * Placement comes from each PSD Smart Object. A Photoshop warp descriptor with
+ * style "none" is not a mesh, so its four corners are used as-is.
+ * Files without a plain 8-point transform stay disabled.
  */
-function disabledTemplate(id: string, name: string, file: string, smartObjectName: string): MockupTemplateConfig {
-  return {
-    id,
-    name,
-    psdPath: `psd/${file}`,
-    enabled: false,
+export const mockupTemplates: MockupTemplateConfig[] = [
+  {
+    id: "iphone-17-pro-cover",
+    name: "قاب آیفون ۱۷ پرو",
+    psdPath: "psd/iPhone 17 Pro Cover Mockup.psd",
+    enabled: true,
     renderer: "prepared",
-    version: "0",
-    default: false,
-    output: { width: 1600, height: 1600, quality: 82, thumbEdge: 400 },
-    printable: { width: 0, height: 0, smartObjectName },
-    maskPath: null,
-    basePath: null,
+    version: "2",
+    default: true,
+    output: { width: 1600, height: 1067, quality: 82, thumbEdge: 400 },
+    printable: {
+      width: 1303,
+      height: 2675,
+      quad: [
+        { x: 616.18, y: 176.77 },
+        { x: 963.56, y: 176.77 },
+        { x: 963.56, y: 890.23 },
+        { x: 616.18, y: 890.23 },
+      ],
+      smartObjectName: "[YOUR IMAGE HERE] - Print",
+    },
+    maskPath: "prepared/iphone-17-pro-cover/mask.png",
+    basePath: "prepared/iphone-17-pro-cover/base.png",
     shadePath: null,
     highlightPath: null,
     displacementPath: null,
@@ -25,32 +35,95 @@ function disabledTemplate(id: string, name: string, file: string, smartObjectNam
     fit: "contain",
     fill: { strategy: "blur", sigma: 24 },
     cornerRadius: 0,
-  };
-}
-
-export const mockupTemplates: MockupTemplateConfig[] = [
-  disabledTemplate(
-    "iphone-17-pro-cover",
-    "قاب آیفون ۱۷ پرو",
-    "iphone-17-pro-cover.psd",
-    "[YOUR IMAGE HERE] - Print",
-  ),
-  disabledTemplate(
-    "iphone-pro-case",
-    "قاب آیفون پرو",
-    "iphone-pro-case.psd",
-    "Place your design here (Double click to edit)",
-  ),
-  disabledTemplate(
-    "iphone-14-pro-matt-case",
-    "قاب مات آیفون ۱۴ پرو",
-    "iphone-14-pro-matt-case.psd",
-    "Design",
-  ),
-  disabledTemplate(
-    "iphone-pro-case-in-hand",
-    "قاب آیفون پرو در دست",
-    "iphone-pro-case-in-hand.psd",
-    "[YOUR IMAGE HERE]",
-  ),
+  },
+  {
+    id: "iphone-17-pro-case",
+    name: "قاب کیس آیفون ۱۷ پرو",
+    psdPath: "psd/iPhone 17 Pro Case Mockup.psd",
+    enabled: true,
+    renderer: "prepared",
+    version: "2",
+    default: false,
+    output: { width: 1600, height: 1067, quality: 82, thumbEdge: 400 },
+    printable: {
+      width: 1586,
+      height: 3062,
+      quad: [
+        { x: 403.73, y: 196.75 },
+        { x: 1245.2, y: 196.75 },
+        { x: 1245.2, y: 862.7 },
+        { x: 403.73, y: 862.7 },
+      ],
+      smartObjectName: "[YOUR IMAGE HERE] - Print",
+    },
+    maskPath: "prepared/iphone-17-pro-case/mask.png",
+    basePath: "prepared/iphone-17-pro-case/base.png",
+    shadePath: null,
+    highlightPath: null,
+    displacementPath: null,
+    displacementScale: 0,
+    fit: "contain",
+    fill: { strategy: "blur", sigma: 24 },
+    cornerRadius: 0,
+  },
+  {
+    id: "iphone-pro-case",
+    name: "قاب آیفون پرو",
+    psdPath: "psd/iphone_pro_case.psd",
+    enabled: true,
+    renderer: "prepared",
+    version: "2",
+    default: false,
+    output: { width: 1600, height: 1143, quality: 82, thumbEdge: 400 },
+    printable: {
+      width: 800,
+      height: 1630,
+      quad: [
+        { x: 1012.56, y: 181.46 },
+        { x: 1306.02, y: 386.24 },
+        { x: 888.39, y: 983.92 },
+        { x: 594.93, y: 779.14 },
+      ],
+      smartObjectName: "Place your design here (Double click to edit)",
+    },
+    maskPath: "prepared/iphone-pro-case/mask.png",
+    basePath: "prepared/iphone-pro-case/base.png",
+    shadePath: null,
+    highlightPath: null,
+    displacementPath: null,
+    displacementScale: 0,
+    fit: "contain",
+    fill: { strategy: "blur", sigma: 24 },
+    cornerRadius: 0,
+  },
+  {
+    id: "iphone-17-perspective",
+    name: "قاب آیفون ۱۷ پرسپکتیو",
+    psdPath: "psd/i7 PERSPECTIVE.psd",
+    enabled: true,
+    renderer: "prepared",
+    version: "2",
+    default: false,
+    output: { width: 1600, height: 1600, quality: 82, thumbEdge: 400 },
+    printable: {
+      width: 1340,
+      height: 2693,
+      quad: [
+        { x: 563.57, y: 312.51 },
+        { x: 1034.65, y: 312.51 },
+        { x: 1034.65, y: 1295.74 },
+        { x: 563.57, y: 1295.74 },
+      ],
+      smartObjectName: "Design (double-click on the layer thumbnail)",
+    },
+    maskPath: "prepared/iphone-17-perspective/mask.png",
+    basePath: "prepared/iphone-17-perspective/base.png",
+    shadePath: null,
+    highlightPath: null,
+    displacementPath: null,
+    displacementScale: 0,
+    fit: "contain",
+    fill: { strategy: "blur", sigma: 24 },
+    cornerRadius: 0,
+  },
 ];

@@ -21,7 +21,8 @@ async function main(): Promise<void> {
   );
 }
 
-main().catch(() => {
+main().catch((error: unknown) => {
+  console.error(error instanceof Error ? error.stack ?? error.message : error);
   console.error("Mockup generation failed.");
   process.exit(1);
 });

@@ -1,6 +1,7 @@
 import { enabledTemplates, loadProjectTemplates } from "./config";
-import { mergeMockupRecords, renderDesignTemplates } from "./render";
-import type { MockupRecord } from "./types";
+import { assertSafeId } from "./paths";
+import { renderDesignTemplates } from "./render";
+import type { MockupRecord, MockupTemplateConfig } from "./types";
 
 export type GenerateMockupReport = {
   designs: number;
@@ -12,6 +13,50 @@ export type GenerateMockupReport = {
 
 function sameRecords(left: MockupRecord[], right: MockupRecord[]): boolean {
   return JSON.stringify(left) === JSON.stringify(right);
+}
+
+/** Stable across runs. The same design id always keeps the same PSD. */
+export function templateForDesign(designId: string, templates: MockupTemplateConfig[]): MockupTemplateConfig {
+  const enabled = enabledTemplates(templates);
+  const first = enabled[0];
+  if (!first) throw new Error("No enabled mockup templates.");
+  let hash = 0;
+  for (const char of designId) hash = (Math.imul(hash, 31) + char.charCodeAt(0)) >>> 0;
+  return enabled[hash % enabled.length] ?? first;
+}
+
+function outputFolder(id: string, slug: string): string {
+  try {
+    return assertSafeId(slug);
+  } catch {
+    return assertSafeId(id);
+  }
+}
+
+async function saveDesignMockups(
+  mutateCatalog: <T>(fn: (catalog: { designs: { id: string; mockups: MockupRecord[] }[] }) => { catalog: { designs: { id: string; mockups: MockupRecord[] }[] }; result: T }) => Promise<T>,
+  designId: string,
+  updates: MockupRecord[],
+): Promise<void> {
+  for (let attempt = 1; attempt <= 8; attempt += 1) {
+    try {
+      await mutateCatalog((current) => {
+        const live = current.designs.find((item) => item.id === designId);
+        if (!live) return { catalog: current, result: false };
+        if (sameRecords(live.mockups, updates)) return { catalog: current, result: false };
+        live.mockups = updates;
+        return { catalog: current, result: true };
+      });
+      return;
+    } catch (error) {
+      const code = error && typeof error === "object" && "code" in error ? String(error.code) : "";
+      if ((code === "EPERM" || code === "EBUSY") && attempt < 8) {
+        await new Promise((resolve) => setTimeout(resolve, attempt * 400));
+        continue;
+      }
+      throw error;
+    }
+  }
 }
 
 export async function generateMockupsForDesigns(options: {
@@ -47,11 +92,12 @@ export async function generateMockupsForDesigns(options: {
 
   for (const design of designs) {
     const previous = design.mockups;
+    const chosen = templateForDesign(design.id, templates);
     const updates = await renderDesignTemplates({
       cwd,
-      slug: design.slug,
+      slug: outputFolder(design.id, design.slug),
       artworkPublicPath: design.imagePath,
-      templates: enabled,
+      templates: [chosen],
       previous,
     });
     report.designs += 1;
@@ -67,16 +113,12 @@ export async function generateMockupsForDesigns(options: {
       }
     }
 
-    const merged = mergeMockupRecords(previous, updates);
-    if (sameRecords(previous, merged)) continue;
-    await mutateCatalog((current) => {
-      const live = current.designs.find((item) => item.id === design.id);
-      if (!live) return { catalog: current, result: false };
-      const next = mergeMockupRecords(live.mockups, updates);
-      if (sameRecords(live.mockups, next)) return { catalog: current, result: false };
-      live.mockups = next;
-      return { catalog: current, result: true };
-    });
+    if (report.designs % 25 === 0 || report.designs === designs.length) {
+      console.log(`Mockup progress: ${report.designs}/${designs.length}`);
+    }
+
+    if (sameRecords(previous, updates)) continue;
+    await saveDesignMockups(mutateCatalog, design.id, updates);
   }
 
   return report;
