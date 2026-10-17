@@ -538,6 +538,60 @@ function walkSourceFiles(
   return files;
 }
 
+function catalogIdentity(): { stems: Set<string>; slugs: Set<string> } {
+  const catalogPath = join(ROOT, "data", "design-catalog.json");
+  const stems = new Set<string>();
+  const slugs = new Set<string>();
+  if (!existsSync(catalogPath)) return { stems, slugs };
+
+  const catalog = JSON.parse(readFileSync(catalogPath, "utf8")) as {
+    designs?: Array<{
+      sourceKey?: string;
+      slug?: string;
+      templateSlug?: string;
+      legacySlug?: string;
+    }>;
+  };
+
+  for (const design of catalog.designs ?? []) {
+    const file = basename(design.sourceKey ?? "");
+    const stem = file.replace(/\.(eps|jpe?g|png|webp|svg)$/i, "").toLowerCase();
+    if (stem) stems.add(stem);
+    for (const value of [design.slug, design.templateSlug, design.legacySlug]) {
+      if (value) slugs.add(value.toLowerCase());
+    }
+  }
+
+  return { stems, slugs };
+}
+
+function isAlreadyCatalogued(
+  source: SourceCandidate,
+  known: { stems: Set<string>; slugs: Set<string> },
+): boolean {
+  const stem = slugFromFilename(basename(source.path)).toLowerCase();
+  return known.stems.has(stem) || known.slugs.has(source.slug.toLowerCase());
+}
+
+function readExistingManifest(): ManifestEntry[] {
+  if (!existsSync(MANIFEST_PATH)) return [];
+  const parsed = JSON.parse(readFileSync(MANIFEST_PATH, "utf8")) as {
+    entries?: ManifestEntry[];
+  };
+  return (parsed.entries ?? []).map((entry) => ({
+    ...entry,
+    sourceKey: entry.sourceKey || sourceKeyFromManifest(entry),
+  }));
+}
+
+function sourceKeyFromManifest(entry: Pick<ManifestEntry, "sourceKey" | "category" | "sourceFile">): string {
+  if (entry.sourceKey) return entry.sourceKey.replace(/\\/g, "/");
+  const file = entry.sourceFile.replace(/\\/g, "/").split("/").pop() ?? entry.sourceFile;
+  const folder = entry.category.trim().toLowerCase();
+  if (!folder || folder === "general") return file;
+  return `${folder}/${file}`;
+}
+
 function discoverSources(): SourceCandidate[] {
   if (!existsSync(SOURCE_DIR)) {
     return [];
@@ -791,7 +845,16 @@ async function main(): Promise<void> {
   mkdirSync(DESIGNED_DIR, { recursive: true });
   mkdirSync(THUMBS_DIR, { recursive: true });
 
-  const sources = discoverSources();
+  const newOnly = hasFlag("new-only");
+  let sources = discoverSources();
+  if (newOnly) {
+    const known = catalogIdentity();
+    const before = sources.length;
+    sources = sources.filter((source) => !isAlreadyCatalogued(source, known));
+    console.log(
+      `New-only: ${sources.length} new source(s), skipped ${before - sources.length} already in the catalog.`,
+    );
+  }
 
   if (sources.length === 0) {
     console.log(
@@ -877,22 +940,36 @@ async function main(): Promise<void> {
     console.warn(`\nWarning: skipped ${skipped} source file(s) due to conversion errors.`);
   }
 
-  writeFileSync(MANIFEST_PATH, JSON.stringify({ entries: manifest }, null, 2), "utf8");
-  writeGeneratedFiles(manifest, meta);
+  const existingManifest = newOnly ? readExistingManifest() : [];
+  const existingSlugs = new Set(existingManifest.map((entry) => entry.slug.toLowerCase()));
+  const fresh = newOnly
+    ? manifest.filter((entry) => !existingSlugs.has(entry.slug.toLowerCase()))
+    : manifest;
+  const catalogEntries = newOnly ? [...existingManifest, ...fresh] : manifest;
+
+  writeFileSync(MANIFEST_PATH, JSON.stringify({ entries: catalogEntries }, null, 2), "utf8");
+  writeGeneratedFiles(catalogEntries, meta);
   await ensureOgDefaultImage();
 
   const { applyManifestImport, printSyncReport } = await import("../src/lib/catalog/sync");
-  const report = await applyManifestImport(manifest, meta);
+  const report = await applyManifestImport(
+    catalogEntries,
+    meta,
+    newOnly ? { defaultStatus: "published" } : {},
+  );
   printSyncReport(report);
 
   try {
     const { generateMockupsForDesigns } = await import("../src/lib/mockups/generate");
-    const mockupReport = await generateMockupsForDesigns({ slugs: manifest.map((entry) => entry.slug) });
+    const mockupSlugs = (newOnly ? fresh : manifest).map((entry) => entry.slug);
+    const mockupReport = await generateMockupsForDesigns({ slugs: mockupSlugs });
     console.log(
       `Mockups: ${mockupReport.ready} written, ${mockupReport.reused} reused, ${mockupReport.errors} error(s).`,
     );
-  } catch {
-    console.warn("Mockup generation did not finish. Artwork import was kept.");
+  } catch (error) {
+    console.warn(
+      `Mockup generation did not finish. Artwork import was kept. ${error instanceof Error ? error.message : error}`,
+    );
   }
 
   const totalBytes = manifest.reduce((sum, entry) => {
