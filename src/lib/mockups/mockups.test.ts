@@ -8,7 +8,7 @@ import { writePsdBuffer } from "ag-psd";
 import sharp from "sharp";
 
 import { validateMockupTemplates } from "./config";
-import { buildPrintableTexture } from "./composite";
+import { buildPrintableTexture, compositePrepared } from "./composite";
 import { selectProductImages } from "./display";
 import { templateForDesign } from "./generate";
 import { MockupError } from "./errors";
@@ -216,6 +216,68 @@ test("cover fit fills the print height and crops a wide artwork", async () => {
     assert.equal(bottom[3], 255);
     assert.ok(top[1] > 20 && top[1] < 80);
     assert.ok(bottom[1] > 150);
+  } finally {
+    removeTemp(dir);
+  }
+});
+
+test("the print mask keeps the artwork inside the case and hides it outside", async () => {
+  const dir = mkdtempSync(join(tmpdir(), "mockup-mask-"));
+  try {
+    const { mkdirSync } = await import("node:fs");
+    const root = join(dir, "templates");
+    mkdirSync(join(root, "prepared"), { recursive: true });
+    const size = 80;
+    const mask = Buffer.alloc(size * size * 4);
+    for (let y = 0; y < size; y += 1) {
+      for (let x = 0; x < size; x += 1) {
+        const inside = x >= 20 && x < 60 && y >= 20 && y < 60;
+        const index = (y * size + x) * 4;
+        mask[index] = inside ? 255 : 0;
+        mask[index + 1] = inside ? 255 : 0;
+        mask[index + 2] = inside ? 255 : 0;
+        mask[index + 3] = inside ? 255 : 0;
+      }
+    }
+    await sharp(mask, { raw: { width: size, height: size, channels: 4 } }).png().toFile(join(root, "prepared", "mask.png"));
+    await sharp({
+      create: { width: size, height: size, channels: 4, background: { r: 0, g: 0, b: 255, alpha: 1 } },
+    })
+      .png()
+      .toFile(join(root, "prepared", "base.png"));
+    const art = Buffer.alloc(40 * 40 * 4, 255);
+    for (let pixelIndex = 0; pixelIndex < 40 * 40; pixelIndex += 1) {
+      art[pixelIndex * 4] = 220;
+      art[pixelIndex * 4 + 1] = 10;
+      art[pixelIndex * 4 + 2] = 10;
+    }
+    const artPath = join(dir, "art.png");
+    await sharp(art, { raw: { width: 40, height: 40, channels: 4 } }).png().toFile(artPath);
+
+    const template = placementTemplate({
+      maskPath: "prepared/mask.png",
+      basePath: "prepared/base.png",
+      printable: { width: 40, height: 40, origin: { x: 20, y: 20 } },
+      fit: "cover",
+    });
+    const outputPath = join(dir, "out.webp");
+    await compositePrepared({
+      artworkPath: artPath,
+      template,
+      templateRoot: root,
+      outputPath,
+      thumbPath: join(dir, "thumb.webp"),
+    });
+
+    const output = readFileSync(outputPath);
+    const inside = await pixel(output, 40, 40);
+    const outside = await pixel(output, 4, 4);
+    assert.ok(inside[3] > 200);
+    assert.ok(inside[0] > 180);
+    assert.ok(inside[2] < 40);
+    assert.ok(outside[3] > 200);
+    assert.ok(outside[2] > 180);
+    assert.ok(outside[0] < 40);
   } finally {
     removeTemp(dir);
   }

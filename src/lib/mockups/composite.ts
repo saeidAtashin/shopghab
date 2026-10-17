@@ -185,11 +185,17 @@ async function loadMaskAlpha(maskPath: string, width: number, height: number): P
       alpha[pixel] = Math.round(0.2126 * red + 0.7152 * green + 0.0722 * blue);
     }
   }
-  const gray = await sharp(alpha, { raw: { width: info.width, height: info.height, channels: 1 } }).png().toBuffer();
-  const resized = await sharp(gray).resize(width, height, { fit: "fill" }).raw().toBuffer();
+  const resized = await sharp(alpha, {
+    raw: { width: info.width, height: info.height, channels: 1 },
+  })
+    .resize(width, height, { fit: "fill" })
+    .toColourspace("b-w")
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+  const channels = Math.max(1, resized.info.channels);
   const rgba = Buffer.alloc(width * height * 4, 255);
   for (let pixel = 0; pixel < width * height; pixel += 1) {
-    rgba[pixel * 4 + 3] = resized[pixel] ?? 0;
+    rgba[pixel * 4 + 3] = resized.data[pixel * channels] ?? 0;
   }
   return rawPng({ data: rgba, width, height });
 }

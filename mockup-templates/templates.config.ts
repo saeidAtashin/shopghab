@@ -12,7 +12,7 @@ export const mockupTemplates: MockupTemplateConfig[] = [
     psdPath: "psd/iPhone 17 Pro Cover Mockup.psd",
     enabled: true,
     renderer: "prepared",
-    version: "3",
+    version: "4",
     default: true,
     output: { width: 1600, height: 1067, quality: 82, thumbEdge: 400 },
     printable: {
@@ -42,7 +42,7 @@ export const mockupTemplates: MockupTemplateConfig[] = [
     psdPath: "psd/iPhone 17 Pro Case Mockup.psd",
     enabled: true,
     renderer: "prepared",
-    version: "3",
+    version: "4",
     default: false,
     output: { width: 1600, height: 1067, quality: 82, thumbEdge: 400 },
     printable: {
@@ -72,7 +72,7 @@ export const mockupTemplates: MockupTemplateConfig[] = [
     psdPath: "psd/iphone_pro_case.psd",
     enabled: true,
     renderer: "prepared",
-    version: "3",
+    version: "4",
     default: false,
     output: { width: 1600, height: 1143, quality: 82, thumbEdge: 400 },
     printable: {
@@ -102,7 +102,7 @@ export const mockupTemplates: MockupTemplateConfig[] = [
     psdPath: "psd/i7 PERSPECTIVE.psd",
     enabled: true,
     renderer: "prepared",
-    version: "3",
+    version: "4",
     default: false,
     output: { width: 1600, height: 1600, quality: 82, thumbEdge: 400 },
     printable: {
