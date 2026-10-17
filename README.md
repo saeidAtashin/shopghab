@@ -16,16 +16,8 @@ App: http://localhost:3000
 
 ## Production deploy (shopghab.ir)
 
-Pushes to `main` run [`.github/workflows/deploy-shopghab.yml`](.github/workflows/deploy-shopghab.yml): build on Actions, copy artifacts to the VPS, then `docker compose -f docker-compose.prod.yml` rebuild/restart.
+Pushes to `main` run [`.github/workflows/deploy-shopghab.yml`](.github/workflows/deploy-shopghab.yml): build on Actions and publish the Next.js output on the `deploy-latest` release. The VPS pulls that release; Actions does not SSH in.
 
-See [`deploy/README.md`](deploy/README.md) for nginx/bootstrap details.
-
-### GitHub secrets
-
-| Secret | Purpose |
-|--------|---------|
-| `VPS_HOST` | VPS hostname or IP |
-| `VPS_USER` | SSH user |
-| `VPS_SSH_KEY` | Private SSH key |
+See [`deploy/README.md`](deploy/README.md) for the one-time updater install, nginx, and bootstrap.
 
 Do **not** commit `.env` or live secrets.

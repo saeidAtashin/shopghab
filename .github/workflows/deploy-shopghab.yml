@@ -9,6 +9,9 @@ concurrency:
   group: shopghab-production
   cancel-in-progress: true
 
+permissions:
+  contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -28,52 +31,20 @@ jobs:
           NEXT_PUBLIC_API_TENANT_ID: shop-ghab
         run: npm ci --legacy-peer-deps && npm run build
 
-      - name: Pack build artifacts
+      - name: Pack Next.js build
         run: |
-          tar -czf shopghab-build.tgz \
-            .next/standalone \
-            .next/static \
-            public \
-            data/design-catalog.json \
-            Dockerfile.prod \
-            docker-compose.prod.yml \
-            .dockerignore \
-            deploy/nginx/shopghab.ir.conf \
-            deploy/nginx/shopghab.ir.http.conf \
-            deploy/bootstrap-shopghab.sh
+          tar -czf shopghab-next.tgz .next/standalone .next/static
+          printf '%s\n' "${{ github.sha }}" > deploy-sha.txt
 
-      - name: Copy archive to VPS
-        uses: appleboy/scp-action@v1.0.0
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          source: shopghab-build.tgz
-          target: /root/shopghab
-          overwrite: true
-          timeout: 10m
-          command_timeout: 20m
-
-      - name: Extract, rebuild, and restart on VPS
-        uses: appleboy/ssh-action@v1.2.0
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          command_timeout: 20m
-          script: |
-            set -e
-            cd /root/shopghab
-            rm -rf .next
-            tar -xzf shopghab-build.tgz
-            rm -f shopghab-build.tgz
-            printf '%s\n' "${{ github.sha }}" > DEPLOY_SHA
-            if [ ! -f .env ]; then
-              printf 'NEXT_PUBLIC_SITE_URL=https://shopghab.ir\nAPI_BASE_URL=https://api.k3isonfire.ir/api/v1\nNEXT_PUBLIC_API_TENANT_ID=shop-ghab\n' > .env
-            fi
-            docker compose -f docker-compose.prod.yml build --no-cache
-            docker compose -f docker-compose.prod.yml up -d --force-recreate --remove-orphans
-            docker image prune -f
-            if [ -x /root/shopghab/deploy/bootstrap-shopghab.sh ] || [ -f /root/shopghab/deploy/bootstrap-shopghab.sh ]; then
-              bash /root/shopghab/deploy/bootstrap-shopghab.sh
-            fi
+      - name: Publish deploy-latest release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if ! gh release view deploy-latest >/dev/null 2>&1; then
+            gh release create deploy-latest \
+              --target "${{ github.sha }}" \
+              --title "deploy-latest" \
+              --notes "Production Next.js build."
+          fi
+          gh release upload deploy-latest shopghab-next.tgz --clobber
+          gh release upload deploy-latest deploy-sha.txt --clobber

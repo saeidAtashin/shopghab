@@ -18,7 +18,8 @@ Until those records exist, shopghab.ir will not resolve. The other two frontends
 ```bash
 mkdir -p /root/shopghab
 cd /root/shopghab
-# After the first CI deploy (or after copying .env.example from the repo):
+# The updater clones the repo here. Create .env before the first update if you
+# need values other than the defaults written when .env is missing.
 cp .env.example .env   # if you have the file locally; otherwise create it by hand
 ```
 
@@ -42,7 +43,7 @@ nginx -t && systemctl reload nginx
 
 The site proxies `shopghab.ir` / `www.shopghab.ir` to `127.0.0.1:3002`. Do not change the FixBazi site on port 3001.
 
-Or run the one-shot installer after a CI deploy has copied `deploy/` onto the VPS:
+Or run the one-shot installer after the updater has cloned the repo onto the VPS:
 
 ```bash
 bash /root/shopghab/deploy/bootstrap-shopghab.sh
@@ -63,11 +64,20 @@ nginx will listen on 443 and redirect HTTP to HTTPS. The `.pfx` is not used. Cer
 
 ## Deploy
 
-Push to `main` (or run **Deploy shopghab to VPS** in GitHub Actions). The workflow reuses `VPS_HOST`, `VPS_USER`, and `VPS_SSH_KEY`, copies the standalone build to `/root/shopghab`, and restarts the `shopghab` container.
+Push to `main` (or run **Deploy shopghab to VPS** in GitHub Actions). Actions builds Next.js and publishes `.next/standalone`, `.next/static`, and the commit sha on the public release tag `deploy-latest`. It does not open SSH to the VPS. `public/` and `data/design-catalog.json` stay in git; the release is only the Next.js build.
 
-Each deploy replaces `/root/shopghab/data/design-catalog.json` with the file from that commit, then mounts it into the container. `npm run catalog:sync` shows up on the site after those catalog changes are committed and pushed to `main`. The file stays writable for the admin UI until the next deploy.
+The VPS pulls that release. From this PC (port 22 on the VPS is reachable here), install the updater once:
 
-After a successful deploy the app should answer on `http://127.0.0.1:3002` and at `https://shopghab.ir`.
+```bash
+ssh root@185.204.197.187
+curl -fsSL -o /tmp/update-from-release.sh https://raw.githubusercontent.com/saeidAtashin/shopghab/main/deploy/update-from-release.sh
+bash /tmp/update-from-release.sh
+(crontab -l 2>/dev/null | grep -v update-from-release.sh; echo '* * * * * bash /root/shopghab/deploy/update-from-release.sh >> /var/log/shopghab-update.log 2>&1') | crontab -
+```
+
+Run the `curl` after this change is on `main`, so the raw URL exists. The script keeps `.env` and `deploy/ssl`. Each new sha replaces `data/design-catalog.json` from that commit and mounts it into the container. `npm run catalog:sync` shows up on the site after those catalog changes are committed and pushed to `main`. The file stays writable for the admin UI until the next deploy.
+
+After a successful update the app should answer on `http://127.0.0.1:3002` and at `https://shopghab.ir`.
 
 ## VPS health (three frontends)
 
