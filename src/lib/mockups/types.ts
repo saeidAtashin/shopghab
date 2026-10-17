@@ -31,7 +31,7 @@ export type MockupTemplateConfig = {
   highlightPath: string | null;
   displacementPath: string | null;
   displacementScale: number;
-  fit: "contain";
+  fit: "contain" | "cover";
   fill: FillStrategy;
   cornerRadius: number;
 };

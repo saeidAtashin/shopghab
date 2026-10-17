@@ -28,7 +28,9 @@ export function validateMockupTemplates(templates: MockupTemplateConfig[], templ
     if (template.renderer !== "prepared" && template.renderer !== "photoshop") {
       throw new Error(`Template ${template.id} has an unknown renderer.`);
     }
-    if (template.fit !== "contain") throw new Error(`Template ${template.id} must use contain fit.`);
+    if (template.fit !== "contain" && template.fit !== "cover") {
+      throw new Error(`Template ${template.id} must use contain or cover fit.`);
+    }
     if (template.output.width < 1 || template.output.height < 1 || template.output.thumbEdge < 1) {
       throw new Error(`Template ${template.id} has invalid output dimensions.`);
     }

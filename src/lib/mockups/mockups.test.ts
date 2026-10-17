@@ -183,6 +183,44 @@ test("edge extension fills empty bars and blur keeps both artwork corners", asyn
   }
 });
 
+test("cover fit fills the print height and crops a wide artwork", async () => {
+  const dir = mkdtempSync(join(tmpdir(), "mockup-cover-"));
+  try {
+    const width = 80;
+    const height = 20;
+    const data = Buffer.alloc(width * height * 4, 255);
+    for (let y = 0; y < height; y += 1) {
+      for (let x = 0; x < width; x += 1) {
+        const index = (y * width + x) * 4;
+        data[index] = x < width / 2 ? 255 : 0;
+        data[index + 1] = y === 0 ? 40 : y === height - 1 ? 200 : 0;
+        data[index + 2] = x < width / 2 ? 0 : 255;
+      }
+    }
+    const artPath = join(dir, "wide.png");
+    writeFileSync(artPath, await sharp(data, { raw: { width, height, channels: 4 } }).png().toBuffer());
+
+    const regionWidth = 40;
+    const regionHeight = 40;
+    const scale = Math.max(regionWidth / width, regionHeight / height);
+    assert.equal(height * scale, regionHeight);
+    assert.ok(width * scale > regionWidth);
+
+    const texture = await buildPrintableTexture(artPath, regionWidth, regionHeight, { strategy: "solid", color: "#ffffff" }, "cover");
+    const meta = await sharp(texture).metadata();
+    assert.equal(meta.width, regionWidth);
+    assert.equal(meta.height, regionHeight);
+    const top = await pixel(texture, 20, 0);
+    const bottom = await pixel(texture, 20, regionHeight - 1);
+    assert.equal(top[3], 255);
+    assert.equal(bottom[3], 255);
+    assert.ok(top[1] > 20 && top[1] < 80);
+    assert.ok(bottom[1] > 150);
+  } finally {
+    removeTemp(dir);
+  }
+});
+
 test("a failed template does not block a valid one, and success requires a real WebP", async () => {
   const cwd = mkdtempSync(join(tmpdir(), "mockup-render-"));
   try {

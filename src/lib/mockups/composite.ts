@@ -52,10 +52,19 @@ export async function buildPrintableTexture(
   regionWidth: number,
   regionHeight: number,
   fill: FillStrategy,
+  fit: "contain" | "cover" = "contain",
 ): Promise<Buffer> {
   if (regionWidth < 1 || regionHeight < 1) throw new MockupError("unconfiguredRegion");
   const meta = await sharp(artworkPath).metadata();
   if (!meta.width || !meta.height) throw new MockupError("invalidArtwork");
+
+  if (fit === "cover") {
+    return sharp(artworkPath)
+      .ensureAlpha()
+      .resize(regionWidth, regionHeight, { fit: "cover", position: "centre" })
+      .png()
+      .toBuffer();
+  }
 
   const contained = await sharp(artworkPath)
     .ensureAlpha()
@@ -225,7 +234,13 @@ export async function compositePrepared(options: {
   const basePath = existingFile(options.templateRoot, template.basePath, "missingBase");
   const outputWidth = template.output.width;
   const outputHeight = template.output.height;
-  const texture = await buildPrintableTexture(options.artworkPath, regionWidth, regionHeight, template.fill);
+  const texture = await buildPrintableTexture(
+    options.artworkPath,
+    regionWidth,
+    regionHeight,
+    template.fill,
+    template.fit,
+  );
   const textureRaw = await toRaw(texture, regionWidth, regionHeight);
 
   let placed: Buffer;
