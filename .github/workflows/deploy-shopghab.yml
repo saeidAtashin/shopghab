@@ -34,8 +34,10 @@ jobs:
             .next/standalone \
             .next/static \
             public \
+            data/design-catalog.json \
             Dockerfile.prod \
             docker-compose.prod.yml \
+            .dockerignore \
             deploy/nginx/shopghab.ir.conf \
             deploy/nginx/shopghab.ir.http.conf \
             deploy/bootstrap-shopghab.sh
@@ -62,6 +64,7 @@ jobs:
           script: |
             set -e
             cd /root/shopghab
+            rm -rf .next
             tar -xzf shopghab-build.tgz
             rm -f shopghab-build.tgz
             printf '%s\n' "${{ github.sha }}" > DEPLOY_SHA

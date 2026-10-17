@@ -63,7 +63,9 @@ nginx will listen on 443 and redirect HTTP to HTTPS. The `.pfx` is not used. Cer
 
 ## Deploy
 
-Push to `print-site` (or run **Deploy shopghab to VPS** in GitHub Actions). The workflow reuses `VPS_HOST`, `VPS_USER`, and `VPS_SSH_KEY`, copies the standalone build to `/root/shopghab`, and restarts the `shopghab` container.
+Push to `main` (or run **Deploy shopghab to VPS** in GitHub Actions). The workflow reuses `VPS_HOST`, `VPS_USER`, and `VPS_SSH_KEY`, copies the standalone build to `/root/shopghab`, and restarts the `shopghab` container.
+
+Each deploy replaces `/root/shopghab/data/design-catalog.json` with the file from that commit, then mounts it into the container. `npm run catalog:sync` shows up on the site after those catalog changes are committed and pushed to `main`. The file stays writable for the admin UI until the next deploy.
 
 After a successful deploy the app should answer on `http://127.0.0.1:3002` and at `https://shopghab.ir`.
 

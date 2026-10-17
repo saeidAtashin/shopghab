@@ -4,6 +4,8 @@ import { createPageMetadata } from "../lib/seo/metadata";
 import { webPageJsonLd } from "../lib/seo/jsonld";
 import { SITE_NAME } from "../lib/seo/site";
 
+export const dynamic = "force-dynamic";
+
 const HOME_TITLE = "طراحی و خرید قاب موبایل اختصاصی";
 const HOME_DESCRIPTION =
   "قاب موبایل خودت را طراحی کن — انتخاب برند و مدل، افزودن متن و استیکر، پیش‌نمایش و خرید آنلاین با ارسال سریع.";
