@@ -10,7 +10,7 @@ import sharp from "sharp";
 import { validateMockupTemplates } from "./config";
 import { buildPrintableTexture, compositePrepared } from "./composite";
 import { selectProductImages } from "./display";
-import { templateForDesign } from "./generate";
+import { templatesForDesign } from "./generate";
 import { MockupError } from "./errors";
 import { artworkFullyInside, aspectPreserved, containPlacement, filledTextureSize } from "./fit";
 import { inspectPsdBuffer } from "./inspect";
@@ -49,6 +49,7 @@ function placementTemplate(overrides: Partial<MockupTemplateConfig> = {}): Mocku
     displacementPath: null,
     displacementScale: 0,
     fit: "contain",
+    listing: true,
     fill: { strategy: "solid", color: "#ffffff" },
     cornerRadius: 0,
     ...overrides,
@@ -390,18 +391,33 @@ test("perspective warp keeps source color inside the quad and transparency outsi
   assert.ok((warped.data[inside] ?? 0) > 200);
 });
 
-test("each design keeps one stable mockup template", () => {
+test("each design keeps three stable phone mockups", () => {
   const templates = [
-    placementTemplate({ id: "cover", default: true }),
-    placementTemplate({ id: "case", default: false }),
-    placementTemplate({ id: "pro", default: false }),
-    placementTemplate({ id: "perspective", default: false }),
+    placementTemplate({ id: "cover", default: true, listing: true }),
+    placementTemplate({ id: "case", default: false, listing: true }),
+    placementTemplate({ id: "pro", default: false, listing: true }),
+    placementTemplate({ id: "perspective", default: false, listing: false }),
+    placementTemplate({ id: "hand", default: false, listing: true }),
   ];
-  const chosen = templateForDesign("dsn_one", templates);
-  assert.equal(templateForDesign("dsn_one", templates).id, chosen.id);
+  const chosen = templatesForDesign("dsn_one", templates, "case");
+  assert.deepEqual(
+    templatesForDesign("dsn_one", templates, "case").map((template) => template.id),
+    chosen.map((template) => template.id),
+  );
+  assert.equal(chosen[0]?.id, "case");
+  assert.equal(chosen.length, 3);
+  assert.equal(new Set(chosen.map((template) => template.id)).size, 3);
+  assert.ok(chosen.every((template) => template.id !== "perspective"));
+
+  const replaced = templatesForDesign("dsn_two", templates, "perspective");
+  assert.notEqual(replaced[0]?.id, "perspective");
+  assert.deepEqual(
+    replaced.map((template) => template.id),
+    templatesForDesign("dsn_two", templates).map((template) => template.id),
+  );
   const ids = new Set(
     ["dsn_one", "dsn_two", "dsn_three", "dsn_four", "dsn_five", "dsn_six", "dsn_seven", "dsn_eight"].map(
-      (id) => templateForDesign(id, templates).id,
+      (id) => templatesForDesign(id, templates)[0]?.id,
     ),
   );
   assert.ok(ids.size > 1);
@@ -445,6 +461,12 @@ test("storefront uses the first ready mockup and keeps editorial gallery frames"
   });
   assert.equal(images.hero, "/designed/mockups/space-cat/flat-case.webp");
   assert.equal(images.thumb, "/designed/mockups/space-cat/flat-case.thumb.webp");
+  assert.deepEqual(images.frames, [
+    {
+      src: "/designed/mockups/space-cat/flat-case.webp",
+      thumb: "/designed/mockups/space-cat/flat-case.thumb.webp",
+    },
+  ]);
   assert.deepEqual(images.gallery, ["/designed/extra.webp"]);
   assert.equal(images.alt, "طرح قاب space-cat");
   assert.equal(images.width, 80);

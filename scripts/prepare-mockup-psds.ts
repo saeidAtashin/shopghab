@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 import { initializeCanvas, readPsd, type Layer, type PixelData, type Warp } from "ag-psd";
@@ -223,7 +223,8 @@ function renderConfig(templates: MockupTemplateConfig[]): string {
     highlightPath: null,
     displacementPath: null,
     displacementScale: 0,
-    fit: "contain",
+    fit: ${JSON.stringify(template.fit)},
+    listing: ${template.listing},
     fill: { strategy: "blur", sigma: 24 },
     cornerRadius: 0,
   }`;
@@ -242,10 +243,32 @@ ${body},
 `;
 }
 
+async function isFlatColorBase(filePath: string): Promise<boolean> {
+  const { data } = await sharp(filePath).resize(48, 48, { fit: "fill" }).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  const samples: number[][] = [];
+  for (let index = 0; index < data.length; index += 4) {
+    if ((data[index + 3] ?? 0) < 200) continue;
+    samples.push([data[index] ?? 0, data[index + 1] ?? 0, data[index + 2] ?? 0]);
+  }
+  if (samples.length < 20) return false;
+  const mean = [0, 1, 2].map((channel) => samples.reduce((sum, pixel) => sum + (pixel[channel] ?? 0), 0) / samples.length);
+  const deviation = [0, 1, 2].map((channel) => {
+    const variance = samples.reduce((sum, pixel) => sum + ((pixel[channel] ?? 0) - (mean[channel] ?? 0)) ** 2, 0) / samples.length;
+    return Math.sqrt(variance);
+  });
+  return deviation.every((value) => value < 10);
+}
+
 async function prepareOne(
   root: string,
   template: MockupTemplateConfig,
 ): Promise<MockupTemplateConfig> {
+  const baseFile = template.basePath ? join(root, template.basePath) : "";
+  const maskFile = template.maskPath ? join(root, template.maskPath) : "";
+  if (template.enabled && baseFile && maskFile && existsSync(baseFile) && existsSync(maskFile)) {
+    console.log(`${template.id}: already prepared.`);
+    return template;
+  }
   const psdPath = join(root, template.psdPath);
   const psd = readPsd(readFileSync(psdPath), {
     skipLayerImageData: false,
@@ -283,10 +306,13 @@ async function prepareOne(
   await sharp(base).resize(size.width, size.height, { fit: "fill" }).png().toFile(join(dir, "base.png"));
   await sharp(placed).resize(size.width, size.height, { fit: "fill" }).png().toFile(join(dir, "mask.png"));
 
+  const basePath = `prepared/${template.id}/base.png`;
+  const flatCard = await isFlatColorBase(join(dir, "base.png"));
   const next: MockupTemplateConfig = {
     ...template,
     enabled: true,
-    version: "2",
+    version: template.version,
+    listing: template.listing && !flatCard,
     output: { ...template.output, width: size.width, height: size.height },
     printable: {
       width: printable.width,
@@ -294,17 +320,18 @@ async function prepareOne(
       quad: quadFromTransform(printable.transform, psd.width, psd.height, size.width, size.height),
       smartObjectName: printable.name,
     },
-    basePath: `prepared/${template.id}/base.png`,
+    basePath,
     maskPath: `prepared/${template.id}/mask.png`,
   };
   console.log(
-    `${template.id}: ${printable.name} ${printable.width}x${printable.height} -> ${size.width}x${size.height}`,
+    `${template.id}: ${printable.name} ${printable.width}x${printable.height} -> ${size.width}x${size.height}${flatCard ? " (flat card, not a listing photo)" : ""}`,
   );
   return next;
 }
 
 async function main(): Promise<void> {
   const root = mockupRoot();
+  const configPath = join(root, "templates.config.ts");
   const next: MockupTemplateConfig[] = [];
   for (const template of mockupTemplates) {
     try {
@@ -314,9 +341,8 @@ async function main(): Promise<void> {
       console.warn(`${template.psdPath}: ${message}. Left disabled.`);
       next.push(template);
     }
+    writeFileSync(configPath, renderConfig([...next, ...mockupTemplates.slice(next.length)]), "utf8");
   }
-  const configPath = join(root, "templates.config.ts");
-  writeFileSync(configPath, renderConfig(next), "utf8");
   const enabled = next.filter((template) => template.enabled).length;
   console.log(`Prepared ${enabled} of ${next.length} templates.`);
   if (enabled === 0) process.exitCode = 1;

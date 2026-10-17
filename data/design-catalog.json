@@ -3025,6 +3025,30 @@
           "generatedAt": "2026-10-17T08:54:35.802Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/1164/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/1164/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "9b8f54686d0354c16a7fb6252c1b28c85d8ef439748ecbdd74725f37abb9b887",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:32:39.988Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/1164/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/1164/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "84616517d94ef4aec03cf1f6ce3eab729b3b31472b9639671ccfb73d57c7c6f6",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:32:39.988Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -3078,6 +3102,30 @@
           "generatedAt": "2026-10-17T08:54:36.519Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/14507_generated/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/14507_generated/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "250bc6caa424925d4ef447c0f09f49675a7922257cb4a40ae8780028b0f1b907",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:32:41.872Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/14507_generated/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/14507_generated/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "4f3f7b18014cdaa5dadd9058ce1020ebc7a36dab1a16c89c1e8193b12ad74ebc",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:32:41.872Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -3121,14 +3169,38 @@
       "gallery": [],
       "mockups": [
         {
-          "templateId": "iphone-17-perspective",
-          "path": "/designed/mockups/1977/iphone-17-perspective.webp",
-          "thumbPath": "/designed/mockups/1977/iphone-17-perspective.thumb.webp",
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/1977/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/1977/iphone-17-pro-case.thumb.webp",
           "width": 1600,
-          "height": 1600,
-          "contentHash": "d1fd875f2a86dc0671f155e95275d0a385d89ffb7e93e7f88093d2bd51495aba",
+          "height": 1067,
+          "contentHash": "e19c3ec580b2e5c7f7cca01bf53e5f7545cb5d3a14c280921eb1dd7a65090cf4",
           "templateVersion": "4",
-          "generatedAt": "2026-10-17T08:54:37.496Z",
+          "generatedAt": "2026-10-17T09:32:43.953Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/1977/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/1977/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "fc81d87f78ffa666e3e425973f6b039188f0dc1b8f6a31c5ae4a9402c699c948",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:32:43.953Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/1977/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/1977/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "eae6dfeb1a1999b6ec57831689e0704776dd3be156bcb29d17b528966e455dbf",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:32:43.953Z",
           "status": "ready",
           "error": ""
         }
@@ -3174,14 +3246,38 @@
       "gallery": [],
       "mockups": [
         {
-          "templateId": "iphone-17-perspective",
-          "path": "/designed/mockups/2/iphone-17-perspective.webp",
-          "thumbPath": "/designed/mockups/2/iphone-17-perspective.thumb.webp",
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/2/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/2/iphone-17-pro-cover.thumb.webp",
           "width": 1600,
-          "height": 1600,
-          "contentHash": "d2763091c7aef31235af6760dac485a80aa2a002a7397d3c8c16f7e8cc7fdbdb",
+          "height": 1067,
+          "contentHash": "7f4a28d12cab317c85cbd2b0a598aa8aa11492dc3c52339c9d5d3f7420e8b9fa",
           "templateVersion": "4",
-          "generatedAt": "2026-10-17T08:54:38.316Z",
+          "generatedAt": "2026-10-17T09:32:46.536Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/2/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/2/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "df218f5ac06d0bc22d90435d59aa6e3ab5f2d0d24b64e4189de31a97409e518a",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:32:46.536Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/2/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/2/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "cdfa53a20ac7a05f3cddcb7d43f3897937db9c707f25110a9146d0a6e763306f",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:32:46.536Z",
           "status": "ready",
           "error": ""
         }
@@ -3237,6 +3333,30 @@
           "generatedAt": "2026-10-17T08:54:39.181Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/27_generated/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/27_generated/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "35cab0092ae6a2a0a722fa03e1143cde4317266f3fad757e7fabdba50dbc49ed",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:32:49.296Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/27_generated/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/27_generated/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "f155f055ce589d4075a221fece740b7be44ff5e1cc6083f800b4eced5730145c",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:32:49.296Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -3288,6 +3408,30 @@
           "contentHash": "3f75d7ce64cd3b5d1af95432feeb0c5e926c2affb099e30a13d8ef9518cbe1da",
           "templateVersion": "4",
           "generatedAt": "2026-10-17T08:54:39.964Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/3/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/3/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "54f2afa9b48f9a65b4f02f2f585c5460274b3c0305c76fa76c948a3a2dd6c0a3",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:32:51.053Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/3/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/3/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "dc15f0985d091ecd3fbd736043975c783768ae236e397c9d93aac10bc5c6b8d1",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:32:51.053Z",
           "status": "ready",
           "error": ""
         }
@@ -3343,6 +3487,30 @@
           "generatedAt": "2026-10-17T08:54:40.757Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/4_generated/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/4_generated/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "1a2fb54582c3a6921757e3567a1756c29d426cbb07606e30ef92c161172ed268",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:32:52.854Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/4_generated/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/4_generated/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "be77691ed675d4a8706f75f9636c7edca7efa9cd978a95d253d66b0c8a9fb765",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:32:52.854Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -3394,6 +3562,30 @@
           "contentHash": "977cb46502511795794b36085ac299403168c34a2319fbadf05ec90331b7996d",
           "templateVersion": "4",
           "generatedAt": "2026-10-17T08:54:41.514Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/6/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/6/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "664dc6467d3c28204be09749ca5c5a88cd825f2de53f397ef9a006a574e9fb80",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:32:55.209Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/6/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/6/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "6cfe56c887e4b43ca5d14585f66e64a5ef5708d2bbe128e77f1effd17bcbd134",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:32:55.209Z",
           "status": "ready",
           "error": ""
         }
@@ -3449,6 +3641,30 @@
           "generatedAt": "2026-10-17T08:54:42.288Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/7600089/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/7600089/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "c3bb4b15799e39b9aa52b6104e20facaa5e3143b9271c7d7d2e980d3d7b5fdac",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:32:57.644Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/7600089/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/7600089/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "7ceab96e6e8442cc15fe1a70b88e7a4f84412208beb2ca839e5c893a718ea2e6",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:32:57.644Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -3500,6 +3716,30 @@
           "contentHash": "b21b30d343e03cba4d9c6111e6fe2c17ee18773734a5958e875cd4e84119a0c9",
           "templateVersion": "4",
           "generatedAt": "2026-10-17T08:54:43.063Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/89-2_generated/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/89-2_generated/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "58da9d2f276c9e098a3a403da19dbe22fb27bb2de719473c9ed191129a0419e4",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:32:59.539Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/89-2_generated/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/89-2_generated/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "d8f85d7aa50b692062546d100acbd14d5c100589a093580983afe5249aa78ce4",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:32:59.539Z",
           "status": "ready",
           "error": ""
         }
@@ -3555,6 +3795,30 @@
           "generatedAt": "2026-10-17T08:54:43.943Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/95/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/95/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "540a5d33ae3988fc24718e142d5dceb5214f38c104944622c09a0cb8ad51bc93",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:33:01.836Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/95/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/95/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "a3d75e7f77bafe435f330b67e367eab77870c4b0e46e5326308464164af4841d",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:33:01.836Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -3608,6 +3872,30 @@
           "generatedAt": "2026-10-17T08:54:44.786Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/97/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/97/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "6944b18372003aabac2ab23bf37c2b3a47fc6b486700899765f827b694ab9f2c",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:33:03.539Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/97/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/97/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "b2b5facd5987d9088ac7333419b41a0d3037c4606d41b9313d855244bc71a7cf",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:33:03.539Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -3651,14 +3939,38 @@
       "gallery": [],
       "mockups": [
         {
-          "templateId": "iphone-17-perspective",
-          "path": "/designed/mockups/abstract-pattern-background-vector/iphone-17-perspective.webp",
-          "thumbPath": "/designed/mockups/abstract-pattern-background-vector/iphone-17-perspective.thumb.webp",
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/abstract-pattern-background-vector/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/abstract-pattern-background-vector/iphone-pro-case.thumb.webp",
           "width": 1600,
-          "height": 1600,
-          "contentHash": "f18f577dd2361aed59477dda92d88bd4cd93a78283b596373a4bb19c32f5a3b0",
+          "height": 1143,
+          "contentHash": "2077908e62ac658034a7ec53df30d5ae9d762fb55f7d3740a1cb0862fef5c827",
           "templateVersion": "4",
-          "generatedAt": "2026-10-17T08:54:45.544Z",
+          "generatedAt": "2026-10-17T09:33:05.387Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/abstract-pattern-background-vector/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/abstract-pattern-background-vector/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "67dedb90ebd28e72ee40787eb5a61ec00f1b4c350ae902d513c1a2b27b7dba82",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:05.387Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/abstract-pattern-background-vector/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/abstract-pattern-background-vector/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "43474238ee6a680462146c9910c6d5abae62ec1823d0c887fb01ae05f79edb36",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:05.387Z",
           "status": "ready",
           "error": ""
         }
@@ -3704,14 +4016,38 @@
       "gallery": [],
       "mockups": [
         {
-          "templateId": "iphone-17-perspective",
-          "path": "/designed/mockups/dsn_6b199ab8bdb76f46/iphone-17-perspective.webp",
-          "thumbPath": "/designed/mockups/dsn_6b199ab8bdb76f46/iphone-17-perspective.thumb.webp",
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/dsn_6b199ab8bdb76f46/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/dsn_6b199ab8bdb76f46/iphone-14-pro-matt.thumb.webp",
           "width": 1600,
-          "height": 1600,
-          "contentHash": "c477990518a10d03b82f0170bc996116431db3437b17ae3fca28681f0ba459a5",
+          "height": 1138,
+          "contentHash": "00d25716f76a553c488c38e4760aaaf66a4ccc3dd4e1fd9d6649b0b9cd73fd5e",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:08.737Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/dsn_6b199ab8bdb76f46/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/dsn_6b199ab8bdb76f46/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "d23ab33a7a2e4834bee381822f623ec9ed7a66b8dffa9d438aa799b50a13ed38",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:08.737Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/dsn_6b199ab8bdb76f46/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/dsn_6b199ab8bdb76f46/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "364c10a05a6d4ebaabf124bbe3908bf1b9fd77b98b7c22c982ba289ba7e0f3b9",
           "templateVersion": "4",
-          "generatedAt": "2026-10-17T08:54:46.497Z",
+          "generatedAt": "2026-10-17T09:33:08.737Z",
           "status": "ready",
           "error": ""
         }
@@ -3767,6 +4103,30 @@
           "generatedAt": "2026-10-17T08:54:47.187Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/dsn_1c67af4062a65321/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/dsn_1c67af4062a65321/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "2987194faf8bb04fe053320bd0552f9d77453773fef8f6cae614136519c5aff6",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:11.415Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/dsn_1c67af4062a65321/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/dsn_1c67af4062a65321/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "247449fa66fd558e3e7be8462e40c342868d55f1d7663e8c449ae72144ff0f37",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:11.415Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -3818,6 +4178,30 @@
           "contentHash": "1bab9f37a98431771092c70c872facb8f11e3e0714f771891d28410fde66aa15",
           "templateVersion": "4",
           "generatedAt": "2026-10-17T08:54:47.947Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/forest3_generated/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/forest3_generated/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "31ea623f86b57cee2b81f01e048104fbb5589476543c606a1e512a8ed39c835f",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:33:13.838Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/forest3_generated/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/forest3_generated/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "437b5ce1a14dd4faeb4136aa6547705b0290330c5d8d5ff31a3455bd404f331f",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:13.838Z",
           "status": "ready",
           "error": ""
         }
@@ -3873,6 +4257,30 @@
           "generatedAt": "2026-10-17T08:54:48.868Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/dsn_577a0fbf4edec958/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/dsn_577a0fbf4edec958/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "de23db0b6c5bcea7e76308a40f50b4cdaa0b21cfb70d02bc119db8fd35853b23",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:15.962Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/dsn_577a0fbf4edec958/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/dsn_577a0fbf4edec958/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "4f4b28fd8fcfb6260accded406af9421a44db6aaa91d82cb03c82aaac033eac4",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:33:15.962Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -3925,6 +4333,30 @@
           "generatedAt": "2026-10-17T08:54:49.921Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/palm-tree-leaves/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/palm-tree-leaves/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "d2072179f513d9ce6a3117ff8a0153b304b13178ac52bc6f8bd2c4fc9567f2b7",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:18.126Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/palm-tree-leaves/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/palm-tree-leaves/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "861d549bf42b19389786caea7dacb709ea41d768e21bd3cb4e761569d9f0d5c8",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:18.126Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -3968,14 +4400,38 @@
       "gallery": [],
       "mockups": [
         {
-          "templateId": "iphone-17-perspective",
-          "path": "/designed/mockups/dsn_3cf63ba1aedb2c52/iphone-17-perspective.webp",
-          "thumbPath": "/designed/mockups/dsn_3cf63ba1aedb2c52/iphone-17-perspective.thumb.webp",
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/dsn_3cf63ba1aedb2c52/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/dsn_3cf63ba1aedb2c52/iphone-17-pro-case.thumb.webp",
           "width": 1600,
-          "height": 1600,
-          "contentHash": "1068c6872fc29b7d002a17e9de086e5ca92dea7a24872d5739674b7fe767f34a",
+          "height": 1067,
+          "contentHash": "2159e152a68786fffa9cc1820ecf7853c29b965cdfe0df29b92808740d44e205",
           "templateVersion": "4",
-          "generatedAt": "2026-10-17T08:54:50.886Z",
+          "generatedAt": "2026-10-17T09:33:20.150Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/dsn_3cf63ba1aedb2c52/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/dsn_3cf63ba1aedb2c52/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "7b5f2adb1d97893c3aac3c42d872df8951386a60f85246f577cbbe0d596bd366",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:33:20.150Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/dsn_3cf63ba1aedb2c52/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/dsn_3cf63ba1aedb2c52/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "e186f36f67a14bc1c9203892df43202d7f4baa77e827b2b114e8776cada989af",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:20.150Z",
           "status": "ready",
           "error": ""
         }
@@ -4031,6 +4487,30 @@
           "generatedAt": "2026-10-17T08:54:51.695Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/dsn_ec4492b5185c1646/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/dsn_ec4492b5185c1646/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "8a755b01ced77718d292fce05cb47c3cca80aeba1baaaa3640d9431bda27446f",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:33:22.647Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/dsn_ec4492b5185c1646/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/dsn_ec4492b5185c1646/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "0d1b9e86222adda6811912cf74d99ee80b7e347363f63384cbd679ed0c8ba8c6",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:33:22.647Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -4082,6 +4562,30 @@
           "contentHash": "907511cd23d8cc4d5d5a4f1dc94caaa3e14fcd566cdc7b5bb15b25324eba0184",
           "templateVersion": "4",
           "generatedAt": "2026-10-17T08:54:52.467Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_3d-modern-wave-curve-abstract-presentation-background-lines_13559780-1/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_3d-modern-wave-curve-abstract-presentation-background-lines_13559780-1/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "4a161cd2fe61cda1b3c203a102af626f0b595f9fb798f44fc3877d777b36a5d7",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:24.476Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_3d-modern-wave-curve-abstract-presentation-background-lines_13559780-1/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_3d-modern-wave-curve-abstract-presentation-background-lines_13559780-1/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "f37efafb571b70dc08c96b09bca226b0bfd55cd44ee801b59abf37e4876f4754",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:33:24.476Z",
           "status": "ready",
           "error": ""
         }
@@ -4137,6 +4641,30 @@
           "generatedAt": "2026-10-17T08:54:53.395Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_a-collection-of-abstract-floral-patterns-designed-in-simple_6873270/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_a-collection-of-abstract-floral-patterns-designed-in-simple_6873270/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "5ebbb65e075c52fbcb108121079eef346c8d5e0bb4c1aff4745f6c80a94f7405",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:26.434Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_a-collection-of-abstract-floral-patterns-designed-in-simple_6873270/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_a-collection-of-abstract-floral-patterns-designed-in-simple_6873270/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "2582954c492fa51d4063df37a74c09470883bd595338ac43e8970e3917a9bb06",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:33:26.434Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -4188,6 +4716,30 @@
           "contentHash": "508a1f70a19348525720584fcf222d59913f459ea7492e1224ec95aaf5394521",
           "templateVersion": "4",
           "generatedAt": "2026-10-17T08:54:54.121Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/dsn_0685754a524d9e1c/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/dsn_0685754a524d9e1c/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "a38f05f45e4dcadf078cf552ff74397f8035463a366097844722e83f5c5e28ff",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:33:27.880Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/dsn_0685754a524d9e1c/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/dsn_0685754a524d9e1c/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "44ee7bc0935f89eec842924a75981bf6c40cddf024ec86b1831acd3cde3dc0e5",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:27.880Z",
           "status": "ready",
           "error": ""
         }
@@ -4243,6 +4795,30 @@
           "generatedAt": "2026-10-17T08:54:55.058Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-background-black-and-white-ball-repeat-pattern_53688284/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-black-and-white-ball-repeat-pattern_53688284/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "2b9ad6ddde8994b4bcc91a33c84d00c789c0bd829c6a63c6ebbd859d2616f102",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:33:29.483Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-background-black-and-white-ball-repeat-pattern_53688284/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-black-and-white-ball-repeat-pattern_53688284/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "9097d95bab4e164bfec96c7c813d6a02445c9edb241ca64fcb3b2e309b8a33df",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:33:29.483Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -4296,6 +4872,30 @@
           "generatedAt": "2026-10-17T08:54:55.793Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-background-fluid-shapes-composition-abstract_7324875/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-fluid-shapes-composition-abstract_7324875/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "5a77ac5d9ca35b7a699068eb1311972d4302ed863b066c26227e83c3f7fa1e99",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:33:31.170Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-background-fluid-shapes-composition-abstract_7324875/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-fluid-shapes-composition-abstract_7324875/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "8d55ff1db2d58d02552211a75f944c6c7a6ed0c4a7bab2954067a9a38eb3081a",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:33:31.170Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -4339,14 +4939,38 @@
       "gallery": [],
       "mockups": [
         {
-          "templateId": "iphone-17-perspective",
-          "path": "/designed/mockups/vecteezy_abstract-background-fluid-shapes-composition-abstract_7324876/iphone-17-perspective.webp",
-          "thumbPath": "/designed/mockups/vecteezy_abstract-background-fluid-shapes-composition-abstract_7324876/iphone-17-perspective.thumb.webp",
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-background-fluid-shapes-composition-abstract_7324876/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-fluid-shapes-composition-abstract_7324876/iphone-pro-in-hand.thumb.webp",
           "width": 1600,
-          "height": 1600,
-          "contentHash": "f0cdbb7cfdb4732d0ab313a1ffdd6e833adb7b78e499e633dac2c305f269843a",
+          "height": 1067,
+          "contentHash": "88797dc3d1634075433b0894958e74c12003ec742ff8b2d48858e82e5b252040",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:32.802Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-background-fluid-shapes-composition-abstract_7324876/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-fluid-shapes-composition-abstract_7324876/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "6dc5db47604605d4f5ff768b9f3d13ebfea4fd05cbd9f7134eeefffabfd253d8",
           "templateVersion": "4",
-          "generatedAt": "2026-10-17T08:54:56.566Z",
+          "generatedAt": "2026-10-17T09:33:32.802Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-background-fluid-shapes-composition-abstract_7324876/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-fluid-shapes-composition-abstract_7324876/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "908174c409b4c64bb0ed5007bb333ce3df87039f753b6efd61b46a766e1ec3ed",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:33:32.802Z",
           "status": "ready",
           "error": ""
         }
@@ -4392,14 +5016,38 @@
       "gallery": [],
       "mockups": [
         {
-          "templateId": "iphone-17-perspective",
-          "path": "/designed/mockups/vecteezy_abstract-background-of-overlapping-geometric-triangle-pattern_48692377/iphone-17-perspective.webp",
-          "thumbPath": "/designed/mockups/vecteezy_abstract-background-of-overlapping-geometric-triangle-pattern_48692377/iphone-17-perspective.thumb.webp",
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-background-of-overlapping-geometric-triangle-pattern_48692377/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-of-overlapping-geometric-triangle-pattern_48692377/iphone-pro-case.thumb.webp",
           "width": 1600,
-          "height": 1600,
-          "contentHash": "725971c107dcf619d0b9a0fa789a1d220c13e1bc0117e5eb759ef829ce1c0601",
+          "height": 1143,
+          "contentHash": "9ad2c8158e94ddf576670e699873d793831a4a241c81fa2408fa7e8eabd6c34d",
           "templateVersion": "4",
-          "generatedAt": "2026-10-17T08:54:57.424Z",
+          "generatedAt": "2026-10-17T09:33:35.231Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-background-of-overlapping-geometric-triangle-pattern_48692377/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-of-overlapping-geometric-triangle-pattern_48692377/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "34af2b45f20ed191932112c24df48f8820c14897b05abd379fb17f98ffc3cb82",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:35.231Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-background-of-overlapping-geometric-triangle-pattern_48692377/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-of-overlapping-geometric-triangle-pattern_48692377/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "e11ac5adde866d73f89a0a8423b07def56b03c0abefffc24c9f4edefb874babd",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:35.231Z",
           "status": "ready",
           "error": ""
         }
@@ -4445,14 +5093,38 @@
       "gallery": [],
       "mockups": [
         {
-          "templateId": "iphone-17-perspective",
-          "path": "/designed/mockups/vecteezy_abstract-background-with-a-turin-style-pattern-in-shades-of_68183158/iphone-17-perspective.webp",
-          "thumbPath": "/designed/mockups/vecteezy_abstract-background-with-a-turin-style-pattern-in-shades-of_68183158/iphone-17-perspective.thumb.webp",
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-background-with-a-turin-style-pattern-in-shades-of_68183158/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-with-a-turin-style-pattern-in-shades-of_68183158/iphone-17-pro-cover.thumb.webp",
           "width": 1600,
-          "height": 1600,
-          "contentHash": "8569833105b243feb313c3ea789d022b419d1c887d32ecbd5f64f19f460db498",
+          "height": 1067,
+          "contentHash": "2d00c0e822f5b97e594518486bb07283d64081313ec6c20cf12ec504cbf19740",
           "templateVersion": "4",
-          "generatedAt": "2026-10-17T08:54:58.205Z",
+          "generatedAt": "2026-10-17T09:33:37.420Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-background-with-a-turin-style-pattern-in-shades-of_68183158/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-with-a-turin-style-pattern-in-shades-of_68183158/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "600c59668e798b500976da4461e5d71237b10016e5c699e0179fabff67674d3e",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:33:37.420Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-background-with-a-turin-style-pattern-in-shades-of_68183158/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-with-a-turin-style-pattern-in-shades-of_68183158/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "c365a499d2b7f54a75b7a6f4ec1d37cef0876ee84f1d3b617d00f347decb6b60",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:33:37.420Z",
           "status": "ready",
           "error": ""
         }
@@ -4508,6 +5180,30 @@
           "generatedAt": "2026-10-17T08:54:59.131Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-background-with-an-organic-turing-pattern-design_17697618/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-with-an-organic-turing-pattern-design_17697618/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "587094756a12a9e385ad60910e6317546e1162187e22382bbc3f0956432af9a3",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:33:40.050Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-background-with-an-organic-turing-pattern-design_17697618/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-with-an-organic-turing-pattern-design_17697618/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "9e722cc15196181266d579562780e6f488244a4e821dbee2b47c8bdff3fe1774",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:33:40.050Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -4559,6 +5255,30 @@
           "contentHash": "ce5a91fa409d5fb439e2b0859890305f8fad355ad8172adadd4fcce37bcf1606",
           "templateVersion": "4",
           "generatedAt": "2026-10-17T08:55:00.036Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-background-with-colorful-dynamic-effect-modern_7381368-1/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-with-colorful-dynamic-effect-modern_7381368-1/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "a98963e117b911ce706f0cd50d5d8b062595c9ba5959f76403b231f4333532ca",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:33:41.509Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-background-with-colorful-dynamic-effect-modern_7381368-1/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-with-colorful-dynamic-effect-modern_7381368-1/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "f80eb98cabfd64be9efa52e49b6c890a09fc820eb07f1d0127cef5fbc2efc49b",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:41.509Z",
           "status": "ready",
           "error": ""
         }
@@ -4614,6 +5334,30 @@
           "generatedAt": "2026-10-17T08:55:00.803Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-background-with-grunge-pattern_21491966/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-with-grunge-pattern_21491966/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "a68117de3fdf6547ed005695e36d6560d6792d79b568612c0e5ea398b68e9815",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:42.933Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-background-with-grunge-pattern_21491966/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-with-grunge-pattern_21491966/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "01fdda385e06c8114ace1796988e545f5d72c605f33439f5824207d6f148becb",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:42.933Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -4657,14 +5401,38 @@
       "gallery": [],
       "mockups": [
         {
-          "templateId": "iphone-17-perspective",
-          "path": "/designed/mockups/vecteezy_abstract-background-with-sport-pattern-for-leggings_21491947/iphone-17-perspective.webp",
-          "thumbPath": "/designed/mockups/vecteezy_abstract-background-with-sport-pattern-for-leggings_21491947/iphone-17-perspective.thumb.webp",
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-background-with-sport-pattern-for-leggings_21491947/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-with-sport-pattern-for-leggings_21491947/iphone-pro-case.thumb.webp",
           "width": 1600,
-          "height": 1600,
-          "contentHash": "bdfd435ca444334d9d2e1e143eac701dc82b3c3243de6f71ae37eef3796532d1",
+          "height": 1143,
+          "contentHash": "25a3248faab1dc35be9243edf5da0c79a8dc984c3ef3033750323ea84cf9be32",
           "templateVersion": "4",
-          "generatedAt": "2026-10-17T08:55:01.608Z",
+          "generatedAt": "2026-10-17T09:33:44.591Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-background-with-sport-pattern-for-leggings_21491947/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-with-sport-pattern-for-leggings_21491947/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "665f53f16a324ff5d6e59fc2b33afe936c27e10b55af0c82651b79b2bb6607dd",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:44.591Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-background-with-sport-pattern-for-leggings_21491947/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-with-sport-pattern-for-leggings_21491947/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "ad95c152e4d41ab3236a3b1f4b8ff6ba8ba9e90ce9272eb77bd1bea60df99fea",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:44.591Z",
           "status": "ready",
           "error": ""
         }
@@ -4720,6 +5488,30 @@
           "generatedAt": "2026-10-17T08:55:02.463Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-background-with-tiger-and-zebra-pattern_21492341/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-with-tiger-and-zebra-pattern_21492341/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "89dc36bd0eba014b7fe412f9f139773f5723903b459344cb640fd2680291cca3",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:33:47.013Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-background-with-tiger-and-zebra-pattern_21492341/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-background-with-tiger-and-zebra-pattern_21492341/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "ae263b69f98c6dfa7891e9a92cee84830cc853bff376c4bca9ad281d9292b4d9",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:47.013Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -4771,6 +5563,30 @@
           "contentHash": "ae08146c15e9884622ee61fd8297069958a5965778e391c0599480e404bb6cde",
           "templateVersion": "4",
           "generatedAt": "2026-10-17T08:55:03.406Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/dsn_4a2d846c4624db4c/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/dsn_4a2d846c4624db4c/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "a95209e31a9b3df6225f0b4f33fa5417b2416c618367beccdd651e0c8c29f334",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:48.782Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/dsn_4a2d846c4624db4c/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/dsn_4a2d846c4624db4c/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "c20761708d1460a89213941599ef4e4ca8d1aaaf564250ef709dd484e3f2df5f",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:48.782Z",
           "status": "ready",
           "error": ""
         }
@@ -4826,6 +5642,30 @@
           "generatedAt": "2026-10-17T08:55:04.186Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-beer-mug-with-retro-pattern-fill-art_77472028/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-beer-mug-with-retro-pattern-fill-art_77472028/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "d869051f4d3cf61703196e6eee5cbd9a4579278a4525433e147483da1eeb7625",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:50.255Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-beer-mug-with-retro-pattern-fill-art_77472028/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-beer-mug-with-retro-pattern-fill-art_77472028/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "a1bb3f9a73ef311bd0ea087ecd01798905d9624d36a4e5a9da9c8988f0809e6a",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:33:50.255Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -4869,14 +5709,38 @@
       "gallery": [],
       "mockups": [
         {
-          "templateId": "iphone-17-perspective",
-          "path": "/designed/mockups/vecteezy_abstract-bird-illustration-with-dynamic-lines-and-bold-patterns_54653613/iphone-17-perspective.webp",
-          "thumbPath": "/designed/mockups/vecteezy_abstract-bird-illustration-with-dynamic-lines-and-bold-patterns_54653613/iphone-17-perspective.thumb.webp",
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-bird-illustration-with-dynamic-lines-and-bold-patterns_54653613/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-bird-illustration-with-dynamic-lines-and-bold-patterns_54653613/iphone-pro-in-hand.thumb.webp",
           "width": 1600,
-          "height": 1600,
-          "contentHash": "89e2a4894fcdb821755d03f991a54b1ca1a479843e2b214efdeebd279d8c9847",
+          "height": 1067,
+          "contentHash": "4ebf977f749f7de32618c85c9d109a1c3c2e027d28d009a6ddd8ee3ba1dc17b1",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:51.849Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-bird-illustration-with-dynamic-lines-and-bold-patterns_54653613/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-bird-illustration-with-dynamic-lines-and-bold-patterns_54653613/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "7c5b007648c1fc8809ac7489e76396be8c0f784d535e6040ab5d2018ebd5b3e4",
           "templateVersion": "4",
-          "generatedAt": "2026-10-17T08:55:04.898Z",
+          "generatedAt": "2026-10-17T09:33:51.849Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-bird-illustration-with-dynamic-lines-and-bold-patterns_54653613/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-bird-illustration-with-dynamic-lines-and-bold-patterns_54653613/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "e7fb2bddd48625306411fc809d27ff751f455cb6b9e8dba2d44864d21f6963e7",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:33:51.849Z",
           "status": "ready",
           "error": ""
         }
@@ -4922,14 +5786,38 @@
       "gallery": [],
       "mockups": [
         {
-          "templateId": "iphone-17-perspective",
-          "path": "/designed/mockups/vecteezy_abstract-black-background-with-diagonal-wave-lines-gradient_6937920-1/iphone-17-perspective.webp",
-          "thumbPath": "/designed/mockups/vecteezy_abstract-black-background-with-diagonal-wave-lines-gradient_6937920-1/iphone-17-perspective.thumb.webp",
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-black-background-with-diagonal-wave-lines-gradient_6937920-1/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-black-background-with-diagonal-wave-lines-gradient_6937920-1/iphone-pro-in-hand.thumb.webp",
           "width": 1600,
-          "height": 1600,
-          "contentHash": "079484cd9881e59a1954dc2bd5b4964deb41a2e3a6b61c5febdd15c8877eed0a",
+          "height": 1067,
+          "contentHash": "3e0bfb652f95a97ddf127ad8c4ab3f6516140542bdf280ebd3dd9f4dd2ce71ac",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:54.859Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-black-background-with-diagonal-wave-lines-gradient_6937920-1/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-black-background-with-diagonal-wave-lines-gradient_6937920-1/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "d0a1412f01f2bf4957b1271a81f595f120daee14b3841cae2ae7c1b169c27e60",
           "templateVersion": "4",
-          "generatedAt": "2026-10-17T08:55:05.758Z",
+          "generatedAt": "2026-10-17T09:33:54.859Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-black-background-with-diagonal-wave-lines-gradient_6937920-1/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-black-background-with-diagonal-wave-lines-gradient_6937920-1/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "a62af6da0e7197bfb541c1b381aef54817e1b2a852e90335d3c7b933be5115e2",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:33:54.859Z",
           "status": "ready",
           "error": ""
         }
@@ -4985,6 +5873,30 @@
           "generatedAt": "2026-10-17T08:55:06.604Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-brush-art-camouflage-jungle-forest-pattern-military_6145399/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-brush-art-camouflage-jungle-forest-pattern-military_6145399/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "2ac3e0bfcac7e963d7ae1cfb350467582fdbac69b232b7fbca673ceda4e7648e",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:57.879Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-brush-art-camouflage-jungle-forest-pattern-military_6145399/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-brush-art-camouflage-jungle-forest-pattern-military_6145399/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "e1dd75f692adf3ee20e900ccdca92605a6ca5ccd8d3adc9473dc284b18318767",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:33:57.879Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -5038,6 +5950,30 @@
           "generatedAt": "2026-10-17T08:55:07.448Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-brush-background-seamless-pattern_28154937/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-brush-background-seamless-pattern_28154937/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "340f71db3c900038d4a301bff1260793a6a43597acf155b166e1b02e78d239fb",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:00.117Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-brush-background-seamless-pattern_28154937/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-brush-background-seamless-pattern_28154937/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "1081ab885072a80ab193620e7b6867b4edd29fabe0f6cb41ec474c794ebe2d63",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:00.117Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -5081,14 +6017,38 @@
       "gallery": [],
       "mockups": [
         {
-          "templateId": "iphone-17-perspective",
-          "path": "/designed/mockups/vecteezy_abstract-circle-geometric-pattern-vector-design-3d-abstract_15735074/iphone-17-perspective.webp",
-          "thumbPath": "/designed/mockups/vecteezy_abstract-circle-geometric-pattern-vector-design-3d-abstract_15735074/iphone-17-perspective.thumb.webp",
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-circle-geometric-pattern-vector-design-3d-abstract_15735074/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-circle-geometric-pattern-vector-design-3d-abstract_15735074/iphone-17-pro-case.thumb.webp",
           "width": 1600,
-          "height": 1600,
-          "contentHash": "d4b10582d30a907cb67257cac3fcb66917591330a92fab1410caa4b71fc6a031",
+          "height": 1067,
+          "contentHash": "455eabab6845606376ae06ab7886491304103d6ff412752bb5821118d9951c43",
           "templateVersion": "4",
-          "generatedAt": "2026-10-17T08:55:08.255Z",
+          "generatedAt": "2026-10-17T09:34:02.632Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-circle-geometric-pattern-vector-design-3d-abstract_15735074/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-circle-geometric-pattern-vector-design-3d-abstract_15735074/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "c977c6d251e96b7e1b61fee4aaba6a0e4ced38651e90c57d9b729abf64d2ccf2",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:02.632Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-circle-geometric-pattern-vector-design-3d-abstract_15735074/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-circle-geometric-pattern-vector-design-3d-abstract_15735074/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "afe51d6dc1da374ca9b0f66c2901ec5ddea25b49d9a172c955914cc3f3f9cc03",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:02.632Z",
           "status": "ready",
           "error": ""
         }
@@ -5144,6 +6104,30 @@
           "generatedAt": "2026-10-17T08:55:09.187Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-circle-in-triangle-style-pattern_21618756/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-circle-in-triangle-style-pattern_21618756/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "41b5cb12e551523212026363dcb7322dfcebe3881f603c3f6eddf2e65c991c79",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:05.532Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-circle-in-triangle-style-pattern_21618756/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-circle-in-triangle-style-pattern_21618756/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "e558fbf5fad2195323a0cc954ee8def35135e5e776a115d523fb05e3e255c5ef",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:05.532Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -5195,6 +6179,30 @@
           "contentHash": "a9ce4436d4954312fa8a321257c908a73bb0146e4aa2250b274fb4313fdb06c9",
           "templateVersion": "4",
           "generatedAt": "2026-10-17T08:55:09.978Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-circles-lines-overlapping-shape-and-stack-up-from_7169517/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-circles-lines-overlapping-shape-and-stack-up-from_7169517/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "efe02ecbb32e4514f119d598df7ee576b0b4a26cd058bcc40897404fe25a68f3",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:07.808Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-circles-lines-overlapping-shape-and-stack-up-from_7169517/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-circles-lines-overlapping-shape-and-stack-up-from_7169517/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "0dce2afd1f865f5569a8752e892a95097542b66baaa3e0ebc816c90c8d8b3322",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:07.808Z",
           "status": "ready",
           "error": ""
         }
@@ -5250,6 +6258,30 @@
           "generatedAt": "2026-10-17T08:55:11.147Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/dsn_9b404be6019ee192/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/dsn_9b404be6019ee192/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "9875f1580ae9c4eb76ade7d036f51d79736128e658c29b3289ac6a47c841b4b1",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:09.772Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/dsn_9b404be6019ee192/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/dsn_9b404be6019ee192/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "94785fbe4720ceff96feb351e9c977d35ed3c9c69c1c99408ec99ab554bd1ee1",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:09.772Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -5293,14 +6325,38 @@
       "gallery": [],
       "mockups": [
         {
-          "templateId": "iphone-17-perspective",
-          "path": "/designed/mockups/vecteezy_abstract-different-stroke-and-dots-pattern-vector-background_7684548/iphone-17-perspective.webp",
-          "thumbPath": "/designed/mockups/vecteezy_abstract-different-stroke-and-dots-pattern-vector-background_7684548/iphone-17-perspective.thumb.webp",
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-different-stroke-and-dots-pattern-vector-background_7684548/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-different-stroke-and-dots-pattern-vector-background_7684548/iphone-17-pro-case.thumb.webp",
           "width": 1600,
-          "height": 1600,
-          "contentHash": "9199d6cd5054644e63897120bf4e9bf80b026ac18e8f1e4c8cefd5d2bf9fdce8",
+          "height": 1067,
+          "contentHash": "a35003fb92fccf0e137f65fe5918b89855827e96ba437af3a4f3a057e784cebe",
           "templateVersion": "4",
-          "generatedAt": "2026-10-17T08:55:11.899Z",
+          "generatedAt": "2026-10-17T09:34:11.471Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-different-stroke-and-dots-pattern-vector-background_7684548/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-different-stroke-and-dots-pattern-vector-background_7684548/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "3c04fe313420ffa42bb0f9102d72b82b2ba634060058ac924cdd86aa6139dee7",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:11.471Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-different-stroke-and-dots-pattern-vector-background_7684548/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-different-stroke-and-dots-pattern-vector-background_7684548/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "e8ad317f697e93344ad240f1134f5ae335320a8df410d42ef5905d28197209cf",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:11.471Z",
           "status": "ready",
           "error": ""
         }
@@ -5356,6 +6412,30 @@
           "generatedAt": "2026-10-17T08:55:12.645Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-elegance-floral-background-seamless-pattern_9939915/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-elegance-floral-background-seamless-pattern_9939915/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "d27504421006cb00fce10dec5f04cbdd57139e1b8f91dd3caa1b3924a7b2f51b",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:13.874Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-elegance-floral-background-seamless-pattern_9939915/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-elegance-floral-background-seamless-pattern_9939915/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "d069e1297f0f43949df2c6fcbef5e81619ff03bad8dd68bcd6e4bd007750a9b8",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:13.874Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -5409,6 +6489,30 @@
           "generatedAt": "2026-10-17T08:55:13.386Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-ethnic-geometric-pattern-background-design_13991673/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-ethnic-geometric-pattern-background-design_13991673/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "1ca88c0ebe0fd6503b8c225e5db06d28080cbfac18b26bb1e55a9b0fc79e1d84",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:15.887Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-ethnic-geometric-pattern-background-design_13991673/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-ethnic-geometric-pattern-background-design_13991673/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "3fc28e682eadcbd53a51b180c14c7ba63e6e9cdcb783d33149b722d76a987f09",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:15.887Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -5452,14 +6556,38 @@
       "gallery": [],
       "mockups": [
         {
-          "templateId": "iphone-17-perspective",
-          "path": "/designed/mockups/vecteezy_abstract-ethnic-geometric-pattern-design-for-background-or_5454847/iphone-17-perspective.webp",
-          "thumbPath": "/designed/mockups/vecteezy_abstract-ethnic-geometric-pattern-design-for-background-or_5454847/iphone-17-perspective.thumb.webp",
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-ethnic-geometric-pattern-design-for-background-or_5454847/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-ethnic-geometric-pattern-design-for-background-or_5454847/iphone-pro-case.thumb.webp",
           "width": 1600,
-          "height": 1600,
-          "contentHash": "5d535b1d45db0c5c18bd62957f1f739ee12cbc383a2e75c23a7fa9fe92dd7842",
+          "height": 1143,
+          "contentHash": "becb6e8f8e0965e3711fc0baf1fec6602c104efe52ef3311eb963c5348d061c8",
           "templateVersion": "4",
-          "generatedAt": "2026-10-17T08:55:14.258Z",
+          "generatedAt": "2026-10-17T09:34:17.774Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-ethnic-geometric-pattern-design-for-background-or_5454847/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-ethnic-geometric-pattern-design-for-background-or_5454847/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "c95cc5c397d24ed9e2714a9a26f14e8342426e03b25d8214d58b1240e44853f9",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:17.774Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-ethnic-geometric-pattern-design-for-background-or_5454847/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-ethnic-geometric-pattern-design-for-background-or_5454847/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "50d16dee683afbd68849af1807c87ed4719e526cad35dbdaaedd53ff414b2938",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:17.774Z",
           "status": "ready",
           "error": ""
         }
@@ -5515,6 +6643,30 @@
           "generatedAt": "2026-10-17T08:55:15.153Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-ethnic-ikat-chevron-pattern-background_7197549/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-ethnic-ikat-chevron-pattern-background_7197549/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "23aedaca9ecacb3adbc632a6f845175acf3202316cc2aad06150a30bd7ec965d",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:20.318Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-ethnic-ikat-chevron-pattern-background_7197549/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-ethnic-ikat-chevron-pattern-background_7197549/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "2977752793bf07833ff1e6e2fa5e5e9a95af2b447f746faa02464b122dbae625",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:20.318Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -5566,6 +6718,30 @@
           "contentHash": "b636c2f1884792cd590e0492993b611259800cf0aed3d4659cb998fdcc9bc8d6",
           "templateVersion": "4",
           "generatedAt": "2026-10-17T08:55:16.235Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-ethnic-pattern-design-with-ikat-style_21628351/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-ethnic-pattern-design-with-ikat-style_21628351/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "22646088dd2c0ef544451a9392e3e592ca70e9fcc87657bde3a1d04cb88b8ecb",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:21.788Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-ethnic-pattern-design-with-ikat-style_21628351/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-ethnic-pattern-design-with-ikat-style_21628351/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "031acc26dff1007106b58f737aa31fb8f259254c414ff02e550efa314c41147c",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:21.788Z",
           "status": "ready",
           "error": ""
         }
@@ -5621,6 +6797,30 @@
           "generatedAt": "2026-10-17T08:55:17.423Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-etnic-seamless-geometric-pattern_29213148/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-etnic-seamless-geometric-pattern_29213148/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "aea0bebacadf35bc6f8c6cb900554f7c1f0bb50fbd2c04edb0b2cf0f7b5624fd",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:23.783Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-etnic-seamless-geometric-pattern_29213148/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-etnic-seamless-geometric-pattern_29213148/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "451a90b20edce58868f42faeb1a354c9d4b9f3cbde03a80d084d40d3ba6d68f7",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:23.783Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -5672,6 +6872,30 @@
           "contentHash": "fe3604f7c5622e9cc7d554403ad13b718005b4bef243387ddc11ff1700ea117b",
           "templateVersion": "4",
           "generatedAt": "2026-10-17T08:55:18.294Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-fabric-textile-pattern-design-template-vector_10407599/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-fabric-textile-pattern-design-template-vector_10407599/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "7fd9b19592b60c3614d641e3ff4a472c07850c07ea8d96538a059dcd3d7896ef",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:25.515Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-fabric-textile-pattern-design-template-vector_10407599/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-fabric-textile-pattern-design-template-vector_10407599/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "9d0d79094edd85d24cb0a8a156a559dc39f4a7010e6359be1ab684853f0887cc",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:25.515Z",
           "status": "ready",
           "error": ""
         }
@@ -5727,6 +6951,30 @@
           "generatedAt": "2026-10-17T08:55:19.033Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-floral-pattern-with-one-line-rose-and-cotton-flower_66187381/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-floral-pattern-with-one-line-rose-and-cotton-flower_66187381/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "7ebeeb1a1ff55a5b81e464b7b0c6065872303d0777257e75fc23d25f91984992",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:27.310Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-floral-pattern-with-one-line-rose-and-cotton-flower_66187381/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-floral-pattern-with-one-line-rose-and-cotton-flower_66187381/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "9811f712fe40407f364fcc9463a1ef3f1e30f5c0f509eeb27a3a1e9941c7b261",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:27.310Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -5778,6 +7026,30 @@
           "contentHash": "1a9ad8fec4829b09a9d988d7f419fc88bcd90f778e8896b946dd4d830919426b",
           "templateVersion": "4",
           "generatedAt": "2026-10-17T08:55:19.766Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-floral-shirt-neck-design-blue-yellow-orange_49206542/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-floral-shirt-neck-design-blue-yellow-orange_49206542/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "83fdc5824fb17688bd1b45643d93354d956a98ac5ce330dad6771273ebbc994c",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:28.993Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-floral-shirt-neck-design-blue-yellow-orange_49206542/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-floral-shirt-neck-design-blue-yellow-orange_49206542/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "5b67fada7d4fef71f1c2ccb1e31cb37d0bd74937109f0b78ca9bea753ef3d7a7",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:28.993Z",
           "status": "ready",
           "error": ""
         }
@@ -5833,6 +7105,30 @@
           "generatedAt": "2026-10-17T08:55:20.713Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-geometric-blue-line-pattern-background-design_7167526/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-geometric-blue-line-pattern-background-design_7167526/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "d10bc75f622c60333984383e40813f70614ef5c16156cf5168a2936c2aa2c1f2",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:30.799Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-geometric-blue-line-pattern-background-design_7167526/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-geometric-blue-line-pattern-background-design_7167526/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "2fe265f855287158a41ce4fad72edce3867f7b5c13d2408677e227bd9557d04b",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:30.799Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -5886,6 +7182,30 @@
           "generatedAt": "2026-10-17T08:55:21.809Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/dsn_badcac9d5d49d3e0/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/dsn_badcac9d5d49d3e0/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "8a3f0d9421c03c58cb15774ac8295d96acd86670f3d33a5c5b26ad80773cfe6c",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:32.807Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/dsn_badcac9d5d49d3e0/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/dsn_badcac9d5d49d3e0/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "ebd0a77f8761bd62fcad21edeb443dc6d700e8fe807ae44b93661165c15d187e",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:32.807Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -5929,14 +7249,38 @@
       "gallery": [],
       "mockups": [
         {
-          "templateId": "iphone-17-perspective",
-          "path": "/designed/mockups/vecteezy_abstract-geometric-mosaic-seamless-pattern-background-in-the_8138251/iphone-17-perspective.webp",
-          "thumbPath": "/designed/mockups/vecteezy_abstract-geometric-mosaic-seamless-pattern-background-in-the_8138251/iphone-17-perspective.thumb.webp",
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-geometric-mosaic-seamless-pattern-background-in-the_8138251/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-geometric-mosaic-seamless-pattern-background-in-the_8138251/iphone-pro-in-hand.thumb.webp",
           "width": 1600,
-          "height": 1600,
-          "contentHash": "aa851255722e5570b6f55d6021095453d4ec5cc9cd161a09b96379989184a9ff",
+          "height": 1067,
+          "contentHash": "f75f51523e4e968ade2f97a447bbc01bda39e8a5064e721f7b60b7d9b3bdb1d5",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:34.381Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-geometric-mosaic-seamless-pattern-background-in-the_8138251/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-geometric-mosaic-seamless-pattern-background-in-the_8138251/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "84a9a6f80c90ef4357d1d7f1e5fb729b0ba6422bc2de5fe8a67120b2a4ebb994",
           "templateVersion": "4",
-          "generatedAt": "2026-10-17T08:55:22.723Z",
+          "generatedAt": "2026-10-17T09:34:34.381Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-geometric-mosaic-seamless-pattern-background-in-the_8138251/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-geometric-mosaic-seamless-pattern-background-in-the_8138251/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "c884b69c9a59570e9b743fce1f923e507773a673b35e06f19703f490336d8178",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:34.381Z",
           "status": "ready",
           "error": ""
         }
@@ -5982,14 +7326,38 @@
       "gallery": [],
       "mockups": [
         {
-          "templateId": "iphone-17-perspective",
-          "path": "/designed/mockups/dsn_feb56431a8e6d0e6/iphone-17-perspective.webp",
-          "thumbPath": "/designed/mockups/dsn_feb56431a8e6d0e6/iphone-17-perspective.thumb.webp",
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/dsn_feb56431a8e6d0e6/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/dsn_feb56431a8e6d0e6/iphone-17-pro-case.thumb.webp",
           "width": 1600,
-          "height": 1600,
-          "contentHash": "a3f320166a36e9a14d1496a8cc17a8ad92b5a71f69b4a2af146b23ed07489206",
+          "height": 1067,
+          "contentHash": "64a122779a334c4119f656b50e55ade188cd73b92ed62d8c443b059d5c057ef4",
           "templateVersion": "4",
-          "generatedAt": "2026-10-17T08:55:23.451Z",
+          "generatedAt": "2026-10-17T09:34:36.514Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/dsn_feb56431a8e6d0e6/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/dsn_feb56431a8e6d0e6/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "176c346b314d612e7d85a4120f00ea564bb361b97319403d265e76add3650ef9",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:36.514Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/dsn_feb56431a8e6d0e6/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/dsn_feb56431a8e6d0e6/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "00f4f15d16014796738dd7cc52b95fcf7a71e30d951fba81e135d833b78bb703",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:36.514Z",
           "status": "ready",
           "error": ""
         }
@@ -6045,6 +7413,30 @@
           "generatedAt": "2026-10-17T08:55:24.294Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-geometric-pattern-with-hexagon-and-triangle-shape_23549895/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-geometric-pattern-with-hexagon-and-triangle-shape_23549895/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "049ccbb3272c9fd1a1c30ebe7d7f47639e1552a1f973c433d9a03c9d295ba2d1",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:39.126Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-geometric-pattern-with-hexagon-and-triangle-shape_23549895/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-geometric-pattern-with-hexagon-and-triangle-shape_23549895/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "1d17c7a7b8d7c34f0d1b05895d86545c547d062a94b40e3ddb6bcf611443d06d",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:39.126Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -6096,6 +7488,30 @@
           "contentHash": "e9472a075b13f5dbd9a1eabf8d0352e75dddbf61be1cdc2a9a77d262219fc77f",
           "templateVersion": "4",
           "generatedAt": "2026-10-17T08:55:25.040Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-geometric-seamless-pattern_11641980/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-geometric-seamless-pattern_11641980/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "c61f4b700cc1e1eb4eba30759f5ab7d324fce429a710eedd75938bca08f8e411",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:40.994Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-geometric-seamless-pattern_11641980/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-geometric-seamless-pattern_11641980/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "b5d554791bbeb9054c30d00d7ca816949218b793b4ede1081ffc619273c5fdb2",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:40.994Z",
           "status": "ready",
           "error": ""
         }
@@ -6151,6 +7567,30 @@
           "generatedAt": "2026-10-17T08:55:25.739Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-geometric-seamless-pattern_11641983/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-geometric-seamless-pattern_11641983/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "b6ab369009d06b980b263a71461f9aed1013eafbc9e0379a6caae6efef42273b",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:42.482Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-geometric-seamless-pattern_11641983/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-geometric-seamless-pattern_11641983/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "d2513ac0ad091177e1d0302bcc14686f448b6ab580441824cc4ac1867a79c4d6",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:42.482Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -6204,6 +7644,30 @@
           "generatedAt": "2026-10-17T08:55:26.428Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-geometric-with-circle-pattern_4689414/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-geometric-with-circle-pattern_4689414/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "d86f76c84ec15f5d8e245242c223e29e7d89bcba5ea7ae5d2e4e029228b864f1",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:44.097Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-geometric-with-circle-pattern_4689414/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-geometric-with-circle-pattern_4689414/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "120f881340719517e92f209f92b75de88ad8d5f5cf83d8d7866f35f1755acf14",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:44.097Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -6247,14 +7711,38 @@
       "gallery": [],
       "mockups": [
         {
-          "templateId": "iphone-17-perspective",
-          "path": "/designed/mockups/vecteezy_abstract-graffiti-art-background-with-scribble-throw-up-and_17396927/iphone-17-perspective.webp",
-          "thumbPath": "/designed/mockups/vecteezy_abstract-graffiti-art-background-with-scribble-throw-up-and_17396927/iphone-17-perspective.thumb.webp",
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-graffiti-art-background-with-scribble-throw-up-and_17396927/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-graffiti-art-background-with-scribble-throw-up-and_17396927/iphone-pro-in-hand.thumb.webp",
           "width": 1600,
-          "height": 1600,
-          "contentHash": "dc2d86cca67ec29489c5667758d8c24f718068ec5034d92858b7ab4ef2d97d66",
+          "height": 1067,
+          "contentHash": "7aff31db6854a8a2e6569f46f28f6a0d7da504316000771b962cd1b13c888769",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:45.798Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-graffiti-art-background-with-scribble-throw-up-and_17396927/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-graffiti-art-background-with-scribble-throw-up-and_17396927/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "da766718337e95abada9e383213f08fdfe35d02a049b49fe4581fd5d0aa3e8e5",
           "templateVersion": "4",
-          "generatedAt": "2026-10-17T08:55:27.156Z",
+          "generatedAt": "2026-10-17T09:34:45.798Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-graffiti-art-background-with-scribble-throw-up-and_17396927/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-graffiti-art-background-with-scribble-throw-up-and_17396927/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "a54ff128b6318103c2e22baacb5232f6e53566cf65a25b61a31422f52b46063c",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:45.798Z",
           "status": "ready",
           "error": ""
         }
@@ -6310,6 +7798,30 @@
           "generatedAt": "2026-10-17T08:55:27.977Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-graffiti-art-background-with-scribble-throw-up-and_17396936/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-graffiti-art-background-with-scribble-throw-up-and_17396936/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "3fa9d0a1f046af0563ace54809f11d59546d4f0d99ecc3119ad68baf52f97f7e",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:48.511Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-graffiti-art-background-with-scribble-throw-up-and_17396936/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-graffiti-art-background-with-scribble-throw-up-and_17396936/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "0c83753f0b80056110617a47007a3a66a86df3563eddada2c4d7d781efdcafe0",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:48.511Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -6361,6 +7873,30 @@
           "contentHash": "2e6c6dfedbfbc5ad73bb1d3b97d7e2d07b5b7f42f01f127c27a917cbc9da08e7",
           "templateVersion": "4",
           "generatedAt": "2026-10-17T08:55:28.811Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-graphic-line-pattern-texture-for-textile-design-and_55179443/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-graphic-line-pattern-texture-for-textile-design-and_55179443/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "0924b5f2a0a37cba037b7344df9ac28663ae7208f0fa081f549cbeb5a665daac",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:50.138Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-graphic-line-pattern-texture-for-textile-design-and_55179443/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-graphic-line-pattern-texture-for-textile-design-and_55179443/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "57b932546f02dfa8906670311e67a232b5553223c92025b761c68a3fe9e926ed",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:50.138Z",
           "status": "ready",
           "error": ""
         }
@@ -6416,6 +7952,30 @@
           "generatedAt": "2026-10-17T08:55:29.720Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-grey-white-waves-and-lines-pattern_5918593/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-grey-white-waves-and-lines-pattern_5918593/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "c6bd8f49f5711272dc7c31a86227469e0d77ba5a349cbe34940332c890047e7b",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:52.336Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-grey-white-waves-and-lines-pattern_5918593/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-grey-white-waves-and-lines-pattern_5918593/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "188c1766abbec8364091e6af522802063317074a4c8fc848a6b0559894f4dbb2",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:52.336Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -6467,6 +8027,30 @@
           "contentHash": "be38b4988020cad424b221110e99fa5a0119ed7e1d8508ba3c50c62fc0a05dcc",
           "templateVersion": "4",
           "generatedAt": "2026-10-17T08:55:30.666Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/dsn_63a61d6e55acf444/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/dsn_63a61d6e55acf444/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "390eecf0ca22c11f078feac1dc99cb7f01d7788b335f1609660bc961229f48cf",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:54.527Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/dsn_63a61d6e55acf444/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/dsn_63a61d6e55acf444/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "d79dedcf48fed4ca2ec8afb80c8d6da117127f3d03cd915b2fb424f1753f94c3",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:54.527Z",
           "status": "ready",
           "error": ""
         }
@@ -6522,6 +8106,30 @@
           "generatedAt": "2026-10-17T08:55:31.618Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-hand-drawn-colourful-doodle-background_47111204/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-hand-drawn-colourful-doodle-background_47111204/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "a6c4910f0eda489f13b58b0d81d26a9d82e5791e35e91f2b19b96fac02338452",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:56.738Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-hand-drawn-colourful-doodle-background_47111204/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-hand-drawn-colourful-doodle-background_47111204/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "9e31fccf4ff49681d08503c6a67ea3807e7d80a3855e67fe015fa4aa2e4a7073",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:56.738Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -6565,14 +8173,38 @@
       "gallery": [],
       "mockups": [
         {
-          "templateId": "iphone-17-perspective",
-          "path": "/designed/mockups/dsn_64681bf5b276945f/iphone-17-perspective.webp",
-          "thumbPath": "/designed/mockups/dsn_64681bf5b276945f/iphone-17-perspective.thumb.webp",
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/dsn_64681bf5b276945f/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/dsn_64681bf5b276945f/iphone-pro-in-hand.thumb.webp",
           "width": 1600,
-          "height": 1600,
-          "contentHash": "b382b6de3049d771766601fbbd5241f3ebacb69179538d4755ef4ca152b225dc",
+          "height": 1067,
+          "contentHash": "b7b33065eaef11371d729522d1ca48abd73ab325b35191ebd7acaba64e5a8000",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:34:58.616Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/dsn_64681bf5b276945f/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/dsn_64681bf5b276945f/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "41b8af04a8bf14a3fae747effb29afe4e0919b2405b6cccdea1560fc796a54ef",
           "templateVersion": "4",
-          "generatedAt": "2026-10-17T08:55:32.688Z",
+          "generatedAt": "2026-10-17T09:34:58.616Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/dsn_64681bf5b276945f/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/dsn_64681bf5b276945f/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "c587eda2198c7afc9b123001f92789864e011b7ff70d6112166249032f5ce640",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:34:58.616Z",
           "status": "ready",
           "error": ""
         }
@@ -6628,6 +8260,30 @@
           "generatedAt": "2026-10-17T08:55:33.413Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-hexagon-pattern-vector-background_11020211/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-hexagon-pattern-vector-background_11020211/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "624ccd1b100a64e4411bed5e7fd12b1e9c60701d3f7bde140cf9bf3b7b9e58c9",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:35:01.996Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-hexagon-pattern-vector-background_11020211/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-hexagon-pattern-vector-background_11020211/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "5606d06ca12d686cdb11f4f228e0626dc8ea66558b83d4dc759c9151677fa338",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:35:01.996Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -6679,6 +8335,30 @@
           "contentHash": "2366b7b645c6549a9dba60beb92848e9ee6b9cc71535ba9375d98f668abe0625",
           "templateVersion": "4",
           "generatedAt": "2026-10-17T08:55:34.091Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-leaves-and-circles-mosaic-seamless-pattern-design_14954432/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-leaves-and-circles-mosaic-seamless-pattern-design_14954432/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "4a20b7339265d3a1021655cc66e7d84ceffa124a28d7e05089cd6b11be52e269",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:35:04.111Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-leaves-and-circles-mosaic-seamless-pattern-design_14954432/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-leaves-and-circles-mosaic-seamless-pattern-design_14954432/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "4f4519a17312860755fcef78afbd8c1b02097b9411b5a28fdcb67b60df53d459",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:35:04.111Z",
           "status": "ready",
           "error": ""
         }
@@ -6734,6 +8414,30 @@
           "generatedAt": "2026-10-17T08:55:34.766Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-leaves-background-with-japanese-wave-pattern_16758707/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-leaves-background-with-japanese-wave-pattern_16758707/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "36f1ab8bffc509830a3969a5d8bfdef144175b1abe4c64d0e48dc597fe9178ed",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:35:06.715Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-leaves-background-with-japanese-wave-pattern_16758707/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-leaves-background-with-japanese-wave-pattern_16758707/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "1b9ab63d31281ac17eb1c53fd6be1aa0ce3b9095c22c59b7a1d189c6ef97add8",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:35:06.715Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -6787,6 +8491,30 @@
           "generatedAt": "2026-10-17T08:55:35.440Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-liquid-shape-fluid-geometric-design-isolated_9158803/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-liquid-shape-fluid-geometric-design-isolated_9158803/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "abcf60339f83c0b9c35c378850b8c39935ccaa81863c2793e7e650c4dc6bfc40",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:35:09.391Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-liquid-shape-fluid-geometric-design-isolated_9158803/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-liquid-shape-fluid-geometric-design-isolated_9158803/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "1849c49d2958bf7702d7e92d9292f329b82015d87f5a7c8994dbea80970d2d5d",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:35:09.391Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -6830,14 +8558,38 @@
       "gallery": [],
       "mockups": [
         {
-          "templateId": "iphone-17-perspective",
-          "path": "/designed/mockups/vecteezy_abstract-marble-liquid-pattern-in-green-and-gold-colour_12766698/iphone-17-perspective.webp",
-          "thumbPath": "/designed/mockups/vecteezy_abstract-marble-liquid-pattern-in-green-and-gold-colour_12766698/iphone-17-perspective.thumb.webp",
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-marble-liquid-pattern-in-green-and-gold-colour_12766698/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-marble-liquid-pattern-in-green-and-gold-colour_12766698/iphone-17-pro-cover.thumb.webp",
           "width": 1600,
-          "height": 1600,
-          "contentHash": "9bd9d180b4cdd5d94c78b377eee707b2bdc0750a0b6d901063a4806f0483ecce",
+          "height": 1067,
+          "contentHash": "37d8fc892073d306ff3cf295e2444b0c99a233d45b33d736185cd38fcf7471f3",
           "templateVersion": "4",
-          "generatedAt": "2026-10-17T08:55:36.145Z",
+          "generatedAt": "2026-10-17T09:35:11.640Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-marble-liquid-pattern-in-green-and-gold-colour_12766698/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-marble-liquid-pattern-in-green-and-gold-colour_12766698/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "e0995c2993c9040d6ae659dba6fdd6737b8f7a81d8a7614542a8eaa70b6c043d",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:35:11.640Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-marble-liquid-pattern-in-green-and-gold-colour_12766698/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-marble-liquid-pattern-in-green-and-gold-colour_12766698/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "54f2f3de96a41689bd50c03ff6b73b5acc6f25712293b38fd1ab02f457174c50",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:35:11.640Z",
           "status": "ready",
           "error": ""
         }
@@ -6893,6 +8645,30 @@
           "generatedAt": "2026-10-17T08:55:37.098Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-marine-seamless-pattern_11559382/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-marine-seamless-pattern_11559382/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "ea8f442afbaf9a5e90e3a9f88625142ca577c69d01fa12283bda3075d1d62aed",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:35:15.576Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-marine-seamless-pattern_11559382/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-marine-seamless-pattern_11559382/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "a684337442bccaf8210957e7826e63e9282ce9301351f04318e11d339fdd9a92",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:35:15.576Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -6946,6 +8722,30 @@
           "generatedAt": "2026-10-17T08:55:38.146Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-marine-seamless-pattern-with-hand-drawn-textures_11559475/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-marine-seamless-pattern-with-hand-drawn-textures_11559475/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "5bc45482c53eed024f197e3fdd9e72807f586dca59e35eea405bc1dfc0465c25",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:35:18.640Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-marine-seamless-pattern-with-hand-drawn-textures_11559475/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-marine-seamless-pattern-with-hand-drawn-textures_11559475/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "27c36cfc18041d7a4d9f6c5ba527e9e2b573d1318e97277ee5fa1b2daa2bad95",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:35:18.640Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -6989,14 +8789,38 @@
       "gallery": [],
       "mockups": [
         {
-          "templateId": "iphone-17-perspective",
-          "path": "/designed/mockups/vecteezy_abstract-maze-design-pattern-background_6954141/iphone-17-perspective.webp",
-          "thumbPath": "/designed/mockups/vecteezy_abstract-maze-design-pattern-background_6954141/iphone-17-perspective.thumb.webp",
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-maze-design-pattern-background_6954141/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-maze-design-pattern-background_6954141/iphone-17-pro-cover.thumb.webp",
           "width": 1600,
-          "height": 1600,
-          "contentHash": "40d6843fbd93fd7453e86e426aaa6ef3a2ce6a3a6d5475ddc9d1a5ad6729053f",
+          "height": 1067,
+          "contentHash": "5fcf9104c348a686abc6934fcd91b6cf986c2cad05d7b9ee70b277a52ec503f0",
           "templateVersion": "4",
-          "generatedAt": "2026-10-17T08:55:39.236Z",
+          "generatedAt": "2026-10-17T09:35:21.659Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-maze-design-pattern-background_6954141/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-maze-design-pattern-background_6954141/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "feed8ab998d41315da623d7b56218aba1b87eecf9520325de2219e5b94a2bd92",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:35:21.659Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-maze-design-pattern-background_6954141/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-maze-design-pattern-background_6954141/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "eabdc39bf4e355265cc47017887bd7ae6144dba9013f60dd629d9f963a2e812a",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:35:21.659Z",
           "status": "ready",
           "error": ""
         }
@@ -7042,14 +8866,38 @@
       "gallery": [],
       "mockups": [
         {
-          "templateId": "iphone-17-perspective",
-          "path": "/designed/mockups/vecteezy_abstract-multicolored-maze-like-pattern-with-dotted-details_52939688/iphone-17-perspective.webp",
-          "thumbPath": "/designed/mockups/vecteezy_abstract-multicolored-maze-like-pattern-with-dotted-details_52939688/iphone-17-perspective.thumb.webp",
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-multicolored-maze-like-pattern-with-dotted-details_52939688/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-multicolored-maze-like-pattern-with-dotted-details_52939688/iphone-pro-case.thumb.webp",
           "width": 1600,
-          "height": 1600,
-          "contentHash": "fe0382ca475df1e9c458bb8848eb2f80a61e1c7496e0ffd4b044cc0e823e5f91",
+          "height": 1143,
+          "contentHash": "e0de4d4543312ab172425fd925301c9ed434d862983e25b662dfa5855e4e9599",
           "templateVersion": "4",
-          "generatedAt": "2026-10-17T08:55:40.067Z",
+          "generatedAt": "2026-10-17T09:35:25.737Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-multicolored-maze-like-pattern-with-dotted-details_52939688/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-multicolored-maze-like-pattern-with-dotted-details_52939688/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "14a27ab737c54af0dcadd2953cbee99c85fb1aa2d8fecc54126201dc63fb0aa5",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:35:25.737Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-multicolored-maze-like-pattern-with-dotted-details_52939688/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-multicolored-maze-like-pattern-with-dotted-details_52939688/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "c95dcb5093bb89bfe283aac39485a292caad3a5e791c6f5876c1e49ae9d13d68",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:35:25.737Z",
           "status": "ready",
           "error": ""
         }
@@ -7095,14 +8943,38 @@
       "gallery": [],
       "mockups": [
         {
-          "templateId": "iphone-17-perspective",
-          "path": "/designed/mockups/vecteezy_abstract-pattern-background_7629334-1/iphone-17-perspective.webp",
-          "thumbPath": "/designed/mockups/vecteezy_abstract-pattern-background_7629334-1/iphone-17-perspective.thumb.webp",
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-pattern-background_7629334-1/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-pattern-background_7629334-1/iphone-pro-in-hand.thumb.webp",
           "width": 1600,
-          "height": 1600,
-          "contentHash": "b28e383398b1dab895534db6a902cbc6749805623c5496474002505d1c27a629",
+          "height": 1067,
+          "contentHash": "8ba3c69ae3a11c4827cec226a1ed9741642abb56ae83474a7865fe73b05b343c",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:35:30.507Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-pattern-background_7629334-1/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-pattern-background_7629334-1/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "a3601c6ac10a0deebfaae8cc22dd205eaaf834499b31faeb04a750e4b9155b70",
           "templateVersion": "4",
-          "generatedAt": "2026-10-17T08:55:41.068Z",
+          "generatedAt": "2026-10-17T09:35:30.507Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-pattern-background_7629334-1/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-pattern-background_7629334-1/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "4140cdfbfd3d4544415f1eac8488f49d680b94199fcb46622b8452a50db883d6",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:35:30.507Z",
           "status": "ready",
           "error": ""
         }
@@ -7158,6 +9030,30 @@
           "generatedAt": "2026-10-17T08:55:41.877Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/dsn_08104ca6da2d6dfb/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/dsn_08104ca6da2d6dfb/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "f5735179e403e1a8c31d2bb83af4bad7e33e021b10fedca4c54bd62b8bd2be46",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:35:34.890Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/dsn_08104ca6da2d6dfb/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/dsn_08104ca6da2d6dfb/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "d4c29411224dbea73445701479174a8fd3e48300b5db42b94ddc46b14b7b7130",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:35:34.890Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -7209,6 +9105,30 @@
           "contentHash": "8334209982f02722fb58012cc72b4aac6acd12c26aee397e246bfa6ac3de371f",
           "templateVersion": "4",
           "generatedAt": "2026-10-17T08:55:42.648Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-pattern-design-background_26974919/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-pattern-design-background_26974919/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "667f9f2328e1abb4c70b6bc9fb2305b32984f686730fb9ce8dcd737de93f63fe",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:35:37.421Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-pattern-design-background_26974919/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-pattern-design-background_26974919/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "1489f9ce8d3116f6b06976869c505cf481ee7113148a3b477a0f437398ae7bae",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:35:37.421Z",
           "status": "ready",
           "error": ""
         }
@@ -7264,6 +9184,30 @@
           "generatedAt": "2026-10-17T08:55:43.360Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-pattern-football-jersey-sublimation-ready-custom_75703290/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-pattern-football-jersey-sublimation-ready-custom_75703290/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "614c16ab0795895089545c15c22042891cb431501305913d72e320ca0b483458",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:35:39.259Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-pattern-football-jersey-sublimation-ready-custom_75703290/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-pattern-football-jersey-sublimation-ready-custom_75703290/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "bbc233626522ba60d727016bfcc07dcbe1d46bfd0ad4719ca474b81c396ddfb6",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:35:39.259Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -7315,6 +9259,30 @@
           "contentHash": "dc8ea07201f4fa39480678f695759595cbcbdb7f1fac07eded626ceaf0f4ae19",
           "templateVersion": "4",
           "generatedAt": "2026-10-17T08:55:44.075Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-pattern-grunge-vector_6116628-1/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-pattern-grunge-vector_6116628-1/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "d2efb66f36b62e23432e2b5fb5af16f9ecf0e45ab16a753df68e0aac82928aa8",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:35:41.220Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-pattern-grunge-vector_6116628-1/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-pattern-grunge-vector_6116628-1/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "f4b4e294544d072ac1626590bc54c38f50b50f24327f79d227122926cbd8ec7d",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:35:41.220Z",
           "status": "ready",
           "error": ""
         }
@@ -7370,6 +9338,30 @@
           "generatedAt": "2026-10-17T08:55:44.952Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-pattern-seamless-pattern-print_5844933/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-pattern-seamless-pattern-print_5844933/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "750fce4a83eaf7f4c8440bbf823bdcdc02b482fa6ab0e46ff74030390b35e1dc",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:35:43.233Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-pattern-seamless-pattern-print_5844933/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-pattern-seamless-pattern-print_5844933/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "45b8b88550ef27e4a6fc2901247fab083256a226b23dd92be5dd38bab33590d5",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:35:43.233Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -7421,6 +9413,30 @@
           "contentHash": "d8685528a4cedbba2fa582ddc76d4abf808e868c7c025e5cdd3bc4f521aec5ed",
           "templateVersion": "4",
           "generatedAt": "2026-10-17T08:55:45.725Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/dsn_aa8577a5591789e5/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/dsn_aa8577a5591789e5/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "f6a8110b3287d7c3af48b00923f22b568cad95536f07c3102fa637000603669f",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:35:45.127Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/dsn_aa8577a5591789e5/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/dsn_aa8577a5591789e5/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "1f4667cee7ea8b131fe7831fba76464c82e99f0e84b2643fae9f3e6802dfd44c",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:35:45.127Z",
           "status": "ready",
           "error": ""
         }
@@ -7476,6 +9492,30 @@
           "generatedAt": "2026-10-17T08:55:46.553Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-pixelated-black-and-yellow-glitch-pattern-pixel_81628022/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-pixelated-black-and-yellow-glitch-pattern-pixel_81628022/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "1bf9ff2c0f77108f7f88be85710bf22d9ef02faedb5ab094297f0d797ac56f05",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:35:47.165Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-pixelated-black-and-yellow-glitch-pattern-pixel_81628022/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-pixelated-black-and-yellow-glitch-pattern-pixel_81628022/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "5267661a41d2c8ab2169914e47c064ea2bfae162edf93aa601e397f28ebbbdaa",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:35:47.165Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -7527,6 +9567,30 @@
           "contentHash": "34654322a54bb0a400da4cf0504e948b21c46f44c0570a492007e7345c897bb0",
           "templateVersion": "4",
           "generatedAt": "2026-10-17T08:55:47.264Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/dsn_77718e04f23bd89d/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/dsn_77718e04f23bd89d/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "42ff6676ecd33bd29fa78ed18b5fb7daaca8c6de60abce295db6b0c7a74ce3be",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:35:49.390Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/dsn_77718e04f23bd89d/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/dsn_77718e04f23bd89d/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "6d6cd75d37e3e3ad43fca899dddb639fdaeda4550d022ee0155456b0d124574a",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:35:49.390Z",
           "status": "ready",
           "error": ""
         }
@@ -7582,6 +9646,30 @@
           "generatedAt": "2026-10-17T08:55:48.201Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-seamless-background-pattern-for-print_9251179/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-seamless-background-pattern-for-print_9251179/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "e4926fae3245a44b5726452e414ff232d410a3a6913b310e715dd7bd58f89477",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:35:51.586Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-seamless-background-pattern-for-print_9251179/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-seamless-background-pattern-for-print_9251179/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "31aac9696b16995cfafb88e2a99608790db00407341360f4881db8af1b54bfd0",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:35:51.586Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -7633,6 +9721,30 @@
           "contentHash": "03020a8f4b3e591774a0873f42cc84dfd45b5dba43893b9d82f57a19511b3874",
           "templateVersion": "4",
           "generatedAt": "2026-10-17T08:55:49.269Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/dsn_b3452dde5c3ebd4a/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/dsn_b3452dde5c3ebd4a/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "3e4efb089323073be159f717cc86ed0cdcf371949c3368d881989db42cb827b6",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:35:53.646Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/dsn_b3452dde5c3ebd4a/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/dsn_b3452dde5c3ebd4a/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "244b5e25f47fe54e5fdf2cf158f8299602513c395bc37f0122c07c55a0fe0dbe",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:35:53.646Z",
           "status": "ready",
           "error": ""
         }
@@ -7688,6 +9800,30 @@
           "generatedAt": "2026-10-17T08:55:50.174Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-seamless-geometrical-pattern-with-colored-squares_12721752/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-seamless-geometrical-pattern-with-colored-squares_12721752/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "0636b91b792994a63e47cd6dfdc65920e214ab3ec7cacbd0b5fec0cdaa2a3822",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:35:55.648Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-seamless-geometrical-pattern-with-colored-squares_12721752/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-seamless-geometrical-pattern-with-colored-squares_12721752/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "348fc25af378dc50774e6568034b79061f55fbae993552bfb67916ba5cbfc545",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:35:55.648Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -7739,6 +9875,30 @@
           "contentHash": "e3cfb105be88a4f6c62e6108a6ed18e46eaee7eb103ebccf6e10ce66968cecbb",
           "templateVersion": "4",
           "generatedAt": "2026-10-17T08:55:51.005Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-seamless-pattern-with-grunge-paint-brush-stroke_7538635/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-seamless-pattern-with-grunge-paint-brush-stroke_7538635/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "fbaa36e56557ab81360cb6a28067e81f6c75251a3b6bf879fa1a54b8425432fc",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:35:57.606Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-seamless-pattern-with-grunge-paint-brush-stroke_7538635/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-seamless-pattern-with-grunge-paint-brush-stroke_7538635/iphone-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "0e5ccfc3dfe27fe07c7d200f7aace7f70af03d20b0d594e36d704dcc88d12efe",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:35:57.606Z",
           "status": "ready",
           "error": ""
         }
@@ -7794,6 +9954,30 @@
           "generatedAt": "2026-10-17T08:55:51.902Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-shape-leaf-and-flower-organic-pattern-black-floral_47372558/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-shape-leaf-and-flower-organic-pattern-black-floral_47372558/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "20f743733b4405a3bace9c1fb56f21aa00846ad61b764ddd278a460196efe919",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:35:59.428Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-shape-leaf-and-flower-organic-pattern-black-floral_47372558/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-shape-leaf-and-flower-organic-pattern-black-floral_47372558/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "75731501bd3de5c5b7c43de2d162523f6ee1f0e77d3b001cda423a1ac18d2295",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:35:59.428Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -7845,6 +10029,30 @@
           "contentHash": "11132b65e9da648ef1e7042d3a4a78dc676873dce2f2d16efcd8a469160bd389",
           "templateVersion": "4",
           "generatedAt": "2026-10-17T08:55:52.622Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-shape-leaf-and-flower-organic-pattern-black-floral_47372580/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-shape-leaf-and-flower-organic-pattern-black-floral_47372580/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "d99debcd6397350a72aaef48cadd7fa3fc50c9504b1932de54db3bb1dc31bf94",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:36:01.480Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-shape-leaf-and-flower-organic-pattern-black-floral_47372580/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-shape-leaf-and-flower-organic-pattern-black-floral_47372580/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "9d8f85820b2e3f36ade21d869d61176e5a0fe66b7494177e719ea6e71cd86a23",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:36:01.480Z",
           "status": "ready",
           "error": ""
         }
@@ -7900,6 +10108,30 @@
           "generatedAt": "2026-10-17T08:55:53.427Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-small-random-geometric-shape-colorful-blue-yellow_6836803/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-small-random-geometric-shape-colorful-blue-yellow_6836803/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "f9f21ea71950db7c63bf066583d4ea31c581893139b3f9a8c421f357fa91666e",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:36:03.340Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-small-random-geometric-shape-colorful-blue-yellow_6836803/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-small-random-geometric-shape-colorful-blue-yellow_6836803/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "72b0368ceedeb7662985bde2eebaa37d490fbdba146c1db761b1613caace7139",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:36:03.340Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -7943,14 +10175,38 @@
       "gallery": [],
       "mockups": [
         {
-          "templateId": "iphone-17-perspective",
-          "path": "/designed/mockups/vecteezy_abstract-symmetrical-camouflage-pattern-psychedelic-camo_52265384/iphone-17-perspective.webp",
-          "thumbPath": "/designed/mockups/vecteezy_abstract-symmetrical-camouflage-pattern-psychedelic-camo_52265384/iphone-17-perspective.thumb.webp",
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-symmetrical-camouflage-pattern-psychedelic-camo_52265384/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-symmetrical-camouflage-pattern-psychedelic-camo_52265384/iphone-14-pro-matt.thumb.webp",
           "width": 1600,
-          "height": 1600,
-          "contentHash": "239e55c30f83f94726ccd79479ff7f42e27fd528a12607228513f23f93e03914",
+          "height": 1138,
+          "contentHash": "e4c5a819d390dc2ca7234455328ba3eab3dca32ed4df14b327c081b335953732",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:36:05.470Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-symmetrical-camouflage-pattern-psychedelic-camo_52265384/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-symmetrical-camouflage-pattern-psychedelic-camo_52265384/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "83ea84154df247df9396247ae5e7a0f7d1d6230418527102b7f282fc9f1f95e9",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:36:05.470Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/vecteezy_abstract-symmetrical-camouflage-pattern-psychedelic-camo_52265384/iphone-17-pro-cover.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-symmetrical-camouflage-pattern-psychedelic-camo_52265384/iphone-17-pro-cover.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "6c7a0adc3a171703676b01756a243d0e4663098daf95e2d0861b257e08cef01d",
           "templateVersion": "4",
-          "generatedAt": "2026-10-17T08:55:54.145Z",
+          "generatedAt": "2026-10-17T09:36:05.470Z",
           "status": "ready",
           "error": ""
         }
@@ -8006,6 +10262,30 @@
           "generatedAt": "2026-10-17T08:55:54.947Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-texture-seamless-repeat-pattern_7254934/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-texture-seamless-repeat-pattern_7254934/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "9096f955ef6d66db65eae52d8b8ab0261c43bfb1c3beeb4db26d2e56d7b46f6e",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:36:08.713Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-texture-seamless-repeat-pattern_7254934/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-texture-seamless-repeat-pattern_7254934/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "3680f1b92fac2265ee84902c93639e8c31c6fc4a1a229f797712f1d85aeedd79",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:36:08.713Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -8059,6 +10339,30 @@
           "generatedAt": "2026-10-17T08:55:55.802Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-texture-vector-pattern-of-cracks-watercolor_24309200/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-texture-vector-pattern-of-cracks-watercolor_24309200/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "f5d124f246384b56ce6b183b7cd3adfe1159ca99d8f0b82d56eab12a4d0a3599",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:36:10.745Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-texture-vector-pattern-of-cracks-watercolor_24309200/iphone-17-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-texture-vector-pattern-of-cracks-watercolor_24309200/iphone-17-pro-case.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "92add7a0f51b6b44f763b34be7b30072f4a14f28bc6ca31d9a4bd742f636ffea",
+          "templateVersion": "4",
+          "generatedAt": "2026-10-17T09:36:10.745Z",
+          "status": "ready",
+          "error": ""
         }
       ],
       "seoTitle": "",
@@ -8102,14 +10406,38 @@
       "gallery": [],
       "mockups": [
         {
-          "templateId": "iphone-17-perspective",
-          "path": "/designed/mockups/vecteezy_abstract-textured-grunge-brush-strokes-geometric-striped_48692342/iphone-17-perspective.webp",
-          "thumbPath": "/designed/mockups/vecteezy_abstract-textured-grunge-brush-strokes-geometric-striped_48692342/iphone-17-perspective.thumb.webp",
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/vecteezy_abstract-textured-grunge-brush-strokes-geometric-striped_48692342/iphone-pro-case.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-textured-grunge-brush-strokes-geometric-striped_48692342/iphone-pro-case.thumb.webp",
           "width": 1600,
-          "height": 1600,
-          "contentHash": "9c7ad6cddfa0b4fd4f472f8e96cb099aab5dafa8f2c029d18ba6caa7502bcfae",
+          "height": 1143,
+          "contentHash": "8a7f908f8242323400cb9e9170399297e6dc35e815e52cec01240c09cff4714f",
           "templateVersion": "4",
-          "generatedAt": "2026-10-17T08:55:56.635Z",
+          "generatedAt": "2026-10-17T09:36:12.820Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/vecteezy_abstract-textured-grunge-brush-strokes-geometric-striped_48692342/iphone-14-pro-matt.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-textured-grunge-brush-strokes-geometric-striped_48692342/iphone-14-pro-matt.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "690b18f982a557afa50e47f9a4610444f41037843938afe42aa78127c1c9a06f",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:36:12.820Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-in-hand",
+          "path": "/designed/mockups/vecteezy_abstract-textured-grunge-brush-strokes-geometric-striped_48692342/iphone-pro-in-hand.webp",
+          "thumbPath": "/designed/mockups/vecteezy_abstract-textured-grunge-brush-strokes-geometric-striped_48692342/iphone-pro-in-hand.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "5bb7eeb7d75cc5cef5a6aef0d86ec0f67065db45e9bf392ea5d35a613fd0d8e9",
+          "templateVersion": "1",
+          "generatedAt": "2026-10-17T09:36:12.820Z",
           "status": "ready",
           "error": ""
         }

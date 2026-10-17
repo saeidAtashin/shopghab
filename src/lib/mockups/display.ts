@@ -11,10 +11,16 @@ export type ProductImageSource = {
   title: string;
 };
 
+export type ProductFrame = {
+  src: string;
+  thumb: string;
+};
+
 export type ProductImages = {
   hero: string;
   thumb: string;
   gallery: string[];
+  frames: ProductFrame[];
   width: number;
   height: number;
   alt: string;
@@ -41,10 +47,15 @@ export function selectProductImages(design: ProductImageSource): ProductImages {
   const extra = ready.slice(1).map((item) => item.path);
   const used = new Set<string>([hero?.path ?? "", ...extra]);
   const editorial = design.gallery.filter((path) => safeAsset(path) && !used.has(path));
+  const frames = ready.map((item) => ({ src: item.path, thumb: item.thumbPath }));
+  if (frames.length === 0 && safeAsset(design.imagePath)) {
+    frames.push({ src: design.imagePath, thumb: design.thumbnailPath || design.imagePath });
+  }
   return {
     hero: hero?.path || design.imagePath,
     thumb: hero?.thumbPath || design.thumbnailPath || design.imagePath,
     gallery: [...extra, ...editorial],
+    frames,
     width: hero?.width || design.width || 1600,
     height: hero?.height || design.height || 1600,
     alt: designImageAlt(design),

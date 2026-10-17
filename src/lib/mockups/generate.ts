@@ -15,14 +15,40 @@ function sameRecords(left: MockupRecord[], right: MockupRecord[]): boolean {
   return JSON.stringify(left) === JSON.stringify(right);
 }
 
-/** Stable across runs. The same design id always keeps the same PSD. */
-export function templateForDesign(designId: string, templates: MockupTemplateConfig[]): MockupTemplateConfig {
-  const enabled = enabledTemplates(templates);
-  const first = enabled[0];
+const PHOTOS_PER_DESIGN = 3;
+
+export function phoneTemplates(templates: MockupTemplateConfig[]): MockupTemplateConfig[] {
+  return enabledTemplates(templates).filter((template) => template.listing);
+}
+
+/** Stable across runs. The same design id always keeps the same three phone photos. */
+export function templatesForDesign(
+  designId: string,
+  templates: MockupTemplateConfig[],
+  currentTemplateId?: string,
+): MockupTemplateConfig[] {
+  const phones = phoneTemplates(templates);
+  const first = phones[0];
   if (!first) throw new Error("No enabled mockup templates.");
   let hash = 0;
   for (const char of designId) hash = (Math.imul(hash, 31) + char.charCodeAt(0)) >>> 0;
-  return enabled[hash % enabled.length] ?? first;
+  const start = hash % phones.length;
+  const ordered = [...phones.slice(start), ...phones.slice(0, start)];
+  const current = phones.find((template) => template.id === currentTemplateId);
+  const picked: MockupTemplateConfig[] = [];
+  if (current) picked.push(current);
+  for (const template of ordered) {
+    if (picked.length >= PHOTOS_PER_DESIGN) break;
+    if (picked.some((item) => item.id === template.id)) continue;
+    picked.push(template);
+  }
+  return picked;
+}
+
+export function templateForDesign(designId: string, templates: MockupTemplateConfig[]): MockupTemplateConfig {
+  const chosen = templatesForDesign(designId, templates)[0];
+  if (!chosen) throw new Error("No enabled mockup templates.");
+  return chosen;
 }
 
 function outputFolder(id: string, slug: string): string {
@@ -92,12 +118,13 @@ export async function generateMockupsForDesigns(options: {
 
   for (const design of designs) {
     const previous = design.mockups;
-    const chosen = templateForDesign(design.id, templates);
+    const current = previous.find((item) => item.status === "ready" && item.templateId);
+    const chosen = templatesForDesign(design.id, templates, current?.templateId);
     const updates = await renderDesignTemplates({
       cwd,
       slug: outputFolder(design.id, design.slug),
       artworkPublicPath: design.imagePath,
-      templates: [chosen],
+      templates: chosen,
       previous,
     });
     report.designs += 1;

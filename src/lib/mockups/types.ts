@@ -32,6 +32,8 @@ export type MockupTemplateConfig = {
   displacementPath: string | null;
   displacementScale: number;
   fit: "contain" | "cover";
+  /** Flat colored cards stay out of the three listing photos. */
+  listing: boolean;
   fill: FillStrategy;
   cornerRadius: number;
 };

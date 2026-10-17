@@ -279,6 +279,7 @@ export type PublicDesign = {
   imagePath: string;
   thumbnailPath: string;
   gallery: string[];
+  frames: { src: string; thumb: string }[];
   tags: string[];
   colors: string[];
   styles: string[];
@@ -307,6 +308,7 @@ export function toPublicDesign(design: DesignRecord): PublicDesign {
     imagePath: images.hero,
     thumbnailPath: images.thumb,
     gallery: images.gallery,
+    frames: images.frames,
     tags: design.tags,
     colors: design.colors,
     styles: design.styles,
