@@ -8,6 +8,7 @@ import {
 } from "@/lib/catalog/logic";
 import type { DesignCatalog, DesignRecord } from "@/lib/catalog/schema";
 import { selectProductImages } from "@/lib/mockups/display";
+import type { LandingSectionKey, LandingSections } from "@/lib/landing/sections";
 
 export type TaxonomyChip = {
   id: string;
@@ -33,6 +34,15 @@ export type LandingTaxonomy = {
   collections: TaxonomyCard[];
 };
 
+export type LandingBannerSelection = Partial<Record<LandingSectionKey, Record<string, string> | undefined>>;
+
+export type BannerChoice = {
+  id: string;
+  title: string;
+  image: string;
+  cardIds: string[];
+};
+
 function designThumb(design: DesignRecord): string {
   const images = selectProductImages(design);
   return images.thumb.trim() || images.hero.trim();
@@ -44,7 +54,84 @@ function usableCover(cover: string): string {
   return "";
 }
 
-export function landingTaxonomy(catalog: DesignCatalog): LandingTaxonomy {
+function pinnedThumb(
+  catalog: DesignCatalog,
+  designId: string | undefined,
+  belongs: (design: DesignRecord) => boolean,
+): string {
+  if (!designId) return "";
+  const design = catalog.designs.find((item) => item.id === designId);
+  if (!design || !isPublishedDesign(design) || !designHasImage(design) || !belongs(design)) return "";
+  return designThumb(design);
+}
+
+export function landingBannerChoices(catalog: DesignCatalog): BannerChoice[] {
+  const categoryMembers = new Map(
+    rootCategories(catalog)
+      .filter((category) => isCategoryIndexable(catalog, category))
+      .map((category) => [category.id, descendantCategoryIds(catalog, category.id)] as const),
+  );
+  const valueIds = new Set(catalog.attributeValues.map((value) => value.id));
+  const collectionIds = new Set(
+    catalog.collections.filter((collection) => collection.status === "active").map((collection) => collection.id),
+  );
+  const choices: BannerChoice[] = [];
+
+  for (const design of catalog.designs) {
+    if (!isPublishedDesign(design) || !designHasImage(design)) continue;
+    const image = designThumb(design);
+    if (!image) continue;
+    const cardIds: string[] = [];
+    for (const [categoryId, members] of categoryMembers) {
+      if (design.categoryIds.some((id) => members.has(id))) cardIds.push(categoryId);
+    }
+    for (const id of design.attributeValueIds) {
+      if (valueIds.has(id)) cardIds.push(id);
+    }
+    for (const id of design.collectionIds) {
+      if (collectionIds.has(id)) cardIds.push(id);
+    }
+    if (cardIds.length === 0) continue;
+    choices.push({ id: design.id, title: design.title, image, cardIds });
+  }
+
+  choices.sort((a, b) => a.title.localeCompare(b.title, "fa"));
+  return choices;
+}
+
+export function sanitizeLandingBanners(catalog: DesignCatalog, sections: LandingSections): LandingSections {
+  const members = new Map<string, Set<string>>();
+  for (const choice of landingBannerChoices(catalog)) {
+    for (const cardId of choice.cardIds) {
+      const allowed = members.get(cardId) ?? new Set<string>();
+      allowed.add(choice.id);
+      members.set(cardId, allowed);
+    }
+  }
+  const cards = landingTaxonomy(catalog);
+  const next: LandingSections = {
+    categories: { ...sections.categories },
+    features: { ...sections.features },
+    collections: { ...sections.collections },
+  };
+
+  for (const key of ["categories", "features", "collections"] as const) {
+    const banners = next[key].banners;
+    if (!banners) continue;
+    const allowedCards = new Set(cards[key].map((card) => card.id));
+    const cleaned: Record<string, string> = {};
+    for (const [cardId, designId] of Object.entries(banners)) {
+      if (!allowedCards.has(cardId) || !members.get(cardId)?.has(designId)) continue;
+      cleaned[cardId] = designId;
+    }
+    if (Object.keys(cleaned).length > 0) next[key].banners = cleaned;
+    else delete next[key].banners;
+  }
+
+  return next;
+}
+
+export function landingTaxonomy(catalog: DesignCatalog, banners: LandingBannerSelection = {}): LandingTaxonomy {
   const published = catalog.designs.filter(isPublishedDesign);
   const categoryThumb = new Map<string, string>();
   const collectionThumb = new Map<string, string>();
@@ -69,7 +156,10 @@ export function landingTaxonomy(catalog: DesignCatalog): LandingTaxonomy {
     .filter((category) => isCategoryIndexable(catalog, category))
     .map((category) => {
       const ids = descendantCategoryIds(catalog, category.id);
-      let image = usableCover(category.coverImage);
+      let image = pinnedThumb(catalog, banners.categories?.[category.id], (design) =>
+        design.categoryIds.some((id) => ids.has(id)),
+      );
+      if (!image) image = usableCover(category.coverImage);
       if (!image) {
         for (const id of ids) {
           const thumb = categoryThumb.get(id);
@@ -108,7 +198,10 @@ export function landingTaxonomy(catalog: DesignCatalog): LandingTaxonomy {
           title: value.name,
           description: group.name,
           href: `/designs?attr=${encodeURIComponent(value.id)}`,
-          image: thumb,
+          image:
+            pinnedThumb(catalog, banners.features?.[value.id], (design) =>
+              design.attributeValueIds.includes(value.id),
+            ) || thumb,
           count: published.filter((design) => design.attributeValueIds.includes(value.id)).length,
           chips: [],
           group: group.name,
@@ -141,7 +234,13 @@ export function landingTaxonomy(catalog: DesignCatalog): LandingTaxonomy {
       title: collection.name,
       description: collection.description.trim(),
       href: `/designs/collection/${collection.slug}`,
-      image: usableCover(collection.coverImage) || collectionThumb.get(collection.id) || "",
+      image:
+        pinnedThumb(catalog, banners.collections?.[collection.id], (design) =>
+          design.collectionIds.includes(collection.id),
+        ) ||
+        usableCover(collection.coverImage) ||
+        collectionThumb.get(collection.id) ||
+        "",
       count: published.filter(
         (design) => designHasImage(design) && design.collectionIds.includes(collection.id),
       ).length,

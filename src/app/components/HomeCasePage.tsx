@@ -58,7 +58,11 @@ export default function HomeCasePage() {
   const heroTemplates = publishedHomeTemplates();
   const popularModels = getPopularModels();
   const landing = readLandingSections();
-  const taxonomy = landingTaxonomy(readCatalog());
+  const taxonomy = landingTaxonomy(readCatalog(), {
+    categories: landing.categories.banners,
+    features: landing.features.banners,
+    collections: landing.collections.banners,
+  });
 
   return (
     <main id="main" tabIndex={-1} className="min-h-screen bg-background outline-none">

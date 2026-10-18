@@ -9,10 +9,11 @@ import {
   emptyCatalog,
   parsePublicListingQuery,
   queryPublicDesigns,
+  updateCategory,
 } from "../catalog/logic";
 import type { CategoryWriteInput, DesignWriteInput } from "../catalog/schema";
 import { DEFAULT_LANDING_SECTIONS, parseLandingSections, selectLandingItems } from "./sections";
-import { landingTaxonomy } from "./taxonomy";
+import { landingBannerChoices, landingTaxonomy, sanitizeLandingBanners } from "./taxonomy";
 
 const NOW = "2026-01-01T00:00:00.000Z";
 
@@ -43,6 +44,24 @@ test("landing section defaults survive invalid files", () => {
     }).features.itemIds,
     ["val_red", "missing"],
   );
+  assert.deepEqual(
+    parseLandingSections({
+      ...DEFAULT_LANDING_SECTIONS,
+      categories: {
+        visible: true,
+        style: "bento",
+        banners: { cat_nature: "dsn_anar", ["x".repeat(81)]: "dsn_bad", cat_bad: 4 },
+      },
+    }).categories.banners,
+    { cat_nature: "dsn_anar" },
+  );
+  const dropped = parseLandingSections({
+    ...DEFAULT_LANDING_SECTIONS,
+    features: { visible: false, style: "glass", banners: "nope" },
+  });
+  assert.equal(dropped.features.visible, false);
+  assert.equal(dropped.features.style, "glass");
+  assert.equal(dropped.features.banners, undefined);
 });
 
 test("landing item selection keeps order and drops unknown ids", () => {
@@ -145,4 +164,141 @@ test("attribute query filters published designs and stays out of the index", () 
   assert.equal(parsePublicListingQuery({}).attr, "");
   assert.equal(parsePublicListingQuery({}).noIndex, false);
   assert.equal(parsePublicListingQuery({ attr: "../secret" }).attr, "");
+});
+
+function designInput(
+  title: string,
+  slug: string,
+  categoryIds: string[],
+  extra: Partial<DesignWriteInput> = {},
+): DesignWriteInput {
+  return {
+    title,
+    titleEn: "",
+    slug,
+    shortDescription: title,
+    description: "",
+    categoryIds,
+    attributeValueIds: [],
+    collectionIds: [],
+    tags: [],
+    colors: [],
+    styles: [],
+    alt: title,
+    imagePath: `/designed/${slug}.webp`,
+    thumbnailPath: `/designed/thumbs/${slug}.webp`,
+    gallery: [],
+    seoTitle: "",
+    seoDescription: "",
+    ogImage: "",
+    status: "published",
+    featured: false,
+    sortOrder: 0,
+    templateSlug: slug,
+    ...extra,
+  };
+}
+
+test("pinned design replaces the automatic landing card photo", () => {
+  const nature = createCategory(emptyCatalog(), categoryInput("طبیعت", "nature"), NOW);
+  const leaf = createCategory(
+    nature.catalog,
+    { ...categoryInput("برگ", "leaf"), parentId: nature.category.id },
+    NOW,
+  );
+  const other = createCategory(leaf.catalog, categoryInput("شهر", "city"), NOW);
+  const grouped = createAttribute(other.catalog, { kind: "group", name: "رنگ", slug: "colors" }, NOW);
+  const group = grouped.attributeGroups[0];
+  assert.ok(group);
+  const valued = createAttribute(grouped, { kind: "value", groupId: group.id, name: "قرمز" }, NOW);
+  const value = valued.attributeValues[0];
+  assert.ok(value);
+  const collected = createCollection(
+    valued,
+    {
+      name: "یلدا",
+      slug: "yalda",
+      description: "",
+      seoTitle: "",
+      seoDescription: "",
+      coverImage: "",
+      status: "active",
+    },
+    NOW,
+  );
+  const first = createDesign(
+    collected.catalog,
+    designInput("انار", "anar", [nature.category.id], {
+      attributeValueIds: [value.id],
+      collectionIds: [collected.collection.id],
+    }),
+    NOW,
+  );
+  const later = createDesign(
+    first.catalog,
+    designInput("انار دوم", "anar-2", [nature.category.id], {
+      attributeValueIds: [value.id],
+      collectionIds: [collected.collection.id],
+    }),
+    NOW,
+  );
+  const child = createDesign(later.catalog, designInput("برگ", "leaf-art", [leaf.category.id]), NOW);
+  const outsider = createDesign(child.catalog, designInput("برج", "tower", [other.category.id]), NOW);
+  const covered = updateCategory(
+    outsider.catalog,
+    nature.category.id,
+    { ...categoryInput("طبیعت", "nature"), coverImage: "/designed/cover.webp" },
+    NOW,
+  );
+
+  const automatic = landingTaxonomy(covered.catalog);
+  const natureCard = automatic.categories.find((card) => card.id === nature.category.id);
+  assert.equal(natureCard?.image, "/designed/cover.webp");
+
+  const ignored = landingTaxonomy(covered.catalog, {
+    categories: { [nature.category.id]: outsider.design.id },
+  });
+  assert.equal(
+    ignored.categories.find((card) => card.id === nature.category.id)?.image,
+    "/designed/cover.webp",
+  );
+
+  const pinned = landingTaxonomy(covered.catalog, {
+    categories: { [nature.category.id]: child.design.id },
+    features: { [value.id]: later.design.id },
+    collections: { [collected.collection.id]: later.design.id },
+  });
+  assert.equal(
+    pinned.categories.find((card) => card.id === nature.category.id)?.image,
+    "/designed/thumbs/leaf-art.webp",
+  );
+  assert.equal(pinned.features[0]?.image, "/designed/thumbs/anar-2.webp");
+  assert.equal(
+    pinned.collections.find((card) => card.id === collected.collection.id)?.image,
+    "/designed/thumbs/anar-2.webp",
+  );
+  assert.equal(landingTaxonomy(covered.catalog).features[0]?.image, "/designed/thumbs/anar.webp");
+
+  const choices = landingBannerChoices(covered.catalog);
+  assert.ok(choices.find((choice) => choice.id === child.design.id)?.cardIds.includes(nature.category.id));
+  assert.equal(
+    choices.find((choice) => choice.id === outsider.design.id)?.cardIds.includes(nature.category.id),
+    false,
+  );
+
+  const cleaned = sanitizeLandingBanners(covered.catalog, {
+    ...DEFAULT_LANDING_SECTIONS,
+    categories: {
+      visible: true,
+      style: "bento",
+      itemIds: [],
+      banners: {
+        [nature.category.id]: child.design.id,
+        [other.category.id]: child.design.id,
+        missing: first.design.id,
+      },
+    },
+  });
+  assert.deepEqual(cleaned.categories.banners, { [nature.category.id]: child.design.id });
+  assert.deepEqual(cleaned.categories.itemIds, []);
 });

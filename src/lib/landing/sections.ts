@@ -2,10 +2,24 @@ import { z } from "zod";
 
 export const landingCardStyleSchema = z.enum(["glass", "bento", "editorial", "ticket"]);
 
+const bannerIdSchema = z.string().min(1).max(80);
+
+export function cleanBannerMap(value: unknown): Record<string, string> | undefined {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return undefined;
+  const banners: Record<string, string> = {};
+  for (const [key, item] of Object.entries(value)) {
+    const parsed = bannerIdSchema.safeParse(item);
+    if (!bannerIdSchema.safeParse(key).success || !parsed.success) continue;
+    banners[key] = parsed.data;
+  }
+  return Object.keys(banners).length > 0 ? banners : undefined;
+}
+
 export const landingSectionSchema = z.object({
   visible: z.boolean(),
   style: landingCardStyleSchema,
   itemIds: z.array(z.string()).optional(),
+  banners: z.preprocess(cleanBannerMap, z.record(bannerIdSchema, bannerIdSchema).optional()).optional(),
 });
 
 export const landingSectionsSchema = z.object({
@@ -53,6 +67,9 @@ export const DEFAULT_LANDING_SECTIONS: LandingSections = {
 export function parseLandingSections(value: unknown): LandingSections {
   const parsed = landingSectionsSchema.safeParse(value);
   if (!parsed.success) return structuredClone(DEFAULT_LANDING_SECTIONS);
+  for (const section of Object.values(parsed.data)) {
+    if (!section.banners) delete section.banners;
+  }
   return parsed.data;
 }
 
