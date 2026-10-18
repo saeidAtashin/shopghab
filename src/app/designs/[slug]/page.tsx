@@ -73,10 +73,22 @@ export default async function DesignDetailPage({ params }: Props) {
   );
   const template = getCaseTemplateBySlug(direct.templateSlug) ?? null;
   const images = selectProductImages(direct);
+  const gallery = images.frames.map((frame) => ({
+    src: frame.src,
+    thumb: frame.thumb || frame.src,
+    artwork: frame.src === direct.imagePath,
+  }));
+  if (direct.imagePath && !gallery.some((frame) => frame.src === direct.imagePath)) {
+    gallery.push({
+      src: direct.imagePath,
+      thumb: direct.thumbnailPath || direct.imagePath,
+      artwork: true,
+    });
+  }
   const related = relatedDesigns(catalog, direct).map((item) => ({
     slug: item.slug,
     title: item.title,
-    image: item.artworkPath,
+    image: item.thumbnailPath,
     alt: item.alt,
   }));
 
@@ -104,7 +116,7 @@ export default async function DesignDetailPage({ params }: Props) {
               previewId={direct.id}
               title={direct.title}
               description={direct.description || direct.shortDescription || description}
-              imageSrc={direct.imagePath}
+              gallery={gallery}
               imageAlt={images.alt}
               categories={categories}
               collections={collections}

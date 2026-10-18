@@ -1,8 +1,16 @@
+"use client";
+
+import { useState, type MouseEvent } from "react";
+import Image from "next/image";
 import Link from "next/link";
 
 import DesignArtworkStage from "@/app/components/designs/DesignArtworkStage";
+import DesignImageZoom from "@/app/components/designs/DesignImageZoom";
+import { designedAssetUrl } from "@/lib/designed-assets";
 import { designImageAlt } from "@/lib/mockups/display";
 import type { PublicDesign } from "@/lib/catalog/schema";
+
+type Frame = { src: string; thumb: string; artwork: boolean };
 
 type Props = {
   design: PublicDesign;
@@ -10,9 +18,34 @@ type Props = {
   priority?: boolean;
 };
 
+function cardFrames(design: PublicDesign): Frame[] {
+  const frames = design.frames
+    .filter((frame) => frame.src || frame.thumb)
+    .map((frame) => ({
+      src: frame.src || frame.thumb,
+      thumb: frame.thumb || frame.src,
+      artwork: frame.src === design.artworkPath,
+    }));
+  if (design.artworkPath && !frames.some((frame) => frame.src === design.artworkPath)) {
+    frames.push({ src: design.artworkPath, thumb: design.artworkPath, artwork: true });
+  }
+  return frames;
+}
+
 export default function CatalogDesignCard({ design, categoryName, priority = false }: Props) {
   const alt = designImageAlt(design);
   const href = `/designs/${design.slug}`;
+  const frames = cardFrames(design);
+  const [index, setIndex] = useState(0);
+  const [zoomOpen, setZoomOpen] = useState(false);
+  const frame = frames[index] ?? frames[0];
+
+  function step(event: MouseEvent<HTMLButtonElement>, direction: number): void {
+    event.preventDefault();
+    event.stopPropagation();
+    setZoomOpen(false);
+    setIndex((current) => (current + direction + frames.length) % frames.length);
+  }
 
   return (
     <article className="group/card flex flex-col overflow-hidden rounded-3xl border border-border bg-card/60 text-right shadow-[0_8px_32px_-8px_rgba(0,0,0,0.55)] transition duration-300 hover:-translate-y-1 hover:border-cyan-400/35">
@@ -22,14 +55,56 @@ export default function CatalogDesignCard({ design, categoryName, priority = fal
             {categoryName}
           </span>
         ) : null}
-        <DesignArtworkStage
-          id={design.id}
-          src={design.artworkPath}
-          alt={alt}
-          priority={priority}
-          sizes="(max-width: 640px) 50vw, 25vw"
-          className="h-40 sm:h-44"
-        />
+        <div className="relative h-40 overflow-hidden bg-[radial-gradient(ellipse_at_50%_30%,rgba(34,211,238,0.12),transparent_55%)] sm:h-44">
+          {frame?.artwork ? (
+            <DesignArtworkStage
+              id={design.id}
+              src={frame.src}
+              alt={alt}
+              priority={priority && index === 0}
+              sizes="(max-width: 640px) 50vw, 25vw"
+              className="h-full bg-transparent"
+            />
+          ) : frame ? (
+            <button
+              type="button"
+              onClick={() => setZoomOpen(true)}
+              className="absolute inset-0 cursor-zoom-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/50"
+              aria-label={`بزرگ‌نمایی ${alt}`}
+            >
+              <Image
+                src={designedAssetUrl(frame.thumb || frame.src)}
+                alt={alt}
+                fill
+                priority={priority && index === 0}
+                sizes="(max-width: 640px) 50vw, 25vw"
+                className="object-contain p-3"
+              />
+            </button>
+          ) : (
+            <span className="flex h-full items-center justify-center text-xs text-muted">بدون تصویر</span>
+          )}
+          {frames.length > 1 ? (
+            <div className="absolute inset-x-2 bottom-2 z-20 flex justify-between">
+              <button
+                type="button"
+                onClick={(event) => step(event, -1)}
+                className="rounded-full border border-border/70 bg-background/80 px-2.5 py-1 text-[11px] font-medium text-foreground backdrop-blur-sm"
+                aria-label="تصویر قبلی"
+              >
+                قبلی
+              </button>
+              <button
+                type="button"
+                onClick={(event) => step(event, 1)}
+                className="rounded-full border border-border/70 bg-background/80 px-2.5 py-1 text-[11px] font-medium text-foreground backdrop-blur-sm"
+                aria-label="تصویر بعدی"
+              >
+                بعدی
+              </button>
+            </div>
+          ) : null}
+        </div>
       </div>
       <Link
         href={href}
@@ -40,6 +115,9 @@ export default function CatalogDesignCard({ design, categoryName, priority = fal
           <p className="line-clamp-2 text-xs leading-6 text-muted">{design.shortDescription}</p>
         ) : null}
       </Link>
+      {frame && !frame.artwork ? (
+        <DesignImageZoom open={zoomOpen} src={frame.src} alt={alt} onClose={() => setZoomOpen(false)} />
+      ) : null}
     </article>
   );
 }

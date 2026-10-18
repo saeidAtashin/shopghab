@@ -6,6 +6,7 @@ import Link from "next/link";
 
 import ApplyTemplateWizard from "@/app/components/designs/ApplyTemplateWizard";
 import DesignArtworkStage from "@/app/components/designs/DesignArtworkStage";
+import DesignImageZoom from "@/app/components/designs/DesignImageZoom";
 import {
   CASE_TYPES,
   getCaseTotalPrice,
@@ -18,13 +19,14 @@ import { formatToman } from "@/lib/shop/format";
 
 type CategoryLink = { slug: string; name: string };
 type RelatedDesign = { slug: string; title: string; image: string; alt: string };
+type GalleryImage = { src: string; thumb: string; artwork: boolean };
 
 type Props = {
   template: CaseTemplate | null;
   previewId: string;
   title: string;
   description: string;
-  imageSrc: string;
+  gallery: GalleryImage[];
   imageAlt: string;
   categories: CategoryLink[];
   collections?: CategoryLink[];
@@ -37,7 +39,7 @@ export default function DesignDetailClient({
   previewId,
   title,
   description,
-  imageSrc,
+  gallery,
   imageAlt,
   categories,
   collections = [],
@@ -46,21 +48,84 @@ export default function DesignDetailClient({
 }: Props) {
   const [wizardOpen, setWizardOpen] = useState(false);
   const [caseTypeSlug, setCaseTypeSlug] = useState(SELECTABLE_CASE_TYPE_SLUG);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [zoomOpen, setZoomOpen] = useState(false);
+  const active = gallery[activeIndex] ?? gallery[0];
   const caseType = CASE_TYPES.find((item) => item.slug === caseTypeSlug) ?? CASE_TYPES[0];
   const price = caseType ? getCaseTotalPrice(caseType, true) : null;
 
   return (
     <>
       <div className="grid gap-10 lg:grid-cols-2">
-        <DesignArtworkStage
-          id={previewId}
-          src={imageSrc}
-          alt={imageAlt}
-          priority
-          sizes="(max-width: 1024px) 100vw, 640px"
-          className="min-h-80 rounded-2xl border border-border"
-          imageClassName="object-contain p-6"
-        />
+        <div>
+          {active?.artwork ? (
+            <DesignArtworkStage
+              id={previewId}
+              src={active.src}
+              alt={imageAlt}
+              priority
+              sizes="(max-width: 1024px) 100vw, 640px"
+              className="min-h-80 rounded-2xl border border-border"
+              imageClassName="object-contain p-6"
+            />
+          ) : active ? (
+            <button
+              type="button"
+              onClick={() => setZoomOpen(true)}
+              className="relative block min-h-80 w-full cursor-zoom-in overflow-hidden rounded-2xl border border-border bg-card/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/50"
+              aria-label={`بزرگ‌نمایی ${imageAlt}`}
+            >
+              <Image
+                src={designedAssetUrl(active.src)}
+                alt={imageAlt}
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 640px"
+                className="object-contain p-6"
+              />
+            </button>
+          ) : (
+            <div className="flex min-h-80 items-center justify-center rounded-2xl border border-border bg-card/40 p-6">
+              <p className="text-sm text-muted">تصویر این طرح در دسترس نیست.</p>
+            </div>
+          )}
+          {gallery.length > 1 ? (
+            <div className="mt-3 flex gap-2 overflow-x-auto">
+              {gallery.map((frame, index) => (
+                <button
+                  key={frame.src}
+                  type="button"
+                  onClick={() => {
+                    setZoomOpen(false);
+                    setActiveIndex(index);
+                  }}
+                  className={`relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border ${
+                    active?.src === frame.src ? "border-cyan-400" : "border-border"
+                  }`}
+                  aria-label={frame.artwork ? "نمایش لایه تصویر" : "نمایش تصویر"}
+                  aria-current={active?.src === frame.src ? "true" : undefined}
+                >
+                  <Image
+                    src={designedAssetUrl(frame.thumb)}
+                    alt=""
+                    fill
+                    sizes="64px"
+                    loading="lazy"
+                    className="object-cover"
+                  />
+                </button>
+              ))}
+            </div>
+          ) : null}
+          {active && !active.artwork ? (
+            <DesignImageZoom
+              open={zoomOpen}
+              src={active.src}
+              alt={imageAlt}
+              onClose={() => setZoomOpen(false)}
+            />
+          ) : null}
+        </div>
 
         <div>
           {categories.length > 0 ? (
