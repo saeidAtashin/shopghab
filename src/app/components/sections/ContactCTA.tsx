@@ -1,5 +1,5 @@
 import FadeUp from "@/app/components/animations/FadeUp";
-import { SITE_PHONE } from "../../../lib/seo/site";
+import { SITE_PHONE_DISPLAY, SITE_PHONE, SITE_WHATSAPP_URL } from "../../../lib/seo/site";
 import {
   Phone,
   MessageCircle,
@@ -43,8 +43,8 @@ export default function ContactConsultation() {
               </h2>
 
               <p className="mb-10 text-lg text-muted leading-relaxed max-w-xl">
-                اگر در مورد هزینه تعمیر، مدت زمان تحویل یا نوع قطعات سوالی
-                دارید، متخصصین ما آماده راهنمایی رایگان شما هستند.
+                اگر درباره چاپ قاب، زمان تحویل یا ارسال سوالی دارید، پشتیبانی شاپ قاب
+                آماده راهنمایی شماست.
               </p>
 
               <div className="space-y-6">
@@ -79,7 +79,7 @@ export default function ContactConsultation() {
           <div className="grid gap-4">
             <FadeUp delay={0.2}>
               <a
-                href="tel:09107701704"
+                href={`tel:${SITE_PHONE}`}
                 className="group relative flex items-center justify-between overflow-hidden rounded-3xl border border-border bg-card/40 p-8 backdrop-blur-xl transition-all hover:border-cyan-500/40 hover:bg-card/60"
               >
                 <div className="absolute right-0 top-0 h-full w-2 bg-cyan-500 transform translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
@@ -92,14 +92,14 @@ export default function ContactConsultation() {
                   <h4 className="text-2xl font-bold text-foreground mb-1">
                     تماس مستقیم
                   </h4>
-                  <p className="text-muted">{SITE_PHONE}</p>
+                  <p className="text-muted">{SITE_PHONE_DISPLAY}</p>
                 </div>
               </a>
             </FadeUp>
 
             <FadeUp delay={0.3}>
               <a
-                href="https://wa.me/989107701704"
+                href={SITE_WHATSAPP_URL}
                 className="group relative flex items-center justify-between overflow-hidden rounded-3xl border border-border bg-card/40 p-8 backdrop-blur-xl transition-all hover:border-green-500/40 hover:bg-card/60"
               >
                 <div className="absolute right-0 top-0 h-full w-2 bg-green-500 transform translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
@@ -113,7 +113,7 @@ export default function ContactConsultation() {
                     ارسال پیام در واتساپ
                   </h4>
                   <p className="text-muted">
-                    مشاوره آنلاین و ارسال عکس دستگاه
+                    پرسش درباره چاپ قاب و پیگیری سفارش
                   </p>
                 </div>
               </a>

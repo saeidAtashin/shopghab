@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { Phone, Search, Palette, ShoppingBag } from "lucide-react";
 
 import { useAuth } from "@/app/context/AuthContext";
-import { SITE_PHONE } from "@/lib/seo/site";
+import { SITE_PHONE, SITE_PHONE_DISPLAY, SITE_WHATSAPP_URL } from "@/lib/seo/site";
 import { apiRequest, ApiError } from "@/lib/api-client";
 
 type Order = {
@@ -15,8 +15,6 @@ type Order = {
   amount: number;
   createdAt: string;
 };
-
-const DISPLAY_PHONE = "09107701704";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -84,7 +82,15 @@ export default function DashboardPage() {
             className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-500 px-6 py-3 font-bold text-black"
           >
             <Phone className="h-5 w-5" />
-            پشتیبانی ({DISPLAY_PHONE})
+            پشتیبانی ({SITE_PHONE_DISPLAY})
+          </a>
+          <a
+            href={SITE_WHATSAPP_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-2xl border border-green-500/40 bg-green-500/10 px-6 py-3 font-bold text-green-300"
+          >
+            واتساپ
           </a>
           <Link
             href="/tracking"

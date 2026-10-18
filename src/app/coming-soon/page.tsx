@@ -6,7 +6,7 @@ import { createPageMetadata } from "../../lib/seo/metadata";
 export const metadata: Metadata = createPageMetadata({
   title: "در حال ساخت",
   description:
-    "این بخش سایت فیکس‌بازی هنوز در حال ساخت است. به زودی در دسترس قرار می‌گیرد.",
+    "این بخش شاپ قاب هنوز در حال ساخت است. به زودی در دسترس قرار می‌گیرد.",
   path: "/coming-soon",
   noIndex: true,
 });
@@ -18,11 +18,11 @@ export default function ComingSoonPage() {
       code="WIP"
       hudLabel="▮ BUILD MODE ▮"
       title="این بخش در حال ساخت است"
-      description="تیم فیکس‌بازی روی این مرحله کار می‌کند یا آپدیت کردن یک دنیای آنلاین. به زودی آماده می‌شود."
+      description="این بخش شاپ قاب به‌زودی آماده می‌شود. تا آن زمان می‌توانید طرح قاب را ببینید یا سفارش را پیگیری کنید."
       flavorText="GENERATING WORLD..."
       quickLinks={[
-        { href: "/repair", label: "ثبت درخواست تعمیر" },
-        { href: "/services", label: "خدمات فعال" },
+        { href: "/designs", label: "طرح‌های قاب" },
+        { href: "/contact", label: "تماس با ما" },
         { href: "/tracking", label: "پیگیری سفارش" },
       ]}
     />

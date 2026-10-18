@@ -1,23 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle2, Cpu, Wrench, Clock3, Search } from "lucide-react";
-import { apiRequest, ApiError } from "@/lib/api-client";
+import { CheckCircle2, Package, Search, Truck } from "lucide-react";
 
-type RepairStatus = "pending" | "checking" | "repairing" | "completed";
+type ShopOrderStatus = "receipt_uploaded" | "paid" | "confirmed";
 
-type Order = {
-  trackingCode: string;
-  name: string;
-  phone: string;
-  device: string;
-  issue: string;
-  status: RepairStatus;
+type TrackedOrder = {
+  orderCode: string;
+  status: ShopOrderStatus;
   createdAt: string;
+  summary: string;
 };
 
 const STATUS_STEPS: {
-  key: RepairStatus;
+  key: ShopOrderStatus;
   title: string;
   description: string;
   icon: typeof CheckCircle2;
@@ -25,53 +21,36 @@ const STATUS_STEPS: {
   iconClass: string;
 }[] = [
   {
-    key: "pending",
-    title: "درخواست ثبت شد",
-    description: "درخواست شما با موفقیت در سیستم ثبت شده است.",
+    key: "receipt_uploaded",
+    title: "سفارش ثبت شد",
+    description: "سفارش قاب ثبت شده و در انتظار تأیید پرداخت است.",
     icon: CheckCircle2,
     iconWrapClass: "bg-cyan-500/10",
     iconClass: "text-cyan-400",
   },
   {
-    key: "checking",
-    title: "در حال بررسی",
-    description: "سفارش قاب شما در صف بررسی و آماده‌سازی است.",
-    icon: Clock3,
-    iconWrapClass: "bg-yellow-500/10",
-    iconClass: "text-yellow-400",
-  },
-  {
-    key: "repairing",
+    key: "paid",
     title: "در حال چاپ",
-    description: "قاب در حال چاپ و آماده‌سازی برای ارسال است.",
-    icon: Wrench,
+    description: "پرداخت انجام شده و قاب در حال چاپ است.",
+    icon: Package,
     iconWrapClass: "bg-purple-500/10",
     iconClass: "text-purple-400",
   },
   {
-    key: "completed",
+    key: "confirmed",
     title: "آماده ارسال",
-    description: "قاب آماده ارسال است.",
-    icon: Cpu,
+    description: "چاپ تأیید شده و قاب آماده ارسال است.",
+    icon: Truck,
     iconWrapClass: "bg-green-500/10",
     iconClass: "text-green-400",
   },
 ];
 
-const STATUS_ORDER: RepairStatus[] = [
-  "pending",
-  "checking",
-  "repairing",
-  "completed",
-];
+const STATUS_ORDER: ShopOrderStatus[] = ["receipt_uploaded", "paid", "confirmed"];
 
-function getStepState(
-  step: RepairStatus,
-  current: RepairStatus,
-): "done" | "active" | "upcoming" {
+function getStepState(step: ShopOrderStatus, current: ShopOrderStatus): "done" | "active" | "upcoming" {
   const stepIndex = STATUS_ORDER.indexOf(step);
   const currentIndex = STATUS_ORDER.indexOf(current);
-
   if (stepIndex < currentIndex) return "done";
   if (stepIndex === currentIndex) return "active";
   return "upcoming";
@@ -79,40 +58,32 @@ function getStepState(
 
 export default function TrackingPage() {
   const [code, setCode] = useState("");
-  const [order, setOrder] = useState<Order | null>(null);
+  const [order, setOrder] = useState<TrackedOrder | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  async function handleSearch(e: React.FormEvent) {
-    e.preventDefault();
+  async function handleSearch(event: React.FormEvent) {
+    event.preventDefault();
     setError("");
     setOrder(null);
 
     const trimmed = code.trim().toUpperCase();
     if (!trimmed) {
-      setError("کد رهگیری را وارد کنید");
+      setError("کد سفارش را وارد کنید");
       return;
     }
 
     setLoading(true);
-
     try {
-      const data = await apiRequest<{ success?: boolean; order?: Order; message?: string }>(
-        `/api/repair/orders/${trimmed}`,
-      );
-
-      if (!data.success || !data.order) {
+      const response = await fetch(`/api/shop/orders/track?code=${encodeURIComponent(trimmed)}`);
+      const data = (await response.json()) as { success?: boolean; order?: TrackedOrder; message?: string };
+      if (!response.ok || !data.success || !data.order) {
         setError(data.message || "سفارش پیدا نشد");
         return;
       }
-
       setOrder(data.order);
-    } catch (error) {
-      if (error instanceof ApiError) {
-        setError(error.message);
-      } else {
-        setError("خطا در دریافت اطلاعات");
-      }
+    } catch {
+      setError("خطا در دریافت اطلاعات");
     } finally {
       setLoading(false);
     }
@@ -125,22 +96,15 @@ export default function TrackingPage() {
           <div className="w-20 h-20 rounded-3xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mx-auto mb-6">
             <CheckCircle2 className="w-10 h-10 text-cyan-400" />
           </div>
-
           <h1 className="text-4xl md:text-5xl font-black mb-4">پیگیری سفارش</h1>
-
-          <p className="text-muted leading-8">
-            کد سفارش را وارد کنید تا وضعیت چاپ و ارسال قاب را ببینید.
-          </p>
+          <p className="text-muted leading-8">کد سفارش را وارد کنید تا وضعیت چاپ و ارسال قاب را ببینید.</p>
         </div>
 
-        <form
-          onSubmit={handleSearch}
-          className="mb-8 flex flex-col sm:flex-row gap-3"
-        >
+        <form onSubmit={handleSearch} className="mb-8 flex flex-col sm:flex-row gap-3">
           <input
             value={code}
-            onChange={(e) => setCode(e.target.value.toUpperCase())}
-            placeholder="کد رهگیری"
+            onChange={(event) => setCode(event.target.value.toUpperCase())}
+            placeholder="کد سفارش"
             className="flex-1 rounded-2xl border border-border bg-surface px-5 py-4 outline-none focus:border-cyan-500 tracking-widest"
           />
           <button
@@ -153,34 +117,28 @@ export default function TrackingPage() {
           </button>
         </form>
 
-        {error && (
-          <div className="mb-8 rounded-2xl border border-red-500/30 bg-red-500/10 p-4 text-red-400">
-            {error}
-          </div>
-        )}
+        {error ? (
+          <div className="mb-8 rounded-2xl border border-red-500/30 bg-red-500/10 p-4 text-red-400">{error}</div>
+        ) : null}
 
-        {order && (
+        {order ? (
           <div className="rounded-3xl border border-border bg-surface backdrop-blur-xl p-8">
             <div className="mb-8">
-              <span className="text-muted text-sm">کد رهگیری</span>
-
+              <span className="text-muted text-sm">کد سفارش</span>
               <div className="mt-3 flex items-center justify-between rounded-2xl border border-cyan-500/20 bg-cyan-500/10 px-5 py-4">
-                <span className="text-2xl font-black tracking-widest text-cyan-400">
-                  {order.trackingCode}
-                </span>
-
+                <span className="text-2xl font-black tracking-widest text-cyan-400">{order.orderCode}</span>
                 <CheckCircle2 className="w-6 h-6 text-cyan-400" />
               </div>
             </div>
 
             <div className="mb-8 grid sm:grid-cols-2 gap-4 text-sm">
               <div>
-                <span className="text-muted">محصول:</span>
-                <p className="mt-1">{order.device}</p>
+                <span className="text-muted">قاب:</span>
+                <p className="mt-1">{order.summary}</p>
               </div>
               <div>
-                <span className="text-muted">توضیح:</span>
-                <p className="mt-1">{order.issue || "—"}</p>
+                <span className="text-muted">تاریخ:</span>
+                <p className="mt-1">{new Date(order.createdAt).toLocaleDateString("fa-IR")}</p>
               </div>
             </div>
 
@@ -188,21 +146,14 @@ export default function TrackingPage() {
               {STATUS_STEPS.map((step) => {
                 const state = getStepState(step.key, order.status);
                 const Icon = step.icon;
-                const isUpcoming = state === "upcoming";
-
                 return (
                   <div
                     key={step.key}
-                    className={`flex gap-4 rounded-2xl border border-border bg-surface p-5 ${
-                      isUpcoming ? "opacity-50" : ""
-                    }`}
+                    className={`flex gap-4 rounded-2xl border border-border bg-surface p-5 ${state === "upcoming" ? "opacity-50" : ""}`}
                   >
-                    <div
-                      className={`w-14 h-14 rounded-2xl ${step.iconWrapClass} flex items-center justify-center`}
-                    >
+                    <div className={`w-14 h-14 rounded-2xl ${step.iconWrapClass} flex items-center justify-center`}>
                       <Icon className={`w-7 h-7 ${step.iconClass}`} />
                     </div>
-
                     <div>
                       <h3 className="font-bold text-lg mb-1">{step.title}</h3>
                       <p className="text-muted text-sm leading-7">
@@ -218,7 +169,7 @@ export default function TrackingPage() {
               })}
             </div>
           </div>
-        )}
+        ) : null}
       </div>
     </main>
   );

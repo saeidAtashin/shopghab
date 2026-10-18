@@ -5,6 +5,7 @@ import {
   SITE_BRAND,
   SITE_PHONE,
   SITE_PHONE_DISPLAY,
+  SITE_WHATSAPP_URL,
 } from "@/lib/seo/site";
 import { footerInfoLinks, footerQuickLinks } from "@/lib/site-nav";
 
@@ -56,6 +57,9 @@ export default function Footer() {
             <p className="text-sm font-semibold text-cyan-400">ارتباط</p>
             <a href={`tel:${SITE_PHONE}`} className="block text-sm text-muted">
               تلفن: {SITE_PHONE_DISPLAY}
+            </a>
+            <a href={SITE_WHATSAPP_URL} className="block text-sm text-muted" target="_blank" rel="noreferrer">
+              واتساپ: {SITE_PHONE_DISPLAY}
             </a>
             <p className="text-sm text-muted">{SITE_ADDRESS_DISPLAY}</p>
           </div>

@@ -190,6 +190,30 @@ export function confirmShopOrder(id: string): Promise<PublicShopOrder | null> {
   });
 }
 
+export type ShopOrderTracking = {
+  orderCode: string;
+  status: ShopOrderStatus;
+  createdAt: string;
+  summary: string;
+};
+
+export function findShopOrderTracking(code: string): ShopOrderTracking | null {
+  const wanted = code.trim().toUpperCase();
+  if (!wanted) return null;
+  const order = readShopActivity().orders.find((entry) => entry.orderCode.toUpperCase() === wanted);
+  if (!order) return null;
+  const summary = order.items
+    .map((item) => (item.kind === "custom" ? item.title.trim() : "قاب آماده"))
+    .filter((title) => title.length > 0)
+    .join("، ");
+  return {
+    orderCode: order.orderCode,
+    status: order.status,
+    createdAt: order.createdAt,
+    summary: summary || "قاب موبایل",
+  };
+}
+
 export function readOrderReceipt(id: string): { bytes: Buffer; ext: string } | null {
   const order = readShopActivity().orders.find((entry) => entry.id === id);
   if (!order?.receiptFile) return null;
