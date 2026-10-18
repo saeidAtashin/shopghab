@@ -8,6 +8,7 @@ import { useShopCart } from "@/app/context/ShopCartContext";
 import { usePhoneVerifiedSubmit, VerificationCancelledError } from "@/app/hooks/usePhoneVerifiedSubmit";
 import { normalizeIranPhone } from "@/lib/phone";
 import { requestZarinPalPayment } from "@/lib/payments/zarinpal";
+import { CARD_TO_CARD, formatCardNumber, type PaymentMethod } from "@/lib/shop/activity";
 import { formatToman, submitShopOrder } from "@/lib/shop";
 import { getReadyCaseById } from "@/lib/cases/ready.static";
 import { getCartItemKey } from "@/lib/shop/types";
@@ -20,6 +21,10 @@ export default function CheckoutPageClient() {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [note, setNote] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("zarinpal");
+  const [receipt, setReceipt] = useState<File | null>(null);
+  const [receiptPreview, setReceiptPreview] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -28,6 +33,26 @@ export default function CheckoutPageClient() {
   useEffect(() => {
     if (accountPhone) setPhone(accountPhone);
   }, [accountPhone]);
+
+  useEffect(() => {
+    if (!receipt) {
+      setReceiptPreview(null);
+      return;
+    }
+    const url = URL.createObjectURL(receipt);
+    setReceiptPreview(url);
+    return () => URL.revokeObjectURL(url);
+  }, [receipt]);
+
+  async function copyCardNumber() {
+    try {
+      await navigator.clipboard.writeText(CARD_TO_CARD.number);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1500);
+    } catch {
+      setCopied(false);
+    }
+  }
 
   const displayItems = useMemo(
     () =>
@@ -62,6 +87,10 @@ export default function CheckoutPageClient() {
       setError("سبد خرید خالی است.");
       return;
     }
+    if (paymentMethod === "card_to_card" && !receipt) {
+      setError("تصویر رسید پرداخت الزامی است.");
+      return;
+    }
 
     const payload = {
       name: name.trim(),
@@ -74,7 +103,38 @@ export default function CheckoutPageClient() {
     setLoading(true);
     try {
       await requestSubmit(normalizedPhone, async () => {
+        if (paymentMethod === "card_to_card" && receipt) {
+          const body = new FormData();
+          body.set("name", payload.name);
+          body.set("phone", payload.phone);
+          body.set("address", payload.address ?? "");
+          if (payload.note) body.set("note", payload.note);
+          body.set("items", JSON.stringify(payload.items));
+          body.set("receipt", receipt);
+          const response = await fetch("/api/shop/card-orders", { method: "POST", body });
+          const result = (await response.json().catch(() => ({}))) as {
+            orderId?: string;
+            orderCode?: string;
+            error?: string;
+          };
+          if (!response.ok || !result.orderCode) {
+            throw new Error(result.error || "ثبت سفارش انجام نشد.");
+          }
+          clearCart();
+          window.location.href = `/payment/callback?orderId=${result.orderId ?? ""}&local=1&code=${result.orderCode}&method=card`;
+          return;
+        }
+
         const order = await submitShopOrder(payload);
+        await fetch("/api/shop/orders/record", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            orderId: order.orderId,
+            orderCode: order.orderCode,
+            ...payload,
+          }),
+        }).catch(() => undefined);
 
         try {
           const callbackUrl = `${window.location.origin}/payment/callback?orderId=${order.orderId}`;
@@ -176,6 +236,71 @@ export default function CheckoutPageClient() {
           </div>
         </div>
 
+        <fieldset className="space-y-4 rounded-2xl border border-border bg-card/60 p-6">
+          <legend className="px-1 font-bold text-foreground">روش پرداخت</legend>
+          <label className="flex cursor-pointer items-center gap-3 text-sm text-foreground">
+            <input
+              type="radio"
+              name="paymentMethod"
+              value="zarinpal"
+              checked={paymentMethod === "zarinpal"}
+              onChange={() => setPaymentMethod("zarinpal")}
+            />
+            پرداخت با زرین‌پال
+          </label>
+          <label className="flex cursor-pointer items-center gap-3 text-sm text-foreground">
+            <input
+              type="radio"
+              name="paymentMethod"
+              value="card_to_card"
+              checked={paymentMethod === "card_to_card"}
+              onChange={() => setPaymentMethod("card_to_card")}
+            />
+            کارت به کارت
+          </label>
+
+          {paymentMethod === "card_to_card" ? (
+            <div className="space-y-4 rounded-xl border border-cyan-500/30 bg-cyan-500/5 p-4">
+              <div>
+                <p className="text-xs text-muted">به نام</p>
+                <p className="mt-1 font-bold text-foreground">{CARD_TO_CARD.holder}</p>
+              </div>
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-xs text-muted">شماره کارت</p>
+                  <p className="mt-1 font-mono text-lg tracking-wide text-foreground" dir="ltr">
+                    {formatCardNumber(CARD_TO_CARD.number)}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => void copyCardNumber()}
+                  className="rounded-lg border border-border px-3 py-2 text-xs font-bold text-foreground"
+                >
+                  {copied ? "کپی شد" : "کپی"}
+                </button>
+              </div>
+              <label className="block space-y-2">
+                <span className="text-sm text-muted">تصویر رسید پرداخت</span>
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  required
+                  onChange={(event) => setReceipt(event.target.files?.[0] ?? null)}
+                  className="block w-full text-sm text-muted file:ml-3 file:rounded-lg file:border-0 file:bg-cyan-500 file:px-3 file:py-2 file:text-sm file:font-bold file:text-black"
+                />
+              </label>
+              {receiptPreview ? (
+                <img
+                  src={receiptPreview}
+                  alt="پیش‌نمایش رسید پرداخت"
+                  className="max-h-48 rounded-lg border border-border object-contain"
+                />
+              ) : null}
+            </div>
+          ) : null}
+        </fieldset>
+
         {error ? <p className="text-sm text-red-400">{error}</p> : null}
 
         <button
@@ -183,7 +308,11 @@ export default function CheckoutPageClient() {
           disabled={loading || verifying}
           className="w-full rounded-xl bg-cyan-500 py-3.5 text-sm font-bold text-black disabled:opacity-50"
         >
-          {loading || verifying ? "در حال پردازش..." : "پرداخت با زرین‌پال"}
+          {loading || verifying
+            ? "در حال پردازش..."
+            : paymentMethod === "card_to_card"
+              ? "ثبت سفارش و ارسال رسید"
+              : "پرداخت با زرین‌پال"}
         </button>
       </form>
 

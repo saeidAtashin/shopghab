@@ -21,6 +21,7 @@ import {
 import { getPostLoginPath, resolveRoleForPhone } from "@/lib/auth-shared";
 import { apiRequest, ApiError } from "@/lib/api-client";
 import { normalizeIranPhone } from "@/lib/phone";
+import { PRESENCE_INTERVAL_MS } from "@/lib/shop/presence";
 import {
   clearAuthSession,
   setAuthToken,
@@ -122,6 +123,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     })();
   }, []);
+
+  useEffect(() => {
+    if (loading || !user) return;
+    const phone = normalizeIranPhone(user.phone_number ?? user.phone ?? "");
+    if (!phone) return;
+
+    const ping = () => {
+      void fetch("/api/activity/presence", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone, name: user.name }),
+      });
+    };
+
+    ping();
+    const timer = window.setInterval(ping, PRESENCE_INTERVAL_MS);
+    return () => window.clearInterval(timer);
+  }, [loading, user]);
 
   const completeLoginSession = useCallback(
     async (

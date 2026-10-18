@@ -45,6 +45,10 @@ next-env.d.ts
 # uploads
 /public/uploads/
 
+# shop customers, orders, and payment receipts
+/data/shop-activity.json
+/data/receipts/
+
 # PSD masters must not be publicly served; originals live in the separate LFS repo
 /public/psds/
 

@@ -11,6 +11,7 @@ type Props = {
     Status?: string;
     local?: string;
     code?: string;
+    method?: string;
   }>;
 };
 
@@ -53,9 +54,13 @@ export default function PaymentCallbackPage({ searchParams }: Props) {
           <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/20 text-3xl">
             ✓
           </div>
-          <h1 className="text-2xl font-black text-foreground">پرداخت موفق</h1>
+          <h1 className="text-2xl font-black text-foreground">
+            {params.method === "card" ? "رسید ثبت شد" : "پرداخت موفق"}
+          </h1>
           <p className="mt-3 text-muted">
-            سفارش شما ثبت شد
+            {params.method === "card"
+              ? "سفارش شما با تصویر رسید ثبت شد و پس از بررسی تایید می‌شود"
+              : "سفارش شما ثبت شد"}
             {params.code ? ` — کد: ${params.code}` : ""}
           </p>
           {refId ? <p className="mt-2 text-sm text-muted">شماره پیگیری: {refId}</p> : null}

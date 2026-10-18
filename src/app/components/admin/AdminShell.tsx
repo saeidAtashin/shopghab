@@ -7,6 +7,7 @@ import { useAuth } from "@/app/context/AuthContext";
 
 const LINKS = [
   { href: "/admin", label: "سفارش‌ها" },
+  { href: "/admin/customers", label: "کاربران" },
   { href: "/admin/designs", label: "طرح‌ها" },
   { href: "/admin/categories", label: "دسته‌ها" },
   { href: "/admin/attributes", label: "ویژگی‌ها" },

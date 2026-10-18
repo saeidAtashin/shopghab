@@ -19,13 +19,7 @@ export default function SiteLogo({
   showText = false,
 }: SiteLogoProps) {
   return (
-    <Link
-      href="/"
-      className={cn(
-        "group flex items-center gap-3 transition-transform hover:scale-105",
-        className,
-      )}
-    >
+    <Link href="/" className={cn("group flex items-center gap-3 transition-transform hover:scale-105", className,)}>
       {showText && (
         <div className={cn("hidden p-2 text-right sm:block", textClassName)}>
           <p className="text-[11px] font-medium leading-none tracking-tight text-amber-400">
@@ -37,9 +31,7 @@ export default function SiteLogo({
         </div>
       )}
 
-      <div
-        className={cn("relative h-12 w-36 overflow-hidden", imageClassName)}
-      >
+      <div className={cn("relative h-12 w-36 overflow-hidden", imageClassName)}>
         <Image
           src="/logos/shop-ghab-logo.png"
           alt="لوگوی شاپ‌قاب"
