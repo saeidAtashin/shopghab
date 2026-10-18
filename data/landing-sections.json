@@ -1,0 +1,14 @@
+{
+  "categories": {
+    "visible": true,
+    "style": "bento"
+  },
+  "features": {
+    "visible": true,
+    "style": "glass"
+  },
+  "collections": {
+    "visible": true,
+    "style": "ticket"
+  }
+}

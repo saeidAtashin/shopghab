@@ -11,6 +11,7 @@ const LINKS = [
   { href: "/admin/categories", label: "دسته‌ها" },
   { href: "/admin/attributes", label: "ویژگی‌ها" },
   { href: "/admin/collections", label: "کالکشن‌ها" },
+  { href: "/admin/landing", label: "لندینگ" },
 ];
 
 export function AdminNav() {

@@ -22,11 +22,14 @@ type Props = {
   pageSize: number;
   pageCount: number;
   total: number;
+  attr?: string;
+  attrLabel?: string;
 };
 
-function listingHref(basePath: string, page: number, q: string, sort: CatalogSort): string {
+function listingHref(basePath: string, page: number, q: string, sort: CatalogSort, attr: string): string {
   const params = new URLSearchParams();
   if (q) params.set("q", q);
+  if (attr) params.set("attr", attr);
   if (sort !== "featured") params.set("sort", sort);
   if (page > 1) params.set("page", String(page));
   const query = params.toString();
@@ -46,6 +49,8 @@ export default function CatalogListing({
   pageSize,
   pageCount,
   total,
+  attr = "",
+  attrLabel = "",
 }: Props) {
   const from = total === 0 ? 0 : (page - 1) * pageSize + 1;
   const to = Math.min(page * pageSize, total);
@@ -97,7 +102,17 @@ export default function CatalogListing({
         </nav>
       ) : null}
 
+      {attr ? (
+        <p className="flex flex-wrap items-center gap-3 text-sm text-muted">
+          <span>ویژگی: {attrLabel || "انتخاب‌شده"}</span>
+          <Link href={listingHref(basePath, 1, q, sort, "")} className="font-semibold text-cyan-300 hover:underline">
+            حذف ویژگی
+          </Link>
+        </p>
+      ) : null}
+
       <form action={basePath} method="get" className="flex flex-col gap-3 sm:flex-row">
+        {attr ? <input type="hidden" name="attr" value={attr} /> : null}
         <label className="flex-1 text-sm">
           <span className="mb-1 block text-muted">جستجو</span>
           <input
@@ -157,7 +172,7 @@ export default function CatalogListing({
           <div className="flex items-center gap-2">
             {page > 1 ? (
               <Link
-                href={listingHref(basePath, page - 1, q, sort)}
+                href={listingHref(basePath, page - 1, q, sort, attr)}
                 className="rounded-lg border border-border px-3 py-2 text-sm font-semibold"
                 rel="prev"
               >
@@ -171,7 +186,7 @@ export default function CatalogListing({
             </span>
             {page < pageCount ? (
               <Link
-                href={listingHref(basePath, page + 1, q, sort)}
+                href={listingHref(basePath, page + 1, q, sort, attr)}
                 className="rounded-lg border border-border px-3 py-2 text-sm font-semibold"
                 rel="next"
               >

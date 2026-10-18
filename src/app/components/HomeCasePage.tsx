@@ -2,12 +2,16 @@ import Link from "next/link";
 import { Palette, Truck, Shield, Smartphone } from "lucide-react";
 import DesignSamplesSection from "@/app/components/designs/DesignSamplesSection";
 import HomeHero from "@/app/components/home/hero/HomeHero";
+import TaxonomySection from "@/app/components/home/taxonomy/TaxonomySection";
 import { PhoneBackSvg } from "@/app/components/case-wizard/PhoneBackSvg";
 import { getHeroTemplates } from "@/app/components/home/hero/hero.constants";
 import { getModelBySlug } from "@/lib/cases/brands.static";
 import { getCaseTemplateBySlug } from "@/lib/cases/templates.static";
 import { designHasImage, isPublishedDesign } from "@/lib/catalog/logic";
 import { readCatalog } from "@/lib/catalog/store";
+import { LANDING_SECTION_COPY, type LandingSectionKey } from "@/lib/landing/sections";
+import { readLandingSections } from "@/lib/landing/store";
+import { landingTaxonomy } from "@/lib/landing/taxonomy";
 import type { CaseTemplate } from "@/lib/design/types";
 
 const POPULAR_MODELS = [
@@ -48,9 +52,13 @@ function publishedHomeTemplates() {
   return templates.length > 0 ? templates : getHeroTemplates().slice(0, 4);
 }
 
+const HOME_SECTIONS: LandingSectionKey[] = ["categories", "features", "collections"];
+
 export default function HomeCasePage() {
   const heroTemplates = publishedHomeTemplates();
   const popularModels = getPopularModels();
+  const landing = readLandingSections();
+  const taxonomy = landingTaxonomy(readCatalog());
 
   return (
     <main id="main" tabIndex={-1} className="min-h-screen bg-background outline-none">
@@ -73,6 +81,19 @@ export default function HomeCasePage() {
           ))}
         </div>
       </section>
+
+      {HOME_SECTIONS.map((key) =>
+        landing[key].visible ? (
+          <TaxonomySection
+            key={key}
+            title={LANDING_SECTION_COPY[key].title}
+            description={LANDING_SECTION_COPY[key].description}
+            items={taxonomy[key]}
+            style={landing[key].style}
+            seeAllHref="/designs"
+          />
+        ) : null,
+      )}
 
       <section className="px-4 py-16 sm:px-6">
         <div className="mx-auto max-w-6xl">

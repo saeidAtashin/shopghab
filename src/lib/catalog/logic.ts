@@ -46,16 +46,22 @@ export function parsePublicListingQuery(params: {
   q?: string;
   sort?: string;
   page?: string;
-}): { q: string; sort: CatalogSort; page: number; noIndex: boolean } {
+  attr?: string;
+}): { q: string; sort: CatalogSort; page: number; attr: string; noIndex: boolean } {
   const q = (params.q ?? "").trim().slice(0, 80);
+  const rawAttr = (params.attr ?? "").trim();
+  const attr = /^[A-Za-z0-9_-]{1,80}$/.test(rawAttr) ? rawAttr : "";
   const sort: CatalogSort =
     params.sort === "newest" || params.sort === "title" || params.sort === "featured"
       ? params.sort
       : "featured";
   const parsedPage = Number.parseInt(params.page ?? "1", 10);
   const page = Number.isFinite(parsedPage) && parsedPage > 0 ? parsedPage : 1;
-  const noIndex = q.length > 0 || (typeof params.sort === "string" && params.sort !== "" && params.sort !== "featured");
-  return { q, sort, page, noIndex };
+  const noIndex =
+    q.length > 0 ||
+    attr.length > 0 ||
+    (typeof params.sort === "string" && params.sort !== "" && params.sort !== "featured");
+  return { q, sort, page, attr, noIndex };
 }
 
 export type SyncReport = {
@@ -794,6 +800,7 @@ export function queryDesigns(catalog: DesignCatalog, query: DesignQuery = {}) {
 export type PublicDesignQuery = {
   categoryId?: string;
   collectionId?: string;
+  attributeValueId?: string;
   includeDescendants?: boolean;
   q?: string;
   sort?: CatalogSort;
@@ -839,6 +846,7 @@ export function queryPublicDesigns(catalog: DesignCatalog, query: PublicDesignQu
     if (!isPublishedDesign(design)) return false;
     if (categoryIds && !design.categoryIds.some((id) => categoryIds.has(id))) return false;
     if (query.collectionId && !design.collectionIds.includes(query.collectionId)) return false;
+    if (query.attributeValueId && !design.attributeValueIds.includes(query.attributeValueId)) return false;
     if (!q) return true;
     return (
       design.title.toLowerCase().includes(q) ||
