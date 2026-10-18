@@ -3,12 +3,20 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import AdminSelect from "@/app/components/admin/AdminSelect";
 import { adminJson } from "@/app/components/admin/AdminShell";
 import CategoryMultiSelect from "@/app/components/admin/CategoryMultiSelect";
+import {
+  autoFlagsForDesign,
+  emptyDesignAutoFlags,
+  resolveDesignAutos,
+  type DesignAutoFlags,
+  type DesignAutoKey,
+  type DesignAutoSource,
+} from "@/lib/catalog/design-autofill";
 import { designedAssetUrl } from "@/lib/designed-assets";
 import {
   designWriteSchema,
@@ -22,6 +30,19 @@ import {
 
 const inputClass =
   "w-full rounded-2xl border border-border bg-input-bg px-4 py-3 outline-none focus:border-cyan-500";
+
+const autoKeys: DesignAutoKey[] = [
+  "slug",
+  "titleEn",
+  "description",
+  "shortDescription",
+  "seoTitle",
+  "seoDescription",
+  "alt",
+  "ogImage",
+  "thumbnailPath",
+  "templateSlug",
+];
 
 function splitList(value: string): string[] {
   return value
@@ -84,6 +105,24 @@ function fromDesign(design: DesignRecord): DesignWriteInput {
   };
 }
 
+function sourceFromDesign(design: DesignRecord): DesignAutoSource {
+  return {
+    title: design.title,
+    titleEn: design.titleEn,
+    slug: design.slug,
+    templateSlug: design.templateSlug,
+    imagePath: design.imagePath,
+    description: design.description,
+    shortDescription: design.shortDescription,
+    seoTitle: design.seoTitle,
+    seoDescription: design.seoDescription,
+    alt: design.alt,
+    ogImage: design.ogImage,
+    thumbnailPath: design.thumbnailPath,
+    tags: design.tags,
+  };
+}
+
 type Props = {
   design?: DesignRecord;
   categories: CategoryRecord[];
@@ -102,8 +141,15 @@ export default function DesignEditorForm({ design, categories, groups, values, c
   const [selectedIds, setSelectedIds] = useState<string[]>(defaults.categoryIds);
   const [selectedAttributeIds, setSelectedAttributeIds] = useState<string[]>(defaults.attributeValueIds ?? []);
   const [selectedCollectionIds, setSelectedCollectionIds] = useState<string[]>(defaults.collectionIds ?? []);
-  const [imagePath, setImagePath] = useState(defaults.imagePath);
-  const [previewAlt, setPreviewAlt] = useState(defaults.alt || defaults.title);
+  const [custom, setCustom] = useState<DesignAutoFlags>(() =>
+    design
+      ? autoFlagsForDesign(
+          sourceFromDesign(design),
+          categories.find((category) => category.id === design.categoryIds[0])?.name,
+        )
+      : emptyDesignAutoFlags(),
+  );
+  const [editing, setEditing] = useState<Partial<Record<DesignAutoKey, boolean>>>({});
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
@@ -112,14 +158,100 @@ export default function DesignEditorForm({ design, categories, groups, values, c
     resolver: zodResolver(designWriteSchema),
     defaultValues: defaults,
   });
-  const titleValue = form.watch("title");
+  const title = form.watch("title");
+  const titleEn = form.watch("titleEn");
+  const slug = form.watch("slug");
+  const templateSlug = form.watch("templateSlug");
+  const description = form.watch("description");
+  const shortDescription = form.watch("shortDescription");
+  const seoTitle = form.watch("seoTitle");
+  const seoDescription = form.watch("seoDescription");
+  const alt = form.watch("alt");
+  const ogImage = form.watch("ogImage");
+  const thumbnailPath = form.watch("thumbnailPath");
+  const imagePath = form.watch("imagePath");
+
+  const tags = useMemo(() => splitList(tagsText), [tagsText]);
+  const categoryName = useMemo(() => {
+    const id = selectedIds[0];
+    return id ? categories.find((category) => category.id === id)?.name : undefined;
+  }, [categories, selectedIds]);
+
+  const resolved = useMemo(
+    () =>
+      resolveDesignAutos(
+        {
+          title,
+          titleEn,
+          slug,
+          templateSlug,
+          imagePath,
+          description,
+          shortDescription,
+          seoTitle,
+          seoDescription,
+          alt,
+          ogImage,
+          thumbnailPath,
+          categoryName,
+          tags,
+        },
+        custom,
+      ),
+    [
+      alt,
+      categoryName,
+      custom,
+      description,
+      imagePath,
+      ogImage,
+      seoDescription,
+      seoTitle,
+      shortDescription,
+      slug,
+      tags,
+      templateSlug,
+      thumbnailPath,
+      title,
+      titleEn,
+    ],
+  );
+
+  useEffect(() => {
+    for (const key of autoKeys) {
+      if (custom[key]) continue;
+      if (form.getValues(key) !== resolved[key]) {
+        form.setValue(key, resolved[key]);
+      }
+    }
+  }, [custom, form, resolved]);
+
+  function unlock(field: DesignAutoKey) {
+    form.setValue(field, resolved[field]);
+    setCustom((current) => ({ ...current, [field]: true }));
+    setEditing((current) => ({ ...current, [field]: true }));
+  }
+
+  function resetAuto(field: DesignAutoKey) {
+    setEditing((current) => ({ ...current, [field]: false }));
+    setCustom((current) => ({ ...current, [field]: false }));
+  }
 
   async function onSubmit(values: DesignWriteInput) {
     setSaving(true);
     setError("");
     setNotice("");
+    const generated = resolveDesignAutos(
+      {
+        ...values,
+        categoryName,
+        tags: splitList(tagsText),
+      },
+      custom,
+    );
     const payload: DesignWriteInput = {
       ...values,
+      ...generated,
       categoryIds: selectedIds,
       attributeValueIds: selectedAttributeIds,
       collectionIds: selectedCollectionIds,
@@ -166,7 +298,7 @@ export default function DesignEditorForm({ design, categories, groups, values, c
           {imagePath ? (
             <Image
               src={designedAssetUrl(imagePath)}
-              alt={previewAlt || "طرح"}
+              alt={resolved.alt || "طرح"}
               fill
               sizes="(min-width: 1024px) 320px, 100vw"
               className="object-contain p-3 lg:p-6"
@@ -176,7 +308,7 @@ export default function DesignEditorForm({ design, categories, groups, values, c
           )}
         </div>
         <p className="truncate border-t border-border px-4 py-3 text-sm font-semibold">
-          {titleValue.trim() || "بدون عنوان"}
+          {title.trim() || "بدون عنوان"}
         </p>
       </aside>
 
@@ -184,34 +316,20 @@ export default function DesignEditorForm({ design, categories, groups, values, c
         <Section title="مشخصات">
           <label className="text-sm">
             عنوان فارسی
-            <input
-              {...form.register("title", {
-                onChange: (event) => {
-                  const value = event.target.value;
-                  setPreviewAlt((current) => current || value);
-                },
-              })}
-              className={`${inputClass} mt-1`}
-            />
+            <input {...form.register("title")} className={`${inputClass} mt-1`} />
             <FieldError message={form.formState.errors.title?.message} />
           </label>
-          <label className="text-sm">
-            عنوان انگلیسی
-            <input {...form.register("titleEn")} className={`${inputClass} mt-1`} />
-          </label>
-          <label className="text-sm">
-            اسلاگ
-            <input {...form.register("slug")} dir="ltr" className={`${inputClass} mt-1 text-left`} />
-            <FieldError message={form.formState.errors.slug?.message} />
-          </label>
-          <label className="text-sm">
-            توضیح کوتاه
-            <textarea {...form.register("shortDescription")} rows={2} className={`${inputClass} mt-1`} />
-          </label>
-          <label className="text-sm">
-            توضیح کامل
-            <textarea {...form.register("description")} rows={5} className={`${inputClass} mt-1`} />
-          </label>
+          <AutoField
+            label="توضیح طرح"
+            value={resolved.description}
+            custom={custom.description}
+            editing={Boolean(editing.description)}
+            onEdit={() => unlock("description")}
+            onReset={() => resetAuto("description")}
+            error={form.formState.errors.description?.message}
+          >
+            <textarea {...form.register("description")} rows={5} className={inputClass} />
+          </AutoField>
         </Section>
 
         <Section title="دسته‌بندی">
@@ -234,14 +352,13 @@ export default function DesignEditorForm({ design, categories, groups, values, c
                     <p className="mb-2 text-sm font-semibold">{group.name}</p>
                     <div className="flex flex-wrap gap-2">
                       {groupValues.map((value) => (
-                        <label key={value.id} className="flex items-center gap-2 rounded-full border border-border px-3 py-1 text-xs">
-                          <input
-                            type="checkbox"
-                            checked={selectedAttributeIds.includes(value.id)}
-                            onChange={() => toggleId(selectedAttributeIds, value.id, setSelectedAttributeIds)}
-                          />
+                        <ChoiceChip
+                          key={value.id}
+                          selected={selectedAttributeIds.includes(value.id)}
+                          onClick={() => toggleId(selectedAttributeIds, value.id, setSelectedAttributeIds)}
+                        >
                           {value.name}
-                        </label>
+                        </ChoiceChip>
                       ))}
                     </div>
                   </div>
@@ -253,83 +370,21 @@ export default function DesignEditorForm({ design, categories, groups, values, c
           <div>
             <p className="mb-2 text-sm font-semibold">کالکشن‌ها</p>
             {collections.length === 0 ? <p className="text-sm text-muted">کالکشنی ثبت نشده است.</p> : null}
-            <div className="grid gap-2">
+            <div className="flex flex-wrap gap-2">
               {collections.map((collection) => (
-                <label key={collection.id} className="flex items-center gap-2 text-sm">
-                  <input
-                    type="checkbox"
-                    checked={selectedCollectionIds.includes(collection.id)}
-                    onChange={() => toggleId(selectedCollectionIds, collection.id, setSelectedCollectionIds)}
-                  />
+                <ChoiceChip
+                  key={collection.id}
+                  selected={selectedCollectionIds.includes(collection.id)}
+                  onClick={() => toggleId(selectedCollectionIds, collection.id, setSelectedCollectionIds)}
+                >
                   {collection.name}
-                  <span className="text-xs text-muted">{collection.slug}</span>
-                </label>
+                </ChoiceChip>
               ))}
             </div>
           </div>
-
-          <label className="text-sm">
-            برچسب‌ها (با ویرگول)
-            <input value={tagsText} onChange={(event) => setTagsText(event.target.value)} className={`${inputClass} mt-1`} />
-          </label>
-          <label className="text-sm">
-            رنگ‌های غالب
-            <input value={colorsText} onChange={(event) => setColorsText(event.target.value)} className={`${inputClass} mt-1`} />
-          </label>
-          <label className="text-sm">
-            سبک بصری
-            <input value={stylesText} onChange={(event) => setStylesText(event.target.value)} className={`${inputClass} mt-1`} />
-          </label>
         </Section>
 
-        <Section title="رسانه">
-          <label className="text-sm">
-            متن جایگزین تصویر
-            <input
-              {...form.register("alt", {
-                onChange: (event) => setPreviewAlt(event.target.value),
-              })}
-              className={`${inputClass} mt-1`}
-            />
-          </label>
-          <label className="text-sm">
-            مسیر تصویر اصلی
-            <input
-              {...form.register("imagePath", {
-                onChange: (event) => setImagePath(event.target.value),
-              })}
-              dir="ltr"
-              className={`${inputClass} mt-1 text-left`}
-            />
-            <FieldError message={form.formState.errors.imagePath?.message} />
-          </label>
-          <label className="text-sm">
-            مسیر بندانگشتی
-            <input {...form.register("thumbnailPath")} dir="ltr" className={`${inputClass} mt-1 text-left`} />
-          </label>
-          <label className="text-sm">
-            گالری (هر خط یک مسیر /designed/)
-            <textarea value={galleryText} onChange={(event) => setGalleryText(event.target.value)} rows={3} dir="ltr" className={`${inputClass} mt-1 text-left`} />
-          </label>
-        </Section>
-
-        <Section title="سئو و انتشار">
-          <label className="text-sm">
-            عنوان سئو
-            <input {...form.register("seoTitle")} className={`${inputClass} mt-1`} />
-          </label>
-          <label className="text-sm">
-            توضیحات متا
-            <textarea {...form.register("seoDescription")} rows={3} className={`${inputClass} mt-1`} />
-          </label>
-          <label className="text-sm">
-            تصویر Open Graph
-            <input {...form.register("ogImage")} dir="ltr" className={`${inputClass} mt-1 text-left`} />
-          </label>
-          <label className="text-sm">
-            اسلاگ قالب ادیتور
-            <input {...form.register("templateSlug")} dir="ltr" className={`${inputClass} mt-1 text-left`} />
-          </label>
+        <Section title="انتشار">
           <div className="grid gap-4 sm:grid-cols-3">
             <label className="text-sm">
               وضعیت
@@ -356,17 +411,155 @@ export default function DesignEditorForm({ design, categories, groups, values, c
               ترتیب
               <input type="number" {...form.register("sortOrder", { valueAsNumber: true })} className={`${inputClass} mt-1`} />
             </label>
-            <label className="mt-7 flex items-center gap-2 text-sm">
-              <input type="checkbox" {...form.register("featured")} />
+            <label className="mt-7 flex min-h-11 items-center gap-2 text-sm">
+              <input type="checkbox" {...form.register("featured")} className="h-5 w-5" />
               ویژه
             </label>
           </div>
         </Section>
 
+        <details className="rounded-3xl border border-border bg-surface/40">
+          <summary className="cursor-pointer list-none px-4 py-4 text-sm font-bold text-cyan-300 md:px-5 [&::-webkit-details-marker]:hidden">
+            جزئیات خودکار
+          </summary>
+          <div className="grid gap-4 px-4 pb-5 md:px-5">
+            <p className="text-xs leading-6 text-muted">
+              اسلاگ، توضیح کوتاه، سئو و مسیرهای تصویر از عنوان و تصویر اصلی ساخته می‌شوند. فقط اگر لازم است ویرایش کنید.
+            </p>
+            <AutoField
+              label="اسلاگ"
+              value={resolved.slug}
+              custom={custom.slug}
+              preserved={Boolean(design) && custom.slug && !editing.slug && slug === design.slug}
+              editing={Boolean(editing.slug)}
+              onEdit={() => unlock("slug")}
+              onReset={() => resetAuto("slug")}
+              ltr
+              error={form.formState.errors.slug?.message}
+            >
+              <input {...form.register("slug")} dir="ltr" className={`${inputClass} text-left`} />
+            </AutoField>
+            <AutoField
+              label="عنوان انگلیسی"
+              value={resolved.titleEn}
+              custom={custom.titleEn}
+              editing={Boolean(editing.titleEn)}
+              onEdit={() => unlock("titleEn")}
+              onReset={() => resetAuto("titleEn")}
+              ltr
+            >
+              <input {...form.register("titleEn")} dir="ltr" className={`${inputClass} text-left`} />
+            </AutoField>
+            <AutoField
+              label="توضیح کوتاه"
+              value={resolved.shortDescription}
+              custom={custom.shortDescription}
+              editing={Boolean(editing.shortDescription)}
+              onEdit={() => unlock("shortDescription")}
+              onReset={() => resetAuto("shortDescription")}
+              error={form.formState.errors.shortDescription?.message}
+            >
+              <textarea {...form.register("shortDescription")} rows={2} className={inputClass} />
+            </AutoField>
+            <AutoField
+              label="عنوان سئو"
+              value={resolved.seoTitle}
+              custom={custom.seoTitle}
+              editing={Boolean(editing.seoTitle)}
+              onEdit={() => unlock("seoTitle")}
+              onReset={() => resetAuto("seoTitle")}
+              error={form.formState.errors.seoTitle?.message}
+            >
+              <input {...form.register("seoTitle")} className={inputClass} />
+            </AutoField>
+            <AutoField
+              label="توضیحات متا"
+              value={resolved.seoDescription}
+              custom={custom.seoDescription}
+              editing={Boolean(editing.seoDescription)}
+              onEdit={() => unlock("seoDescription")}
+              onReset={() => resetAuto("seoDescription")}
+              error={form.formState.errors.seoDescription?.message}
+            >
+              <textarea {...form.register("seoDescription")} rows={3} className={inputClass} />
+            </AutoField>
+            <AutoField
+              label="متن جایگزین تصویر"
+              value={resolved.alt}
+              custom={custom.alt}
+              editing={Boolean(editing.alt)}
+              onEdit={() => unlock("alt")}
+              onReset={() => resetAuto("alt")}
+            >
+              <input {...form.register("alt")} className={inputClass} />
+            </AutoField>
+            <AutoField
+              label="تصویر Open Graph"
+              value={resolved.ogImage}
+              custom={custom.ogImage}
+              editing={Boolean(editing.ogImage)}
+              onEdit={() => unlock("ogImage")}
+              onReset={() => resetAuto("ogImage")}
+              ltr
+              error={form.formState.errors.ogImage?.message}
+            >
+              <input {...form.register("ogImage")} dir="ltr" className={`${inputClass} text-left`} />
+            </AutoField>
+            <AutoField
+              label="مسیر بندانگشتی"
+              value={resolved.thumbnailPath}
+              custom={custom.thumbnailPath}
+              editing={Boolean(editing.thumbnailPath)}
+              onEdit={() => unlock("thumbnailPath")}
+              onReset={() => resetAuto("thumbnailPath")}
+              ltr
+              error={form.formState.errors.thumbnailPath?.message}
+            >
+              <input {...form.register("thumbnailPath")} dir="ltr" className={`${inputClass} text-left`} />
+            </AutoField>
+            <AutoField
+              label="اسلاگ قالب ادیتور"
+              value={resolved.templateSlug}
+              custom={custom.templateSlug}
+              editing={Boolean(editing.templateSlug)}
+              onEdit={() => unlock("templateSlug")}
+              onReset={() => resetAuto("templateSlug")}
+              ltr
+            >
+              <input {...form.register("templateSlug")} dir="ltr" className={`${inputClass} text-left`} />
+            </AutoField>
+            <label className="text-sm">
+              مسیر تصویر اصلی
+              <input
+                {...form.register("imagePath")}
+                dir="ltr"
+                className={`${inputClass} mt-1 text-left`}
+              />
+              <FieldError message={form.formState.errors.imagePath?.message} />
+            </label>
+            <label className="text-sm">
+              گالری (هر خط یک مسیر /designed/)
+              <textarea value={galleryText} onChange={(event) => setGalleryText(event.target.value)} rows={3} dir="ltr" className={`${inputClass} mt-1 text-left`} />
+            </label>
+            <label className="text-sm">
+              برچسب‌ها (با ویرگول)
+              <input value={tagsText} onChange={(event) => setTagsText(event.target.value)} className={`${inputClass} mt-1`} />
+            </label>
+            <label className="text-sm">
+              رنگ‌های غالب
+              <input value={colorsText} onChange={(event) => setColorsText(event.target.value)} className={`${inputClass} mt-1`} />
+            </label>
+            <label className="text-sm">
+              سبک بصری
+              <input value={stylesText} onChange={(event) => setStylesText(event.target.value)} className={`${inputClass} mt-1`} />
+            </label>
+          </div>
+        </details>
+
         <div className="sticky bottom-4 z-20 flex flex-col gap-3 rounded-2xl border border-border bg-[#050816]/95 p-3 backdrop-blur">
           {notice ? <p className="rounded-2xl border border-cyan-500/40 px-4 py-3 text-sm">{notice}</p> : null}
           {error ? <p className="rounded-2xl border border-red-500/40 px-4 py-3 text-sm text-red-300">{error}</p> : null}
-          <button type="submit" disabled={saving} className="rounded-2xl bg-cyan-500 px-5 py-3 text-sm font-bold text-black disabled:opacity-60">
+          <button type="submit" disabled={saving} className="min-h-11 rounded-2xl bg-cyan-500 px-5 py-3 text-sm font-bold text-black disabled:opacity-60">
             {saving ? "در حال ذخیره..." : "ذخیره"}
           </button>
         </div>
@@ -387,4 +580,86 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
 function FieldError({ message }: { message?: string }) {
   if (!message) return null;
   return <span className="mt-1 block text-xs text-red-300">{message}</span>;
+}
+
+function ChoiceChip({
+  selected,
+  onClick,
+  children,
+}: {
+  selected: boolean;
+  onClick: () => void;
+  children: ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      aria-pressed={selected}
+      onClick={onClick}
+      className={`min-h-11 rounded-full border px-4 py-2 text-sm ${
+        selected ? "border-cyan-400 bg-cyan-500/15 text-cyan-100" : "border-border hover:border-cyan-500/50"
+      }`}
+    >
+      {children}
+    </button>
+  );
+}
+
+function AutoField({
+  label,
+  value,
+  custom,
+  preserved = false,
+  editing,
+  onEdit,
+  onReset,
+  error,
+  ltr,
+  children,
+}: {
+  label: string;
+  value: string;
+  custom: boolean;
+  preserved?: boolean;
+  editing: boolean;
+  onEdit: () => void;
+  onReset: () => void;
+  error?: string;
+  ltr?: boolean;
+  children: ReactNode;
+}) {
+  return (
+    <div className="text-sm">
+      <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
+        <span>{label}</span>
+        <span className="flex flex-wrap items-center gap-2">
+          {preserved ? null : custom ? (
+            <button type="button" onClick={onReset} className="min-h-11 rounded-full border border-border px-4 text-xs text-cyan-300">
+              بازگشت به خودکار
+            </button>
+          ) : (
+            <span className="text-xs text-muted">خودکار</span>
+          )}
+          {editing ? null : (
+            <button type="button" onClick={onEdit} className="min-h-11 rounded-full border border-border px-4 text-xs">
+              ویرایش
+            </button>
+          )}
+        </span>
+      </div>
+      {editing ? (
+        children
+      ) : (
+        <p
+          dir={ltr ? "ltr" : undefined}
+          className={`whitespace-pre-wrap rounded-2xl border border-border bg-black/20 px-4 py-3 leading-7 ${ltr ? "text-left" : ""} ${
+            value.trim() ? "" : "text-muted"
+          }`}
+        >
+          {value.trim() || "با وارد کردن عنوان پر می‌شود"}
+        </p>
+      )}
+      <FieldError message={error} />
+    </div>
+  );
 }

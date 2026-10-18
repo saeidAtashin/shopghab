@@ -481,20 +481,20 @@ export function createDesign(
   now = new Date().toISOString(),
 ): { catalog: DesignCatalog; design: DesignRecord } {
   const next = cloneCatalog(catalog);
-  assertDesignSlug(next, input.slug);
+  const slug = availableSlug(next, input.slug);
   const categoryIds = assertCategoryIds(next, input.categoryIds);
   const design: DesignRecord = {
     id: randomDesignId(),
     sourceKey: "",
-    legacySlug: input.slug,
-    templateSlug: input.templateSlug || input.slug,
+    legacySlug: slug,
+    templateSlug: input.templateSlug || slug,
     imagePath: input.imagePath,
     thumbnailPath: input.thumbnailPath || input.imagePath,
     width: 0,
     height: 0,
     title: input.title,
     titleEn: input.titleEn,
-    slug: input.slug,
+    slug,
     shortDescription: input.shortDescription,
     description: input.description,
     categoryIds,

@@ -166,6 +166,14 @@ test("missing source files are kept and reported", () => {
   assert.equal(missing?.title, "ماه");
 });
 
+test("createDesign adds a numeric suffix when the slug is already taken", () => {
+  const first = createDesign(emptyCatalog(), writeInput(), NOW);
+  const second = createDesign(first.catalog, writeInput({ title: "دیگر" }), NOW);
+  assert.equal(first.design.slug, "space-cat");
+  assert.equal(second.design.slug, "space-cat-2");
+  assert.equal(second.design.legacySlug, "space-cat-2");
+});
+
 test("slug changes keep a permanent redirect and reject duplicates", () => {
   const created = createDesign(emptyCatalog(), writeInput(), NOW);
   const design = created.design;

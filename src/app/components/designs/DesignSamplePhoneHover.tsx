@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type SyntheticEvent } from "react";
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 
@@ -49,7 +49,14 @@ type TrackSize = {
   trackW: number;
   trackH: number;
   phoneW: number;
+  phoneH: number;
 };
+
+function axisTravel(active: boolean, shouldAnimate: boolean, distance: number): number | number[] {
+  if (!active) return 0;
+  if (shouldAnimate) return [0, distance, 0];
+  return distance / 2;
+}
 
 export default function DesignSamplePhoneHover({
   id,
@@ -63,10 +70,21 @@ export default function DesignSamplePhoneHover({
     trackW: 200,
     trackH: 160,
     phoneW: 56,
+    phoneH: 112,
   });
+  const [portrait, setPortrait] = useState(false);
   const prefersReducedMotion = useReducedMotion();
   const model = pickHoverIphoneModel(id);
   const thumbnailSrc = designedAssetUrl(imageSrc);
+
+  useEffect(() => {
+    const image = trackRef.current?.querySelector("img");
+    if (image instanceof HTMLImageElement && image.complete && image.naturalWidth > 0) {
+      setPortrait(image.naturalHeight > image.naturalWidth);
+      return;
+    }
+    setPortrait(false);
+  }, [thumbnailSrc]);
 
   useEffect(() => {
     if (!model) return;
@@ -80,6 +98,7 @@ export default function DesignSamplePhoneHover({
         trackW: track.clientWidth,
         trackH: track.clientHeight,
         phoneW: phone.offsetWidth,
+        phoneH: phone.offsetHeight,
       });
     };
 
@@ -94,12 +113,20 @@ export default function DesignSamplePhoneHover({
     return null;
   }
 
-  const maxSlide = Math.max(0, size.trackW - size.phoneW);
-  const shouldAnimate = active && maxSlide > 0 && !prefersReducedMotion;
-  const centeredX = maxSlide / 2;
+  const maxX = Math.max(0, size.trackW - size.phoneW);
+  const maxY = Math.max(0, size.trackH - size.phoneH);
+  const canTravel = portrait ? maxX > 0 || maxY > 0 : maxX > 0;
+  const shouldAnimate = active && canTravel && !prefersReducedMotion;
 
-  const phoneX = !active ? 0 : shouldAnimate ? [0, maxSlide, 0] : centeredX;
-  const syncX = !active ? 0 : shouldAnimate ? [0, -maxSlide, 0] : -centeredX;
+  const phoneX = axisTravel(active, shouldAnimate, maxX);
+  const syncX = axisTravel(active, shouldAnimate, -maxX);
+  const phoneY = portrait ? axisTravel(active, shouldAnimate, maxY) : "-50%";
+  const syncY = portrait ? axisTravel(active, shouldAnimate, -maxY) : "-50%";
+
+  function rememberOrientation(event: SyntheticEvent<HTMLImageElement>): void {
+    const image = event.currentTarget;
+    setPortrait(image.naturalHeight > image.naturalWidth);
+  }
 
   return (
     <div
@@ -116,6 +143,7 @@ export default function DesignSamplePhoneHover({
           className={designImageClassName}
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           loading="lazy"
+          onLoad={rememberOrientation}
         />
       </div>
 
@@ -126,9 +154,9 @@ export default function DesignSamplePhoneHover({
 
       <motion.div
         ref={phoneRef}
-        className="absolute left-0 top-1/2 z-[1] w-14 shrink-0 sm:w-16"
-        style={{ y: "-50%" }}
-        animate={{ x: phoneX }}
+        className={cn("absolute left-0 z-[1] w-14 shrink-0 sm:w-16", portrait ? "top-0" : "top-1/2")}
+        style={portrait ? undefined : { y: "-50%" }}
+        animate={portrait ? { x: phoneX, y: phoneY } : { x: phoneX }}
         transition={{
           ...slideTransition,
           repeat: shouldAnimate ? Infinity : 0,
@@ -149,9 +177,13 @@ export default function DesignSamplePhoneHover({
         >
           <div className="absolute inset-[3px] overflow-hidden rounded-[0.85rem] bg-[#0a0a0f]">
             <motion.div
-              className="absolute left-0 top-1/2"
-              style={{ width: size.trackW, height: size.trackH, y: "-50%" }}
-              animate={{ x: syncX }}
+              className={cn("absolute left-0", portrait ? "top-0" : "top-1/2")}
+              style={
+                portrait
+                  ? { width: size.trackW, height: size.trackH }
+                  : { width: size.trackW, height: size.trackH, y: "-50%" }
+              }
+              animate={portrait ? { x: syncX, y: syncY } : { x: syncX }}
               transition={{
                 ...slideTransition,
                 repeat: shouldAnimate ? Infinity : 0,
