@@ -30,6 +30,16 @@ function safeAsset(path: string): boolean {
   return path.startsWith("/designed/") && !path.includes("..") && !path.includes("\\");
 }
 
+function readyProductMockups(mockups: MockupRecord[]): MockupRecord[] {
+  return mockups.filter(
+    (item) => item.status === "ready" && safeAsset(item.path) && safeAsset(item.thumbPath),
+  );
+}
+
+export function designHasProductMockup(design: { mockups: MockupRecord[] }): boolean {
+  return readyProductMockups(design.mockups).length > 0;
+}
+
 export function designImageAlt(design: { alt: string; title: string }): string {
   const alt = design.alt.trim();
   if (alt) return alt;
@@ -40,9 +50,7 @@ export function designImageAlt(design: { alt: string; title: string }): string {
 }
 
 export function selectProductImages(design: ProductImageSource): ProductImages {
-  const ready = design.mockups.filter(
-    (item) => item.status === "ready" && safeAsset(item.path) && safeAsset(item.thumbPath),
-  );
+  const ready = readyProductMockups(design.mockups);
   const hero = ready[0];
   const extra = ready.slice(1).map((item) => item.path);
   const used = new Set<string>([hero?.path ?? "", ...extra]);

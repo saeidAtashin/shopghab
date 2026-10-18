@@ -7,7 +7,6 @@ import { motion, useReducedMotion } from "framer-motion";
 import { PhoneBackSvg } from "@/app/components/case-wizard/PhoneBackSvg";
 import { getModelBySlug } from "@/lib/cases/brands.static";
 import { designedAssetUrl } from "@/lib/designed-assets";
-import type { CaseTemplate } from "@/lib/design/types";
 import { cn } from "@/lib/utils";
 
 const HOVER_IPHONE_MODELS = [
@@ -40,7 +39,8 @@ function pickHoverIphoneModel(templateId: string) {
 }
 
 type Props = {
-  template: CaseTemplate;
+  id: string;
+  imageSrc: string;
   className?: string;
   active?: boolean;
 };
@@ -52,7 +52,8 @@ type TrackSize = {
 };
 
 export default function DesignSamplePhoneHover({
-  template,
+  id,
+  imageSrc,
   className,
   active = false,
 }: Props) {
@@ -64,8 +65,8 @@ export default function DesignSamplePhoneHover({
     phoneW: 56,
   });
   const prefersReducedMotion = useReducedMotion();
-  const model = pickHoverIphoneModel(template.id);
-  const thumbnailSrc = designedAssetUrl(template.thumbnail);
+  const model = pickHoverIphoneModel(id);
+  const thumbnailSrc = designedAssetUrl(imageSrc);
 
   useEffect(() => {
     if (!model) return;

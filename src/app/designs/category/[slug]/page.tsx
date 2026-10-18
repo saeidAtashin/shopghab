@@ -9,10 +9,10 @@ import {
   categorySeoTitle,
   childCategories,
   findCategoryRedirect,
+  indexableRootCategories,
   isCategoryIndexable,
   parsePublicListingQuery,
   queryPublicDesigns,
-  rootCategories,
 } from "@/lib/catalog/logic";
 import { readCatalog } from "@/lib/catalog/store";
 import { breadcrumbJsonLd, breadcrumbTrail } from "@/lib/seo/breadcrumbs";
@@ -33,7 +33,7 @@ export async function generateMetadata({ params, searchParams }: Props) {
   const redirected = findCategoryRedirect(catalog, slug);
   if (redirected) permanentRedirect(`/designs/category/${redirected.slug}`);
   const category = catalog.categories.find((item) => item.slug === slug);
-  if (!category || category.status !== "active") return {};
+  if (!category || !isCategoryIndexable(catalog, category)) return {};
 
   const parentName = category.parentId
     ? catalog.categories.find((item) => item.id === category.parentId)?.name
@@ -54,7 +54,7 @@ export default async function DesignCategoryPage({ params, searchParams }: Props
   const redirected = findCategoryRedirect(catalog, slug);
   if (redirected) permanentRedirect(`/designs/category/${redirected.slug}`);
   const category = catalog.categories.find((item) => item.slug === slug);
-  if (!category || category.status !== "active") notFound();
+  if (!category || !isCategoryIndexable(catalog, category)) notFound();
 
   const result = queryPublicDesigns(catalog, { ...query, categoryId: category.id });
   if (query.page > result.pageCount && result.total > 0) notFound();
@@ -74,7 +74,7 @@ export default async function DesignCategoryPage({ params, searchParams }: Props
         : { label: item.name, href: `/designs/category/${item.slug}` },
     ),
   );
-  const categories = rootCategories(catalog).map((item) => ({
+  const categories = indexableRootCategories(catalog).map((item) => ({
     slug: item.slug,
     name: item.name,
   }));
@@ -112,10 +112,12 @@ export default async function DesignCategoryPage({ params, searchParams }: Props
               categoryNames={categoryNames}
               categories={categories}
               currentCategorySlug={category.slug}
-              subcategories={childCategories(catalog, category.id).map((item) => ({
-                slug: item.slug,
-                name: item.name,
-              }))}
+              subcategories={childCategories(catalog, category.id)
+                .filter((item) => isCategoryIndexable(catalog, item))
+                .map((item) => ({
+                  slug: item.slug,
+                  name: item.name,
+                }))}
               basePath={path}
               q={query.q}
               sort={query.sort}

@@ -91,12 +91,11 @@ export default function DesignSampleCard({
           )}
         </div>
 
-        <div
-          className="pointer-events-none absolute inset-0 z-[3] overflow-hidden opacity-0 transition-opacity duration-300 group-hover/card:opacity-100 group-focus-within/card:opacity-100 motion-reduce:transition-none"
-          aria-hidden
-        >
-          <DesignSamplePhoneHover template={template} active={isActive} />
-        </div>
+        {isActive ? (
+          <div className="pointer-events-none absolute inset-0 z-[3] overflow-hidden" aria-hidden>
+            <DesignSamplePhoneHover id={template.id} imageSrc={template.thumbnail} active />
+          </div>
+        ) : null}
 
         <div
           className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-1/3 bg-gradient-to-t from-background/80 via-background/20 to-transparent"

@@ -6,10 +6,10 @@ import JsonLd from "@/app/components/seo/JsonLd";
 import {
   collectionSeoDescription,
   collectionSeoTitle,
+  indexableRootCategories,
   isCollectionIndexable,
   parsePublicListingQuery,
   queryPublicDesigns,
-  rootCategories,
 } from "@/lib/catalog/logic";
 import { readCatalog } from "@/lib/catalog/store";
 import { breadcrumbJsonLd, breadcrumbTrail } from "@/lib/seo/breadcrumbs";
@@ -28,7 +28,7 @@ export async function generateMetadata({ params, searchParams }: Props) {
   const query = parsePublicListingQuery(await searchParams);
   const catalog = readCatalog();
   const collection = catalog.collections.find((item) => item.slug === slug);
-  if (!collection || collection.status !== "active") return {};
+  if (!collection || !isCollectionIndexable(catalog, collection)) return {};
 
   return createPageMetadata({
     title: collectionSeoTitle(collection),
@@ -44,7 +44,7 @@ export default async function DesignCollectionPage({ params, searchParams }: Pro
   const query = parsePublicListingQuery(await searchParams);
   const catalog = readCatalog();
   const collection = catalog.collections.find((item) => item.slug === slug);
-  if (!collection || collection.status !== "active") notFound();
+  if (!collection || !isCollectionIndexable(catalog, collection)) notFound();
 
   const result = queryPublicDesigns(catalog, { ...query, collectionId: collection.id });
   if (query.page > result.pageCount && result.total > 0) notFound();
@@ -56,7 +56,7 @@ export default async function DesignCollectionPage({ params, searchParams }: Pro
     { label: "طراحی‌های آماده", href: "/designs" },
     { label: collection.name },
   );
-  const categories = rootCategories(catalog).map((item) => ({
+  const categories = indexableRootCategories(catalog).map((item) => ({
     slug: item.slug,
     name: item.name,
   }));

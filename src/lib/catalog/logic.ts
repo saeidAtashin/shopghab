@@ -1,4 +1,4 @@
-import { selectProductImages } from "@/lib/mockups/display";
+import { designHasProductMockup, selectProductImages } from "@/lib/mockups/display";
 import {
   suggestedCategorySeoDescription,
   suggestedCategorySeoTitle,
@@ -760,6 +760,10 @@ export function designHasImage(design: DesignRecord): boolean {
   return !design.assetMissing && design.imagePath.trim() !== "";
 }
 
+export function isPublicCatalogDesign(design: DesignRecord): boolean {
+  return isPublishedDesign(design) && designHasProductMockup(design);
+}
+
 export function designMissingSeo(design: DesignRecord): boolean {
   return design.seoTitle.trim() === "" || design.seoDescription.trim() === "";
 }
@@ -851,7 +855,7 @@ export function queryPublicDesigns(catalog: DesignCatalog, query: PublicDesignQu
     : null;
 
   const filtered = catalog.designs.filter((design) => {
-    if (!isPublishedDesign(design)) return false;
+    if (!isPublicCatalogDesign(design)) return false;
     if (categoryIds && !design.categoryIds.some((id) => categoryIds.has(id))) return false;
     if (query.collectionId && !design.collectionIds.includes(query.collectionId)) return false;
     if (query.attributeValueId && !design.attributeValueIds.includes(query.attributeValueId)) return false;
@@ -878,7 +882,7 @@ export function queryPublicDesigns(catalog: DesignCatalog, query: PublicDesignQu
 }
 
 export function findPublishedDesign(catalog: DesignCatalog, slug: string): DesignRecord | undefined {
-  return catalog.designs.find((design) => design.slug === slug && design.status === "published");
+  return catalog.designs.find((design) => design.slug === slug && isPublicCatalogDesign(design));
 }
 
 export function findDesignBySlug(catalog: DesignCatalog, slug: string): DesignRecord | undefined {
@@ -889,7 +893,7 @@ export function findRedirectTarget(catalog: DesignCatalog, slug: string): Design
   const redirect = catalog.redirects.find((item) => item.fromSlug === slug);
   if (!redirect) return undefined;
   const design = catalog.designs.find((item) => item.id === redirect.designId);
-  if (!design || design.status !== "published") return undefined;
+  if (!design || !isPublicCatalogDesign(design)) return undefined;
   if (design.slug === slug) return undefined;
   return design;
 }
@@ -905,6 +909,10 @@ export function activeCategories(catalog: DesignCatalog): CategoryRecord[] {
 
 export function rootCategories(catalog: DesignCatalog): CategoryRecord[] {
   return activeCategories(catalog).filter((category) => !category.parentId);
+}
+
+export function indexableRootCategories(catalog: DesignCatalog): CategoryRecord[] {
+  return rootCategories(catalog).filter((category) => isCategoryIndexable(catalog, category));
 }
 
 export function directDesignCount(catalog: DesignCatalog, categoryId: string): number {
@@ -933,7 +941,7 @@ export function publishedCountForCategory(catalog: DesignCatalog, categoryId: st
   const ids = descendantCategoryIds(catalog, categoryId);
   return catalog.designs.filter(
     (design) =>
-      design.status === "published" && design.categoryIds.some((id) => ids.has(id)),
+      isPublicCatalogDesign(design) && design.categoryIds.some((id) => ids.has(id)),
   ).length;
 }
 
@@ -953,10 +961,7 @@ export function findCategoryRedirect(catalog: DesignCatalog, slug: string): Cate
 export function isCollectionIndexable(catalog: DesignCatalog, collection: CollectionRecord): boolean {
   if (collection.status !== "active") return false;
   return catalog.designs.some(
-    (design) =>
-      design.status === "published" &&
-      designHasImage(design) &&
-      design.collectionIds.includes(collection.id),
+    (design) => isPublicCatalogDesign(design) && design.collectionIds.includes(collection.id),
   );
 }
 
@@ -968,7 +973,7 @@ export function relatedDesigns(
   const shared = new Set(design.categoryIds);
   const tagSet = new Set(design.tags.filter((tag) => tag !== "طراحی آماده"));
   const candidates = catalog.designs.filter(
-    (item) => item.id !== design.id && item.status === "published",
+    (item) => item.id !== design.id && isPublicCatalogDesign(item),
   );
   candidates.sort((a, b) => {
     const aScore =
@@ -1007,7 +1012,7 @@ export function indexableCatalogPaths(catalog: DesignCatalog): CatalogSitemapEnt
     });
   }
   for (const design of catalog.designs) {
-    if (design.status !== "published" || !designHasImage(design)) continue;
+    if (!isPublicCatalogDesign(design)) continue;
     paths.push({
       path: `/designs/${design.slug}`,
       changeFrequency: "monthly",

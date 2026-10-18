@@ -1,8 +1,7 @@
 import {
   descendantCategoryIds,
-  designHasImage,
   isCategoryIndexable,
-  isPublishedDesign,
+  isPublicCatalogDesign,
   publishedCountForCategory,
   rootCategories,
 } from "@/lib/catalog/logic";
@@ -61,7 +60,7 @@ function pinnedThumb(
 ): string {
   if (!designId) return "";
   const design = catalog.designs.find((item) => item.id === designId);
-  if (!design || !isPublishedDesign(design) || !designHasImage(design) || !belongs(design)) return "";
+  if (!design || !isPublicCatalogDesign(design) || !belongs(design)) return "";
   return designThumb(design);
 }
 
@@ -78,7 +77,7 @@ export function landingBannerChoices(catalog: DesignCatalog): BannerChoice[] {
   const choices: BannerChoice[] = [];
 
   for (const design of catalog.designs) {
-    if (!isPublishedDesign(design) || !designHasImage(design)) continue;
+    if (!isPublicCatalogDesign(design)) continue;
     const image = designThumb(design);
     if (!image) continue;
     const cardIds: string[] = [];
@@ -131,14 +130,18 @@ export function sanitizeLandingBanners(catalog: DesignCatalog, sections: Landing
   return next;
 }
 
-export function landingTaxonomy(catalog: DesignCatalog, banners: LandingBannerSelection = {}): LandingTaxonomy {
-  const published = catalog.designs.filter(isPublishedDesign);
+export function landingTaxonomy(
+  catalog: DesignCatalog,
+  banners: LandingBannerSelection = {},
+  options: { publicOnly?: boolean } = {},
+): LandingTaxonomy {
+  const publicOnly = options.publicOnly === true;
+  const published = catalog.designs.filter(isPublicCatalogDesign);
   const categoryThumb = new Map<string, string>();
   const collectionThumb = new Map<string, string>();
   const valueThumb = new Map<string, string>();
 
   for (const design of published) {
-    if (!designHasImage(design)) continue;
     const thumb = designThumb(design);
     if (!thumb) continue;
     for (const id of design.categoryIds) {
@@ -189,8 +192,11 @@ export function landingTaxonomy(catalog: DesignCatalog, banners: LandingBannerSe
         .sort((a, b) => a.sortOrder - b.sortOrder || a.name.localeCompare(b.name, "fa"));
       if (values.length === 0) return null;
       const valueIds = new Set(values.map((value) => value.id));
+      const countFor = (valueId: string) =>
+        published.filter((design) => design.attributeValueIds.includes(valueId)).length;
+      const visibleValues = publicOnly ? values.filter((value) => countFor(value.id) > 0) : values;
       let image = "";
-      for (const value of values) {
+      for (const value of visibleValues) {
         const thumb = valueThumb.get(value.id) ?? "";
         if (!image && thumb) image = thumb;
         features.push({
@@ -202,7 +208,7 @@ export function landingTaxonomy(catalog: DesignCatalog, banners: LandingBannerSe
             pinnedThumb(catalog, banners.features?.[value.id], (design) =>
               design.attributeValueIds.includes(value.id),
             ) || thumb,
-          count: published.filter((design) => design.attributeValueIds.includes(value.id)).length,
+          count: countFor(value.id),
           chips: [],
           group: group.name,
         });
@@ -210,6 +216,7 @@ export function landingTaxonomy(catalog: DesignCatalog, banners: LandingBannerSe
       const count = published.filter((design) =>
         design.attributeValueIds.some((id) => valueIds.has(id)),
       ).length;
+      if (publicOnly && count === 0) return null;
       return {
         id: group.id,
         title: group.name,
@@ -217,7 +224,7 @@ export function landingTaxonomy(catalog: DesignCatalog, banners: LandingBannerSe
         href: "/designs",
         image,
         count,
-        chips: values.map((value) => ({
+        chips: visibleValues.map((value) => ({
           id: value.id,
           label: value.name,
           href: `/designs?attr=${encodeURIComponent(value.id)}`,
@@ -241,11 +248,14 @@ export function landingTaxonomy(catalog: DesignCatalog, banners: LandingBannerSe
         usableCover(collection.coverImage) ||
         collectionThumb.get(collection.id) ||
         "",
-      count: published.filter(
-        (design) => designHasImage(design) && design.collectionIds.includes(collection.id),
-      ).length,
+      count: published.filter((design) => design.collectionIds.includes(collection.id)).length,
       chips: [],
     }));
 
-  return { categories, features, featureGroups, collections };
+  return {
+    categories: publicOnly ? categories.filter((card) => card.count > 0) : categories,
+    features,
+    featureGroups,
+    collections: publicOnly ? collections.filter((card) => card.count > 0) : collections,
+  };
 }

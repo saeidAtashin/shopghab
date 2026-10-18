@@ -11,11 +11,35 @@ import {
   queryPublicDesigns,
   updateCategory,
 } from "../catalog/logic";
-import type { CategoryWriteInput, DesignWriteInput } from "../catalog/schema";
+import type { CategoryWriteInput, DesignCatalog, DesignWriteInput } from "../catalog/schema";
+import type { MockupRecord } from "@/lib/mockups/types";
 import { DEFAULT_LANDING_SECTIONS, parseLandingSections, selectLandingItems } from "./sections";
 import { landingBannerChoices, landingTaxonomy, sanitizeLandingBanners } from "./taxonomy";
 
 const NOW = "2026-01-01T00:00:00.000Z";
+
+function readyMockup(imagePath: string, thumbnailPath: string): MockupRecord {
+  return {
+    templateId: "case",
+    path: imagePath,
+    thumbPath: thumbnailPath || imagePath,
+    width: 1600,
+    height: 1067,
+    contentHash: "test",
+    templateVersion: "1",
+    generatedAt: NOW,
+    status: "ready",
+    error: "",
+  };
+}
+
+function attachProductMockups(catalog: DesignCatalog): DesignCatalog {
+  for (const design of catalog.designs) {
+    if (!design.imagePath.startsWith("/designed/")) continue;
+    design.mockups = [readyMockup(design.imagePath, design.thumbnailPath)];
+  }
+  return catalog;
+}
 
 function categoryInput(name: string, slug: string): CategoryWriteInput {
   return {
@@ -127,6 +151,7 @@ test("attribute query filters published designs and stays out of the index", () 
     templateSlug: "anar",
   };
   const saved = createDesign(collected.catalog, input, NOW);
+  saved.design.mockups = [readyMockup(saved.design.imagePath, saved.design.thumbnailPath)];
   const unused = createCategory(saved.catalog, categoryInput("خالی", "empty-theme"), NOW);
   const emptyCollection = createCollection(
     unused.catalog,
@@ -157,8 +182,34 @@ test("attribute query filters published designs and stays out of the index", () 
   assert.equal(cards.featureGroups.length, 1);
   assert.equal(cards.featureGroups[0]?.chips[0]?.href, `/designs?attr=${encodeURIComponent(value.id)}`);
 
+  const publicCards = landingTaxonomy(emptyCollection.catalog, {}, { publicOnly: true });
+  assert.equal(publicCards.categories.length, 1);
+  assert.equal(publicCards.collections.length, 1);
+  assert.equal(publicCards.collections[0]?.href, "/designs/collection/yalda");
+  assert.equal(publicCards.features.length, 1);
+
+  const withEmptyValue = createAttribute(emptyCollection.catalog, { kind: "value", groupId: group.id, name: "آبی" }, NOW);
+  const adminFeatures = landingTaxonomy(withEmptyValue);
+  assert.equal(adminFeatures.features.length, 2);
+  assert.equal(adminFeatures.featureGroups[0]?.chips.length, 2);
+  assert.equal(adminFeatures.collections.length, 2);
+  const publicFeatures = landingTaxonomy(withEmptyValue, {}, { publicOnly: true });
+  assert.equal(publicFeatures.features.length, 1);
+  assert.equal(publicFeatures.featureGroups[0]?.chips.length, 1);
+  assert.equal(publicFeatures.collections.length, 1);
+
   assert.equal(queryPublicDesigns(emptyCollection.catalog, { attributeValueId: value.id }).total, 1);
   assert.equal(queryPublicDesigns(emptyCollection.catalog, { attributeValueId: "val_missing" }).total, 0);
+  const flat = createDesign(emptyCollection.catalog, {
+    ...input,
+    title: "ساده",
+    slug: "flat-art",
+    templateSlug: "flat-art",
+    imagePath: "/designed/flat-art.webp",
+    thumbnailPath: "/designed/thumbs/flat-art.webp",
+  }, NOW);
+  assert.equal(flat.design.mockups.length, 0);
+  assert.equal(queryPublicDesigns(flat.catalog, { attributeValueId: value.id }).total, 1);
   assert.equal(parsePublicListingQuery({ attr: value.id }).noIndex, true);
   assert.equal(parsePublicListingQuery({ attr: value.id }).attr, value.id);
   assert.equal(parsePublicListingQuery({}).attr, "");
@@ -250,6 +301,7 @@ test("pinned design replaces the automatic landing card photo", () => {
     { ...categoryInput("طبیعت", "nature"), coverImage: "/designed/cover.webp" },
     NOW,
   );
+  attachProductMockups(covered.catalog);
 
   const automatic = landingTaxonomy(covered.catalog);
   const natureCard = automatic.categories.find((card) => card.id === nature.category.id);

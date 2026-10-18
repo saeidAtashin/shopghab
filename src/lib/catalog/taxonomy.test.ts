@@ -3,9 +3,25 @@ import test from "node:test";
 
 import { createCategory, createDesign, emptyCatalog, indexableCatalogPaths, syncCatalog, updateCategoryStatus, updateDesign } from "./logic";
 import { parseCatalogDocument, type DesignWriteInput } from "./schema";
+import type { MockupRecord } from "@/lib/mockups/types";
 import { SEEDED_CATEGORY_COUNT, seedCatalogTaxonomy } from "./taxonomy";
 
 const NOW = "2026-01-01T00:00:00.000Z";
+
+function readyMockup(imagePath: string, thumbnailPath: string): MockupRecord {
+  return {
+    templateId: "case",
+    path: imagePath,
+    thumbPath: thumbnailPath || imagePath,
+    width: 1600,
+    height: 1067,
+    contentHash: "test",
+    templateVersion: "1",
+    generatedAt: NOW,
+    status: "ready",
+    error: "",
+  };
+}
 
 function writeInput(overrides: Partial<DesignWriteInput> = {}): DesignWriteInput {
   return {
@@ -130,6 +146,7 @@ test("inactive categories stay assigned but stay out of the sitemap", () => {
   const cats = seeded.catalog.categories.find((category) => category.slug === "cats");
   assert.ok(cats);
   const created = createDesign(seeded.catalog, writeInput({ categoryIds: [cats.id] }), NOW);
+  created.design.mockups = [readyMockup(created.design.imagePath, created.design.thumbnailPath)];
   const inactive = updateCategoryStatus(created.catalog, cats.id, "inactive", NOW);
   const paths = indexableCatalogPaths(inactive.catalog).map((item) => item.path);
   assert.equal(paths.includes("/designs/category/cats"), false);

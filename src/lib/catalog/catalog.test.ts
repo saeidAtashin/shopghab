@@ -19,6 +19,7 @@ import {
   type CatalogImportEntry,
 } from "./logic";
 import type { DesignWriteInput } from "./schema";
+import type { MockupRecord } from "@/lib/mockups/types";
 
 const NOW = "2026-01-01T00:00:00.000Z";
 
@@ -226,7 +227,7 @@ test("category parent cycles are rejected", () => {
   );
 });
 
-test("sitemap includes published designs and categories and skips drafts", () => {
+test("sitemap includes published designs with a product mockup and skips drafts and flat artwork", () => {
   const imported = syncCatalog(
     emptyCatalog(),
     [
@@ -241,6 +242,15 @@ test("sitemap includes published designs and categories and skips drafts", () =>
     { now: NOW, defaultStatus: "draft" },
   );
   const published = updateDesignStatusOnly(imported.catalog, imported.catalog.designs[0]?.id ?? "");
+  const flatPaths = indexableCatalogPaths(published).map((item) => item.path);
+
+  assert.equal(flatPaths.includes("/designs/space-cat"), false);
+  assert.equal(flatPaths.includes("/designs/category/abstract"), false);
+  assert.equal(flatPaths.includes("/designs/draft-cat"), false);
+
+  const design = published.designs[0];
+  assert.ok(design);
+  design.mockups = [readyMockup(design.imagePath, design.thumbnailPath)];
   const paths = indexableCatalogPaths(published).map((item) => item.path);
 
   assert.ok(paths.includes("/designs/space-cat"));
@@ -305,6 +315,21 @@ test("deleting an attribute group removes its values from designs", () => {
     (error: unknown) => error instanceof CatalogError && error.status === 404,
   );
 });
+
+function readyMockup(imagePath: string, thumbnailPath: string): MockupRecord {
+  return {
+    templateId: "case",
+    path: imagePath,
+    thumbPath: thumbnailPath || imagePath,
+    width: 1600,
+    height: 1067,
+    contentHash: "test",
+    templateVersion: "1",
+    generatedAt: NOW,
+    status: "ready",
+    error: "",
+  };
+}
 
 function updateDesignStatusOnly(catalog: ReturnType<typeof emptyCatalog>, id: string) {
   const design = catalog.designs.find((item) => item.id === id);

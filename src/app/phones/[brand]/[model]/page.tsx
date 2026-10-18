@@ -13,7 +13,7 @@ import {
   PHONE_MODELS,
 } from "@/lib/cases/brands.static";
 import { readCatalog } from "@/lib/catalog/store";
-import { isPublishedDesign } from "@/lib/catalog/logic";
+import { isPublicCatalogDesign } from "@/lib/catalog/logic";
 import ModelCaseHubClient from "./ModelCaseHubClient";
 
 type Props = { params: Promise<{ brand: string; model: string }> };
@@ -47,7 +47,7 @@ export default async function ModelCaseHubPage({ params }: Props) {
 
   const seo = resolveModelSeo(brandSlug, modelSlug)!;
   const templates = readCatalog()
-    .designs.filter((design) => isPublishedDesign(design))
+    .designs.filter((design) => isPublicCatalogDesign(design))
     .map((design) => ({ title: design.title, slug: design.slug }));
 
   return (

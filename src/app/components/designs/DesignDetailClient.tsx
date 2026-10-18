@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import ApplyTemplateWizard from "@/app/components/designs/ApplyTemplateWizard";
+import DesignArtworkStage from "@/app/components/designs/DesignArtworkStage";
 import {
   CASE_TYPES,
   getCaseTotalPrice,
@@ -20,13 +21,11 @@ type RelatedDesign = { slug: string; title: string; image: string; alt: string }
 
 type Props = {
   template: CaseTemplate | null;
+  previewId: string;
   title: string;
   description: string;
   imageSrc: string;
   imageAlt: string;
-  imageWidth: number;
-  imageHeight: number;
-  gallery: string[];
   categories: CategoryLink[];
   collections?: CategoryLink[];
   tags: string[];
@@ -35,13 +34,11 @@ type Props = {
 
 export default function DesignDetailClient({
   template,
+  previewId,
   title,
   description,
   imageSrc,
   imageAlt,
-  imageWidth,
-  imageHeight,
-  gallery,
   categories,
   collections = [],
   tags,
@@ -49,47 +46,21 @@ export default function DesignDetailClient({
 }: Props) {
   const [wizardOpen, setWizardOpen] = useState(false);
   const [caseTypeSlug, setCaseTypeSlug] = useState(SELECTABLE_CASE_TYPE_SLUG);
-  const [activeImage, setActiveImage] = useState(imageSrc);
   const caseType = CASE_TYPES.find((item) => item.slug === caseTypeSlug) ?? CASE_TYPES[0];
   const price = caseType ? getCaseTotalPrice(caseType, true) : null;
 
   return (
     <>
       <div className="grid gap-10 lg:grid-cols-2">
-        <div>
-          <div className="relative flex min-h-80 items-center justify-center overflow-hidden rounded-2xl border border-border bg-card/40 p-6">
-            {activeImage ? (
-              <Image
-                src={designedAssetUrl(activeImage)}
-                alt={imageAlt}
-                width={imageWidth > 0 ? imageWidth : 1600}
-                height={imageHeight > 0 ? imageHeight : 1600}
-                priority
-                sizes="(max-width: 1024px) 100vw, 640px"
-                className="h-auto max-h-[28rem] w-full object-contain"
-              />
-            ) : (
-              <p className="text-sm text-muted">تصویر این طرح در دسترس نیست.</p>
-            )}
-          </div>
-          {gallery.length > 0 ? (
-            <div className="mt-3 flex gap-2 overflow-x-auto">
-              {[imageSrc, ...gallery].filter(Boolean).map((src) => (
-                <button
-                  key={src}
-                  type="button"
-                  onClick={() => setActiveImage(src)}
-                  className={`relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border ${
-                    activeImage === src ? "border-cyan-400" : "border-border"
-                  }`}
-                  aria-label="نمایش تصویر"
-                >
-                  <Image src={designedAssetUrl(src)} alt="" fill sizes="64px" loading="lazy" className="object-cover" />
-                </button>
-              ))}
-            </div>
-          ) : null}
-        </div>
+        <DesignArtworkStage
+          id={previewId}
+          src={imageSrc}
+          alt={imageAlt}
+          priority
+          sizes="(max-width: 1024px) 100vw, 640px"
+          className="min-h-80 rounded-2xl border border-border"
+          imageClassName="object-contain p-6"
+        />
 
         <div>
           {categories.length > 0 ? (

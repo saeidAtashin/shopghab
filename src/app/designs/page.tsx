@@ -5,9 +5,9 @@ import CatalogListing from "@/app/components/designs/CatalogListing";
 import DesignTaxonomyShowcase from "@/app/components/home/taxonomy/DesignTaxonomyShowcase";
 import JsonLd from "@/app/components/seo/JsonLd";
 import {
+  indexableRootCategories,
   parsePublicListingQuery,
   queryPublicDesigns,
-  rootCategories,
 } from "@/lib/catalog/logic";
 import { readCatalog } from "@/lib/catalog/store";
 import { landingTaxonomy } from "@/lib/landing/taxonomy";
@@ -48,7 +48,7 @@ export default async function DesignsGalleryPage({ searchParams }: Props) {
     catalog.attributeValues.find((value) => value.id === query.attr)?.name ?? "";
   if (query.page > result.pageCount && result.total > 0) notFound();
 
-  const categories = rootCategories(catalog).map((category) => ({
+  const categories = indexableRootCategories(catalog).map((category) => ({
     slug: category.slug,
     name: category.name,
   }));
@@ -84,7 +84,7 @@ export default async function DesignsGalleryPage({ searchParams }: Props) {
           <h1 className="mt-4 text-2xl font-black text-foreground sm:text-3xl">{TITLE}</h1>
           <p className="mt-2 max-w-2xl text-muted">{DESCRIPTION}</p>
           <div className="mt-10">
-            <DesignTaxonomyShowcase taxonomy={landingTaxonomy(catalog)} />
+            <DesignTaxonomyShowcase taxonomy={landingTaxonomy(catalog, {}, { publicOnly: true })} />
             <CatalogListing
               designs={result.items}
               categoryNames={categoryNames}

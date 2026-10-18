@@ -76,7 +76,7 @@ export default async function DesignDetailPage({ params }: Props) {
   const related = relatedDesigns(catalog, direct).map((item) => ({
     slug: item.slug,
     title: item.title,
-    image: item.thumbnailPath,
+    image: item.artworkPath,
     alt: item.alt,
   }));
 
@@ -101,13 +101,11 @@ export default async function DesignDetailPage({ params }: Props) {
           <div className="mt-8">
             <DesignDetailClient
               template={template}
+              previewId={direct.id}
               title={direct.title}
               description={direct.description || direct.shortDescription || description}
-              imageSrc={images.hero}
+              imageSrc={direct.imagePath}
               imageAlt={images.alt}
-              imageWidth={images.width}
-              imageHeight={images.height}
-              gallery={images.gallery}
               categories={categories}
               collections={collections}
               tags={direct.tags}

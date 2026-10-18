@@ -7,7 +7,7 @@ import { PhoneBackSvg } from "@/app/components/case-wizard/PhoneBackSvg";
 import { getHeroTemplates } from "@/app/components/home/hero/hero.constants";
 import { getModelBySlug } from "@/lib/cases/brands.static";
 import { getCaseTemplateBySlug } from "@/lib/cases/templates.static";
-import { designHasImage, isPublishedDesign } from "@/lib/catalog/logic";
+import { isPublicCatalogDesign } from "@/lib/catalog/logic";
 import { readCatalog } from "@/lib/catalog/store";
 import { LANDING_SECTION_COPY, selectLandingItems, type LandingSectionKey } from "@/lib/landing/sections";
 import { readLandingSections } from "@/lib/landing/store";
@@ -34,7 +34,7 @@ function getPopularModels() {
 
 function publishedHomeTemplates() {
   const published = readCatalog()
-    .designs.filter((design) => isPublishedDesign(design) && designHasImage(design))
+    .designs.filter((design) => isPublicCatalogDesign(design))
     .sort((a, b) => {
       if (a.featured !== b.featured) return a.featured ? -1 : 1;
       if (a.sortOrder !== b.sortOrder) return a.sortOrder - b.sortOrder;
@@ -58,11 +58,15 @@ export default function HomeCasePage() {
   const heroTemplates = publishedHomeTemplates();
   const popularModels = getPopularModels();
   const landing = readLandingSections();
-  const taxonomy = landingTaxonomy(readCatalog(), {
-    categories: landing.categories.banners,
-    features: landing.features.banners,
-    collections: landing.collections.banners,
-  });
+  const taxonomy = landingTaxonomy(
+    readCatalog(),
+    {
+      categories: landing.categories.banners,
+      features: landing.features.banners,
+      collections: landing.collections.banners,
+    },
+    { publicOnly: true },
+  );
 
   return (
     <main id="main" tabIndex={-1} className="min-h-screen bg-background outline-none">

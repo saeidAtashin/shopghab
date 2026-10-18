@@ -277,6 +277,8 @@ export type PublicDesign = {
   description: string;
   alt: string;
   imagePath: string;
+  /** Flat design file, before phone mockup substitution. */
+  artworkPath: string;
   thumbnailPath: string;
   gallery: string[];
   frames: { src: string; thumb: string }[];
@@ -306,6 +308,7 @@ export function toPublicDesign(design: DesignRecord): PublicDesign {
     description: design.description,
     alt: images.alt,
     imagePath: images.hero,
+    artworkPath: design.imagePath,
     thumbnailPath: images.thumb,
     gallery: images.gallery,
     frames: images.frames,
