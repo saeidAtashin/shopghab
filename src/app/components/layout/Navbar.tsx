@@ -19,8 +19,6 @@ import {
 } from "lucide-react";
 
 const STROKE_SCROLL_RANGE = 480;
-const STROKE_BURST_MS = 520;
-const OPEN_MENU_DELAY_MS = 200;
 
 function navLinkActive(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
@@ -36,17 +34,11 @@ export default function Navbar() {
   const [mobileBrandOpen, setMobileBrandOpen] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const logoRef = useRef<MenuLogoMarkHandle>(null);
-  const burstRafRef = useRef<number | null>(null);
-  const openTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const scrollRafPendingRef = useRef(false);
-  const isBurstingRef = useRef(false);
   const scrollProgressRef = useRef(0);
-  const displayedProgressRef = useRef(0);
 
   useEffect(() => {
     const updateStrokeFromScroll = () => {
-      if (isBurstingRef.current) return;
-      displayedProgressRef.current = scrollProgressRef.current;
       logoRef.current?.setProgress(scrollProgressRef.current);
     };
 
@@ -71,68 +63,20 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    return () => {
-      if (burstRafRef.current) cancelAnimationFrame(burstRafRef.current);
-      if (openTimerRef.current) clearTimeout(openTimerRef.current);
-    };
-  }, []);
-
-  useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
   }, [open]);
 
-  const burstStrokeOnOpen = useCallback(() => {
-    if (burstRafRef.current) cancelAnimationFrame(burstRafRef.current);
-    isBurstingRef.current = true;
-
-    const startTime = performance.now();
-    const startProgress = displayedProgressRef.current;
-
-    const tick = (now: number) => {
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / STROKE_BURST_MS, 1);
-      const eased = 1 - (1 - progress) ** 3;
-      const value = startProgress + (1 - startProgress) * eased;
-      displayedProgressRef.current = value;
-      logoRef.current?.setProgress(value);
-
-      if (progress < 1) {
-        burstRafRef.current = requestAnimationFrame(tick);
-        return;
-      }
-
-      isBurstingRef.current = false;
-      displayedProgressRef.current = scrollProgressRef.current;
-      logoRef.current?.setProgress(scrollProgressRef.current);
-      burstRafRef.current = null;
-    };
-
-    burstRafRef.current = requestAnimationFrame(tick);
+  const openMenu = useCallback(() => {
+    setOpen(true);
   }, []);
 
-  const openMenu = useCallback(() => {
-    burstStrokeOnOpen();
-    if (openTimerRef.current) clearTimeout(openTimerRef.current);
-    openTimerRef.current = setTimeout(() => {
-      setOpen(true);
-      openTimerRef.current = null;
-    }, OPEN_MENU_DELAY_MS);
-  }, [burstStrokeOnOpen]);
-
   const closeMenu = useCallback(() => {
-    if (openTimerRef.current) {
-      clearTimeout(openTimerRef.current);
-      openTimerRef.current = null;
-    }
     setOpen(false);
     setMobileOpen(null);
-    if (!isBurstingRef.current) {
-      displayedProgressRef.current = scrollProgressRef.current;
-      logoRef.current?.setProgress(scrollProgressRef.current);
-    }
+    logoRef.current?.setProgress(scrollProgressRef.current);
   }, []);
 
   const toggleMenu = useCallback(() => {
@@ -322,7 +266,7 @@ export default function Navbar() {
           </nav>
 
           {/* Logo — start (right in RTL) */}
-          <div className="flex min-w-0 items-center justify-end">
+          <div className="hidden min-w-0 items-center justify-end lg:flex">
             <SiteLogo
               className={scrolled ? "scale-95 transition-transform" : ""}
             />
