@@ -63,6 +63,7 @@ export const designRecordSchema = z.object({
   featured: z.boolean(),
   sortOrder: z.number(),
   assetMissing: z.boolean(),
+  unedited: z.boolean(),
   createdAt: z.string(),
   updatedAt: z.string(),
   publishedAt: z.string().nullable(),
@@ -352,6 +353,7 @@ export function parseCatalogDocument(raw: unknown): DesignCatalog {
           attributeValueIds: Array.isArray(design.attributeValueIds) ? design.attributeValueIds : [],
           collectionIds: Array.isArray(design.collectionIds) ? design.collectionIds : [],
           mockups: Array.isArray(design.mockups) ? design.mockups : [],
+          unedited: typeof design.unedited === "boolean" ? design.unedited : true,
         };
       })
     : [];

@@ -13,9 +13,11 @@ import {
   emptyCatalog,
   indexableCatalogPaths,
   syncCatalog,
+  queryDesigns,
   updateAttribute,
   updateCategory,
   updateDesign,
+  updateDesignStatus,
   type CatalogImportEntry,
 } from "./logic";
 import type { DesignWriteInput } from "./schema";
@@ -76,6 +78,7 @@ test("import creates one catalog record with a stable id", () => {
   assert.equal(result.catalog.designs.length, 1);
   assert.equal(result.catalog.designs[0]?.id, stableDesignId("abstract/space-cat.eps"));
   assert.equal(result.catalog.designs[0]?.status, "draft");
+  assert.equal(result.catalog.designs[0]?.unedited, true);
   assert.equal(result.catalog.designs[0]?.categoryIds.length, 1);
 });
 
@@ -107,6 +110,30 @@ test("re-import does not duplicate or overwrite editorial fields", () => {
   assert.equal(second.catalog.designs[0]?.status, "published");
   assert.equal(second.catalog.designs[0]?.imagePath, "/designed/space-cat-2.webp");
   assert.equal(second.catalog.designs[0]?.width, 20);
+  assert.equal(second.catalog.designs[0]?.unedited, false);
+});
+
+test("saving a design clears unedited and a status change keeps it", () => {
+  const imported = syncCatalog(emptyCatalog(), [entry()], {
+    now: NOW,
+    defaultStatus: "published",
+  });
+  const design = imported.catalog.designs[0];
+  assert.ok(design);
+  assert.equal(design.unedited, true);
+
+  const statusOnly = updateDesignStatus(imported.catalog, design.id, "draft", NOW);
+  assert.equal(statusOnly.design.unedited, true);
+  const waiting = queryDesigns(statusOnly.catalog, { unedited: true });
+  assert.equal(waiting.total, 1);
+
+  const categoryId = imported.catalog.categories[0]?.id ?? "";
+  const saved = updateDesign(statusOnly.catalog, design.id, writeInput({ categoryIds: [categoryId] }), NOW);
+  assert.equal(saved.design.unedited, false);
+  assert.equal(queryDesigns(saved.catalog, { unedited: true }).total, 0);
+
+  const created = createDesign(saved.catalog, writeInput({ slug: "fresh-cat", title: "تازه" }), NOW);
+  assert.equal(created.design.unedited, false);
 });
 
 test("re-import keeps mockup metadata and the editorial gallery", () => {

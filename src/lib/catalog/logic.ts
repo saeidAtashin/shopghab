@@ -377,6 +377,7 @@ export function syncCatalog(
       featured: false,
       sortOrder: next.designs.length,
       assetMissing: false,
+      unedited: true,
       createdAt,
       updatedAt: now,
       publishedAt: defaultStatus === "published" ? createdAt : null,
@@ -513,6 +514,7 @@ export function createDesign(
     featured: input.featured,
     sortOrder: input.sortOrder,
     assetMissing: input.imagePath === "",
+    unedited: false,
     createdAt: now,
     updatedAt: now,
     publishedAt: input.status === "published" ? now : null,
@@ -557,6 +559,7 @@ export function updateDesign(
   design.sortOrder = input.sortOrder;
   design.templateSlug = input.templateSlug || design.templateSlug;
   design.assetMissing = input.imagePath === "";
+  design.unedited = false;
   applyStatus(design, input.status, now);
   return { catalog: next, design };
 }
@@ -774,6 +777,7 @@ export type DesignQuery = {
   status?: DesignRecord["status"] | "all";
   missingSeo?: boolean;
   missingImage?: boolean;
+  unedited?: boolean;
   page?: number;
   pageSize?: number;
 };
@@ -788,6 +792,7 @@ export function queryDesigns(catalog: DesignCatalog, query: DesignQuery = {}) {
     if (query.categoryId && !design.categoryIds.includes(query.categoryId)) return false;
     if (query.missingSeo && !designMissingSeo(design)) return false;
     if (query.missingImage && designHasImage(design)) return false;
+    if (query.unedited && !design.unedited) return false;
     if (!q) return true;
     return (
       design.title.toLowerCase().includes(q) ||

@@ -22,6 +22,7 @@ export async function GET(request: Request) {
         : "all",
     missingSeo: url.searchParams.get("missingSeo") === "1",
     missingImage: url.searchParams.get("missingImage") === "1",
+    unedited: url.searchParams.get("unedited") === "1",
     page: Number(url.searchParams.get("page") ?? "1"),
     pageSize: 20,
   });

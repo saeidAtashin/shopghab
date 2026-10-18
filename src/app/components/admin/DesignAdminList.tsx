@@ -33,6 +33,7 @@ export default function DesignAdminList() {
   const [status, setStatus] = useState("all");
   const [missingSeo, setMissingSeo] = useState(false);
   const [missingImage, setMissingImage] = useState(false);
+  const [uneditedOnly, setUneditedOnly] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
@@ -50,6 +51,7 @@ export default function DesignAdminList() {
     if (status !== "all") params.set("status", status);
     if (missingSeo) params.set("missingSeo", "1");
     if (missingImage) params.set("missingImage", "1");
+    if (uneditedOnly) params.set("unedited", "1");
     params.set("page", String(page));
 
     const timer = window.setTimeout(() => {
@@ -69,7 +71,7 @@ export default function DesignAdminList() {
     }, 250);
 
     return () => window.clearTimeout(timer);
-  }, [q, categoryId, status, missingSeo, missingImage, page]);
+  }, [q, categoryId, status, missingSeo, missingImage, uneditedOnly, page]);
 
   async function changeStatus(design: DesignRecord, next: DesignStatus) {
     setNotice("");
@@ -161,6 +163,17 @@ export default function DesignAdminList() {
             />
             بدون تصویر
           </label>
+          <label className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={uneditedOnly}
+              onChange={(event) => {
+                setPage(1);
+                setUneditedOnly(event.target.checked);
+              }}
+            />
+            ویرایش‌نشده
+          </label>
         </div>
       </form>
 
@@ -187,7 +200,10 @@ export default function DesignAdminList() {
               </div>
               <div className="min-w-0">
                 <h2 className="font-bold">{design.title}</h2>
-                <p className="truncate text-xs text-muted">{design.slug} · {design.id}</p>
+                <p className="truncate text-xs text-muted">
+                  {design.slug} · {design.id}
+                  {design.unedited ? " · ویرایش‌نشده" : ""}
+                </p>
               </div>
               <AdminSelect
                 value={design.status}
