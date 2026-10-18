@@ -103,9 +103,18 @@ export function receiptContentType(ext: string): string {
   return "image/jpeg";
 }
 
+function withoutDataPreview(item: CartLineItem): CartLineItem {
+  if (item.kind !== "custom" || !item.previewUrl.startsWith("data:")) return item;
+  return { ...item, previewUrl: "" };
+}
+
 export function toPublicOrder(order: ShopActivityOrder): PublicShopOrder {
   const { receiptFile: _receiptFile, ...rest } = order;
-  return { ...rest, hasReceipt: Boolean(order.receiptFile) };
+  return {
+    ...rest,
+    items: order.items.map(withoutDataPreview),
+    hasReceipt: Boolean(order.receiptFile),
+  };
 }
 
 export function parseOrderFields(input: {

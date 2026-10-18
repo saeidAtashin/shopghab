@@ -25,6 +25,25 @@ export function sanitizePhoneInput(value: string): string {
 }
 
 /**
+ * Checkout field: digits only, and only a growing prefix of 09XXXXXXXXX (max 11).
+ */
+export function sanitizeCanonicalMobileInput(value: string): string {
+  let digits = "";
+  for (const ch of value) {
+    if (ch >= "0" && ch <= "9") digits += ch;
+    if (digits.length === 11) break;
+  }
+
+  let result = "";
+  for (const ch of digits) {
+    if (result.length === 0 && ch !== "0") break;
+    if (result.length === 1 && ch !== "9") break;
+    result += ch;
+  }
+  return result;
+}
+
+/**
  * Normalizes flexible input to 09XXXXXXXXX.
  * Accepts: +98..., 98..., 0..., 9... (10 digits).
  */

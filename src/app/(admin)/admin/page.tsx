@@ -2,6 +2,7 @@
 
 import { useAuth } from "@/app/context/AuthContext";
 import { AdminNav } from "@/app/components/admin/AdminShell";
+import ShopOrdersPanel from "@/app/components/admin/ShopOrdersPanel";
 import { useEffect, useState } from "react";
 import { ApiError } from "@/lib/api-client";
 import {
@@ -203,8 +204,12 @@ export default function AdminPage() {
         <div className="mb-10">
           <AdminNav />
           <h1 className="text-4xl font-black text-cyan-400 mb-3">پنل مدیریت</h1>
-          <p className="text-muted">مدیریت سفارشات تعمیر و وضعیت دستگاه‌ها</p>
+          <p className="text-muted">مدیریت سفارشات فروشگاه، تعمیر و وضعیت دستگاه‌ها</p>
         </div>
+
+        <ShopOrdersPanel />
+
+        <h2 className="mb-6 text-2xl font-black text-foreground">سفارشات تعمیر</h2>
 
         <label className="mb-6 block max-w-xs text-sm text-muted">
           فیلتر وضعیت

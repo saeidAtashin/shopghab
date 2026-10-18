@@ -6,7 +6,7 @@ import PhoneVerificationModal from "@/app/components/auth/PhoneVerificationModal
 import { useAuth } from "@/app/context/AuthContext";
 import { useShopCart } from "@/app/context/ShopCartContext";
 import { usePhoneVerifiedSubmit, VerificationCancelledError } from "@/app/hooks/usePhoneVerifiedSubmit";
-import { normalizeIranPhone } from "@/lib/phone";
+import { IRAN_MOBILE_CANONICAL, normalizeIranPhone, sanitizeCanonicalMobileInput } from "@/lib/phone";
 import { requestZarinPalPayment } from "@/lib/payments/zarinpal";
 import { CARD_TO_CARD, formatCardNumber, type PaymentMethod } from "@/lib/shop/activity";
 import { formatToman, submitShopOrder } from "@/lib/shop";
@@ -31,7 +31,8 @@ export default function CheckoutPageClient() {
   const accountPhone = user?.phone_number ?? user?.phone ?? "";
 
   useEffect(() => {
-    if (accountPhone) setPhone(accountPhone);
+    const canonical = accountPhone ? normalizeIranPhone(accountPhone) : null;
+    if (canonical) setPhone(canonical);
   }, [accountPhone]);
 
   useEffect(() => {
@@ -74,9 +75,9 @@ export default function CheckoutPageClient() {
       setError("نام و نام خانوادگی الزامی است.");
       return;
     }
-    const normalizedPhone = normalizeIranPhone(phone);
+    const normalizedPhone = IRAN_MOBILE_CANONICAL.test(phone) ? phone : null;
     if (!normalizedPhone) {
-      setError("شماره موبایل معتبر نیست.");
+      setError("شماره موبایل باید ۱۱ رقم و با ۰۹ شروع شود.");
       return;
     }
     if (!address.trim()) {
@@ -126,7 +127,7 @@ export default function CheckoutPageClient() {
         }
 
         const order = await submitShopOrder(payload);
-        await fetch("/api/shop/orders/record", {
+        const recordResponse = await fetch("/api/shop/orders/record", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -134,7 +135,11 @@ export default function CheckoutPageClient() {
             orderCode: order.orderCode,
             ...payload,
           }),
-        }).catch(() => undefined);
+        });
+        if (!recordResponse.ok) {
+          const recordResult = (await recordResponse.json().catch(() => ({}))) as { error?: string };
+          throw new Error(recordResult.error || "ثبت سفارش انجام نشد.");
+        }
 
         try {
           const callbackUrl = `${window.location.origin}/payment/callback?orderId=${order.orderId}`;
@@ -187,7 +192,18 @@ export default function CheckoutPageClient() {
             <span className="text-sm text-muted">شماره موبایل</span>
             <input
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={(e) => {
+                e.currentTarget.setCustomValidity("");
+                setPhone(sanitizeCanonicalMobileInput(e.target.value));
+              }}
+              onInvalid={(e) => {
+                e.currentTarget.setCustomValidity("شماره موبایل باید ۱۱ رقم و با ۰۹ شروع شود.");
+              }}
+              inputMode="numeric"
+              maxLength={11}
+              pattern="09[0-9]{9}"
+              placeholder="09123456789"
+              autoComplete="tel"
               className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground"
               dir="ltr"
               required
