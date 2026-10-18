@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
 
+import PendingButtonLabel from "@/app/components/auth/PendingButtonLabel";
 import { useAuth } from "@/app/context/AuthContext";
+import { applyOtpInput, emptyOtpDigits, OTP_LENGTH } from "@/lib/otp-digits";
 import {
   IRAN_PHONE_INVALID_MESSAGE,
   isValidIranPhone,
@@ -17,6 +19,8 @@ type Props = {
   onClose: () => void;
   onVerified: (phone: string) => void;
 };
+
+const AUTO_SEND_DELAY_MS = 200;
 
 function formatTime(seconds: number): string {
   const min = Math.floor(seconds / 60);
@@ -34,7 +38,7 @@ export default function PhoneVerificationModal({
 
   const [phone, setPhone] = useState(initialPhone);
   const [codeSent, setCodeSent] = useState(false);
-  const [otpDigits, setOtpDigits] = useState<string[]>(["", "", "", ""]);
+  const [otpDigits, setOtpDigits] = useState<string[]>(emptyOtpDigits());
   const [counter, setCounter] = useState(0);
   const [error, setError] = useState("");
   const [sendingOtp, setSendingOtp] = useState(false);
@@ -43,18 +47,41 @@ export default function PhoneVerificationModal({
   const [smsSent, setSmsSent] = useState(false);
 
   const otpRefs = useRef<Array<HTMLInputElement | null>>([]);
+  const lastAutoSentPhone = useRef<string | null>(null);
+  const lastAttemptedOtp = useRef<string | null>(null);
+  const sendingRef = useRef(false);
+  const verifyingRef = useRef(false);
+  const sendGeneration = useRef(0);
+  const verifyGeneration = useRef(0);
+  const counterRef = useRef(counter);
+  const phoneRef = useRef(phone);
+  counterRef.current = counter;
+  phoneRef.current = phone;
+
   const phoneLocked = Boolean(initialPhone.trim());
 
   useEffect(() => {
-    if (!open) return;
+    if (!open) {
+      sendGeneration.current += 1;
+      verifyGeneration.current += 1;
+      return;
+    }
 
+    sendGeneration.current += 1;
+    verifyGeneration.current += 1;
+    lastAutoSentPhone.current = null;
+    lastAttemptedOtp.current = null;
+    sendingRef.current = false;
+    verifyingRef.current = false;
     setPhone(initialPhone);
     setCodeSent(false);
-    setOtpDigits(["", "", "", ""]);
+    setOtpDigits(emptyOtpDigits());
     setCounter(0);
     setError("");
     setDevOtpHint("");
     setSmsSent(false);
+    setSendingOtp(false);
+    setVerifying(false);
   }, [open, initialPhone]);
 
   useEffect(() => {
@@ -73,93 +100,145 @@ export default function PhoneVerificationModal({
     return () => clearInterval(timer);
   }, [codeSent, counter]);
 
-  if (!open) return null;
+  const handleSendOtp = useCallback(
+    async (rawPhone: string) => {
+      setError("");
 
-  const handleSendOtp = async () => {
-    setError("");
-
-    if (!isValidIranPhone(phone)) {
-      setError(IRAN_PHONE_INVALID_MESSAGE);
-      return;
-    }
-
-    if (sendingOtp) return;
-
-    setSendingOtp(true);
-    try {
-      const normalizedPhone = normalizeIranPhone(phone)!;
-      const result = await sendOtp(normalizedPhone);
-      if (!result.success) {
-        setError(result.message ?? "خطا در ارسال کد تایید.");
+      const normalizedPhone = normalizeIranPhone(rawPhone);
+      if (!normalizedPhone) {
+        setError(IRAN_PHONE_INVALID_MESSAGE);
         return;
       }
 
-      setPhone(normalizedPhone);
-      setCodeSent(true);
-      setCounter(120);
-      setOtpDigits(["", "", "", ""]);
-      setSmsSent(result.smsSent === true);
-      setDevOtpHint(result.smsSent ? "" : (result.devCode ?? ""));
-    } catch {
-      setError("خطا در ارسال کد تایید.");
-    } finally {
-      setSendingOtp(false);
-    }
-  };
+      if (sendingRef.current) return;
 
-  const handleVerify = async () => {
-    setError("");
+      const generation = ++sendGeneration.current;
+      lastAutoSentPhone.current = normalizedPhone;
+      sendingRef.current = true;
+      setSendingOtp(true);
+      try {
+        const result = await sendOtp(normalizedPhone);
+        if (generation !== sendGeneration.current) return;
+        if (!result.success) {
+          setError(result.message ?? "خطا در ارسال کد تایید.");
+          return;
+        }
 
-    const otp = otpDigits.join("");
-    if (otp.length !== 4) {
-      setError("کد تأیید باید ۴ رقم باشد");
-      return;
-    }
+        setPhone(normalizedPhone);
+        setCodeSent(true);
+        setCounter(120);
+        setOtpDigits(emptyOtpDigits());
+        lastAttemptedOtp.current = null;
+        setSmsSent(result.smsSent === true);
+        setDevOtpHint(result.smsSent ? "" : (result.devCode ?? ""));
+      } catch {
+        if (generation !== sendGeneration.current) return;
+        setError("خطا در ارسال کد تایید.");
+      } finally {
+        if (generation === sendGeneration.current) {
+          sendingRef.current = false;
+          setSendingOtp(false);
+        }
+      }
+    },
+    [sendOtp],
+  );
 
-    const normalizedPhone = normalizeIranPhone(phone);
-    if (!normalizedPhone) {
-      setError(IRAN_PHONE_INVALID_MESSAGE);
-      return;
-    }
+  const handleVerify = useCallback(
+    async (otp: string, source: "auto" | "manual" = "manual") => {
+      if (verifyingRef.current) return;
+      if (counterRef.current <= 0) return;
 
-    setVerifying(true);
-    try {
-      const result = await loginWithOtp(normalizedPhone, otp, { redirect: false });
-      if (!result.user) {
-        setError(result.message ?? "کد تایید اشتباه است.");
+      if (otp.length !== OTP_LENGTH) {
+        if (source === "manual") setError("کد تأیید باید ۴ رقم باشد");
         return;
       }
 
-      onVerified(normalizedPhone);
-    } catch {
-      setError("خطا در اعتبارسنجی کد تایید.");
-    } finally {
-      setVerifying(false);
-    }
-  };
+      if (source === "auto" && lastAttemptedOtp.current === otp) return;
+
+      const normalizedPhone = normalizeIranPhone(phoneRef.current);
+      if (!normalizedPhone) {
+        setError(IRAN_PHONE_INVALID_MESSAGE);
+        return;
+      }
+
+      const generation = ++verifyGeneration.current;
+      lastAttemptedOtp.current = otp;
+      verifyingRef.current = true;
+      setVerifying(true);
+      setError("");
+      try {
+        const result = await loginWithOtp(normalizedPhone, otp, { redirect: false });
+        if (generation !== verifyGeneration.current) return;
+        if (!result.user) {
+          setError(result.message ?? "کد تایید اشتباه است.");
+          return;
+        }
+
+        onVerified(normalizedPhone);
+      } catch {
+        if (generation !== verifyGeneration.current) return;
+        setError("خطا در اعتبارسنجی کد تایید.");
+      } finally {
+        if (generation === verifyGeneration.current) {
+          verifyingRef.current = false;
+          setVerifying(false);
+        }
+      }
+    },
+    [loginWithOtp, onVerified],
+  );
+
+  useEffect(() => {
+    if (!open || codeSent) return;
+
+    const normalized = normalizeIranPhone(phone);
+    if (!normalized || lastAutoSentPhone.current === normalized) return;
+
+    const timer = window.setTimeout(() => {
+      void handleSendOtp(normalized);
+    }, AUTO_SEND_DELAY_MS);
+
+    return () => window.clearTimeout(timer);
+  }, [open, codeSent, phone, handleSendOtp]);
 
   const handleOtpDigitChange = (index: number, value: string) => {
-    const digit = value.replace(/\D/g, "").slice(0, 1);
+    if (verifying || sendingOtp || counter <= 0) return;
 
-    setOtpDigits((prev) => {
-      const updated = [...prev];
-      updated[index] = digit;
-      return updated;
-    });
+    const { digits, focusIndex } = applyOtpInput(otpDigits, index, value);
+    setOtpDigits(digits);
 
-    if (digit && index < 3) {
-      otpRefs.current[index + 1]?.focus();
+    const code = digits.join("");
+    if (code.length < OTP_LENGTH) {
+      lastAttemptedOtp.current = null;
+    }
+
+    if (focusIndex !== null) {
+      otpRefs.current[focusIndex]?.focus();
+    }
+
+    if (code.length === OTP_LENGTH) {
+      void handleVerify(code, "auto");
     }
   };
 
   const handleOtpKeyDown = (
     index: number,
-    e: React.KeyboardEvent<HTMLInputElement>,
+    event: React.KeyboardEvent<HTMLInputElement>,
   ) => {
-    if (e.key === "Backspace" && !otpDigits[index] && index > 0) {
+    if (event.key === "Backspace" && !otpDigits[index] && index > 0) {
       otpRefs.current[index - 1]?.focus();
     }
   };
+
+  const handleResend = () => {
+    setOtpDigits(emptyOtpDigits());
+    lastAttemptedOtp.current = null;
+    setError("");
+    void handleSendOtp(phone);
+  };
+
+  if (!open) return null;
 
   return (
     <div
@@ -209,16 +288,22 @@ export default function PhoneVerificationModal({
                 placeholder="09 / +98 / 98 / 9..."
                 autoComplete="tel"
                 readOnly={phoneLocked}
+                disabled={sendingOtp}
                 className="w-full rounded-xl border border-border bg-surface px-4 py-3 text-foreground outline-none focus:border-cyan-500 disabled:opacity-70"
               />
 
               <button
                 type="button"
-                onClick={() => void handleSendOtp()}
+                onClick={() => void handleSendOtp(phone)}
                 disabled={sendingOtp || !isValidIranPhone(phone)}
-                className="w-full rounded-xl bg-cyan-500 py-3 font-bold text-black transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:opacity-50"
+                aria-busy={sendingOtp}
+                className="inline-flex w-full items-center justify-center rounded-xl bg-cyan-500 py-3 font-bold text-black transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                {sendingOtp ? "در حال ارسال..." : "ارسال کد"}
+                <PendingButtonLabel
+                  pending={sendingOtp}
+                  idle="ارسال کد"
+                  pendingLabel="در حال ارسال..."
+                />
               </button>
             </>
           ) : (
@@ -232,11 +317,20 @@ export default function PhoneVerificationModal({
                     }}
                     type="tel"
                     inputMode="numeric"
-                    maxLength={1}
+                    autoComplete={index === 0 ? "one-time-code" : "off"}
+                    maxLength={index === 0 ? OTP_LENGTH : 1}
                     value={digit}
+                    disabled={verifying || sendingOtp}
+                    onFocus={(event) => event.currentTarget.select()}
                     onChange={(e) => handleOtpDigitChange(index, e.target.value)}
+                    onPaste={(event) => {
+                      const text = event.clipboardData.getData("text");
+                      if (text.replace(/\D/g, "").length <= 1) return;
+                      event.preventDefault();
+                      handleOtpDigitChange(index, text);
+                    }}
                     onKeyDown={(e) => handleOtpKeyDown(index, e)}
-                    className="h-12 w-12 rounded-xl border border-border bg-surface text-center text-xl font-bold text-foreground outline-none focus:border-cyan-500"
+                    className="h-12 w-12 rounded-xl border border-border bg-surface text-center text-xl font-bold text-foreground outline-none focus:border-cyan-500 disabled:opacity-70"
                   />
                 ))}
               </div>
@@ -261,26 +355,31 @@ export default function PhoneVerificationModal({
 
               <button
                 type="button"
-                onClick={() => void handleVerify()}
-                disabled={verifying || counter <= 0}
-                className="w-full rounded-xl bg-cyan-500 py-3 font-bold text-black transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:opacity-50"
+                onClick={() => void handleVerify(otpDigits.join(""))}
+                disabled={verifying || sendingOtp || counter <= 0}
+                aria-busy={verifying}
+                className="inline-flex w-full items-center justify-center rounded-xl bg-cyan-500 py-3 font-bold text-black transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                {verifying ? "در حال تأیید..." : "تایید"}
+                <PendingButtonLabel
+                  pending={verifying}
+                  idle="تایید"
+                  pendingLabel="در حال تأیید..."
+                />
               </button>
 
               {counter <= 0 && (
                 <button
                   type="button"
-                  onClick={() => {
-                    setCodeSent(false);
-                    setOtpDigits(["", "", "", ""]);
-                    setDevOtpHint("");
-                    setSmsSent(false);
-                    setError("");
-                  }}
-                  className="w-full rounded-xl bg-surface py-3 text-foreground transition hover:bg-white/15"
+                  onClick={handleResend}
+                  disabled={sendingOtp}
+                  aria-busy={sendingOtp}
+                  className="inline-flex w-full items-center justify-center rounded-xl bg-surface py-3 text-foreground transition hover:bg-white/15 disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  ارسال مجدد کد
+                  <PendingButtonLabel
+                    pending={sendingOtp}
+                    idle="ارسال مجدد کد"
+                    pendingLabel="در حال ارسال..."
+                  />
                 </button>
               )}
             </>

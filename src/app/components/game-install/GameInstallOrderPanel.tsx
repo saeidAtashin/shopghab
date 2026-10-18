@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ListPlus } from "lucide-react";
 
+import PendingButtonLabel from "@/app/components/auth/PendingButtonLabel";
 import PhoneVerificationModal from "@/app/components/auth/PhoneVerificationModal";
 import GameInstallListCountBadge from "@/app/components/game-install/GameInstallListCountBadge";
 import InstallListGameItem from "@/app/components/game-install/InstallListGameItem";
@@ -40,7 +41,7 @@ export default function GameInstallOrderPanel({
   embedded = false,
 }: Props) {
   const { user } = useAuth();
-  const { requestSubmit, verifying, modalProps } = usePhoneVerifiedSubmit();
+  const { requestSubmit, verifying, modalOpen, modalProps } = usePhoneVerifiedSubmit();
   const games = useInstallGameList(consoleSlug);
   const installMethodId = useInstallMethodId(consoleSlug);
 
@@ -109,9 +110,9 @@ export default function GameInstallOrderPanel({
       return;
     }
 
-    setLoading(true);
     try {
       await requestSubmit(normalizedPhone, async () => {
+        setLoading(true);
         await submitGameInstallRequest({
           consoleId,
           phone: normalizedPhone,
@@ -298,7 +299,8 @@ export default function GameInstallOrderPanel({
         <motion.button
           type="submit"
           data-game-install-submit-target
-          disabled={loading || verifying || games.length === 0}
+          disabled={loading || verifying || modalOpen || games.length === 0}
+          aria-busy={loading || verifying}
           animate={
             submitHighlight
               ? {
@@ -312,9 +314,13 @@ export default function GameInstallOrderPanel({
               : { scale: 1, boxShadow: "0 0 0 rgba(34,211,238,0)" }
           }
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="h-14 w-full rounded-2xl bg-cyan-500 font-bold text-black transition-colors hover:bg-cyan-400 disabled:opacity-40"
+          className="inline-flex h-14 w-full items-center justify-center rounded-2xl bg-cyan-500 font-bold text-black transition-colors hover:bg-cyan-400 disabled:opacity-40"
         >
-          {loading || verifying ? "در حال ثبت..." : "ثبت سفارش نصب بازی"}
+          <PendingButtonLabel
+            pending={loading || verifying}
+            pendingLabel="در حال ثبت..."
+            idle="ثبت سفارش نصب بازی"
+          />
         </motion.button>
       </form>
 

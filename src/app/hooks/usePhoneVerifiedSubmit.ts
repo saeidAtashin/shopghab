@@ -96,7 +96,8 @@ export function usePhoneVerifiedSubmit() {
 
   return {
     requestSubmit,
-    verifying: verifying || modalOpen,
+    verifying,
+    modalOpen,
     modalProps: {
       open: modalOpen,
       phone: modalPhone,

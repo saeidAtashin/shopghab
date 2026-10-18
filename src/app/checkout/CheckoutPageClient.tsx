@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import PendingButtonLabel from "@/app/components/auth/PendingButtonLabel";
 import PhoneVerificationModal from "@/app/components/auth/PhoneVerificationModal";
 import { useAuth } from "@/app/context/AuthContext";
 import { useShopCart } from "@/app/context/ShopCartContext";
@@ -15,7 +16,7 @@ import { getCartItemKey } from "@/lib/shop/types";
 
 export default function CheckoutPageClient() {
   const { user } = useAuth();
-  const { requestSubmit, verifying, modalProps } = usePhoneVerifiedSubmit();
+  const { requestSubmit, verifying, modalOpen, modalProps } = usePhoneVerifiedSubmit();
   const { items, subtotal, clearCart } = useShopCart();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -101,9 +102,9 @@ export default function CheckoutPageClient() {
       items,
     };
 
-    setLoading(true);
     try {
       await requestSubmit(normalizedPhone, async () => {
+        setLoading(true);
         if (paymentMethod === "card_to_card" && receipt) {
           const body = new FormData();
           body.set("name", payload.name);
@@ -321,14 +322,19 @@ export default function CheckoutPageClient() {
 
         <button
           type="submit"
-          disabled={loading || verifying}
-          className="w-full rounded-xl bg-cyan-500 py-3.5 text-sm font-bold text-black disabled:opacity-50"
+          disabled={loading || verifying || modalOpen}
+          aria-busy={loading || verifying}
+          className="inline-flex w-full items-center justify-center rounded-xl bg-cyan-500 py-3.5 text-sm font-bold text-black disabled:opacity-50"
         >
-          {loading || verifying
-            ? "در حال پردازش..."
-            : paymentMethod === "card_to_card"
-              ? "ثبت سفارش و ارسال رسید"
-              : "پرداخت با زرین‌پال"}
+          <PendingButtonLabel
+            pending={loading || verifying}
+            pendingLabel="در حال پردازش..."
+            idle={
+              paymentMethod === "card_to_card"
+                ? "ثبت سفارش و ارسال رسید"
+                : "پرداخت با زرین‌پال"
+            }
+          />
         </button>
       </form>
 

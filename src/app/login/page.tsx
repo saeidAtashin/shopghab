@@ -1,15 +1,19 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useAuth } from "@/app/context/AuthContext";
+import PendingButtonLabel from "@/app/components/auth/PendingButtonLabel";
 import {
   IRAN_PHONE_INVALID_MESSAGE,
   isValidIranPhone,
   normalizeIranPhone,
   sanitizePhoneInput,
 } from "@/lib/phone";
+import { applyOtpInput, emptyOtpDigits, OTP_LENGTH } from "@/lib/otp-digits";
 import { getPostLoginPath } from "@/lib/auth-shared";
 import { useRouter } from "next/navigation";
+
+const AUTO_SEND_DELAY_MS = 200;
 
 type Mode = "password" | "otp";
 
@@ -24,12 +28,14 @@ export default function LoginPage() {
   const [password, setPassword] = useState<string>("");
 
   const [phone, setPhone] = useState<string>("");
-  const [otpDigits, setOtpDigits] = useState<string[]>(["", "", "", ""]);
+  const [otpDigits, setOtpDigits] = useState<string[]>(emptyOtpDigits());
 
   const [error, setError] = useState<string>("");
   const [counter, setCounter] = useState<number>(0);
   const [codeSent, setCodeSent] = useState<boolean>(false);
   const [sendingOtp, setSendingOtp] = useState<boolean>(false);
+  const [verifyingOtp, setVerifyingOtp] = useState<boolean>(false);
+  const [loggingIn, setLoggingIn] = useState<boolean>(false);
   /** Shown when SMS is skipped (OTP_SKIP_SMS) — matches server-side code for verify */
   const [devOtpHint, setDevOtpHint] = useState<string>("");
   const [smsSent, setSmsSent] = useState<boolean>(false);
@@ -42,6 +48,14 @@ export default function LoginPage() {
 
   // refs برای ۴ input
   const otpRefs = useRef<Array<HTMLInputElement | null>>([]);
+  const lastAutoSentPhone = useRef<string | null>(null);
+  const lastAttemptedOtp = useRef<string | null>(null);
+  const sendingRef = useRef(false);
+  const verifyingRef = useRef(false);
+  const counterRef = useRef(counter);
+  const phoneRef = useRef(phone);
+  counterRef.current = counter;
+  phoneRef.current = phone;
 
   // وقتی وارد حالت OTP شد و کد ارسال شد، روی input اول فوکوس کن
   useEffect(() => {
@@ -65,6 +79,7 @@ export default function LoginPage() {
 
   const handlePasswordLogin = async (): Promise<void> => {
     setError("");
+    setLoggingIn(true);
     try {
       const loggedIn = await loginWithPassword(phone_number, password);
       if (!loggedIn) {
@@ -72,6 +87,8 @@ export default function LoginPage() {
       }
     } catch {
       setError("خطا در ورود با رمز عبور.");
+    } finally {
+      setLoggingIn(false);
     }
   };
 
@@ -79,17 +96,116 @@ export default function LoginPage() {
     setPhone(sanitizePhoneInput(e.target.value));
   };
 
+  const handleSendOtp = useCallback(async (rawPhone: string): Promise<void> => {
+    setError("");
+
+    const normalizedPhone = normalizeIranPhone(rawPhone);
+    if (!normalizedPhone) {
+      setError(IRAN_PHONE_INVALID_MESSAGE);
+      return;
+    }
+
+    if (sendingRef.current) return;
+
+    lastAutoSentPhone.current = normalizedPhone;
+    sendingRef.current = true;
+    setSendingOtp(true);
+    try {
+      const result = await sendOtp(normalizedPhone);
+      if (!result.success) {
+        setError(result.message ?? "خطا در ارسال کد تایید.");
+        return;
+      }
+
+      setPhone(normalizedPhone);
+      setMode("otp");
+      setCodeSent(true);
+      setCounter(120);
+      setOtpDigits(emptyOtpDigits());
+      lastAttemptedOtp.current = null;
+      setSmsSent(result.smsSent === true);
+      setDevOtpHint(result.smsSent ? "" : (result.devCode ?? ""));
+      setError("");
+    } catch {
+      setError("خطا در ارسال کد تایید.");
+    } finally {
+      sendingRef.current = false;
+      setSendingOtp(false);
+    }
+  }, [sendOtp]);
+
+  const handleOtpLogin = useCallback(async (
+    otp: string,
+    source: "auto" | "manual" = "manual",
+  ): Promise<void> => {
+    if (verifyingRef.current) return;
+    if (counterRef.current <= 0) return;
+
+    if (otp.length !== OTP_LENGTH) {
+      if (source === "manual") setError("کد تأیید باید ۴ رقم باشد");
+      return;
+    }
+
+    if (source === "auto" && lastAttemptedOtp.current === otp) return;
+
+    const normalizedPhone = normalizeIranPhone(phoneRef.current);
+    if (!normalizedPhone) {
+      setError(IRAN_PHONE_INVALID_MESSAGE);
+      return;
+    }
+
+    lastAttemptedOtp.current = otp;
+    verifyingRef.current = true;
+    setVerifyingOtp(true);
+    setError("");
+    try {
+      const result = await loginWithOtp(normalizedPhone, otp);
+      if (!result.user) {
+        setError(result.message ?? "کد تایید اشتباه است.");
+      }
+    } catch {
+      setError("خطا در اعتبارسنجی کد تایید.");
+    } finally {
+      verifyingRef.current = false;
+      setVerifyingOtp(false);
+    }
+  }, [loginWithOtp]);
+
+  useEffect(() => {
+    if (mode !== "otp" || codeSent) return;
+
+    const normalized = normalizeIranPhone(phone);
+    if (!normalized || lastAutoSentPhone.current === normalized) return;
+
+    const timer = window.setTimeout(() => {
+      void handleSendOtp(normalized);
+    }, AUTO_SEND_DELAY_MS);
+
+    return () => window.clearTimeout(timer);
+  }, [mode, codeSent, phone, handleSendOtp]);
+
+  const handleSendOtpSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    void handleSendOtp(phone);
+  };
+
   const handleOtpDigitChange = (index: number, value: string): void => {
-    const digit = value.replace(/\D/g, "").slice(0, 1);
+    if (verifyingOtp || sendingOtp || counter <= 0) return;
 
-    setOtpDigits((prev) => {
-      const updated = [...prev];
-      updated[index] = digit;
-      return updated;
-    });
+    const { digits, focusIndex } = applyOtpInput(otpDigits, index, value);
+    setOtpDigits(digits);
 
-    if (digit && index < 3) {
-      otpRefs.current[index + 1]?.focus();
+    const code = digits.join("");
+    if (code.length < OTP_LENGTH) {
+      lastAttemptedOtp.current = null;
+    }
+
+    if (focusIndex !== null) {
+      otpRefs.current[focusIndex]?.focus();
+    }
+
+    if (code.length === OTP_LENGTH) {
+      void handleOtpLogin(code, "auto");
     }
   };
 
@@ -97,75 +213,16 @@ export default function LoginPage() {
     index: number,
     e: React.KeyboardEvent<HTMLInputElement>,
   ): void => {
-    if (e.key === "Backspace") {
-      if (!otpDigits[index] && index > 0) {
-        otpRefs.current[index - 1]?.focus();
-      }
+    if (e.key === "Backspace" && !otpDigits[index] && index > 0) {
+      otpRefs.current[index - 1]?.focus();
     }
   };
 
-  const handleSendOtp = async (): Promise<void> => {
+  const handleResend = (): void => {
+    setOtpDigits(emptyOtpDigits());
+    lastAttemptedOtp.current = null;
     setError("");
-
-    if (!validatePhone(phone)) {
-      setError(IRAN_PHONE_INVALID_MESSAGE);
-      return;
-    }
-
-    if (sendingOtp) return;
-
-    setSendingOtp(true);
-    try {
-      const normalizedPhone = normalizeIranPhone(phone)!;
-      const result = await sendOtp(normalizedPhone);
-      if (!result.success) {
-        setError(result.message ?? "خطا در ارسال کد تایید.");
-        return;
-      }
-
-      setMode("otp");
-      setCodeSent(true);
-      setCounter(120);
-      setOtpDigits(["", "", "", ""]);
-      setSmsSent(result.smsSent === true);
-      setDevOtpHint(result.smsSent ? "" : (result.devCode ?? ""));
-      setError("");
-    } catch {
-      setError("خطا در ارسال کد تایید.");
-    } finally {
-      setSendingOtp(false);
-    }
-  };
-
-  const handleSendOtpSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-    void handleSendOtp();
-  };
-
-  const handleOtpLogin = async (): Promise<void> => {
-    setError("");
-
-    const otp = otpDigits.join("");
-
-    if (otp.length !== 4) {
-      setError("کد تأیید باید ۴ رقم باشد");
-      return;
-    }
-
-    try {
-      const normalizedPhone = normalizeIranPhone(phone);
-      if (!normalizedPhone) {
-        setError(IRAN_PHONE_INVALID_MESSAGE);
-        return;
-      }
-
-      const result = await loginWithOtp(normalizedPhone, otp);
-      if (!result.user) {
-        setError(result.message ?? "کد تایید اشتباه است.");
-      }
-    } catch {
-      setError("خطا در اعتبارسنجی کد تایید.");
-    }
+    void handleSendOtp(phone);
   };
 
   const formatTime = (seconds: number): string => {
@@ -239,10 +296,17 @@ export default function LoginPage() {
             />
 
             <button
-              onClick={handlePasswordLogin}
-              className="w-full bg-cyan-500 text-black font-bold py-3 rounded-xl"
+              type="button"
+              onClick={() => void handlePasswordLogin()}
+              disabled={loggingIn}
+              aria-busy={loggingIn}
+              className="inline-flex w-full items-center justify-center bg-cyan-500 text-black font-bold py-3 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              ورود
+              <PendingButtonLabel
+                pending={loggingIn}
+                idle="ورود"
+                pendingLabel="در حال ورود..."
+              />
             </button>
           </div>
         ) : (
@@ -256,15 +320,21 @@ export default function LoginPage() {
                   onChange={handlePhoneChange}
                   placeholder="09 / +98 / 98 / 9..."
                   autoComplete="tel"
-                  className="w-full bg-surface border border-border rounded-xl px-4 py-3"
+                  disabled={sendingOtp}
+                  className="w-full bg-surface border border-border rounded-xl px-4 py-3 disabled:opacity-70"
                 />
 
                 <button
                   type="submit"
                   disabled={sendingOtp || !validatePhone(phone)}
-                  className="w-full bg-surface py-3 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                  aria-busy={sendingOtp}
+                  className="inline-flex w-full items-center justify-center bg-surface py-3 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {sendingOtp ? "در حال ارسال..." : "ارسال کد"}
+                  <PendingButtonLabel
+                    pending={sendingOtp}
+                    idle="ارسال کد"
+                    pendingLabel="در حال ارسال..."
+                  />
                 </button>
               </form>
             ) : (
@@ -274,19 +344,27 @@ export default function LoginPage() {
                   {otpDigits.map((digit, index) => (
                     <input
                       key={index}
-                      // ref={(el) => (otpRefs.current[index] = el)}
                       ref={(el) => {
                         otpRefs.current[index] = el;
                       }}
                       type="tel"
                       inputMode="numeric"
-                      maxLength={1}
+                      autoComplete={index === 0 ? "one-time-code" : "off"}
+                      maxLength={index === 0 ? OTP_LENGTH : 1}
                       value={digit}
+                      disabled={verifyingOtp || sendingOtp}
+                      onFocus={(event) => event.currentTarget.select()}
                       onChange={(e) =>
                         handleOtpDigitChange(index, e.target.value)
                       }
+                      onPaste={(event) => {
+                        const text = event.clipboardData.getData("text");
+                        if (text.replace(/\D/g, "").length <= 1) return;
+                        event.preventDefault();
+                        handleOtpDigitChange(index, text);
+                      }}
                       onKeyDown={(e) => handleOtpKeyDown(index, e)}
-                      className="w-12 h-12 text-center text-xl font-bold bg-surface border border-border rounded-xl"
+                      className="w-12 h-12 text-center text-xl font-bold bg-surface border border-border rounded-xl disabled:opacity-70"
                     />
                   ))}
                 </div>
@@ -310,26 +388,32 @@ export default function LoginPage() {
                 )}
 
                 <button
-                  onClick={handleOtpLogin}
-                  disabled={counter <= 0}
-                  className="w-full bg-cyan-500 text-black font-bold py-3 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                  type="button"
+                  onClick={() => void handleOtpLogin(otpDigits.join(""))}
+                  disabled={verifyingOtp || sendingOtp || counter <= 0}
+                  aria-busy={verifyingOtp}
+                  className="inline-flex w-full items-center justify-center bg-cyan-500 text-black font-bold py-3 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  تایید و ورود
+                  <PendingButtonLabel
+                    pending={verifyingOtp}
+                    idle="تایید و ورود"
+                    pendingLabel="در حال تأیید..."
+                  />
                 </button>
 
                 {counter <= 0 && (
                   <button
                     type="button"
-                    onClick={() => {
-                      setCodeSent(false);
-                      setOtpDigits(["", "", "", ""]);
-                      setDevOtpHint("");
-                      setSmsSent(false);
-                      setError("");
-                    }}
-                    className="w-full bg-surface py-3 rounded-xl"
+                    onClick={handleResend}
+                    disabled={sendingOtp}
+                    aria-busy={sendingOtp}
+                    className="inline-flex w-full items-center justify-center bg-surface py-3 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    ارسال مجدد کد
+                    <PendingButtonLabel
+                      pending={sendingOtp}
+                      idle="ارسال مجدد کد"
+                      pendingLabel="در حال ارسال..."
+                    />
                   </button>
                 )}
               </>
