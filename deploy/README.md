@@ -29,6 +29,7 @@ Required `.env` values:
 NEXT_PUBLIC_SITE_URL=https://shopghab.ir
 API_BASE_URL=https://api.k3isonfire.ir/api/v1
 NEXT_PUBLIC_API_TENANT_ID=shop-ghab
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-VTXN9PPFPE
 ```
 
 Set `ADMIN_PHONE_NUMBER` and `ADMIN_PASSWORD` before opening the admin UI.

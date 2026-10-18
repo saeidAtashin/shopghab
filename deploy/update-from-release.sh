@@ -58,6 +58,7 @@ if [ ! -f "$APP_DIR/.env" ]; then
     'NEXT_PUBLIC_SITE_URL=https://shopghab.ir' \
     'API_BASE_URL=https://api.k3isonfire.ir/api/v1' \
     'NEXT_PUBLIC_API_TENANT_ID=shop-ghab' \
+    'NEXT_PUBLIC_GA_MEASUREMENT_ID=G-VTXN9PPFPE' \
     > "$APP_DIR/.env"
 fi
 
