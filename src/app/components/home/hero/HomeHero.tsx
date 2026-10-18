@@ -68,7 +68,7 @@ export default function HomeHero() {
       }}
     >
       <div
-        className="relative aspect-[1024/682] w-full overflow-hidden bg-background"
+        className="relative aspect-[1024/682] w-full overflow-hidden bg-background lg:aspect-auto lg:h-dvh lg:w-full"
         aria-live="polite"
       >
         {SLIDES.map((slide, index) => {
