@@ -3,11 +3,11 @@
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/app/context/AuthContext";
 import { useShopCart } from "@/app/context/ShopCartContext";
-import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef, useCallback } from "react";
 import CartNavLink from "../shop/CartNavLink";
 import { navbarNavItems } from "@/lib/site-nav";
+import MenuLogoMark, { type MenuLogoMarkHandle } from "../ui/MenuLogoMark";
 import SiteLogo from "../ui/SiteLogo";
 import ThemeToggle from "../ui/ThemeToggle";
 import {
@@ -18,17 +18,9 @@ import {
   ShoppingCart,
 } from "lucide-react";
 
-const CD_SCROLL_FACTOR = 0.35;
-const CD_BURST_MS = 520;
-const CD_BURST_EXTRA_DEG = 900;
+const STROKE_SCROLL_RANGE = 480;
+const STROKE_BURST_MS = 520;
 const OPEN_MENU_DELAY_MS = 200;
-
-function getRotationDeg(el: HTMLElement) {
-  const { transform } = window.getComputedStyle(el);
-  if (!transform || transform === "none") return 0;
-  const { a, b } = new DOMMatrix(transform);
-  return (Math.atan2(b, a) * 180) / Math.PI;
-}
 
 function navLinkActive(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
@@ -43,29 +35,33 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState<string | null>(null);
   const [mobileBrandOpen, setMobileBrandOpen] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
-  const cdRef = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<MenuLogoMarkHandle>(null);
   const burstRafRef = useRef<number | null>(null);
   const openTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const scrollRafPendingRef = useRef(false);
   const isBurstingRef = useRef(false);
-  const scrollRotationRef = useRef(0);
+  const scrollProgressRef = useRef(0);
+  const displayedProgressRef = useRef(0);
 
   useEffect(() => {
-    const updateCdFromScroll = () => {
-      const el = cdRef.current;
-      if (!el || isBurstingRef.current) return;
-      el.style.transform = `rotate(${scrollRotationRef.current}deg)`;
+    const updateStrokeFromScroll = () => {
+      if (isBurstingRef.current) return;
+      displayedProgressRef.current = scrollProgressRef.current;
+      logoRef.current?.setProgress(scrollProgressRef.current);
     };
 
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
-      scrollRotationRef.current = window.scrollY * CD_SCROLL_FACTOR;
+      scrollProgressRef.current = Math.min(
+        1,
+        Math.max(0, window.scrollY / STROKE_SCROLL_RANGE),
+      );
 
       if (scrollRafPendingRef.current) return;
       scrollRafPendingRef.current = true;
       requestAnimationFrame(() => {
         scrollRafPendingRef.current = false;
-        updateCdFromScroll();
+        updateStrokeFromScroll();
       });
     };
 
@@ -88,22 +84,20 @@ export default function Navbar() {
     };
   }, [open]);
 
-  const burstCdOnOpen = useCallback(() => {
-    const el = cdRef.current;
-    if (!el) return;
-
+  const burstStrokeOnOpen = useCallback(() => {
     if (burstRafRef.current) cancelAnimationFrame(burstRafRef.current);
     isBurstingRef.current = true;
 
     const startTime = performance.now();
-    const startAngle = getRotationDeg(el);
+    const startProgress = displayedProgressRef.current;
 
     const tick = (now: number) => {
       const elapsed = now - startTime;
-      const progress = Math.min(elapsed / CD_BURST_MS, 1);
+      const progress = Math.min(elapsed / STROKE_BURST_MS, 1);
       const eased = 1 - (1 - progress) ** 3;
-      const burstAngle = startAngle + CD_BURST_EXTRA_DEG * eased;
-      el.style.transform = `rotate(${burstAngle}deg)`;
+      const value = startProgress + (1 - startProgress) * eased;
+      displayedProgressRef.current = value;
+      logoRef.current?.setProgress(value);
 
       if (progress < 1) {
         burstRafRef.current = requestAnimationFrame(tick);
@@ -111,7 +105,8 @@ export default function Navbar() {
       }
 
       isBurstingRef.current = false;
-      el.style.transform = `rotate(${scrollRotationRef.current}deg)`;
+      displayedProgressRef.current = scrollProgressRef.current;
+      logoRef.current?.setProgress(scrollProgressRef.current);
       burstRafRef.current = null;
     };
 
@@ -119,13 +114,13 @@ export default function Navbar() {
   }, []);
 
   const openMenu = useCallback(() => {
-    burstCdOnOpen();
+    burstStrokeOnOpen();
     if (openTimerRef.current) clearTimeout(openTimerRef.current);
     openTimerRef.current = setTimeout(() => {
       setOpen(true);
       openTimerRef.current = null;
     }, OPEN_MENU_DELAY_MS);
-  }, [burstCdOnOpen]);
+  }, [burstStrokeOnOpen]);
 
   const closeMenu = useCallback(() => {
     if (openTimerRef.current) {
@@ -134,9 +129,9 @@ export default function Navbar() {
     }
     setOpen(false);
     setMobileOpen(null);
-    const el = cdRef.current;
-    if (el && !isBurstingRef.current) {
-      el.style.transform = `rotate(${scrollRotationRef.current}deg)`;
+    if (!isBurstingRef.current) {
+      displayedProgressRef.current = scrollProgressRef.current;
+      logoRef.current?.setProgress(scrollProgressRef.current);
     }
   }, []);
 
@@ -218,19 +213,7 @@ export default function Navbar() {
                 aria-label={open ? "بستن منو" : "باز کردن منو"}
                 aria-expanded={open}
               >
-                <div
-                  ref={cdRef}
-                  className="h-10 w-10 will-change-transform sm:h-11 sm:w-11"
-                >
-                  <Image
-                    src="/cases/stickers/gamepad.svg"
-                    alt=""
-                    width={44}
-                    height={44}
-                    className="h-10 w-10 object-contain drop-shadow-[0_0_12px_rgba(6,182,212,0.35)] filter hue-rotate-331 saturate-200 sm:h-11 sm:w-11"
-                    priority
-                  />
-                </div>
+                <MenuLogoMark className="h-10 w-10 sm:h-11 sm:w-11" ref={logoRef} />
               </button>
               <CartNavLink
                 itemCount={itemCount}
