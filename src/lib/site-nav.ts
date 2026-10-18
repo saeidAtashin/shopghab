@@ -47,14 +47,6 @@ export const navbarNavItems: SiteNavItem[] = [
     href: "/create",
     children: buildCaseDesignNavChildren(),
   },
-  { title: "سبد خرید", href: "/cart" },
-  { title: "پیگیری سفارش", href: "/tracking" },
-];
-
-export const headerNavItems: SiteNavLeaf[] = [
-  { title: "خانه", href: "/" },
-  { title: "طراحی‌های آماده", href: "/designs" },
-  { title: "طراحی قاب", href: "/create" },
   { title: "پیگیری سفارش", href: "/tracking" },
 ];
 

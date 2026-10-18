@@ -1,46 +1,42 @@
-"use client";
-
-import Image from "next/image";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 
+import MenuLogoMark from "./MenuLogoMark";
+
 type SiteLogoProps = {
   className?: string;
-  imageClassName?: string;
-  textClassName?: string;
+  markClassName?: string;
   showText?: boolean;
+  onClick?: () => void;
 };
 
 export default function SiteLogo({
   className,
-  imageClassName,
-  textClassName,
-  showText = false,
+  markClassName,
+  showText = true,
+  onClick,
 }: SiteLogoProps) {
   return (
-    <Link href="/" className={cn("group flex items-center gap-3 transition-transform hover:scale-105", className,)}>
-      {showText && (
-        <div className={cn("hidden p-2 text-right sm:block", textClassName)}>
-          <p className="text-[11px] font-medium leading-none tracking-tight text-amber-400">
+    <Link
+      href="/"
+      onClick={onClick}
+      className={cn("group flex min-w-0 items-center gap-2.5", className)}
+      aria-label={showText ? undefined : "شاپ قاب"}
+    >
+      <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white p-1 shadow-sm ring-1 ring-black/10">
+        <MenuLogoMark className={cn("h-full w-full", markClassName)} />
+      </span>
+      {showText ? (
+        <span className="min-w-0 whitespace-nowrap text-right">
+          <span className="block text-[11px] font-medium leading-none tracking-tight text-amber-400">
             Shopghab
-          </p>
-          <p className="mt-1 text-base font-black leading-none text-white">
+          </span>
+          <span className="mt-1 block text-base font-black leading-none text-foreground">
             شاپ<span className="text-amber-400">‌قاب</span>
-          </p>
-        </div>
-      )}
-
-      <div className={cn("relative h-12 w-36 overflow-hidden", imageClassName)}>
-        <Image
-          src="/logos/shop-ghab-logo.png"
-          alt="لوگوی شاپ قاب"
-          fill
-          sizes="144px"
-          className="object-contain"
-          priority
-        />
-      </div>
+          </span>
+        </span>
+      ) : null}
     </Link>
   );
 }
