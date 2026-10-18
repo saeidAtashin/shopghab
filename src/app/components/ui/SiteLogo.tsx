@@ -8,6 +8,8 @@ type SiteLogoProps = {
   className?: string;
   markClassName?: string;
   showText?: boolean;
+  /** Light wordmark with a dark edge, for the bar over mixed banners. */
+  onMedia?: boolean;
   onClick?: () => void;
 };
 
@@ -15,6 +17,7 @@ export default function SiteLogo({
   className,
   markClassName,
   showText = true,
+  onMedia = false,
   onClick,
 }: SiteLogoProps) {
   return (
@@ -29,10 +32,23 @@ export default function SiteLogo({
       </span>
       {showText ? (
         <span className="min-w-0 whitespace-nowrap text-right">
-          <span className="block text-[11px] font-medium leading-none tracking-tight text-amber-400">
+          <span
+            className={cn(
+              "block text-[11px] font-medium leading-none tracking-tight text-amber-400",
+              onMedia &&
+                "[text-shadow:0_0_1px_#000,0_1px_2px_rgba(0,0,0,0.95),0_-1px_2px_rgba(0,0,0,0.85)]",
+            )}
+          >
             Shopghab
           </span>
-          <span className="mt-1 block text-base font-black leading-none text-foreground">
+          <span
+            className={cn(
+              "mt-1 block text-base font-black leading-none",
+              onMedia
+                ? "text-white [text-shadow:0_0_1px_#000,0_1px_2px_rgba(0,0,0,0.95),0_-1px_2px_rgba(0,0,0,0.85),1px_0_2px_rgba(0,0,0,0.85),-1px_0_2px_rgba(0,0,0,0.85)]"
+                : "text-foreground",
+            )}
+          >
             شاپ<span className="text-amber-400">‌قاب</span>
           </span>
         </span>

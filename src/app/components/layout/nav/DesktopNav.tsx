@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 
 import { isNavActive } from "./is-nav-active";
 import { navItemIcon } from "./nav-icons";
-import { ICON_SIZE } from "./nav-styles";
+import { ICON_SIZE, navBarLabelClass } from "./nav-styles";
 
 function LeafLink({
   href,
@@ -31,7 +31,8 @@ function LeafLink({
       aria-current={active ? "page" : undefined}
       className={cn(
         "group relative inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-colors xl:px-4",
-        active ? "text-cyan-400" : "text-muted hover:text-cyan-400",
+        navBarLabelClass,
+        active ? "text-cyan-300" : "text-white hover:text-cyan-300",
         className,
       )}
     >
@@ -137,7 +138,8 @@ function DesktopMenuItem({ item }: { item: SiteNavItem }) {
           aria-current={active ? "page" : undefined}
           className={cn(
             "inline-flex items-center gap-1.5 text-sm font-medium transition-colors",
-            active ? "text-cyan-400" : "text-muted hover:text-cyan-400",
+            navBarLabelClass,
+            active ? "text-cyan-300" : "text-white hover:text-cyan-300",
           )}
         >
           {Icon ? <Icon size={ICON_SIZE} aria-hidden /> : null}
@@ -148,7 +150,10 @@ function DesktopMenuItem({ item }: { item: SiteNavItem }) {
           aria-expanded={open}
           aria-controls={menuId}
           aria-label={`${item.title} — زیرمنو`}
-          className="flex items-center rounded-md p-0.5 text-muted transition-colors hover:text-cyan-400"
+          className={cn(
+            "flex items-center rounded-md p-0.5 text-white transition-colors hover:text-cyan-300",
+            navBarLabelClass,
+          )}
           onClick={() => setPinned((value) => !value)}
         >
           <ChevronDown

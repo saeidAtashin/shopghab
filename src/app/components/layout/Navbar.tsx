@@ -14,36 +14,10 @@ import { ICON_SIZE, iconButtonClass } from "./nav/nav-styles";
 export default function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
-
-  useEffect(() => {
-    let frame = 0;
-    let scrolledNow = window.scrollY > 20;
-
-    const applyScroll = () => {
-      frame = 0;
-      const next = window.scrollY > 20;
-      if (next === scrolledNow) return;
-      scrolledNow = next;
-      setScrolled(next);
-    };
-
-    const handleScroll = () => {
-      if (frame) return;
-      frame = requestAnimationFrame(applyScroll);
-    };
-
-    setScrolled(scrolledNow);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      cancelAnimationFrame(frame);
-    };
-  }, []);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -65,15 +39,9 @@ export default function Navbar() {
 
   return (
     <>
-      <header
-        className={`fixed inset-x-0 top-0 z-50 h-16 border-b transition-all duration-500 ${
-          scrolled
-            ? "border-border bg-background/80 backdrop-blur-2xl"
-            : "border-transparent bg-transparent"
-        }`}
-      >
-        <div className="mx-auto flex h-full max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:grid lg:grid-cols-[auto_minmax(0,1fr)_auto]">
-          <SiteLogo />
+      <header className="fixed inset-x-0 top-0 z-50 h-[4.5rem] border-b border-border bg-black/30">
+        <div className="mx-auto flex h-full max-w-7xl items-center justify-between gap-3 px-4 pt-2 sm:px-6 lg:grid lg:grid-cols-[auto_minmax(0,1fr)_auto]">
+          <SiteLogo onMedia />
           <DesktopNav />
           <div className="flex items-center gap-2">
             <NavActions layout="bar" />

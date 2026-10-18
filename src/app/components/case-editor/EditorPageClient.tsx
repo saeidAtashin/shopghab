@@ -550,7 +550,7 @@ export default function EditorPageClient({
 
   if (isMobileViewport) {
     return (
-      <div className="flex h-dvh max-h-dvh flex-col overflow-hidden overscroll-none bg-background pt-16">
+      <div className="flex h-dvh max-h-dvh flex-col overflow-hidden overscroll-none bg-background pt-[4.5rem]">
         <div
           data-editor-guide="toolbar"
           className="flex shrink-0 flex-nowrap items-center gap-1 overflow-x-auto overscroll-x-contain border-b border-border px-1.5 py-1.5"

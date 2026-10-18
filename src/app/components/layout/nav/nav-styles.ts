@@ -1,5 +1,9 @@
 export const ICON_SIZE = 18;
 
+/** Dark edge so light labels stay readable on light and dark banners. */
+export const navBarLabelClass =
+  "[text-shadow:0_0_1px_#000,0_1px_2px_rgba(0,0,0,0.95),0_-1px_2px_rgba(0,0,0,0.85),1px_0_2px_rgba(0,0,0,0.85),-1px_0_2px_rgba(0,0,0,0.85)]";
+
 export const iconButtonClass =
   "inline-flex items-center justify-center rounded-lg border border-border bg-card p-2.5 text-foreground transition hover:border-cyan-500/50 touch-manipulation";
 
