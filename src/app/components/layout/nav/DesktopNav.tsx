@@ -48,28 +48,34 @@ function LeafLink({
   );
 }
 
+const menuItemClass =
+  "block rounded-xl px-4 py-2.5 text-sm text-foreground transition-colors hover:bg-surface hover:text-cyan-300";
+
 function BrandFlyout({ sub }: { sub: SiteNavBranch }) {
   return (
     <div className="group/brand relative">
       <Link
         href={sub.href}
-        className="flex items-center justify-between rounded-xl px-4 py-2.5 text-sm text-muted transition-all hover:bg-surface hover:text-foreground"
+        className="flex items-center justify-between rounded-xl px-4 py-2.5 text-sm text-foreground transition-colors hover:bg-surface hover:text-cyan-300"
       >
         <span>{sub.title}</span>
         <ChevronDown
           size={ICON_SIZE}
           aria-hidden
-          className="-rotate-90 opacity-50 transition-transform group-hover/brand:opacity-100 group-focus-within/brand:opacity-100"
+          className="rotate-90 opacity-70 transition-opacity group-hover/brand:opacity-100 group-focus-within/brand:opacity-100"
         />
       </Link>
-      <div className="invisible absolute top-0 start-full z-10 ms-1 w-48 translate-x-2 opacity-0 transition-all duration-200 group-hover/brand:visible group-hover/brand:translate-x-0 group-hover/brand:opacity-100 group-focus-within/brand:visible group-focus-within/brand:translate-x-0 group-focus-within/brand:opacity-100">
-        <div className="rounded-2xl border border-border bg-card/95 p-2 shadow-2xl backdrop-blur-2xl">
+      <div
+        className={cn(
+          "invisible absolute top-0 z-20 w-52 ps-2 opacity-0 transition-all duration-200",
+          "start-[calc(100%-0.5rem)]",
+          "group-hover/brand:visible group-hover/brand:start-full group-hover/brand:opacity-100",
+          "group-focus-within/brand:visible group-focus-within/brand:start-full group-focus-within/brand:opacity-100",
+        )}
+      >
+        <div className="rounded-2xl border border-border bg-card p-2 shadow-2xl shadow-black/50">
           {sub.children?.map((series) => (
-            <Link
-              key={series.href}
-              href={series.href}
-              className="block rounded-xl px-3 py-2 text-sm text-muted transition-all hover:bg-surface hover:text-foreground"
-            >
+            <Link key={series.href} href={series.href} className={menuItemClass}>
               {series.title}
             </Link>
           ))}
@@ -167,22 +173,18 @@ function DesktopMenuItem({ item }: { item: SiteNavItem }) {
       <div
         id={menuId}
         className={cn(
-          "absolute top-full start-0 z-10 w-56 pt-4 transition-all duration-300",
+          "absolute top-full start-0 z-10 w-56 pt-2 transition-all duration-300",
           open
             ? "visible translate-y-0 opacity-100"
             : "invisible translate-y-2 opacity-0",
         )}
       >
-        <div className="rounded-2xl border border-border bg-card/90 p-2 shadow-2xl backdrop-blur-2xl">
+        <div className="rounded-2xl border border-border bg-card p-2 shadow-2xl shadow-black/50">
           {item.children.map((sub) =>
             sub.children ? (
               <BrandFlyout key={sub.href} sub={sub} />
             ) : (
-              <Link
-                key={sub.href}
-                href={sub.href}
-                className="block rounded-xl px-4 py-2.5 text-sm text-muted transition-all hover:bg-surface hover:text-foreground"
-              >
+              <Link key={sub.href} href={sub.href} className={menuItemClass}>
                 {sub.title}
               </Link>
             ),

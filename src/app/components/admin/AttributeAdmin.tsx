@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type FormEvent } from "react";
 
+import AdminSelect from "@/app/components/admin/AdminSelect";
 import { adminJson } from "@/app/components/admin/AdminShell";
 import type { AttributeGroupRecord, AttributeValueRecord } from "@/lib/catalog/schema";
 
@@ -157,11 +158,12 @@ export default function AttributeAdmin() {
       </form>
       <form onSubmit={(event) => void createValue(event)} className="grid max-w-xl gap-3 rounded-3xl border border-border p-4">
         <h2 className="font-bold">مقدار جدید</h2>
-        <select value={valueGroupId} onChange={(event) => setValueGroupId(event.target.value)} className={inputClass}>
-          {groups.map((group) => (
-            <option key={group.id} value={group.id}>{group.name}</option>
-          ))}
-        </select>
+        <AdminSelect
+          value={valueGroupId}
+          onChange={setValueGroupId}
+          ariaLabel="گروه ویژگی"
+          options={groups.map((group) => ({ value: group.id, label: group.name }))}
+        />
         <input value={valueName} onChange={(event) => setValueName(event.target.value)} placeholder="نام مقدار" className={inputClass} required />
         <button type="submit" className="rounded-2xl bg-cyan-500 px-4 py-2 text-sm font-bold text-black">ذخیره مقدار</button>
       </form>
@@ -265,8 +267,8 @@ function ValueEditor({
 
   return (
     <li>
-      <form onSubmit={(event) => void save(event)} className="flex flex-wrap items-center gap-2">
-        <input value={name} onChange={(event) => setName(event.target.value)} className={`${inputClass} max-w-xs`} required aria-label={`نام ${value.name}`} />
+      <form onSubmit={(event) => void save(event)} className="grid grid-cols-1 items-center gap-2 md:grid-cols-[minmax(0,1fr)_5.5rem_5rem]">
+        <input value={name} onChange={(event) => setName(event.target.value)} className={inputClass} required aria-label={`نام ${value.name}`} />
         <button type="submit" disabled={saving} className="rounded-2xl border border-border px-3 py-2 text-xs disabled:opacity-60">
           ذخیره
         </button>

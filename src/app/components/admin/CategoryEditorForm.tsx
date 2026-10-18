@@ -3,8 +3,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
+import AdminSelect from "@/app/components/admin/AdminSelect";
 import { adminJson } from "@/app/components/admin/AdminShell";
 import {
   categoryWriteSchema,
@@ -108,19 +109,26 @@ export default function CategoryEditorForm({ category, categories, parentId }: P
       </label>
       <label className="text-sm">
         دسته والد
-        <select
-          {...form.register("parentId", {
-            setValueAs: (value: string) => (value ? value : null),
-          })}
-          className={`${inputClass} mt-1`}
-        >
-          <option value="">بدون والد</option>
-          {parents.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.parentId ? `${names[item.parentId] ?? ""} / ${item.name}` : item.name}
-            </option>
-          ))}
-        </select>
+        <Controller
+          control={form.control}
+          name="parentId"
+          render={({ field }) => (
+            <AdminSelect
+              value={field.value ?? ""}
+              onChange={(next) => field.onChange(next ? next : null)}
+              onBlur={field.onBlur}
+              ariaLabel="دسته والد"
+              className="mt-1"
+              options={[
+                { value: "", label: "بدون والد" },
+                ...parents.map((item) => ({
+                  value: item.id,
+                  label: item.parentId ? `${names[item.parentId] ?? ""} / ${item.name}` : item.name,
+                })),
+              ]}
+            />
+          )}
+        />
       </label>
       <label className="text-sm">
         توضیحات
@@ -141,11 +149,24 @@ export default function CategoryEditorForm({ category, categories, parentId }: P
       </label>
       <label className="text-sm">
         وضعیت
-        <select {...form.register("status")} className={`${inputClass} mt-1`}>
-          <option value="active">فعال</option>
-          <option value="inactive">غیرفعال</option>
-          <option value="archived">بایگانی</option>
-        </select>
+        <Controller
+          control={form.control}
+          name="status"
+          render={({ field }) => (
+            <AdminSelect
+              value={field.value}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              ariaLabel="وضعیت"
+              className="mt-1"
+              options={[
+                { value: "active", label: "فعال" },
+                { value: "inactive", label: "غیرفعال" },
+                { value: "archived", label: "بایگانی" },
+              ]}
+            />
+          )}
+        />
       </label>
       <label className="text-sm">
         ترتیب

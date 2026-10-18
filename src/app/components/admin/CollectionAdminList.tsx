@@ -71,20 +71,22 @@ export default function CollectionAdminList() {
       ) : null}
       <div className="grid gap-3">
         {collections.map((collection) => (
-          <article key={collection.id} className="flex flex-wrap items-center justify-between gap-3 rounded-3xl border border-border bg-surface p-4">
-            <div>
-              <h2 className="font-bold">{collection.name}</h2>
-              <p className="text-xs text-muted">
-                {collection.slug} · {STATUS_LABEL[collection.status]}
-              </p>
+          <article
+            key={collection.id}
+            className="grid grid-cols-1 items-center gap-3 rounded-3xl border border-border bg-surface p-4 md:grid-cols-[minmax(0,1fr)_7rem_16rem]"
+          >
+            <div className="min-w-0">
+              <h2 className="truncate font-bold">{collection.name}</h2>
+              <p className="truncate text-xs text-muted">{collection.slug}</p>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <p className="text-sm">{STATUS_LABEL[collection.status]}</p>
+            <div className="grid grid-cols-3 gap-2">
               {collection.status === "active" ? (
                 <button
                   type="button"
                   disabled={busyId === collection.id}
                   onClick={() => void setStatus(collection, "inactive")}
-                  className="rounded-2xl border border-border px-3 py-2 text-sm disabled:opacity-60"
+                  className="rounded-2xl border border-border px-2 py-2 text-sm disabled:opacity-60"
                 >
                   غیرفعال
                 </button>
@@ -93,7 +95,7 @@ export default function CollectionAdminList() {
                   type="button"
                   disabled={busyId === collection.id}
                   onClick={() => void setStatus(collection, "active")}
-                  className="rounded-2xl border border-border px-3 py-2 text-sm disabled:opacity-60"
+                  className="rounded-2xl border border-border px-2 py-2 text-sm disabled:opacity-60"
                 >
                   فعال
                 </button>
@@ -103,12 +105,14 @@ export default function CollectionAdminList() {
                   type="button"
                   disabled={busyId === collection.id}
                   onClick={() => void setStatus(collection, "archived")}
-                  className="rounded-2xl border border-border px-3 py-2 text-sm disabled:opacity-60"
+                  className="rounded-2xl border border-border px-2 py-2 text-sm disabled:opacity-60"
                 >
                   بایگانی
                 </button>
-              ) : null}
-              <Link href={`/admin/collections/${collection.id}`} className="rounded-2xl border border-border px-4 py-2 text-sm">
+              ) : (
+                <span />
+              )}
+              <Link href={`/admin/collections/${collection.id}`} className="rounded-2xl border border-border px-2 py-2 text-center text-sm">
                 ویرایش
               </Link>
             </div>

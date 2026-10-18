@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import AdminSelect from "@/app/components/admin/AdminSelect";
 import { adminJson } from "@/app/components/admin/AdminShell";
 import { designedAssetUrl } from "@/lib/designed-assets";
 import type { CategoryRecord, DesignRecord, DesignStatus } from "@/lib/catalog/schema";
@@ -111,36 +112,32 @@ export default function DesignAdminList() {
           className="rounded-2xl border border-border bg-input-bg px-4 py-3 outline-none focus:border-cyan-500"
           aria-label="جستجو"
         />
-        <select
+        <AdminSelect
           value={categoryId}
-          onChange={(event) => {
+          onChange={(next) => {
             setPage(1);
-            setCategoryId(event.target.value);
+            setCategoryId(next);
           }}
-          className="rounded-2xl border border-border bg-input-bg px-4 py-3"
-          aria-label="دسته"
-        >
-          <option value="">همه دسته‌ها</option>
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          ))}
-        </select>
-        <select
+          ariaLabel="دسته"
+          options={[
+            { value: "", label: "همه دسته‌ها" },
+            ...categories.map((category) => ({ value: category.id, label: category.name })),
+          ]}
+        />
+        <AdminSelect
           value={status}
-          onChange={(event) => {
+          onChange={(next) => {
             setPage(1);
-            setStatus(event.target.value);
+            setStatus(next);
           }}
-          className="rounded-2xl border border-border bg-input-bg px-4 py-3"
-          aria-label="وضعیت"
-        >
-          <option value="all">همه وضعیت‌ها</option>
-          <option value="published">منتشر شده</option>
-          <option value="draft">پیش‌نویس</option>
-          <option value="archived">بایگانی</option>
-        </select>
+          ariaLabel="وضعیت"
+          options={[
+            { value: "all", label: "همه وضعیت‌ها" },
+            { value: "published", label: "منتشر شده" },
+            { value: "draft", label: "پیش‌نویس" },
+            { value: "archived", label: "بایگانی" },
+          ]}
+        />
         <div className="flex flex-wrap items-center gap-4 text-sm">
           <label className="flex items-center gap-2">
             <input
@@ -179,44 +176,44 @@ export default function DesignAdminList() {
         {items.map((design) => {
           const image = design.thumbnailPath || design.imagePath;
           return (
-            <article key={design.id} className="flex flex-col gap-4 rounded-3xl border border-border bg-surface p-4 md:flex-row md:items-center">
-              <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-2xl bg-background">
+            <article
+              key={design.id}
+              className="grid grid-cols-1 items-center gap-4 rounded-3xl border border-border bg-surface p-4 md:grid-cols-[5rem_minmax(0,1fr)_10rem_11rem]"
+            >
+              <div className="relative h-20 w-20 overflow-hidden rounded-2xl bg-background">
                 {image ? (
                   <Image src={designedAssetUrl(image)} alt={design.alt || design.title} fill sizes="80px" className="object-contain" />
                 ) : null}
               </div>
-              <div className="min-w-0 flex-1">
+              <div className="min-w-0">
                 <h2 className="font-bold">{design.title}</h2>
                 <p className="truncate text-xs text-muted">{design.slug} · {design.id}</p>
               </div>
-              <label className="text-sm">
-                <span className="mb-1 block text-muted">وضعیت</span>
-                <select
-                  value={design.status}
-                  onChange={(event) => void changeStatus(design, event.target.value as DesignStatus)}
-                  className="rounded-2xl border border-border bg-input-bg px-3 py-2"
-                  aria-label={`وضعیت ${design.title}`}
-                >
-                  {(Object.keys(STATUS_LABEL) as DesignStatus[]).map((key) => (
-                    <option key={key} value={key}>
-                      {STATUS_LABEL[key]}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <div className="flex gap-2">
-                <Link href={`/admin/designs/${design.id}`} className="rounded-2xl border border-border px-4 py-2 text-sm">
+              <AdminSelect
+                value={design.status}
+                onChange={(next) => void changeStatus(design, next as DesignStatus)}
+                ariaLabel={`وضعیت ${design.title}`}
+                className="px-3 py-2"
+                options={(Object.keys(STATUS_LABEL) as DesignStatus[]).map((key) => ({
+                  value: key,
+                  label: STATUS_LABEL[key],
+                }))}
+              />
+              <div className="grid grid-cols-2 gap-2">
+                <Link href={`/admin/designs/${design.id}`} className="rounded-2xl border border-border px-3 py-2 text-center text-sm">
                   ویرایش
                 </Link>
                 {design.status !== "archived" ? (
                   <button
                     type="button"
                     onClick={() => void changeStatus(design, "archived")}
-                    className="rounded-2xl border border-border px-4 py-2 text-sm"
+                    className="rounded-2xl border border-border px-3 py-2 text-sm"
                   >
                     بایگانی
                   </button>
-                ) : null}
+                ) : (
+                  <span />
+                )}
               </div>
             </article>
           );

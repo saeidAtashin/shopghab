@@ -3,8 +3,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
+import AdminSelect from "@/app/components/admin/AdminSelect";
 import { adminJson } from "@/app/components/admin/AdminShell";
 import {
   collectionWriteSchema,
@@ -94,11 +95,24 @@ export default function CollectionEditorForm({ collection }: { collection?: Coll
       </label>
       <label className="text-sm">
         وضعیت
-        <select {...form.register("status")} className={`${inputClass} mt-1`}>
-          <option value="active">فعال</option>
-          <option value="inactive">غیرفعال</option>
-          <option value="archived">بایگانی</option>
-        </select>
+        <Controller
+          control={form.control}
+          name="status"
+          render={({ field }) => (
+            <AdminSelect
+              value={field.value}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              ariaLabel="وضعیت"
+              className="mt-1"
+              options={[
+                { value: "active", label: "فعال" },
+                { value: "inactive", label: "غیرفعال" },
+                { value: "archived", label: "بایگانی" },
+              ]}
+            />
+          )}
+        />
       </label>
       <label className="text-sm">
         ترتیب

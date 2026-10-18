@@ -136,12 +136,12 @@ export default function CategoryAdminList() {
     const parent = categories.find((item) => item.id === category.parentId);
     return (
       <li key={category.id} className="border-b border-border/60 py-3">
-        <div className="flex flex-wrap items-center justify-between gap-3" style={{ paddingInlineStart: depth * 20 }}>
-          <div className="flex items-start gap-2">
+        <div className="grid grid-cols-1 items-center gap-3 md:grid-cols-[minmax(0,1fr)_36rem]">
+          <div className="flex min-w-0 items-start gap-2" style={{ paddingInlineStart: depth * 20 }}>
             {children.length > 0 ? (
               <button
                 type="button"
-                className="mt-1 w-6 text-sm text-muted"
+                className="mt-1 w-6 shrink-0 text-sm text-muted"
                 aria-expanded={open}
                 onClick={() =>
                   setOpenIds((current) =>
@@ -154,11 +154,11 @@ export default function CategoryAdminList() {
                 {open ? "−" : "+"}
               </button>
             ) : (
-              <span className="w-6" />
+              <span className="w-6 shrink-0" />
             )}
-            <div>
-              <h2 className="font-bold">{category.name}</h2>
-              <p className="text-xs text-muted">
+            <div className="min-w-0">
+              <h2 className="truncate font-bold">{category.name}</h2>
+              <p className="truncate text-xs text-muted">
                 {category.slug}
                 {" · "}
                 والد: {parent?.name ?? "ریشه"}
@@ -169,19 +169,21 @@ export default function CategoryAdminList() {
               </p>
             </div>
           </div>
-          <div className="flex flex-wrap gap-2">
-            <button type="button" disabled={busyId === category.id} onClick={() => void move(category, -1)} className="rounded-2xl border border-border px-3 py-1 text-xs">بالا</button>
-            <button type="button" disabled={busyId === category.id} onClick={() => void move(category, 1)} className="rounded-2xl border border-border px-3 py-1 text-xs">پایین</button>
-            <Link href={`/admin/categories/new?parent=${category.id}`} className="rounded-2xl border border-border px-3 py-1 text-xs">زیردسته</Link>
-            <Link href={`/admin/categories/${category.id}`} className="rounded-2xl border border-border px-3 py-1 text-xs">ویرایش</Link>
+          <div className="grid grid-cols-3 gap-2 md:grid-cols-6">
+            <button type="button" disabled={busyId === category.id} onClick={() => void move(category, -1)} className="rounded-2xl border border-border px-2 py-1 text-xs">بالا</button>
+            <button type="button" disabled={busyId === category.id} onClick={() => void move(category, 1)} className="rounded-2xl border border-border px-2 py-1 text-xs">پایین</button>
+            <Link href={`/admin/categories/new?parent=${category.id}`} className="rounded-2xl border border-border px-2 py-1 text-center text-xs">زیردسته</Link>
+            <Link href={`/admin/categories/${category.id}`} className="rounded-2xl border border-border px-2 py-1 text-center text-xs">ویرایش</Link>
             {category.status === "active" ? (
-              <button type="button" disabled={busyId === category.id} onClick={() => void setStatus(category, "inactive")} className="rounded-2xl border border-border px-3 py-1 text-xs">غیرفعال</button>
+              <button type="button" disabled={busyId === category.id} onClick={() => void setStatus(category, "inactive")} className="rounded-2xl border border-border px-2 py-1 text-xs">غیرفعال</button>
             ) : (
-              <button type="button" disabled={busyId === category.id} onClick={() => void setStatus(category, "active")} className="rounded-2xl border border-border px-3 py-1 text-xs">فعال</button>
+              <button type="button" disabled={busyId === category.id} onClick={() => void setStatus(category, "active")} className="rounded-2xl border border-border px-2 py-1 text-xs">فعال</button>
             )}
             {category.status !== "archived" ? (
-              <button type="button" disabled={busyId === category.id} onClick={() => void setStatus(category, "archived")} className="rounded-2xl border border-border px-3 py-1 text-xs">بایگانی</button>
-            ) : null}
+              <button type="button" disabled={busyId === category.id} onClick={() => void setStatus(category, "archived")} className="rounded-2xl border border-border px-2 py-1 text-xs">بایگانی</button>
+            ) : (
+              <span />
+            )}
           </div>
         </div>
         {open && children.length > 0 ? <ul>{children.map((child) => renderNode(child, depth + 1))}</ul> : null}

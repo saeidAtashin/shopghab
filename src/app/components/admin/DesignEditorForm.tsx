@@ -4,8 +4,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState, type ReactNode } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
+import AdminSelect from "@/app/components/admin/AdminSelect";
 import { adminJson } from "@/app/components/admin/AdminShell";
 import CategoryMultiSelect from "@/app/components/admin/CategoryMultiSelect";
 import { designedAssetUrl } from "@/lib/designed-assets";
@@ -332,11 +333,24 @@ export default function DesignEditorForm({ design, categories, groups, values, c
           <div className="grid gap-4 sm:grid-cols-3">
             <label className="text-sm">
               وضعیت
-              <select {...form.register("status")} className={`${inputClass} mt-1`}>
-                <option value="draft">پیش‌نویس</option>
-                <option value="published">منتشر شده</option>
-                <option value="archived">بایگانی</option>
-              </select>
+              <Controller
+                control={form.control}
+                name="status"
+                render={({ field }) => (
+                  <AdminSelect
+                    value={field.value}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    ariaLabel="وضعیت"
+                    className="mt-1"
+                    options={[
+                      { value: "draft", label: "پیش‌نویس" },
+                      { value: "published", label: "منتشر شده" },
+                      { value: "archived", label: "بایگانی" },
+                    ]}
+                  />
+                )}
+              />
             </label>
             <label className="text-sm">
               ترتیب
