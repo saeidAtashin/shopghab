@@ -1,8 +1,12 @@
 import { execFileSync, spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import {
+  closeSync,
   existsSync,
   mkdirSync,
+  openSync,
   readFileSync,
+  readSync,
   readdirSync,
   statSync,
   writeFileSync,
@@ -29,6 +33,8 @@ const MAX_EXPORT_EDGE = 2048;
 const THUMB_MAX_EDGE = 400;
 const OG_WIDTH = 1200;
 const OG_HEIGHT = 630;
+const SAFE_SLUG = /^[a-z0-9]+(?:[_-][a-z0-9]+)*$/;
+const SLUG_MAX = 60;
 
 type DesignedMetaEntry = {
   title?: string;
@@ -88,6 +94,87 @@ function getArg(name: string): string | undefined {
 
 function slugFromFilename(filename: string): string {
   return basename(filename).replace(/\.(eps|jpe?g|jpg)$/i, "");
+}
+
+function hasJpegMagic(absPath: string): boolean {
+  const fd = openSync(absPath, "r");
+  try {
+    const header = Buffer.alloc(3);
+    const read = readSync(fd, header, 0, 3, 0);
+    return read === 3 && header[0] === 0xff && header[1] === 0xd8 && header[2] === 0xff;
+  } finally {
+    closeSync(fd);
+  }
+}
+
+function isDesignSource(name: string, absPath: string): boolean {
+  if (/\.(eps|jpe?g)$/i.test(name)) return true;
+  if (/\.[a-z0-9]+$/i.test(name)) return false;
+  return hasJpegMagic(absPath);
+}
+
+function sanitizeSlug(raw: string, sourceKey: string): string {
+  let base = raw
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  if (base.length > SLUG_MAX) {
+    base = base.slice(0, SLUG_MAX).replace(/-+$/g, "");
+  }
+  if (!base || !SAFE_SLUG.test(base)) {
+    const hash = createHash("sha256").update(sourceKey).digest("hex").slice(0, 10);
+    return `design-${hash}`;
+  }
+  return base;
+}
+
+function reserveSlug(base: string, reserved: Set<string>): string {
+  let candidate = base;
+  let suffix = 2;
+  while (reserved.has(candidate) || !SAFE_SLUG.test(candidate)) {
+    const tail = `-${suffix}`;
+    const trimmed = base.slice(0, Math.max(1, SLUG_MAX - tail.length)).replace(/-+$/g, "");
+    candidate = `${trimmed}${tail}`;
+    suffix += 1;
+    if (suffix > 500) {
+      throw new Error(`Could not reserve a slug for ${base}`);
+    }
+  }
+  reserved.add(candidate);
+  return candidate;
+}
+
+function assignSafeSlugs(sources: SourceCandidate[]): SourceCandidate[] {
+  const reserved = new Set<string>();
+  for (const slug of catalogIdentity().slugs) reserved.add(slug.toLowerCase());
+  for (const entry of readExistingManifest()) reserved.add(entry.slug.toLowerCase());
+  for (const source of sources) {
+    if (SAFE_SLUG.test(source.slug)) reserved.delete(source.slug);
+  }
+
+  return sources.map((source) => {
+    const base = SAFE_SLUG.test(source.slug) ? source.slug : sanitizeSlug(source.slug, source.sourceKey);
+    const slug = reserveSlug(base, reserved);
+    return slug === source.slug ? source : { ...source, slug };
+  });
+}
+
+function dedupeIdenticalBytes(sources: SourceCandidate[]): SourceCandidate[] {
+  const seen = new Map<string, string>();
+  const kept: SourceCandidate[] = [];
+  for (const source of sources) {
+    const hash = createHash("sha256").update(readFileSync(source.path)).digest("hex");
+    const first = seen.get(hash);
+    if (first) {
+      console.log(`  Skipping duplicate bytes: ${basename(source.path)} matches ${first}`);
+      continue;
+    }
+    seen.set(hash, basename(source.path));
+    kept.push(source);
+  }
+  return kept;
 }
 
 function titleFromSlug(slug: string): string {
@@ -461,7 +548,9 @@ async function convertJpgFallback(
   conversionMethod: ManifestEntry["conversionMethod"];
 }> {
   const webpPath = join(DESIGNED_DIR, `${slug}.webp`);
-  const meta = await sharp(inputPath).metadata();
+  // libvips treats "#" in a filename as a page selector, so read the bytes directly.
+  const input = readFileSync(inputPath);
+  const meta = await sharp(input).metadata();
   const width = meta.width ?? MAX_EXPORT_EDGE;
   const height = meta.height ?? MAX_EXPORT_EDGE;
   const longest = Math.max(width, height);
@@ -473,7 +562,7 @@ async function convertJpgFallback(
         }
       : undefined;
 
-  await sharp(inputPath)
+  await sharp(input)
     .resize(resize)
     .webp({ quality: 85 })
     .toFile(webpPath);
@@ -527,7 +616,7 @@ function walkSourceFiles(
       continue;
     }
 
-    if (/\.(eps|jpe?g)$/i.test(name)) {
+    if (isDesignSource(name, absPath)) {
       files.push({
         relativePath: relativePath.replace(/\\/g, "/"),
         absPath,
@@ -551,6 +640,7 @@ function catalogIdentity(): { stems: Set<string>; slugs: Set<string> } {
       templateSlug?: string;
       legacySlug?: string;
     }>;
+    redirects?: Array<{ fromSlug?: string }>;
   };
 
   for (const design of catalog.designs ?? []) {
@@ -560,6 +650,9 @@ function catalogIdentity(): { stems: Set<string>; slugs: Set<string> } {
     for (const value of [design.slug, design.templateSlug, design.legacySlug]) {
       if (value) slugs.add(value.toLowerCase());
     }
+  }
+  for (const redirect of catalog.redirects ?? []) {
+    if (redirect.fromSlug) slugs.add(redirect.fromSlug.toLowerCase());
   }
 
   return { stems, slugs };
@@ -855,6 +948,9 @@ async function main(): Promise<void> {
       `New-only: ${sources.length} new source(s), skipped ${before - sources.length} already in the catalog.`,
     );
   }
+
+  sources = dedupeIdenticalBytes(sources);
+  sources = assignSafeSlugs(sources);
 
   if (sources.length === 0) {
     console.log(
