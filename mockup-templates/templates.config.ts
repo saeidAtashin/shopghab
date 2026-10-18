@@ -1,9 +1,9 @@
 import type { MockupTemplateConfig } from "@/lib/mockups/types";
 
 /**
- * Placement comes from each PSD Smart Object. A Photoshop warp descriptor with
- * style "none" is not a mesh, so its four corners are used as-is.
- * Files without a plain 8-point transform stay disabled.
+ * Placement comes from each PSD Smart Object. Rotated and perspective cases use
+ * the non-affine corners, so the design turns with the case. A mesh warp is not
+ * a four-corner placement and stays disabled.
  */
 export const mockupTemplates: MockupTemplateConfig[] = [
   {
@@ -50,10 +50,10 @@ export const mockupTemplates: MockupTemplateConfig[] = [
       width: 1586,
       height: 3062,
       quad: [
-        { x: 403.73, y: 196.75 },
-        { x: 1245.2, y: 196.75 },
-        { x: 1245.2, y: 862.7 },
-        { x: 403.73, y: 862.7 },
+        { x: 403.73, y: 389.39 },
+        { x: 674.37, y: 196.75 },
+        { x: 1245.2, y: 641.38 },
+        { x: 985.36, y: 862.7 },
       ],
       smartObjectName: "[YOUR IMAGE HERE] - Print",
     },
@@ -112,9 +112,9 @@ export const mockupTemplates: MockupTemplateConfig[] = [
       width: 1340,
       height: 2693,
       quad: [
-        { x: 563.57, y: 312.51 },
-        { x: 1034.65, y: 312.51 },
-        { x: 1034.65, y: 1295.74 },
+        { x: 575.35, y: 358.56 },
+        { x: 1025.01, y: 312.51 },
+        { x: 1034.65, y: 1292.5 },
         { x: 563.57, y: 1295.74 },
       ],
       smartObjectName: "Design (double-click on the layer thumbnail)",
@@ -168,10 +168,10 @@ export const mockupTemplates: MockupTemplateConfig[] = [
       width: 1181,
       height: 2339,
       quad: [
-        { x: 300.23, y: 177.31 },
-        { x: 1077.33, y: 177.31 },
-        { x: 1077.33, y: 1339.2 },
-        { x: 300.23, y: 1339.2 },
+        { x: 300.23, y: 266.82 },
+        { x: 731.13, y: 177.31 },
+        { x: 1077.33, y: 1117.87 },
+        { x: 705.07, y: 1339.2 },
       ],
       smartObjectName: "Design",
     },
@@ -199,12 +199,12 @@ export const mockupTemplates: MockupTemplateConfig[] = [
       width: 1546,
       height: 3143,
       quad: [
-        { x: 429.67, y: 172.42 },
-        { x: 1209.49, y: 172.42 },
-        { x: 1209.49, y: 1159.88 },
-        { x: 429.67, y: 1159.88 },
+        { x: 993.17, y: 211.14 },
+        { x: 1305.09, y: 512.81 },
+        { x: 698.46, y: 1143.43 },
+        { x: 387.23, y: 843.67 },
       ],
-      smartObjectName: "Mockup - Edit Me 2",
+      smartObjectName: "Mockup - Edit Me 3",
     },
     maskPath: "prepared/mockup-2/mask.png",
     basePath: "prepared/mockup-2/base.png",
@@ -261,10 +261,10 @@ export const mockupTemplates: MockupTemplateConfig[] = [
       width: 1546,
       height: 3143,
       quad: [
-        { x: 143.6, y: 200.78 },
-        { x: 974.99, y: 200.78 },
-        { x: 974.99, y: 1185.01 },
-        { x: 143.6, y: 1185.01 },
+        { x: 596.68, y: 200.78 },
+        { x: 974.99, y: 428.11 },
+        { x: 515.12, y: 1185.01 },
+        { x: 143.6, y: 953.5 },
       ],
       smartObjectName: "Mockup - Edit Me 1",
     },
@@ -292,10 +292,10 @@ export const mockupTemplates: MockupTemplateConfig[] = [
       width: 1293,
       height: 2668,
       quad: [
-        { x: 456.47, y: 137.45 },
-        { x: 1059.45, y: 137.45 },
-        { x: 1059.45, y: 1014.18 },
-        { x: 456.47, y: 1014.18 },
+        { x: 705.57, y: 137.45 },
+        { x: 1059.45, y: 261.41 },
+        { x: 814.91, y: 1014.18 },
+        { x: 456.47, y: 891.69 },
       ],
       smartObjectName: "Design",
     },
@@ -323,10 +323,10 @@ export const mockupTemplates: MockupTemplateConfig[] = [
       width: 1309,
       height: 2570,
       quad: [
-        { x: 533.93, y: 141.34 },
-        { x: 1148.86, y: 141.34 },
-        { x: 1148.86, y: 924.58 },
-        { x: 533.93, y: 924.58 },
+        { x: 829.37, y: 141.34 },
+        { x: 1148.86, y: 292.17 },
+        { x: 857.98, y: 924.58 },
+        { x: 533.93, y: 776.96 },
       ],
       smartObjectName: "[YOUR IMAGE HERE]",
     },

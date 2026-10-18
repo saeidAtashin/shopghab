@@ -5,8 +5,10 @@ import { initializeCanvas, readPsd, type Layer, type PixelData, type Warp } from
 import sharp from "sharp";
 
 import { mockupTemplates } from "../mockup-templates/templates.config";
+import { opaqueBoundsFillRectangle, placementCorners, quadIsAxisAligned } from "../src/lib/mockups/placement";
 import { mockupRoot } from "../src/lib/mockups/paths";
 import type { MockupTemplateConfig, Point } from "../src/lib/mockups/types";
+import { warpImage, type RawImage } from "../src/lib/mockups/warp";
 
 const MAX_EDGE = 1600;
 
@@ -63,21 +65,22 @@ function rankPrintable(item: Placed): number {
   return score;
 }
 
-function choosePrintable(layers: Layer[]): Placed | null {
+function choosePrintable(layers: Layer[], requirePixels: boolean): Placed | null {
   const candidates: Placed[] = [];
   for (const layer of layers) {
     const placed = layer.placedLayer;
-    if (!placed || placed.transform.length !== 8 || warpIsMesh(placed.warp)) continue;
+    const corners = placed ? placementCorners(placed) : [];
+    if (!placed || placed.transform.length !== 8 || corners.length !== 8 || warpIsMesh(placed.warp)) continue;
     const width = placed.width ?? (layer.right ?? 0) - (layer.left ?? 0);
     const height = placed.height ?? (layer.bottom ?? 0) - (layer.top ?? 0);
     if (width < 1 || height < 1) continue;
-    if (!layer.imageData && !layer.mask?.imageData) continue;
+    if (requirePixels && !layer.imageData && !layer.mask?.imageData) continue;
     candidates.push({
       layer,
       name: layer.name ?? "",
       width: Math.round(width),
       height: Math.round(height),
-      transform: placed.transform,
+      transform: corners,
     });
   }
   candidates.sort((a, b) => rankPrintable(b) - rankPrintable(a));
@@ -233,14 +236,49 @@ function renderConfig(templates: MockupTemplateConfig[]): string {
   return `import type { MockupTemplateConfig } from "@/lib/mockups/types";
 
 /**
- * Placement comes from each PSD Smart Object. A Photoshop warp descriptor with
- * style "none" is not a mesh, so its four corners are used as-is.
- * Files without a plain 8-point transform stay disabled.
+ * Placement comes from each PSD Smart Object. Rotated and perspective cases use
+ * the non-affine corners, so the design turns with the case. A mesh warp is not
+ * a four-corner placement and stays disabled.
  */
 export const mockupTemplates: MockupTemplateConfig[] = [
 ${body},
 ];
 `;
+}
+
+async function pngAlphaFillsRectangle(filePath: string): Promise<boolean> {
+  const { data, info } = await sharp(filePath).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  return opaqueBoundsFillRectangle(data, info.width, info.height, info.channels);
+}
+
+async function warpLocalMask(
+  localPng: Buffer,
+  quad: [Point, Point, Point, Point],
+  canvasWidth: number,
+  canvasHeight: number,
+): Promise<Buffer> {
+  const { data, info } = await sharp(localPng).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  const source: RawImage = { data, width: info.width, height: info.height };
+  const warped = warpImage(source, quad, canvasWidth, canvasHeight);
+  return sharp(warped.data, { raw: { width: warped.width, height: warped.height, channels: 4 } }).png().toBuffer();
+}
+
+function readOptions(withPixels: boolean) {
+  return {
+    skipLayerImageData: !withPixels,
+    skipCompositeImageData: !withPixels,
+    skipThumbnail: true,
+    skipLinkedFilesData: true,
+    useImageData: withPixels,
+    logMissingFeatures: false,
+  } as const;
+}
+
+function readLayers(psdPath: string, withPixels: boolean): { psd: ReturnType<typeof readPsd>; layers: Layer[] } {
+  const psd = readPsd(readFileSync(psdPath), readOptions(withPixels));
+  const layers: Layer[] = [];
+  walk(psd.children, layers);
+  return { psd, layers };
 }
 
 async function isFlatColorBase(filePath: string): Promise<boolean> {
@@ -259,28 +297,46 @@ async function isFlatColorBase(filePath: string): Promise<boolean> {
   return deviation.every((value) => value < 10);
 }
 
-async function prepareOne(
+function placementOf(printable: Placed, psdWidth: number, psdHeight: number): MockupTemplateConfig["printable"] {
+  const size = outputSize(psdWidth, psdHeight);
+  return {
+    width: printable.width,
+    height: printable.height,
+    quad: quadFromTransform(printable.transform, psdWidth, psdHeight, size.width, size.height),
+    smartObjectName: printable.name,
+  };
+}
+
+/** Updates the quad from PSD corners. Returns null when the hole is still a straight rectangle on a rotated case. */
+async function refreshPreparedQuad(
   root: string,
   template: MockupTemplateConfig,
-): Promise<MockupTemplateConfig> {
-  const baseFile = template.basePath ? join(root, template.basePath) : "";
-  const maskFile = template.maskPath ? join(root, template.maskPath) : "";
-  if (template.enabled && baseFile && maskFile && existsSync(baseFile) && existsSync(maskFile)) {
-    console.log(`${template.id}: already prepared.`);
+  maskFile: string,
+): Promise<MockupTemplateConfig | null> {
+  const { psd, layers } = readLayers(join(root, template.psdPath), false);
+  const printable = choosePrintable(layers, false);
+  if (!printable) {
+    console.warn(`${template.id}: no placement found. Kept the existing files.`);
     return template;
   }
-  const psdPath = join(root, template.psdPath);
-  const psd = readPsd(readFileSync(psdPath), {
-    skipLayerImageData: false,
-    skipCompositeImageData: false,
-    skipThumbnail: true,
-    skipLinkedFilesData: true,
-    useImageData: true,
-    logMissingFeatures: false,
-  });
-  const layers: Layer[] = [];
-  walk(psd.children, layers);
-  const printable = choosePrintable(layers);
+  const size = outputSize(psd.width, psd.height);
+  const printableRegion = placementOf(printable, psd.width, psd.height);
+  const quad = printableRegion.quad;
+  if (quad && !quadIsAxisAligned(quad) && (await pngAlphaFillsRectangle(maskFile))) {
+    console.log(`${template.id}: upright mask on a rotated case. Rebuilding the hole.`);
+    return null;
+  }
+  console.log(`${template.id}: quad refreshed${quad && !quadIsAxisAligned(quad) ? " (rotated)" : ""}.`);
+  return {
+    ...template,
+    output: { ...template.output, width: size.width, height: size.height },
+    printable: printableRegion,
+  };
+}
+
+async function prepareFromPixels(root: string, template: MockupTemplateConfig): Promise<MockupTemplateConfig> {
+  const { psd, layers } = readLayers(join(root, template.psdPath), true);
+  const printable = choosePrintable(layers, true);
   if (!printable || !psd.imageData) {
     console.warn(`${template.psdPath}: no plain Smart Object placement. Left disabled.`);
     return template;
@@ -296,15 +352,28 @@ async function prepareOne(
     return template;
   }
   const maskPng = userMask?.imageData && !userMask.disabled ? await maskToAlphaPng(maskSource) : await toPng(maskSource);
-  const placed = await placeOnCanvas(maskPng, psd.width, psd.height, maskLeft, maskTop);
-  const base = await sharp(await toPng(psd.imageData))
-    .composite([{ input: placed, blend: "dest-out" }])
-    .png()
-    .toBuffer();
+  const placedStraight = await placeOnCanvas(maskPng, psd.width, psd.height, maskLeft, maskTop);
+  const outputQuad = quadFromTransform(printable.transform, psd.width, psd.height, size.width, size.height);
+  const rotateHole = !quadIsAxisAligned(outputQuad) && (await pngAlphaFillsRectangleBuffer(placedStraight));
   const dir = join(root, "prepared", template.id);
   mkdirSync(dir, { recursive: true });
-  await sharp(base).resize(size.width, size.height, { fit: "fill" }).png().toFile(join(dir, "base.png"));
-  await sharp(placed).resize(size.width, size.height, { fit: "fill" }).png().toFile(join(dir, "mask.png"));
+  if (rotateHole) {
+    const fittedBase = await sharp(await toPng(psd.imageData))
+      .resize(size.width, size.height, { fit: "fill" })
+      .png()
+      .toBuffer();
+    const placed = await warpLocalMask(maskPng, outputQuad, size.width, size.height);
+    const base = await sharp(fittedBase).composite([{ input: placed, blend: "dest-out" }]).png().toBuffer();
+    await sharp(base).png().toFile(join(dir, "base.png"));
+    await sharp(placed).png().toFile(join(dir, "mask.png"));
+  } else {
+    const base = await sharp(await toPng(psd.imageData))
+      .composite([{ input: placedStraight, blend: "dest-out" }])
+      .png()
+      .toBuffer();
+    await sharp(base).resize(size.width, size.height, { fit: "fill" }).png().toFile(join(dir, "base.png"));
+    await sharp(placedStraight).resize(size.width, size.height, { fit: "fill" }).png().toFile(join(dir, "mask.png"));
+  }
 
   const basePath = `prepared/${template.id}/base.png`;
   const flatCard = await isFlatColorBase(join(dir, "base.png"));
@@ -314,19 +383,30 @@ async function prepareOne(
     version: template.version,
     listing: template.listing && !flatCard,
     output: { ...template.output, width: size.width, height: size.height },
-    printable: {
-      width: printable.width,
-      height: printable.height,
-      quad: quadFromTransform(printable.transform, psd.width, psd.height, size.width, size.height),
-      smartObjectName: printable.name,
-    },
+    printable: placementOf(printable, psd.width, psd.height),
     basePath,
     maskPath: `prepared/${template.id}/mask.png`,
   };
+  const rotated = next.printable.quad ? !quadIsAxisAligned(next.printable.quad) : false;
   console.log(
-    `${template.id}: ${printable.name} ${printable.width}x${printable.height} -> ${size.width}x${size.height}${flatCard ? " (flat card, not a listing photo)" : ""}`,
+    `${template.id}: ${printable.name} ${printable.width}x${printable.height} -> ${size.width}x${size.height}${rotated ? " (rotated)" : ""}${flatCard ? " (flat card, not a listing photo)" : ""}`,
   );
   return next;
+}
+
+async function pngAlphaFillsRectangleBuffer(png: Buffer): Promise<boolean> {
+  const { data, info } = await sharp(png).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  return opaqueBoundsFillRectangle(data, info.width, info.height, info.channels);
+}
+
+async function prepareOne(root: string, template: MockupTemplateConfig): Promise<MockupTemplateConfig> {
+  const baseFile = template.basePath ? join(root, template.basePath) : "";
+  const maskFile = template.maskPath ? join(root, template.maskPath) : "";
+  if (template.enabled && baseFile && maskFile && existsSync(baseFile) && existsSync(maskFile)) {
+    const refreshed = await refreshPreparedQuad(root, template, maskFile);
+    if (refreshed) return refreshed;
+  }
+  return prepareFromPixels(root, template);
 }
 
 async function main(): Promise<void> {

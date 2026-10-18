@@ -14,6 +14,7 @@ import { templatesForDesign } from "./generate";
 import { MockupError } from "./errors";
 import { artworkFullyInside, aspectPreserved, containPlacement, filledTextureSize } from "./fit";
 import { inspectPsdBuffer } from "./inspect";
+import { opaqueBoundsFillRectangle, placementCorners, quadIsAxisAligned } from "./placement";
 import { publishValidatedWebp } from "./output";
 import { artworkAbsolutePath, mockupPublicPaths, resolveInside } from "./paths";
 import { mergeMockupRecords, renderDesignTemplates, shouldReuseOutput } from "./render";
@@ -366,6 +367,81 @@ test("an invalid new file does not replace a valid WebP", async () => {
   } finally {
     removeTemp(dir);
   }
+});
+
+test("placement uses the non-affine corners when Photoshop stored a rotated quad", () => {
+  const upright = [0, 0, 10, 0, 10, 20, 0, 20];
+  const rotated = [4, 1, 12, 6, 7, 18, 0, 13];
+  assert.deepEqual(placementCorners({ transform: upright, nonAffineTransform: rotated }), rotated);
+  assert.deepEqual(placementCorners({ transform: upright }), upright);
+  assert.equal(
+    quadIsAxisAligned([
+      { x: 0, y: 0 },
+      { x: 10, y: 0 },
+      { x: 10, y: 20 },
+      { x: 0, y: 20 },
+    ]),
+    true,
+  );
+  assert.equal(
+    quadIsAxisAligned([
+      { x: rotated[0] ?? 0, y: rotated[1] ?? 0 },
+      { x: rotated[2] ?? 0, y: rotated[3] ?? 0 },
+      { x: rotated[4] ?? 0, y: rotated[5] ?? 0 },
+      { x: rotated[6] ?? 0, y: rotated[7] ?? 0 },
+    ]),
+    false,
+  );
+});
+
+test("a straight mask fills its rectangle and a tilted silhouette does not", () => {
+  const straight = Buffer.alloc(6 * 6 * 4, 0);
+  for (let y = 1; y <= 4; y += 1) {
+    for (let x = 1; x <= 3; x += 1) straight[(y * 6 + x) * 4 + 3] = 255;
+  }
+  assert.equal(opaqueBoundsFillRectangle(straight, 6, 6), true);
+  straight[(4 * 6 + 1) * 4 + 3] = 40;
+  assert.equal(opaqueBoundsFillRectangle(straight, 6, 6), true);
+
+  const tilted = Buffer.alloc(7 * 7 * 4, 0);
+  for (const [x, y] of [
+    [3, 1],
+    [4, 2],
+    [5, 3],
+    [4, 4],
+    [3, 5],
+    [2, 4],
+    [1, 3],
+    [2, 2],
+    [3, 3],
+  ]) {
+    tilted[(y * 7 + x) * 4 + 3] = 255;
+  }
+  assert.equal(opaqueBoundsFillRectangle(tilted, 7, 7), false);
+});
+
+test("rotated quad maps the artwork top-left onto the first corner", () => {
+  const data = Buffer.alloc(8 * 8 * 4, 0);
+  for (let y = 0; y < 8; y += 1) {
+    for (let x = 0; x < 8; x += 1) {
+      const index = (y * 8 + x) * 4;
+      const topLeft = x < 3 && y < 3;
+      data[index] = topLeft ? 255 : 0;
+      data[index + 1] = topLeft ? 0 : 180;
+      data[index + 3] = 255;
+    }
+  }
+  const quad: [{ x: number; y: number }, { x: number; y: number }, { x: number; y: number }, { x: number; y: number }] = [
+    { x: 8, y: 2 },
+    { x: 11, y: 5 },
+    { x: 6, y: 10 },
+    { x: 3, y: 7 },
+  ];
+  const warped = warpImage({ data, width: 8, height: 8 }, quad, 12, 12);
+  assert.equal(warped.data[3], 0);
+  const inside = (3 * 12 + 7) * 4;
+  assert.ok((warped.data[inside + 3] ?? 0) > 200);
+  assert.ok((warped.data[inside] ?? 0) > (warped.data[inside + 1] ?? 0));
 });
 
 test("perspective warp keeps source color inside the quad and transparency outside it", () => {
