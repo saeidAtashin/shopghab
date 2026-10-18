@@ -44,15 +44,15 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
         aria-modal="true"
         aria-label="منوی موبایل"
         className={cn(
-          "absolute start-0 top-0 flex h-full w-[min(100vw-3rem,20rem)] flex-col overflow-hidden border-e border-border bg-background transition-transform duration-500 sm:w-80",
-          open ? "translate-x-0" : "translate-x-full",
+          "absolute end-0 top-0 flex h-full w-[min(100vw-3rem,20rem)] flex-col overflow-hidden border-s border-border bg-background transition-transform duration-500 sm:w-80",
+          open ? "translate-x-0" : "-translate-x-full",
         )}
       >
         <div className="absolute inset-0 opacity-5 [background-image:linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] [background-size:20px_20px]" />
 
         <div className="relative z-10 flex min-h-0 flex-1 flex-col">
-          <div className="flex shrink-0 items-center justify-between border-b border-border px-5 py-5 sm:px-8">
-            <SiteLogo onClick={onClose} />
+          <div className="flex shrink-0 flex-row-reverse items-center justify-between border-b border-border px-5 py-5 sm:px-8">
+            <SiteLogo onClick={onClose} className="flex-row-reverse" />
             <button
               type="button"
               onClick={onClose}
@@ -65,7 +65,7 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
           </div>
 
           <div className="min-h-0 flex-1 overflow-y-auto px-5 py-6 sm:px-8">
-            <nav className="flex flex-col gap-1 text-right" aria-label="منوی موبایل">
+            <nav className="flex flex-col gap-1 text-end" aria-label="منوی موبایل">
               {navbarNavItems.map((item) => {
                 const active = isNavActive(pathname, item.href);
                 const Icon = navItemIcon(item.href);
@@ -74,13 +74,13 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
                   <div key={item.href}>
                     {item.children ? (
                       <>
-                        <div className="flex w-full items-center justify-between rounded-xl px-2 py-2">
+                        <div className="flex w-full flex-row-reverse items-center justify-between rounded-xl px-2 py-2">
                           <Link
                             href={item.href}
                             onClick={onClose}
                             aria-current={active ? "page" : undefined}
                             className={cn(
-                              "inline-flex items-center gap-2 text-lg font-bold transition-colors",
+                              "inline-flex flex-row-reverse items-center gap-2 text-lg font-bold transition-colors",
                               active
                                 ? "text-cyan-400"
                                 : "text-foreground hover:text-cyan-400",
@@ -121,11 +121,11 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
                           inert={sectionOpen === item.href ? undefined : true}
                           aria-hidden={sectionOpen !== item.href}
                         >
-                          <div className="ms-2 flex flex-col gap-2 border-s border-cyan-500/20 py-1 ps-4">
+                          <div className="me-2 flex flex-col gap-2 border-e border-cyan-500/20 py-1 pe-4">
                             {item.children.map((sub) =>
                               sub.children ? (
                                 <div key={sub.href}>
-                                  <div className="flex w-full items-center justify-between rounded-lg px-1 py-1">
+                                  <div className="flex w-full flex-row-reverse items-center justify-between rounded-lg px-1 py-1">
                                     <Link
                                       href={sub.href}
                                       onClick={onClose}
@@ -170,7 +170,7 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
                                     inert={brandOpen === sub.href ? undefined : true}
                                     aria-hidden={brandOpen !== sub.href}
                                   >
-                                    <div className="ms-3 flex flex-col gap-2 border-s border-border py-1 ps-3">
+                                    <div className="me-3 flex flex-col gap-2 border-e border-border py-1 pe-3">
                                       {sub.children.map((series) => (
                                         <Link
                                           key={series.href}
@@ -214,7 +214,7 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
                         onClick={onClose}
                         aria-current={active ? "page" : undefined}
                         className={cn(
-                          "flex items-center gap-2 rounded-xl px-2 py-3 text-lg font-bold transition-colors",
+                          "flex flex-row-reverse items-center gap-2 rounded-xl px-2 py-3 text-lg font-bold transition-colors",
                           active
                             ? "text-cyan-400"
                             : "text-foreground hover:text-cyan-400",

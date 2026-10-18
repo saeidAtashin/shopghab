@@ -29,7 +29,7 @@ export default function NavActions({ layout, onNavigate }: NavActionsProps) {
   if (layout === "drawer") {
     return (
       <div className="flex flex-col gap-3">
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex flex-row-reverse items-center justify-between gap-3">
           <span className="text-sm font-semibold text-muted">تم</span>
           <ThemeToggle menuPlacement="top" menuAlign="end" />
         </div>
