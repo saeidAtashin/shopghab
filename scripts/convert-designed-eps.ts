@@ -93,7 +93,7 @@ function getArg(name: string): string | undefined {
 }
 
 function slugFromFilename(filename: string): string {
-  return basename(filename).replace(/\.(eps|jpe?g|jpg)$/i, "");
+  return basename(filename).replace(/\.(eps|jpe?g|jfif)$/i, "");
 }
 
 function hasJpegMagic(absPath: string): boolean {
@@ -108,7 +108,7 @@ function hasJpegMagic(absPath: string): boolean {
 }
 
 function isDesignSource(name: string, absPath: string): boolean {
-  if (/\.(eps|jpe?g)$/i.test(name)) return true;
+  if (/\.(eps|jpe?g|jfif)$/i.test(name)) return true;
   if (/\.[a-z0-9]+$/i.test(name)) return false;
   return hasJpegMagic(absPath);
 }
@@ -645,7 +645,7 @@ function catalogIdentity(): { stems: Set<string>; slugs: Set<string> } {
 
   for (const design of catalog.designs ?? []) {
     const file = basename(design.sourceKey ?? "");
-    const stem = file.replace(/\.(eps|jpe?g|png|webp|svg)$/i, "").toLowerCase();
+    const stem = file.replace(/\.(eps|jpe?g|jfif|png|webp|svg)$/i, "").toLowerCase();
     if (stem) stems.add(stem);
     for (const value of [design.slug, design.templateSlug, design.legacySlug]) {
       if (value) slugs.add(value.toLowerCase());

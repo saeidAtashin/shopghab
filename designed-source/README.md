@@ -27,7 +27,7 @@ Files that do **not** match `vecteezy_{word}-...` go into subcategory **others**
 ## Workflow
 
 1. Copy `.eps` files into the appropriate category subfolder (slug = filename without extension).
-2. Optional: add matching `.jpg` only when EPS conversion fails (same basename, same folder).
+2. Optional: add matching `.jpg` or `.jfif` only when EPS conversion fails (same basename, same folder). Raster `.jfif` files are imported the same way as JPG.
 3. Run `npm run convert:designed` — outputs go to `public/designed/` (web) and `public/designed/thumbs/` (gallery WebP).
 4. The converter updates image files and registers new catalog rows in `data/design-catalog.json`. The first import publishes designs that are not in the catalog yet. Later imports add new files as drafts and keep titles, descriptions, categories, SEO, and publication status already saved in the catalog.
 5. `designed.meta.json` is still read as a hint for the editor template title. Admin edits belong in the catalog, not in that file.
