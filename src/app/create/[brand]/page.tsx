@@ -7,6 +7,7 @@ import WizardBreadcrumb from "@/app/components/case-wizard/WizardBreadcrumb";
 import { getBrandBySlug, getModelsByBrandAndSeries } from "@/lib/cases/brands.static";
 import { getSeriesBySlug } from "@/lib/cases/series";
 import { createPageMetadata } from "@/lib/seo/metadata";
+import { SITE_BRAND } from "@/lib/seo/site";
 
 type Props = {
   params: Promise<{ brand: string }>;
@@ -21,12 +22,14 @@ export async function generateMetadata({ params, searchParams }: Props) {
 
   const series = seriesSlug ? getSeriesBySlug(brandSlug, seriesSlug) : undefined;
   const title = series
-    ? `انتخاب مدل ${series.name} — ${brand.name}`
-    : `انتخاب مدل ${brand.name}`;
+    ? `فروش قاب ${series.name} ${brand.name}`
+    : `فروش قاب ${brand.name}`;
 
   return createPageMetadata({
     title,
+    description: `انتخاب مدل ${series ? series.name : brand.name} برای فروش قاب موبایل در ${SITE_BRAND} (shopghab).`,
     path: seriesSlug ? `/create/${brandSlug}?series=${seriesSlug}` : `/create/${brandSlug}`,
+    keywords: [`فروش قاب ${brand.name}`, "فروش قاب موبایل", SITE_BRAND, "shopghab"],
   });
 }
 

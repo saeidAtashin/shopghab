@@ -5,6 +5,7 @@ import ReadyCaseDetail from "@/app/components/cases/ReadyCaseDetail";
 import { getBrandBySlug, getModelBySlug } from "@/lib/cases/brands.static";
 import { getReadyCaseBySlug } from "@/lib/cases/ready.static";
 import { readyCaseJsonLd } from "@/lib/seo/jsonld";
+import { SITE_BRAND } from "@/lib/seo/site";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -13,9 +14,10 @@ export async function generateMetadata({ params }: Props) {
   const product = getReadyCaseBySlug(slug);
   if (!product) return {};
   return createPageMetadata({
-    title: product.title,
-    description: product.description,
+    title: `فروش قاب ${product.title}`,
+    description: `فروش قاب موبایل «${product.title}» در ${SITE_BRAND}. ${product.description}`,
     path: `/cases/${slug}`,
+    keywords: ["فروش قاب موبایل", SITE_BRAND, "shopghab", product.title],
   });
 }
 
@@ -33,8 +35,8 @@ export default async function ReadyCasePage({ params }: Props) {
         data={readyCaseJsonLd({
           product,
           path: `/cases/${slug}`,
-          brandName: brand?.name,
-          modelName: model?.name,
+          brandName: SITE_BRAND,
+          modelName: model?.name ?? brand?.name,
         })}
       />
       <ReadyCaseDetail product={product} />

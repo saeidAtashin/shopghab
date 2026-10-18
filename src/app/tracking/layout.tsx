@@ -5,13 +5,13 @@ import { webPageJsonLd } from "../../lib/seo/jsonld";
 const PATH = "/tracking";
 const TITLE = "پیگیری سفارش";
 const DESCRIPTION =
-  "با کد سفارش، وضعیت چاپ و ارسال قاب موبایل را در شاپ‌قاب ببینید.";
+  "با کد سفارش، وضعیت چاپ و ارسال قاب موبایل را در شاپ قاب ببینید.";
 
 export const metadata = createPageMetadata({
   title: TITLE,
   description: DESCRIPTION,
   path: PATH,
-  keywords: ["پیگیری سفارش قاب", "کد سفارش شاپ‌قاب"],
+  keywords: ["پیگیری سفارش قاب", "کد سفارش شاپ قاب", "فروش قاب موبایل"],
 });
 
 export default function TrackingLayout({

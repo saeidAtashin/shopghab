@@ -54,6 +54,7 @@ export async function generateMetadata({ params }: Props) {
     path: `/services/${service.slug}`,
     keywords: service.keywords,
     ogImage: service.cover,
+    noIndex: true,
   });
 }
 

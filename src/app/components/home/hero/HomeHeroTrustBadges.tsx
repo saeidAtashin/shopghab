@@ -17,7 +17,7 @@ export default function HomeHeroTrustBadges({ variant = "default" }: Props) {
   const onDark = variant === "onDark";
 
   return (
-    <ul className="grid grid-cols-2 gap-3" aria-label="مزایای قاب‌کده">
+    <ul className="grid grid-cols-2 gap-3" aria-label="مزایای شاپ قاب">
       {HERO_TRUST_BADGES.map((badge) => {
         const Icon = ICONS[badge.icon];
         return (

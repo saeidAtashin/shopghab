@@ -5,13 +5,13 @@ import { SITE_BRAND } from "@/lib/seo/site";
 const PATH = "/about-us";
 const TITLE = "درباره ما";
 const DESCRIPTION =
-  "شاپ‌قاب طراحی و چاپ قاب موبایل اختصاصی را با انتخاب برند و مدل، پیش‌نمایش زنده و ارسال به سراسر ایران انجام می‌دهد.";
+  "شاپ قاب فروش قاب موبایل و چاپ قاب اختصاصی را با انتخاب برند و مدل، پیش‌نمایش زنده و ارسال به سراسر ایران انجام می‌دهد.";
 
 export const metadata = createPageMetadata({
   title: TITLE,
   description: DESCRIPTION,
   path: PATH,
-  keywords: ["درباره شاپ‌قاب", "طراحی قاب موبایل", "چاپ قاب"],
+  keywords: ["درباره شاپ قاب", "فروش قاب موبایل", "shopghab", "چاپ قاب"],
 });
 
 export default function AboutUsPage() {

@@ -17,7 +17,7 @@ import {
 import { selectProductImages } from "@/lib/mockups/display";
 import { readCatalog } from "@/lib/catalog/store";
 import { breadcrumbJsonLd, breadcrumbTrail } from "@/lib/seo/breadcrumbs";
-import { webPageJsonLd } from "@/lib/seo/jsonld";
+import { designProductJsonLd, webPageJsonLd } from "@/lib/seo/jsonld";
 import { createPageMetadata } from "@/lib/seo/metadata";
 
 export const dynamic = "force-dynamic";
@@ -32,9 +32,10 @@ export async function generateMetadata({ params }: Props) {
   const design = findPublishedDesign(catalog, slug) ?? findRedirectTarget(catalog, slug);
   if (!design) return {};
 
+  const categoryName = primaryCategory(catalog, design)?.name;
   return createPageMetadata({
     title: designSeoTitle(design),
-    description: designSeoDescription(design),
+    description: designSeoDescription(design, categoryName),
     path: `/designs/${design.slug}`,
     ogImage: designOgImage(design),
     noIndex: !designHasImage(design),
@@ -51,10 +52,10 @@ export default async function DesignDetailPage({ params }: Props) {
     notFound();
   }
 
-  const title = designSeoTitle(direct);
-  const description = designSeoDescription(direct);
-  const path = `/designs/${direct.slug}`;
   const category = primaryCategory(catalog, direct);
+  const title = designSeoTitle(direct);
+  const description = designSeoDescription(direct, category?.name);
+  const path = `/designs/${direct.slug}`;
   const categories = direct.categoryIds
     .map((id) => catalog.categories.find((item) => item.id === id && item.status === "active"))
     .filter((item): item is NonNullable<typeof item> => Boolean(item))
@@ -84,6 +85,13 @@ export default async function DesignDetailPage({ params }: Props) {
       <JsonLd
         data={[
           webPageJsonLd({ name: title, description, path }),
+          designProductJsonLd({
+            name: title,
+            description,
+            path,
+            image: images.hero || undefined,
+            sku: direct.id,
+          }),
           breadcrumbJsonLd(crumbs, path),
         ]}
       />

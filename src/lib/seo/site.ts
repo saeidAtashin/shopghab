@@ -1,7 +1,8 @@
-export const SITE_BRAND = "شاپ‌قاب";
-export const SITE_NAME = "شاپ‌قاب | Shopghab";
+export const SITE_BRAND = "شاپ قاب";
+export const SITE_NAME = "شاپ قاب";
+export const SITE_ALTERNATE_NAMES = ["shopghab", "شاپ‌قاب", "Shopghab"] as const;
 export const SITE_TAGLINE =
-  "طراحی و خرید قاب موبایل اختصاصی — انتخاب برند و مدل، چاپ با کیفیت و ارسال سریع";
+  "فروش قاب موبایل و طراحی قاب اختصاصی — انتخاب برند و مدل، چاپ با کیفیت و ارسال سریع در شاپ قاب";
 export const SITE_LOCALE = "fa_IR";
 export const SITE_THEME_COLOR = "#06b6d4";
 export const DEFAULT_OG_IMAGE = "/images/banner-shopghab-org.webp";

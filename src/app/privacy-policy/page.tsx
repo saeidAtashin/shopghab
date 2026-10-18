@@ -5,13 +5,13 @@ import { SITE_BRAND } from "@/lib/seo/site";
 const PATH = "/privacy-policy";
 const TITLE = "حریم خصوصی";
 const DESCRIPTION =
-  "نحوه جمع‌آوری و استفاده از اطلاعات سفارش و حساب کاربری در شاپ‌قاب.";
+  "نحوه جمع‌آوری و استفاده از اطلاعات سفارش و حساب کاربری در شاپ قاب.";
 
 export const metadata = createPageMetadata({
   title: TITLE,
   description: DESCRIPTION,
   path: PATH,
-  keywords: ["حریم خصوصی شاپ‌قاب", "اطلاعات سفارش"],
+  keywords: ["حریم خصوصی شاپ قاب", "اطلاعات سفارش"],
 });
 
 export default function PrivacyPolicyPage() {

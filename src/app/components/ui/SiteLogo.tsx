@@ -34,7 +34,7 @@ export default function SiteLogo({
       <div className={cn("relative h-12 w-36 overflow-hidden", imageClassName)}>
         <Image
           src="/logos/shop-ghab-logo.png"
-          alt="لوگوی شاپ‌قاب"
+          alt="لوگوی شاپ قاب"
           fill
           sizes="144px"
           className="object-contain"

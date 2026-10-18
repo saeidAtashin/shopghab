@@ -32,7 +32,7 @@ export const LANDING_SECTION_COPY: Record<
 > = {
   categories: {
     title: "دسته‌ها",
-    description: "تم‌های طراحی قاب را بر اساس موضوع ببین.",
+    description: "تم‌های فروش قاب موبایل را در شاپ قاب بر اساس موضوع ببین.",
   },
   features: {
     title: "ویژگی‌ها",

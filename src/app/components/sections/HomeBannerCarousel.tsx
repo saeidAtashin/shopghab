@@ -42,7 +42,7 @@ type BannerSlide = {
 const BANNER_SLIDES: BannerSlide[] = [
   {
     image: "/images/banner-shopghab-org.webp",
-    tag: "شاپ‌قاب",
+    tag: "شاپ قاب",
     title: "قاب",
     highlight: "اختصاصی",
     subtitle: "طراحی و چاپ قاب موبایل با کیفیت — از ایده تا درب منزل",

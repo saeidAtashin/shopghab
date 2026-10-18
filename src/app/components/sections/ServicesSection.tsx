@@ -3,40 +3,40 @@ import { Cpu, Gamepad2, Zap, Wind, Monitor, HardDrive } from "lucide-react";
 
 const services = [
   {
-    title: "تعمیر تخصصی برد",
-    desc: "عیب‌یابی و تعمیر تخصصی ICها و مدارهای تغذیه کنسول.",
+    title: "طراحی قاب",
+    desc: "متن، استیکر و تصویر را در شاپ قاب روی قاب گوشی بچینید.",
     icon: <Cpu className="text-cyan-400" size={32} />,
-    tag: "Hardware",
+    tag: "Design",
   },
   {
-    title: "رفع دریفت آنالوگ",
-    desc: "تعویض آنالوگ و رفع مشکل کشیده شدن دسته PS5 و Xbox.",
+    title: "طرح آماده",
+    desc: "فروش قاب موبایل با طرح‌های آماده برای چاپ روی مدل گوشی شما.",
     icon: <Gamepad2 className="text-purple-400" size={32} />,
-    tag: "Controller",
+    tag: "Ready",
   },
   {
-    title: "تعویض پورت HDMI",
-    desc: "تعویض پورت‌های شکسته و رفع مشکل تصویر (4K/120Hz).",
+    title: "پیش‌نمایش چاپ",
+    desc: "قبل از تولید، طرح را روی قاب مدل انتخاب‌شده ببینید.",
     icon: <Monitor className="text-blue-400" size={32} />,
-    tag: "Display",
+    tag: "Preview",
   },
   {
-    title: "سرویس و رفع داغی",
-    desc: "تعویض خمیر سیلیکون (یا فلز مایع) و جرم‌گیری کامل فن.",
+    title: "چاپ باکیفیت",
+    desc: "چاپ طرح روی قاب با رنگ پایدار برای استفاده روزمره.",
     icon: <Wind className="text-emerald-400" size={32} />,
-    tag: "Cooling",
+    tag: "Print",
   },
   {
-    title: "تعمیر منبع تغذیه",
-    desc: "رفع مشکل روشن نشدن و پریدن فیوز در اثر نوسان برق.",
+    title: "ارسال سراسری",
+    desc: "سفارش قاب موبایل شاپ قاب به سراسر ایران ارسال می‌شود.",
     icon: <Zap className="text-yellow-400" size={32} />,
-    tag: "Power",
+    tag: "Shipping",
   },
   {
-    title: "ارتقا و هارد",
-    desc: "نصب حافظه SSD پرسرعت و ارتقای ظرفیت کنسول.",
+    title: "پیگیری سفارش",
+    desc: "وضعیت چاپ و ارسال را با کد سفارش در شاپ قاب ببینید.",
     icon: <HardDrive className="text-pink-400" size={32} />,
-    tag: "Storage",
+    tag: "Tracking",
   },
 ];
 
@@ -50,17 +50,16 @@ export default function ServicesSection() {
         {/* Header */}
         <div className="mb-20 text-right">
           <span className="mb-4 inline-block rounded-full border border-cyan-500/30 bg-cyan-500/10 px-4 py-2 text-xs font-bold text-cyan-400 uppercase tracking-widest">
-            Tech Station / خدمات ما
+            شاپ قاب / فروش قاب موبایل
           </span>
           <h2 className="mb-6 text-5xl font-black text-foreground leading-tight">
-            لیست کامل{" "}
+            طراحی و{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-l from-cyan-400 to-blue-600">
-              خدمات فنی
+              چاپ قاب
             </span>
           </h2>
           <p className="max-w-2xl text-muted text-lg">
-            تمامی قطعات استفاده شده اورجینال بوده و شامل ضمانت‌نامه کتبی مجموعه
-            می‌باشند.
+            فروش قاب موبایل با پیش‌نمایش، چاپ باکیفیت و ارسال به سراسر ایران.
           </p>
         </div>
 

@@ -1,6 +1,8 @@
 import {
   DEFAULT_OG_IMAGE,
   SITE_ADDRESS,
+  SITE_ALTERNATE_NAMES,
+  SITE_BRAND,
   SITE_NAME,
   SITE_PHONE,
   SITE_TAGLINE,
@@ -15,7 +17,8 @@ export default function LocalBusinessSchema() {
       {
         "@type": "LocalBusiness",
         "@id": `${absoluteUrl("/")}#business`,
-        name: SITE_NAME,
+        name: SITE_BRAND,
+        alternateName: [...SITE_ALTERNATE_NAMES],
         description: SITE_TAGLINE,
         url: absoluteUrl("/"),
         telephone: SITE_PHONE,
@@ -30,6 +33,7 @@ export default function LocalBusinessSchema() {
           name: "Iran",
         },
         knowsAbout: [
+          "فروش قاب موبایل",
           "طراحی قاب موبایل",
           "چاپ قاب",
           "قاب آیفون",

@@ -4,6 +4,7 @@ import JsonLd from "@/app/components/seo/JsonLd";
 import WizardBreadcrumb from "@/app/components/case-wizard/WizardBreadcrumb";
 import { PhoneBackSvg } from "@/app/components/case-wizard/PhoneBackSvg";
 import { createPageMetadata } from "@/lib/seo/metadata";
+import { SITE_BRAND } from "@/lib/seo/site";
 import { collectionPageJsonLd, webPageJsonLd } from "@/lib/seo/jsonld";
 import {
   getBrandBySlug,
@@ -26,18 +27,20 @@ export async function generateMetadata({ params }: Props) {
   if (!brand) return {};
 
   const path = `/phones/${brandSlug}`;
-  const title = `قاب ${brand.name} — همه مدل‌ها`;
-  const description = `خرید و طراحی قاب ${brand.name} — انتخاب مدل گوشی، قاب آماده یا طراحی اختصاصی با چاپ با کیفیت و ارسال سریع.`;
+  const title = `فروش قاب ${brand.name}`;
+  const description = `فروش قاب موبایل ${brand.name} در ${SITE_BRAND} (shopghab). انتخاب مدل گوشی، قاب آماده یا طراحی اختصاصی، چاپ با کیفیت و ارسال سریع.`;
 
   return createPageMetadata({
     title,
     description,
     path,
     keywords: [
+      `فروش قاب ${brand.name}`,
       `قاب ${brand.name}`,
       `قاب ${brand.nameEn}`,
-      "قاب موبایل",
-      "طراحی قاب",
+      "فروش قاب موبایل",
+      "shopghab",
+      SITE_BRAND,
     ],
   });
 }
@@ -50,8 +53,8 @@ export default async function BrandPhonesPage({ params }: Props) {
   const models = getModelsByBrand(brandSlug);
   const groups = groupModelsBySeries(models, brandSlug);
   const path = `/phones/${brandSlug}`;
-  const title = `قاب ${brand.name} — همه مدل‌ها`;
-  const description = `خرید و طراحی قاب ${brand.name} — انتخاب مدل گوشی، قاب آماده یا طراحی اختصاصی.`;
+  const title = `فروش قاب ${brand.name}`;
+  const description = `فروش قاب موبایل ${brand.name} در ${SITE_BRAND}. انتخاب مدل گوشی، قاب آماده یا طراحی اختصاصی.`;
 
   return (
     <>
@@ -70,7 +73,7 @@ export default async function BrandPhonesPage({ params }: Props) {
             ]}
           />
           <h1 className="mt-6 text-2xl font-black text-foreground sm:text-3xl">
-            قاب {brand.name}
+            فروش قاب {brand.name}
           </h1>
           <p className="mt-2 text-muted">
             مدل گوشی خود را انتخاب کنید — قاب آماده یا طراحی اختصاصی

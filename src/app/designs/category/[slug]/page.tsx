@@ -35,9 +35,12 @@ export async function generateMetadata({ params, searchParams }: Props) {
   const category = catalog.categories.find((item) => item.slug === slug);
   if (!category || category.status !== "active") return {};
 
+  const parentName = category.parentId
+    ? catalog.categories.find((item) => item.id === category.parentId)?.name
+    : undefined;
   return createPageMetadata({
     title: categorySeoTitle(category),
-    description: categorySeoDescription(category),
+    description: categorySeoDescription(category, parentName),
     path: `/designs/category/${category.slug}`,
     noIndex: query.noIndex || query.page > 1 || !isCategoryIndexable(catalog, category),
     ogImage: category.coverImage || undefined,
@@ -56,8 +59,11 @@ export default async function DesignCategoryPage({ params, searchParams }: Props
   const result = queryPublicDesigns(catalog, { ...query, categoryId: category.id });
   if (query.page > result.pageCount && result.total > 0) notFound();
 
+  const parentName = category.parentId
+    ? catalog.categories.find((item) => item.id === category.parentId)?.name
+    : undefined;
   const title = categorySeoTitle(category);
-  const description = categorySeoDescription(category);
+  const description = categorySeoDescription(category, parentName);
   const path = `/designs/category/${category.slug}`;
   const ancestry = categoryChain(catalog, category);
   const chain = breadcrumbTrail(

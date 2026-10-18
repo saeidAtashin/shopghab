@@ -7,26 +7,26 @@ import FloatingBadge from "../ui/FloatingBadge";
 
 const features = [
   {
-    title: "ضمانت تعمیر",
-    description: "تمام خدمات تعمیر همراه با ضمانت واقعی ارائه می‌شوند.",
+    title: "ضمانت چاپ",
+    description: "فروش قاب موبایل در شاپ قاب همراه با ضمانت بازگشت است.",
     icon: <ShieldCheck size={32} />,
     badge: { label: "گارانتی", value: "۹۰ روز" },
   },
   {
-    title: "تعمیر سریع",
-    description: "اکثر تعمیرات در کوتاه‌ترین زمان ممکن انجام می‌شود.",
+    title: "چاپ سریع",
+    description: "چاپ قاب پس از تأیید طرح در کوتاه‌ترین زمان انجام می‌شود.",
     icon: <Clock3 size={32} />,
     badge: { label: "زمان", value: "< ۲۴ساعت" },
   },
   {
     title: "تجهیزات تخصصی",
-    description: "عیب‌یابی و تعمیر با ابزارهای حرفه‌ای و دقیق انجام می‌شود.",
+    description: "چاپ قاب با تجهیزات دقیق و پیش‌نمایش قبل از تولید انجام می‌شود.",
     icon: <Wrench size={32} />,
     badge: { label: "تجهیزات", value: "پیشرفته" },
   },
   {
     title: "قطعات اصلی",
-    description: "استفاده از قطعات اورجینال برای افزایش عمر دستگاه.",
+    description: "چاپ باکیفیت روی قاب برای استفاده روزمره.",
     icon: <BadgeCheck size={32} />,
     badge: { label: "کیفیت", value: "اورجینال" },
   },

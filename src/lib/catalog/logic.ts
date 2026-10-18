@@ -1,4 +1,12 @@
 import { selectProductImages } from "@/lib/mockups/display";
+import {
+  suggestedCategorySeoDescription,
+  suggestedCategorySeoTitle,
+  suggestedCollectionSeoDescription,
+  suggestedCollectionSeoTitle,
+  suggestedDesignSeoDescription,
+  suggestedDesignSeoTitle,
+} from "./seo-copy";
 import { categoryLabel, subcategoryLabel } from "@/lib/designed-categories";
 import {
   designPublicDescription,
@@ -1020,20 +1028,21 @@ export function indexableCatalogPaths(catalog: DesignCatalog): CatalogSitemapEnt
 export function designSeoTitle(design: Pick<DesignRecord, "seoTitle" | "title">): string {
   const custom = design.seoTitle.trim();
   if (custom) return custom;
-  const title = design.title.trim();
-  return title || "طرح قاب";
+  return suggestedDesignSeoTitle(design.title);
 }
 
 export function designSeoDescription(
-  design: Pick<DesignRecord, "seoTitle" | "seoDescription" | "title" | "shortDescription" | "description">,
+  design: Pick<DesignRecord, "seoDescription" | "title" | "slug" | "tags">,
+  categoryName?: string,
 ): string {
   const custom = design.seoDescription.trim();
   if (custom) return custom;
-  const short = design.shortDescription.trim();
-  if (short) return short;
-  const full = design.description.trim();
-  if (full) return full.slice(0, 300);
-  return `${designSeoTitle(design)} — طرح آماده برای چاپ روی قاب موبایل.`;
+  return suggestedDesignSeoDescription({
+    title: design.title,
+    slug: design.slug,
+    categoryName,
+    tags: design.tags,
+  });
 }
 
 export function designOgImage(
@@ -1048,16 +1057,29 @@ export function designOgImage(
   return hero || undefined;
 }
 
-export function categorySeoTitle(category: CategoryRecord): string {
-  return category.seoTitle.trim() || category.name;
+export function categorySeoTitle(category: Pick<CategoryRecord, "seoTitle" | "name">): string {
+  return category.seoTitle.trim() || suggestedCategorySeoTitle(category.name);
 }
 
-export function categorySeoDescription(category: CategoryRecord): string {
+export function categorySeoDescription(
+  category: Pick<CategoryRecord, "seoDescription" | "name" | "slug">,
+  parentName?: string,
+): string {
   const custom = category.seoDescription.trim();
   if (custom) return custom;
-  const description = category.description.trim();
-  if (description) return description;
-  return `طرح‌های ${category.name} برای چاپ روی قاب موبایل.`;
+  return suggestedCategorySeoDescription(category.name, category.slug, parentName);
+}
+
+export function collectionSeoTitle(collection: Pick<CollectionRecord, "seoTitle" | "name">): string {
+  return collection.seoTitle.trim() || suggestedCollectionSeoTitle(collection.name);
+}
+
+export function collectionSeoDescription(
+  collection: Pick<CollectionRecord, "seoDescription" | "name" | "slug">,
+): string {
+  const custom = collection.seoDescription.trim();
+  if (custom) return custom;
+  return suggestedCollectionSeoDescription(collection.name, collection.slug);
 }
 
 export function primaryCategory(

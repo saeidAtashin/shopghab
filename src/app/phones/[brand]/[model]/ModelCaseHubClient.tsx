@@ -37,9 +37,9 @@ export default function ModelCaseHubClient({
 
         <header className="mt-6">
           <h1 className="text-2xl font-black text-foreground sm:text-3xl">
-            قاب {model.name}
+            فروش قاب {model.name}
           </h1>
-          <p className="mt-2 text-muted">طراحی اختصاصی</p>
+          <p className="mt-2 text-muted">فروش قاب موبایل در شاپ قاب — طراحی اختصاصی یا طرح آماده</p>
         </header>
 
         <section className="mt-10" aria-labelledby="custom-design-heading">

@@ -6,13 +6,13 @@ import { faqPageJsonLd } from "@/lib/seo/jsonld";
 const PATH = "/faq";
 const TITLE = "سوالات متداول";
 const DESCRIPTION =
-  "پاسخ به سوالات رایج درباره طراحی قاب، زمان چاپ، ارسال، مرجوعی و پیگیری سفارش شاپ‌قاب.";
+  "پاسخ به سوالات رایج فروش قاب موبایل در شاپ قاب: طراحی قاب، زمان چاپ، ارسال، مرجوعی و پیگیری سفارش.";
 
 export const metadata = createPageMetadata({
   title: TITLE,
   description: DESCRIPTION,
   path: PATH,
-  keywords: ["سوالات متداول قاب", "زمان چاپ قاب", "ارسال قاب موبایل"],
+  keywords: ["سوالات متداول قاب", "فروش قاب موبایل", "شاپ قاب", "زمان چاپ قاب"],
 });
 
 const faqItems = [

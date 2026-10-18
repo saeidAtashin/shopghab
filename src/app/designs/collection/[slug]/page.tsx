@@ -4,6 +4,8 @@ import CatalogBreadcrumbs from "@/app/components/designs/CatalogBreadcrumbs";
 import CatalogListing from "@/app/components/designs/CatalogListing";
 import JsonLd from "@/app/components/seo/JsonLd";
 import {
+  collectionSeoDescription,
+  collectionSeoTitle,
   isCollectionIndexable,
   parsePublicListingQuery,
   queryPublicDesigns,
@@ -21,14 +23,6 @@ type Props = {
   searchParams: Promise<{ q?: string; sort?: string; page?: string }>;
 };
 
-function collectionTitle(name: string, seoTitle: string): string {
-  return seoTitle.trim() || name;
-}
-
-function collectionDescription(name: string, description: string, seoDescription: string): string {
-  return seoDescription.trim() || description.trim() || `طرح‌های منتخب ${name} برای چاپ روی قاب موبایل.`;
-}
-
 export async function generateMetadata({ params, searchParams }: Props) {
   const { slug } = await params;
   const query = parsePublicListingQuery(await searchParams);
@@ -37,8 +31,8 @@ export async function generateMetadata({ params, searchParams }: Props) {
   if (!collection || collection.status !== "active") return {};
 
   return createPageMetadata({
-    title: collectionTitle(collection.name, collection.seoTitle),
-    description: collectionDescription(collection.name, collection.description, collection.seoDescription),
+    title: collectionSeoTitle(collection),
+    description: collectionSeoDescription(collection),
     path: `/designs/collection/${collection.slug}`,
     noIndex: query.noIndex || query.page > 1 || !isCollectionIndexable(catalog, collection),
     ogImage: collection.coverImage || undefined,
@@ -55,8 +49,8 @@ export default async function DesignCollectionPage({ params, searchParams }: Pro
   const result = queryPublicDesigns(catalog, { ...query, collectionId: collection.id });
   if (query.page > result.pageCount && result.total > 0) notFound();
 
-  const title = collectionTitle(collection.name, collection.seoTitle);
-  const description = collectionDescription(collection.name, collection.description, collection.seoDescription);
+  const title = collectionSeoTitle(collection);
+  const description = collectionSeoDescription(collection);
   const path = `/designs/collection/${collection.slug}`;
   const crumbs = breadcrumbTrail(
     { label: "طراحی‌های آماده", href: "/designs" },

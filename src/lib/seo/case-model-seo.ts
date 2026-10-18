@@ -6,7 +6,7 @@ import {
 import type { PhoneBrand, PhoneModel } from "@/lib/cases/types";
 import { breadcrumbJsonLd } from "./breadcrumbs";
 import { faqPageJsonLd, itemListJsonLd, webPageJsonLd } from "./jsonld";
-import { DEFAULT_OG_IMAGE } from "./site";
+import { DEFAULT_OG_IMAGE, SITE_BRAND } from "./site";
 
 export type ModelSeoContext = {
   title: string;
@@ -31,21 +31,23 @@ export function resolveModelSeo(
   if (!brand || !model) return null;
 
   const canonicalPath = buildModelCanonicalPath(brandSlug, modelSlug);
-  const title = `قاب ${model.name} — طراحی اختصاصی و آماده`;
-  const description = `خرید و طراحی قاب ${model.name} (${brand.name}) — قاب‌های آماده یا طراحی اختصاصی با متن و استیکر. ${CASE_TYPES.length} نوع قاب (${CASE_TYPES.map((c) => c.name).join("، ")}). چاپ با کیفیت و ارسال سریع به سراسر ایران.`;
+  const title = `فروش قاب ${model.name}`;
+  const caseTypeNames = CASE_TYPES.map((item) => item.name).join("، ");
+  const description = `فروش قاب موبایل ${model.name} (${brand.name}) در ${SITE_BRAND} (shopghab). قاب آماده یا طراحی اختصاصی با متن و استیکر، ${CASE_TYPES.length} نوع قاب (${caseTypeNames}). چاپ با کیفیت و ارسال سریع به سراسر ایران.`;
 
   return {
     title,
     description,
     keywords: [
+      `فروش قاب ${model.name}`,
+      `فروش قاب ${brand.name}`,
+      "shopghab",
+      SITE_BRAND,
+      "فروش قاب موبایل",
       `قاب ${model.name}`,
       `قاب ${brand.name}`,
       `طراحی قاب ${model.name}`,
-      `خرید قاب ${model.nameEn}`,
       `قاب ${model.nameEn}`,
-      "قاب موبایل",
-      "طراحی قاب",
-      "قاب سفارشی",
     ],
     canonicalPath,
     ogImage: model.image || DEFAULT_OG_IMAGE,
@@ -58,21 +60,21 @@ const MODEL_FAQ = [
   {
     question: "چه نوع قاب‌هایی برای این مدل موجود است؟",
     answer:
-      "قاب شفاف، مات، شیشه‌ای، سیلیکونی و چرمی — هر کدام با قیمت و امکان چاپ اختصاصی.",
+      "شاپ قاب برای فروش قاب موبایل این مدل قاب شفاف، مات، شیشه‌ای، سیلیکونی و چرمی دارد و روی هر نوع چاپ اختصاصی ممکن است.",
   },
   {
     question: "آیا می‌توانم قاب را خودم طراحی کنم؟",
     answer:
-      "بله. نوع قاب را انتخاب کنید، سپس در ویرایشگر متن، استیکر و تصویر اضافه کنید و پیش‌نمایش ببینید.",
+      "بله. در شاپ قاب نوع قاب را انتخاب کنید، سپس متن، استیکر و تصویر اضافه کنید و پیش‌نمایش ببینید.",
   },
   {
     question: "زمان ارسال چقدر است؟",
     answer:
-      "پس از تأیید طراحی و چاپ، سفارش در کوتاه‌ترین زمان به سراسر ایران ارسال می‌شود.",
+      "پس از تأیید طراحی و چاپ، فروش قاب موبایل در کوتاه‌ترین زمان به سراسر ایران ارسال می‌شود.",
   },
   {
     question: "آیا ضمانت بازگشت دارید؟",
-    answer: "بله — ۷ روز ضمانت بازگشت برای قاب‌های سفارشی و آماده.",
+    answer: "بله. شاپ قاب ۷ روز ضمانت بازگشت برای قاب‌های سفارشی و آماده دارد.",
   },
 ];
 

@@ -9,13 +9,13 @@ import {
 const PATH = "/contact";
 const TITLE = "تماس با ما";
 const DESCRIPTION =
-  "تلفن و آدرس شاپ‌قاب برای سفارش قاب موبایل، پیگیری چاپ و پرسش درباره ارسال.";
+  "تلفن و آدرس شاپ قاب برای فروش قاب موبایل، پیگیری چاپ و پرسش درباره ارسال.";
 
 export const metadata = createPageMetadata({
   title: TITLE,
   description: DESCRIPTION,
   path: PATH,
-  keywords: ["تماس با شاپ‌قاب", "پشتیبانی سفارش قاب", "آدرس شاپ‌قاب"],
+  keywords: ["تماس با شاپ قاب", "فروش قاب موبایل", "پشتیبانی سفارش قاب"],
 });
 
 export default function ContactPage() {

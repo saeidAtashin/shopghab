@@ -5,13 +5,13 @@ import { SITE_BRAND } from "@/lib/seo/site";
 const PATH = "/terms";
 const TITLE = "قوانین و شرایط";
 const DESCRIPTION =
-  "شرایط سفارش، چاپ، ارسال و بازگشت قاب موبایل در شاپ‌قاب.";
+  "شرایط سفارش، چاپ، ارسال و بازگشت قاب موبایل در شاپ قاب.";
 
 export const metadata = createPageMetadata({
   title: TITLE,
   description: DESCRIPTION,
   path: PATH,
-  keywords: ["قوانین شاپ‌قاب", "شرایط سفارش قاب", "بازگشت کالا"],
+  keywords: ["قوانین شاپ قاب", "فروش قاب موبایل", "شرایط سفارش قاب"],
 });
 
 export default function TermsPage() {

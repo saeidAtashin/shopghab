@@ -123,7 +123,7 @@ export default function GamingStatusScreen({
           </div>
         </div>
 
-        <p className="mt-6 text-center text-[10px] text-muted">قاب‌کده</p>
+        <p className="mt-6 text-center text-[10px] text-muted">شاپ قاب</p>
       </motion.div>
     </main>
   );

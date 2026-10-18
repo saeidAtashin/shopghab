@@ -1,4 +1,4 @@
-import { absoluteUrl, SITE_NAME } from "./site";
+import { absoluteUrl, SITE_BRAND, SITE_NAME } from "./site";
 
 /** Catalog prices are stored in toman; schema.org expects ISO 4217 rials. */
 function tomanToIrr(toman: number): number {
@@ -120,6 +120,29 @@ export function howToJsonLd(input: {
       position: index + 1,
       text,
     })),
+  };
+}
+
+export function designProductJsonLd(input: {
+  name: string;
+  description: string;
+  path: string;
+  image?: string;
+  sku: string;
+}) {
+  const image = input.image?.trim();
+  return {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: input.name,
+    description: input.description,
+    url: absoluteUrl(input.path),
+    sku: input.sku,
+    brand: {
+      "@type": "Brand",
+      name: SITE_BRAND,
+    },
+    ...(image ? { image: image.startsWith("http") ? image : absoluteUrl(image) } : {}),
   };
 }
 

@@ -22,7 +22,7 @@ const SLIDES = [
   },
   {
     src: "/images/banner-shopghab-org.webp",
-    alt: "بنر شاپ‌قاب",
+    alt: "بنر شاپ قاب",
     hasContent: false,
     href: "/designs",
     linkLabel: "طراحی‌های آماده",
@@ -31,7 +31,7 @@ const SLIDES = [
   },
   {
     src: "/images/banner-shopghab-2.webp",
-    alt: "بنر طراحی آماده شاپ‌قاب",
+    alt: "بنر طراحی آماده شاپ قاب",
     hasContent: false,
     href: "/designs",
     linkLabel: "طراحی‌های آماده",

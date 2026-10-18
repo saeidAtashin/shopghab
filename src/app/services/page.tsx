@@ -27,6 +27,7 @@ export const metadata = createPageMetadata({
   title: TITLE,
   description: SERVICES_INDEX_DESCRIPTION,
   path: PATH,
+  noIndex: true,
   keywords: [
     "خدمات تعمیر کنسول",
     "تعمیر ps5",

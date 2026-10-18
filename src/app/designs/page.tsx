@@ -15,9 +15,9 @@ import { breadcrumbJsonLd, breadcrumbTrail } from "@/lib/seo/breadcrumbs";
 import { collectionPageJsonLd, itemListJsonLd, webPageJsonLd } from "@/lib/seo/jsonld";
 import { createPageMetadata } from "@/lib/seo/metadata";
 
-const TITLE = "طراحی‌های آماده";
+const TITLE = "طرح‌های آماده قاب موبایل";
 const DESCRIPTION =
-  "مجموعه طراحی‌های از پیش ساخته‌شده برای قاب موبایل — روی هر مدل گوشی قابل استفاده";
+  "فروش قاب موبایل با طرح‌های آماده در شاپ قاب — قابل چاپ روی آیفون، سامسونگ و شیائومی.";
 
 export const dynamic = "force-dynamic";
 

@@ -1,13 +1,15 @@
 import { createPageMetadata } from "@/lib/seo/metadata";
+import { SITE_BRAND } from "@/lib/seo/site";
 import BrandGrid from "@/app/components/case-wizard/BrandGrid";
 import ModelSearch from "@/app/components/case-wizard/ModelSearch";
 import WizardBreadcrumb from "@/app/components/case-wizard/WizardBreadcrumb";
 import { PHONE_BRANDS } from "@/lib/cases/brands.static";
 
 export const metadata = createPageMetadata({
-  title: "انتخاب برند گوشی",
-  description: "برند گوشی خود را انتخاب کنید و طراحی قاب را شروع کنید.",
+  title: "فروش قاب موبایل — انتخاب برند",
+  description: `برند گوشی را در ${SITE_BRAND} (shopghab) انتخاب کنید و سفارش فروش قاب موبایل یا طراحی اختصاصی را شروع کنید.`,
   path: "/create",
+  keywords: ["فروش قاب موبایل", SITE_BRAND, "shopghab", "قاب آیفون", "قاب سامسونگ"],
 });
 
 export default function CreatePage() {
