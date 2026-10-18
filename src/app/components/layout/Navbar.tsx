@@ -72,7 +72,7 @@ export default function Navbar() {
             : "border-transparent bg-transparent"
         }`}
       >
-        <div className="mx-auto grid h-full max-w-7xl grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 px-4 sm:px-6">
+        <div className="mx-auto flex h-full max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:grid lg:grid-cols-[auto_minmax(0,1fr)_auto]">
           <SiteLogo />
           <DesktopNav />
           <div className="flex items-center gap-2">
