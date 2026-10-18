@@ -150,7 +150,6 @@ export default function DesignEditorForm({ design, categories, groups, values, c
       : emptyDesignAutoFlags(),
   );
   const [editing, setEditing] = useState<Partial<Record<DesignAutoKey, boolean>>>({});
-  const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
 
@@ -240,7 +239,6 @@ export default function DesignEditorForm({ design, categories, groups, values, c
   async function onSubmit(values: DesignWriteInput) {
     setSaving(true);
     setError("");
-    setNotice("");
     const generated = resolveDesignAutos(
       {
         ...values,
@@ -266,15 +264,13 @@ export default function DesignEditorForm({ design, categories, groups, values, c
           method: "PATCH",
           body: JSON.stringify(payload),
         });
-        setNotice("تغییرها ذخیره شد.");
-        router.refresh();
       } else {
-        const created = await adminJson<{ design: DesignRecord }>("/api/admin/catalog/designs", {
+        await adminJson("/api/admin/catalog/designs", {
           method: "POST",
           body: JSON.stringify(payload),
         });
-        router.push(`/admin/designs/${created.design.id}`);
       }
+      router.push("/admin/designs");
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : "ذخیره انجام نشد");
     } finally {
@@ -351,15 +347,24 @@ export default function DesignEditorForm({ design, categories, groups, values, c
                   <div key={group.id}>
                     <p className="mb-2 text-sm font-semibold">{group.name}</p>
                     <div className="flex flex-wrap gap-2">
-                      {groupValues.map((value) => (
-                        <ChoiceChip
-                          key={value.id}
-                          selected={selectedAttributeIds.includes(value.id)}
-                          onClick={() => toggleId(selectedAttributeIds, value.id, setSelectedAttributeIds)}
-                        >
-                          {value.name}
-                        </ChoiceChip>
-                      ))}
+                      {groupValues.map((value) =>
+                        group.slug === "colors" ? (
+                          <ColorChip
+                            key={value.id}
+                            name={value.name}
+                            selected={selectedAttributeIds.includes(value.id)}
+                            onClick={() => toggleId(selectedAttributeIds, value.id, setSelectedAttributeIds)}
+                          />
+                        ) : (
+                          <ChoiceChip
+                            key={value.id}
+                            selected={selectedAttributeIds.includes(value.id)}
+                            onClick={() => toggleId(selectedAttributeIds, value.id, setSelectedAttributeIds)}
+                          >
+                            {value.name}
+                          </ChoiceChip>
+                        ),
+                      )}
                     </div>
                   </div>
                 );
@@ -369,9 +374,11 @@ export default function DesignEditorForm({ design, categories, groups, values, c
 
           <div>
             <p className="mb-2 text-sm font-semibold">کالکشن‌ها</p>
-            {collections.length === 0 ? <p className="text-sm text-muted">کالکشنی ثبت نشده است.</p> : null}
+            {collections.filter((collection) => collection.status === "active").length === 0 ? (
+              <p className="text-sm text-muted">کالکشنی ثبت نشده است.</p>
+            ) : null}
             <div className="flex flex-wrap gap-2">
-              {collections.map((collection) => (
+              {collections.filter((collection) => collection.status === "active").map((collection) => (
                 <ChoiceChip
                   key={collection.id}
                   selected={selectedCollectionIds.includes(collection.id)}
@@ -557,7 +564,6 @@ export default function DesignEditorForm({ design, categories, groups, values, c
         </details>
 
         <div className="sticky bottom-4 z-20 flex flex-col gap-3 rounded-2xl border border-border bg-[#050816]/95 p-3 backdrop-blur">
-          {notice ? <p className="rounded-2xl border border-cyan-500/40 px-4 py-3 text-sm">{notice}</p> : null}
           {error ? <p className="rounded-2xl border border-red-500/40 px-4 py-3 text-sm text-red-300">{error}</p> : null}
           <button type="submit" disabled={saving} className="min-h-11 rounded-2xl bg-cyan-500 px-5 py-3 text-sm font-bold text-black disabled:opacity-60">
             {saving ? "در حال ذخیره..." : "ذخیره"}
@@ -580,6 +586,55 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
 function FieldError({ message }: { message?: string }) {
   if (!message) return null;
   return <span className="mt-1 block text-xs text-red-300">{message}</span>;
+}
+
+const COLOR_SWATCH: Record<string, string> = {
+  مشکی: "#171717",
+  سفید: "#f8fafc",
+  قرمز: "#ef4444",
+  صورتی: "#f472b6",
+  آبی: "#38bdf8",
+  سبز: "#22c55e",
+  زرد: "#facc15",
+  نارنجی: "#fb923c",
+  بنفش: "#a855f7",
+  "قهوه‌ای": "#92400e",
+  خاکستری: "#9ca3af",
+  طلایی: "#eab308",
+  "نقره‌ای": "#d4d4d8",
+};
+
+function ColorChip({
+  name,
+  selected,
+  onClick,
+}: {
+  name: string;
+  selected: boolean;
+  onClick: () => void;
+}) {
+  const background =
+    name === "چندرنگ"
+      ? "conic-gradient(#ef4444, #facc15, #22c55e, #38bdf8, #a855f7, #ef4444)"
+      : COLOR_SWATCH[name] ?? "#64748b";
+  return (
+    <button
+      type="button"
+      aria-pressed={selected}
+      aria-label={name}
+      onClick={onClick}
+      className={`inline-flex min-h-11 items-center gap-2 rounded-full border px-3 py-2 text-sm ${
+        selected ? "border-cyan-400 bg-cyan-500/15 text-cyan-100" : "border-border hover:border-cyan-500/50"
+      }`}
+    >
+      <span
+        className="h-6 w-6 shrink-0 rounded-full border border-white/40"
+        style={{ background }}
+        aria-hidden
+      />
+      {name}
+    </button>
+  );
 }
 
 function ChoiceChip({

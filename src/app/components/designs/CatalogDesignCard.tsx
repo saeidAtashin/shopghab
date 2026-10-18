@@ -60,6 +60,7 @@ export default function CatalogDesignCard({ design, categoryName, priority = fal
             <DesignArtworkStage
               id={design.id}
               src={frame.src}
+              thumb={frame.thumb}
               alt={alt}
               priority={priority && index === 0}
               sizes="(max-width: 640px) 50vw, 25vw"

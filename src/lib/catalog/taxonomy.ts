@@ -422,22 +422,28 @@ const COLLECTIONS: SeedCollection[] = [
   { name: "هدیه برای پسر", slug: "gift-boy", description: CURATED },
   { name: "هدیه برای همسر و پارتنر", slug: "gift-partner", description: CURATED },
   { name: "هدیه برای دوست", slug: "gift-friend", description: CURATED },
-  { name: "هدیه‌ی تولد", slug: "birthday", description: CURATED },
-  { name: "ولنتاین", slug: "valentine", description: CURATED },
-  { name: "روز مادر", slug: "mothers-day", description: CURATED },
-  { name: "روز پدر", slug: "fathers-day", description: CURATED },
-  { name: "روز دختر", slug: "girls-day", description: CURATED },
-  { name: "روز معلم", slug: "teachers-day", description: CURATED },
-  { name: "نوروز", slug: "nowruz", description: CURATED },
-  { name: "یلدا", slug: "yalda", description: CURATED },
-  { name: "ماه رمضان و عید فطر", slug: "ramadan-eid", description: CURATED },
-  { name: "بازگشت به مدرسه و دانشگاه", slug: "back-to-school", description: CURATED },
-  { name: "تابستان و سفر", slug: "summer-travel", description: CURATED },
+  { name: "مناسبت خاص", slug: "occasion", description: "طرح‌های مناسبتی مثل تولد، روز مادر، روز پدر، نوروز و یلدا. عضویت طرح‌ها دستی است." },
   { name: "کالکشن‌های فصلی", slug: "seasonal", description: CURATED },
   { name: "کالکشن هنرمندان", slug: "artists", description: CURATED },
   { name: "کالکشن‌های محدود", slug: "limited", description: CURATED },
   { name: "طرح‌های اختصاصی ShopGhab", slug: "shopghab-exclusive", description: CURATED },
 ];
+
+export const OCCASION_COLLECTION_SLUG = "occasion";
+
+export const FOLDED_OCCASION_SLUGS = [
+  "birthday",
+  "valentine",
+  "mothers-day",
+  "fathers-day",
+  "girls-day",
+  "teachers-day",
+  "nowruz",
+  "yalda",
+  "ramadan-eid",
+  "back-to-school",
+  "summer-travel",
+] as const;
 
 export const SEEDED_CATEGORY_COUNT = CATEGORIES.reduce(
   (total, category) => total + 1 + category.children.length,
@@ -546,5 +552,30 @@ export function seedCatalogTaxonomy(
     created += 1;
   });
 
+  foldOccasionCollections(next, now);
+
   return { catalog: next, created };
+}
+
+function foldOccasionCollections(catalog: DesignCatalog, now: string): void {
+  const occasion = catalog.collections.find((item) => item.slug === OCCASION_COLLECTION_SLUG);
+  if (!occasion) return;
+  const foldedIds = new Set(
+    catalog.collections
+      .filter((item) => (FOLDED_OCCASION_SLUGS as readonly string[]).includes(item.slug))
+      .map((item) => item.id),
+  );
+  if (foldedIds.size === 0) return;
+  for (const design of catalog.designs) {
+    if (!design.collectionIds.some((id) => foldedIds.has(id))) continue;
+    const kept = design.collectionIds.filter((id) => !foldedIds.has(id));
+    if (!kept.includes(occasion.id)) kept.push(occasion.id);
+    design.collectionIds = kept;
+    design.updatedAt = now;
+  }
+  for (const collection of catalog.collections) {
+    if (!foldedIds.has(collection.id) || collection.status === "archived") continue;
+    collection.status = "archived";
+    collection.updatedAt = now;
+  }
 }

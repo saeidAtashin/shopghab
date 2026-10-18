@@ -72,6 +72,7 @@ export default function HomeHero() {
         aria-live="polite"
       >
         {SLIDES.map((slide, index) => {
+          if (index !== activeIndex && index !== (activeIndex + 1) % SLIDES.length) return null;
           const isActive = index === activeIndex;
           return (
             <div

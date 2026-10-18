@@ -1,26 +1,17 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import Image from "next/image";
 import type { Dispatch, SetStateAction } from "react";
 import { useEffect } from "react";
 import Tilt from "react-parallax-tilt";
 
 import { PhoneBackSvg } from "@/app/components/case-wizard/PhoneBackSvg";
 import { getModelBySlug } from "@/lib/cases/brands.static";
+import { designedAssetUrl } from "@/lib/designed-assets";
 import type { CaseTemplate } from "@/lib/design/types";
 import { HERO_ARTWORK_INTERVAL_MS, HERO_PHONE } from "./hero.constants";
 import { useMouseParallax } from "./hooks/useMouseParallax";
-
-const DesignSamplePreview = dynamic(
-  () => import("@/app/components/designs/DesignSamplePreview"),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="h-full w-full animate-pulse rounded-2xl bg-surface" aria-hidden />
-    ),
-  },
-);
 
 type Props = {
   templates: CaseTemplate[];
@@ -37,6 +28,8 @@ export default function HomeHeroPhoneMockup({
   const parallax = useMouseParallax(0.85);
   const model = getModelBySlug(HERO_PHONE.brandSlug, HERO_PHONE.modelSlug);
   const activeTemplate = templates[activeIndex] ?? templates[0];
+  const nextTemplate =
+    templates.length > 1 ? templates[(activeIndex + 1) % templates.length] : undefined;
 
   useEffect(() => {
     if (prefersReducedMotion || templates.length <= 1) return;
@@ -65,16 +58,34 @@ export default function HomeHeroPhoneMockup({
       <div className="relative overflow-hidden rounded-[2rem] border border-border/70 bg-gradient-to-b from-zinc-100/80 to-zinc-200/40 p-3 shadow-[0_32px_80px_rgba(0,0,0,0.18)] dark:from-zinc-900/80 dark:to-zinc-950/60 dark:shadow-[0_40px_100px_rgba(0,0,0,0.55)]">
         <div className="relative aspect-[280/560] w-full">
           <div className="absolute inset-0 overflow-hidden rounded-[1.4rem]">
+            {nextTemplate && nextTemplate.id !== activeTemplate.id ? (
+              <div className="absolute inset-0 opacity-0" aria-hidden>
+                <Image
+                  src={designedAssetUrl(nextTemplate.thumbnail)}
+                  alt=""
+                  fill
+                  sizes="320px"
+                  className="object-cover object-center"
+                />
+              </div>
+            ) : null}
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTemplate.id}
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 1.02 }}
-                transition={{ duration: 0.45, ease: "easeOut" }}
-                className="absolute inset-0 flex items-center justify-center"
+                transition={{ duration: prefersReducedMotion ? 0 : 0.45, ease: "easeOut" }}
+                className="absolute inset-0"
               >
-                <DesignSamplePreview template={activeTemplate} maxHeight={520} />
+                <Image
+                  src={designedAssetUrl(activeTemplate.thumbnail)}
+                  alt=""
+                  fill
+                  sizes="320px"
+                  priority={activeIndex === 0}
+                  className="object-cover object-center"
+                />
               </motion.div>
             </AnimatePresence>
           </div>
@@ -121,4 +132,3 @@ export default function HomeHeroPhoneMockup({
     </motion.div>
   );
 }
-import { HomeHeroPhoneMockupSkeleton } from "./HomeHeroPhoneMockupSkeleton";

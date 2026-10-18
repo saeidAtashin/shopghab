@@ -4,7 +4,7 @@ import test from "node:test";
 import { createCategory, createDesign, emptyCatalog, indexableCatalogPaths, syncCatalog, updateCategoryStatus, updateDesign } from "./logic";
 import { parseCatalogDocument, type DesignWriteInput } from "./schema";
 import type { MockupRecord } from "@/lib/mockups/types";
-import { SEEDED_CATEGORY_COUNT, seedCatalogTaxonomy } from "./taxonomy";
+import { FOLDED_OCCASION_SLUGS, OCCASION_COLLECTION_SLUG, SEEDED_CATEGORY_COUNT, seedCatalogTaxonomy } from "./taxonomy";
 
 const NOW = "2026-01-01T00:00:00.000Z";
 
@@ -52,11 +52,13 @@ function writeInput(overrides: Partial<DesignWriteInput> = {}): DesignWriteInput
 test("seed inserts the full hierarchy once and keeps edits", () => {
   const first = seedCatalogTaxonomy(emptyCatalog(), NOW);
   assert.equal(SEEDED_CATEGORY_COUNT, 210);
-  assert.equal(first.created, 210 + 6 + 59 + 24);
+  assert.equal(first.created, 210 + 6 + 59 + 14);
   assert.equal(first.catalog.categories.length, 210);
   assert.equal(first.catalog.attributeGroups.length, 6);
   assert.equal(first.catalog.attributeValues.length, 59);
-  assert.equal(first.catalog.collections.length, 24);
+  assert.equal(first.catalog.collections.length, 14);
+  assert.equal(first.catalog.collections.some((item) => item.slug === OCCASION_COLLECTION_SLUG), true);
+  assert.equal(first.catalog.collections.some((item) => item.slug === "mothers-day"), false);
 
   const slugs = first.catalog.categories.map((category) => category.slug);
   assert.equal(new Set(slugs).size, slugs.length);
@@ -98,6 +100,32 @@ test("seed inserts the full hierarchy once and keeps edits", () => {
   assert.ok(second.catalog.categories.some((category) => category.slug === "custom-shop"));
   assert.deepEqual(second.catalog.designs[0]?.categoryIds, [animals.id, custom.category.id]);
   assert.equal(second.catalog.categories.filter((category) => category.slug === "animals").length, 0);
+});
+
+test("old occasion collections fold into مناسبت خاص", () => {
+  const seeded = seedCatalogTaxonomy(emptyCatalog(), NOW);
+  const occasion = seeded.catalog.collections.find((item) => item.slug === OCCASION_COLLECTION_SLUG);
+  assert.ok(occasion);
+  const yalda = {
+    ...occasion,
+    id: "col_yalda",
+    name: "یلدا",
+    slug: "yalda",
+    sortOrder: 900,
+  };
+  seeded.catalog.collections.push(yalda);
+  const created = createDesign(seeded.catalog, writeInput({
+    slug: "yalda-cat",
+    collectionIds: [yalda.id, occasion.id],
+  }), NOW);
+  const folded = seedCatalogTaxonomy(created.catalog, "2026-02-01T00:00:00.000Z");
+  const design = folded.catalog.designs[0];
+  assert.ok(design);
+  assert.equal(design.collectionIds.includes(yalda.id), false);
+  assert.equal(design.collectionIds.includes(occasion.id), true);
+  assert.equal(design.collectionIds.filter((id) => id === occasion.id).length, 1);
+  assert.equal(folded.catalog.collections.find((item) => item.slug === "yalda")?.status, "archived");
+  assert.equal(FOLDED_OCCASION_SLUGS.includes("yalda"), true);
 });
 
 test("a design can belong to several categories and keeps them on re-import", () => {

@@ -8,6 +8,7 @@ import type Konva from "konva";
 import {
   dataUrlToFile,
   downloadDataUrl,
+  EXPORT_STAGE_PIXEL_RATIO,
   exportStageToDataUrl,
   shareOrDownloadImage,
   type ExportImageFormat,
@@ -77,7 +78,7 @@ export default function SaveImageModal({
     if (!stage) return null;
     const dataUrl = await exportStageToDataUrl(stage, {
       format,
-      pixelRatio: 3,
+      pixelRatio: EXPORT_STAGE_PIXEL_RATIO,
     });
     const mime = format === "jpg" ? "image/jpeg" : "image/png";
     const file = dataUrlToFile(dataUrl, filename, mime);

@@ -2,6 +2,9 @@ import type Konva from "konva";
 
 export type ExportImageFormat = "png" | "jpg";
 
+/** Pixel ratio used when the editor exports a finished case image. */
+export const EXPORT_STAGE_PIXEL_RATIO = 3;
+
 export const EXPORT_MIME: Record<ExportImageFormat, string> = {
   png: "image/png",
   jpg: "image/jpeg",
@@ -72,7 +75,10 @@ export async function exportStageToFile(
   filename: string,
   format: ExportImageFormat,
 ): Promise<File> {
-  const dataUrl = await exportStageToDataUrl(stage, { format, pixelRatio: 3 });
+  const dataUrl = await exportStageToDataUrl(stage, {
+    format,
+    pixelRatio: EXPORT_STAGE_PIXEL_RATIO,
+  });
   return dataUrlToFile(dataUrl, filename, EXPORT_MIME[format]);
 }
 

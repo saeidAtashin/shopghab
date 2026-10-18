@@ -49,10 +49,18 @@ export default function MockupStatusPanel() {
       });
   }, []);
 
+  const summary = report
+    ? `آماده ${report.summary.ready} · ناقص ${report.summary.missing} · خطا ${report.summary.errors}`
+    : "";
+
   return (
-    <section className="mb-6 rounded-3xl border border-border bg-surface p-4" aria-label="وضعیت موکاپ قاب">
-      <h2 className="text-sm font-bold">موکاپ قاب</h2>
-      <p className="mt-2 text-xs leading-6 text-muted">
+    <details className="mb-6 rounded-3xl border border-border bg-surface" aria-label="وضعیت موکاپ قاب">
+      <summary className="flex cursor-pointer list-none flex-wrap items-center gap-3 px-4 py-4 text-sm font-bold [&::-webkit-details-marker]:hidden">
+        <span>موکاپ قاب</span>
+        {summary ? <span className="font-normal text-muted">{summary}</span> : null}
+      </summary>
+      <div className="px-4 pb-4">
+      <p className="text-xs leading-6 text-muted">
         ساخت و بازسازی تصویرها فقط با دستور محلی انجام می‌شود: npm run mockups:generate -- --design=slug یا --all.
         صفحه فروش این فایل‌های PSD را باز نمی‌کند.
       </p>
@@ -89,6 +97,7 @@ export default function MockupStatusPanel() {
           ) : null}
         </div>
       ) : null}
-    </section>
+      </div>
+    </details>
   );
 }

@@ -12,6 +12,7 @@ type Props = {
   id: string;
   src: string;
   alt: string;
+  thumb?: string;
   priority?: boolean;
   sizes: string;
   className?: string;
@@ -22,6 +23,7 @@ export default function DesignArtworkStage({
   id,
   src,
   alt,
+  thumb,
   priority = false,
   sizes,
   className,
@@ -74,7 +76,7 @@ export default function DesignArtworkStage({
 
       {active ? (
         <div className="pointer-events-none absolute inset-0 z-[3]" aria-hidden>
-          <DesignSamplePhoneHover id={id} imageSrc={src} active />
+          <DesignSamplePhoneHover id={id} imageSrc={thumb || src} active />
         </div>
       ) : null}
 

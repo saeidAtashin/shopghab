@@ -147,10 +147,7 @@ export default function DesignSamplePhoneHover({
         />
       </div>
 
-      <div
-        className="pointer-events-none absolute inset-0 bg-background/15 backdrop-blur-sm"
-        aria-hidden
-      />
+      <div className="pointer-events-none absolute inset-0 bg-background/40" aria-hidden />
 
       <motion.div
         ref={phoneRef}

@@ -1,10 +1,11 @@
 "use client";
 
-import { memo, useEffect, useRef } from "react";
+import { memo, useEffect, useMemo, useRef } from "react";
 import { Image as KonvaImage } from "react-konva";
 import useImage from "use-image";
 import type Konva from "konva";
 
+import { downscaleBitmap, EDITOR_BITMAP_MAX_EDGE } from "@/lib/design/downscale-bitmap";
 import {
   applyImageLayerFilters,
   blendModeToKonva,
@@ -16,10 +17,20 @@ import type { ImageLayer } from "@/lib/design/types";
 type Props = {
   layer: ImageLayer;
   handlers?: Record<string, unknown>;
+  /** Longest decoded edge. Previews pass a smaller cap than the editor export. */
+  maxBitmapEdge?: number;
 };
 
-function DesignImageLayerNode({ layer, handlers }: Props) {
+function DesignImageLayerNode({
+  layer,
+  handlers,
+  maxBitmapEdge = EDITOR_BITMAP_MAX_EDGE,
+}: Props) {
   const [image] = useImage(layer.src, "anonymous");
+  const bitmap = useMemo(
+    () => (image ? downscaleBitmap(image, maxBitmapEdge) : null),
+    [image, maxBitmapEdge],
+  );
   const imageRef = useRef<Konva.Image>(null);
   const pendingEffectPreview = useEditorStore((s) =>
     s.pendingEffectPreview?.layerId === layer.id ? s.pendingEffectPreview : null,
@@ -28,12 +39,12 @@ function DesignImageLayerNode({ layer, handlers }: Props) {
 
   useEffect(() => {
     const node = imageRef.current;
-    if (!node || !image) return;
+    if (!node || !bitmap) return;
 
     applyImageLayerFilters(node, layer, pendingEffectPreview);
     node.getLayer()?.batchDraw();
   }, [
-    image,
+    bitmap,
     layer,
     pendingEffectPreview,
     effectsKey,
@@ -48,7 +59,7 @@ function DesignImageLayerNode({ layer, handlers }: Props) {
     <KonvaImage
       ref={imageRef}
       id={layer.id}
-      image={image}
+      image={bitmap ?? undefined}
       x={layer.x}
       y={layer.y}
       width={layer.width}

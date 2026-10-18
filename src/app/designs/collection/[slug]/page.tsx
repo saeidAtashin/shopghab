@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 
 import CatalogBreadcrumbs from "@/app/components/designs/CatalogBreadcrumbs";
 import CatalogListing from "@/app/components/designs/CatalogListing";
@@ -12,6 +12,7 @@ import {
   queryPublicDesigns,
 } from "@/lib/catalog/logic";
 import { readCatalog } from "@/lib/catalog/store";
+import { FOLDED_OCCASION_SLUGS, OCCASION_COLLECTION_SLUG } from "@/lib/catalog/taxonomy";
 import { breadcrumbJsonLd, breadcrumbTrail } from "@/lib/seo/breadcrumbs";
 import { collectionPageJsonLd, itemListJsonLd, webPageJsonLd } from "@/lib/seo/jsonld";
 import { createPageMetadata } from "@/lib/seo/metadata";
@@ -23,8 +24,15 @@ type Props = {
   searchParams: Promise<{ q?: string; sort?: string; page?: string }>;
 };
 
+function redirectFoldedOccasion(slug: string) {
+  if ((FOLDED_OCCASION_SLUGS as readonly string[]).includes(slug)) {
+    permanentRedirect(`/designs/collection/${OCCASION_COLLECTION_SLUG}`);
+  }
+}
+
 export async function generateMetadata({ params, searchParams }: Props) {
   const { slug } = await params;
+  redirectFoldedOccasion(slug);
   const query = parsePublicListingQuery(await searchParams);
   const catalog = readCatalog();
   const collection = catalog.collections.find((item) => item.slug === slug);
@@ -41,6 +49,7 @@ export async function generateMetadata({ params, searchParams }: Props) {
 
 export default async function DesignCollectionPage({ params, searchParams }: Props) {
   const { slug } = await params;
+  redirectFoldedOccasion(slug);
   const query = parsePublicListingQuery(await searchParams);
   const catalog = readCatalog();
   const collection = catalog.collections.find((item) => item.slug === slug);

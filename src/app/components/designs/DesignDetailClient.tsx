@@ -62,6 +62,7 @@ export default function DesignDetailClient({
             <DesignArtworkStage
               id={previewId}
               src={active.src}
+              thumb={active.thumb}
               alt={imageAlt}
               priority
               sizes="(max-width: 1024px) 100vw, 640px"

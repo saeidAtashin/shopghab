@@ -77,39 +77,42 @@ export default function CategoryMultiSelect({ categories, selectedIds, onChange 
     );
   }
 
-  function renderNode(category: CategoryRecord, depth: number) {
+  function renderNode(category: CategoryRecord) {
     const children = byParent.get(category.id) ?? [];
     const open = openIds.includes(category.id);
     const checked = selectedIds.includes(category.id);
+    const expanded = open && children.length > 0;
     return (
-      <li key={category.id}>
-        <div className="flex items-center gap-1 py-0.5" style={{ paddingInlineStart: depth * 12 }}>
+      <li key={category.id} className={expanded ? "col-span-full" : undefined}>
+        <div className="flex items-center gap-1">
           {children.length > 0 ? (
             <button
               type="button"
-              className="grid h-11 w-11 shrink-0 place-items-center rounded-xl text-sm text-muted hover:bg-white/5"
+              className="grid h-11 w-9 shrink-0 place-items-center rounded-xl text-sm text-muted hover:bg-white/5"
               aria-expanded={open}
               aria-label={`${open ? "بستن" : "باز کردن"} ${category.name}`}
               onClick={() => toggleOpen(category.id)}
             >
               {open ? "−" : "+"}
             </button>
-          ) : (
-            <span className="w-11 shrink-0" />
-          )}
+          ) : null}
           <button
             type="button"
             aria-pressed={checked}
             onClick={() => toggle(category.id)}
-            className={`flex min-h-11 flex-1 items-center gap-3 rounded-2xl px-3 text-sm ${
+            className={`flex min-h-11 flex-1 items-center gap-2 rounded-2xl px-3 text-sm ${
               checked ? "bg-cyan-500/15 text-cyan-100" : "hover:bg-white/5"
             }`}
           >
             <ChoiceMark checked={checked} />
-            <span>{category.name}</span>
+            <span className="text-start">{category.name}</span>
           </button>
         </div>
-        {open && children.length > 0 ? <ul>{children.map((child) => renderNode(child, depth + 1))}</ul> : null}
+        {expanded ? (
+          <ul className="mt-2 grid grid-cols-2 gap-2 md:grid-cols-3">
+            {children.map((child) => renderNode(child))}
+          </ul>
+        ) : null}
       </li>
     );
   }
@@ -147,7 +150,7 @@ export default function CategoryMultiSelect({ categories, selectedIds, onChange 
         matches.length === 0 ? (
           <p className="text-sm text-muted">دسته‌ای با این عبارت پیدا نشد.</p>
         ) : (
-          <ul className="max-h-80 space-y-1 overflow-auto">
+          <ul className="grid max-h-80 grid-cols-2 gap-2 overflow-auto md:grid-cols-3">
             {matches.map((category) => {
               const checked = selectedIds.includes(category.id);
               return (
@@ -156,7 +159,7 @@ export default function CategoryMultiSelect({ categories, selectedIds, onChange 
                     type="button"
                     aria-pressed={checked}
                     onClick={() => toggle(category.id)}
-                    className={`flex min-h-11 w-full items-center gap-3 rounded-2xl px-3 text-sm ${
+                    className={`flex min-h-11 w-full items-center gap-2 rounded-2xl px-3 text-sm ${
                       checked ? "bg-cyan-500/15 text-cyan-100" : "hover:bg-white/5"
                     }`}
                   >
@@ -170,8 +173,8 @@ export default function CategoryMultiSelect({ categories, selectedIds, onChange 
           </ul>
         )
       ) : (
-        <ul className="max-h-80 overflow-auto">
-          {(byParent.get(null) ?? []).map((category) => renderNode(category, 0))}
+        <ul className="grid max-h-80 grid-cols-2 gap-2 overflow-auto md:grid-cols-3">
+          {(byParent.get(null) ?? []).map((category) => renderNode(category))}
         </ul>
       )}
     </fieldset>

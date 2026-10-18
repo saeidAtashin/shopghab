@@ -37,11 +37,14 @@ export default function DesignImageZoom({ open, src, alt, onClose }: Props) {
   const [scale, setScale] = useState(MIN_SCALE);
   const [offset, setOffset] = useState<Offset>({ x: 0, y: 0 });
   const [dragging, setDragging] = useState(false);
+  const [sharp, setSharp] = useState(false);
   const dragOrigin = useRef<{ x: number; y: number; ox: number; oy: number } | null>(null);
+  const imageSizes = sharp ? "2560px" : "(max-width: 1100px) 90vw, 1100px";
 
   function applyScale(next: number): void {
     const clamped = clamp(next, MIN_SCALE, MAX_SCALE);
     setScale(clamped);
+    if (clamped > MIN_SCALE) setSharp(true);
     setOffset((current) => (clamped === MIN_SCALE ? { x: 0, y: 0 } : clampOffset(current, clamped)));
   }
 
@@ -51,9 +54,11 @@ export default function DesignImageZoom({ open, src, alt, onClose }: Props) {
     if (open) {
       setScale(MIN_SCALE);
       setOffset({ x: 0, y: 0 });
+      setSharp(false);
       if (!node.open) node.showModal();
       return;
     }
+    setSharp(false);
     if (node.open) node.close();
   }, [open]);
 
@@ -69,6 +74,7 @@ export default function DesignImageZoom({ open, src, alt, onClose }: Props) {
       const direction = event.deltaY < 0 ? 1 : -1;
       const next = clamp(scaleRef.current + direction * SCALE_STEP, MIN_SCALE, MAX_SCALE);
       setScale(next);
+      if (next > MIN_SCALE) setSharp(true);
       setOffset((current) => (next === MIN_SCALE ? { x: 0, y: 0 } : clampOffset(current, next)));
     };
 
@@ -167,15 +173,16 @@ export default function DesignImageZoom({ open, src, alt, onClose }: Props) {
               transition: dragging ? "none" : "transform 150ms ease-out",
             }}
           >
-            <Image
-              src={designedAssetUrl(src)}
-              alt={label}
-              fill
-              priority
-              draggable={false}
-              sizes="90vw"
-              className="object-contain"
-            />
+            {open ? (
+              <Image
+                src={designedAssetUrl(src)}
+                alt={label}
+                fill
+                draggable={false}
+                sizes={imageSizes}
+                className="object-contain"
+              />
+            ) : null}
           </div>
         </div>
       ) : null}

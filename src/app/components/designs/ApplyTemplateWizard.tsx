@@ -7,7 +7,7 @@ import { Check, Search, X } from "lucide-react";
 
 import { PhoneBackSvg } from "@/app/components/case-wizard/PhoneBackSvg";
 import { usePreferredBrandLoader } from "@/app/context/PreferredBrandLoaderContext";
-import DesignSamplePreview from "@/app/components/designs/DesignSamplePreview";
+import { designedAssetUrl } from "@/lib/designed-assets";
 import {
   buildCustomDesignPath,
   getBrandBySlug,
@@ -230,7 +230,14 @@ export default function ApplyTemplateWizard({
         <div className="flex shrink-0 items-start justify-between gap-3 border-b border-border p-4 sm:p-5">
           <div className="flex min-w-0 flex-1 items-start gap-3">
             <div className="flex shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border bg-background/50 p-1.5">
-              <DesignSamplePreview template={template} maxHeight={72} />
+              <Image
+                src={designedAssetUrl(template.thumbnail)}
+                alt=""
+                width={36}
+                height={72}
+                sizes="72px"
+                className="h-[72px] w-auto object-contain"
+              />
             </div>
             <div className="min-w-0 flex-1">
               <h2

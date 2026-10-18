@@ -30,6 +30,8 @@ export default function DesignSamplePreview({
   const displayHeight = height * scale;
   const visibleLayers = template.layers.filter(isLayerVisible);
   const [, setFontsTick] = useState(0);
+  const [pixelRatio, setPixelRatio] = useState(2);
+  const maxBitmapEdge = Math.max(1, Math.ceil(maxHeight * pixelRatio));
 
   const textFamilies = useMemo(() => {
     const families = new Set<string>([DEFAULT_EDITOR_FONT]);
@@ -40,6 +42,10 @@ export default function DesignSamplePreview({
     }
     return [...families];
   }, [template.layers]);
+
+  useEffect(() => {
+    setPixelRatio(window.devicePixelRatio || 1);
+  }, []);
 
   useEffect(() => {
     void loadEditorFonts(textFamilies).then(() => {
@@ -88,7 +94,13 @@ export default function DesignSamplePreview({
                 );
               }
 
-              return <DesignImageLayerNode key={layer.id} layer={layer as ImageLayer} />;
+              return (
+                <DesignImageLayerNode
+                  key={layer.id}
+                  layer={layer as ImageLayer}
+                  maxBitmapEdge={maxBitmapEdge}
+                />
+              );
             })}
           </Group>
         </Layer>
