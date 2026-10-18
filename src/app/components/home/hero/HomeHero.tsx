@@ -1,42 +1,29 @@
 "use client";
 
 import { useReducedMotion } from "framer-motion";
-import { ChevronLeft, ChevronRight, Palette, Sparkles } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
 import { cn } from "@/lib/utils";
-import HomeHeroContent from "./HomeHeroContent";
-import { HERO_CTAS, HERO_HEADING } from "./hero.constants";
 
 const SLIDES = [
   {
-    src: "/banner.webp",
-    alt: HERO_HEADING,
-    hasContent: true,
-    href: HERO_CTAS.primary.href,
-    linkLabel: HERO_CTAS.primary.label,
-    sheetTitle: HERO_HEADING,
-    sheetLabel: HERO_CTAS.primary.label,
+    src: "/images/banner-shopghab-dark.webp",
+    alt: "قاب‌هایی با طرح‌های خاص برای همه انواع موبایل",
+  },
+  {
+    src: "/images/banner-shopghab-light.webp",
+    alt: "قاب‌هایی با طرح‌های خاص شاپ قاب",
   },
   {
     src: "/images/banner-shopghab-org.webp",
     alt: "بنر شاپ قاب",
-    hasContent: false,
-    href: "/designs",
-    linkLabel: "طراحی‌های آماده",
-    sheetTitle: "طرح‌های آماده",
-    sheetLabel: "مشاهده طرح‌ها",
   },
   {
     src: "/images/banner-shopghab-2.webp",
     alt: "بنر طراحی آماده شاپ قاب",
-    hasContent: false,
-    href: "/designs",
-    linkLabel: "طراحی‌های آماده",
-    sheetTitle: "طرح‌های آماده",
-    sheetLabel: "مشاهده طرح‌ها",
   },
 ] as const;
 
@@ -66,9 +53,6 @@ export default function HomeHero() {
     return () => window.clearInterval(timer);
   }, [goNext, isPaused, prefersReducedMotion]);
 
-  const activeSlide = SLIDES[activeIndex];
-  const SheetIcon = activeSlide.hasContent ? Palette : Sparkles;
-
   return (
     <section
       aria-roledescription="carousel"
@@ -84,7 +68,7 @@ export default function HomeHero() {
       }}
     >
       <div
-        className="relative aspect-[16/10] w-full overflow-hidden md:aspect-1672/941"
+        className="relative aspect-[1024/682] w-full overflow-hidden bg-background"
         aria-live="polite"
       >
         {SLIDES.map((slide, index) => {
@@ -105,37 +89,17 @@ export default function HomeHero() {
                 fill
                 priority={index === 0}
                 sizes="100vw"
-                className="object-cover object-center md:object-right"
+                className="object-contain object-center"
               />
             </div>
           );
         })}
 
         <Link
-          href={activeSlide.href}
+          href="/designs"
           className="absolute inset-0 z-1"
-          aria-label={activeSlide.linkLabel}
+          aria-label="مشاهده طرح‌ها"
         />
-
-        <div
-          className={cn(
-            "pointer-events-none absolute inset-0 z-10 hidden transition-opacity md:block",
-            prefersReducedMotion ? "duration-0" : "duration-500",
-            activeSlide.hasContent ? "opacity-100" : "opacity-0",
-          )}
-          inert={!activeSlide.hasContent}
-          aria-hidden={!activeSlide.hasContent}
-        >
-          <div
-            className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.78)_0%,rgba(0,0,0,0.38)_36%,transparent_68%)]"
-            aria-hidden
-          />
-          <div className="relative flex h-full items-center justify-end overflow-hidden px-8 pt-20 pb-14 lg:px-16">
-            <div className="pointer-events-auto w-full max-w-md">
-              <HomeHeroContent variant="onDark" />
-            </div>
-          </div>
-        </div>
 
         <button
           type="button"
@@ -176,19 +140,6 @@ export default function HomeHero() {
             </button>
           ))}
         </div>
-      </div>
-
-      <div className="border-t border-border bg-background px-4 pt-3 pb-4 md:hidden">
-        <p className="line-clamp-2 min-h-14 text-right text-lg font-black leading-7 text-foreground">
-          {activeSlide.sheetTitle}
-        </p>
-        <Link
-          href={activeSlide.href}
-          className="mt-3 flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-cyan-500 text-sm font-bold text-black shadow-lg shadow-cyan-500/20"
-        >
-          <SheetIcon className="h-4 w-4" aria-hidden />
-          {activeSlide.sheetLabel}
-        </Link>
       </div>
     </section>
   );
