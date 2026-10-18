@@ -47,6 +47,7 @@ export default function PhoneVerificationModal({
   const [smsSent, setSmsSent] = useState(false);
 
   const otpRefs = useRef<Array<HTMLInputElement | null>>([]);
+  const phoneInputRef = useRef<HTMLInputElement | null>(null);
   const lastAutoSentPhone = useRef<string | null>(null);
   const lastAttemptedOtp = useRef<string | null>(null);
   const sendingRef = useRef(false);
@@ -85,10 +86,20 @@ export default function PhoneVerificationModal({
   }, [open, initialPhone]);
 
   useEffect(() => {
-    if (codeSent) {
+    if (!open || codeSent || phoneLocked || sendingOtp) return;
+    phoneInputRef.current?.focus();
+  }, [open, codeSent, phoneLocked, sendingOtp]);
+
+  useEffect(() => {
+    if (codeSent && !sendingOtp) {
       otpRefs.current[0]?.focus();
     }
-  }, [codeSent]);
+  }, [codeSent, sendingOtp]);
+
+  useEffect(() => {
+    if (!open || !codeSent || verifying || !error) return;
+    otpRefs.current[0]?.focus();
+  }, [open, codeSent, verifying, error]);
 
   useEffect(() => {
     if (!codeSent || counter <= 0) return;
@@ -281,6 +292,7 @@ export default function PhoneVerificationModal({
           {!codeSent ? (
             <>
               <input
+                ref={phoneInputRef}
                 type="tel"
                 inputMode="tel"
                 value={phone}

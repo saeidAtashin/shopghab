@@ -48,6 +48,8 @@ export default function LoginPage() {
 
   // refs برای ۴ input
   const otpRefs = useRef<Array<HTMLInputElement | null>>([]);
+  const phoneInputRef = useRef<HTMLInputElement | null>(null);
+  const usernameInputRef = useRef<HTMLInputElement | null>(null);
   const lastAutoSentPhone = useRef<string | null>(null);
   const lastAttemptedOtp = useRef<string | null>(null);
   const sendingRef = useRef(false);
@@ -57,12 +59,26 @@ export default function LoginPage() {
   counterRef.current = counter;
   phoneRef.current = phone;
 
-  // وقتی وارد حالت OTP شد و کد ارسال شد، روی input اول فوکوس کن
   useEffect(() => {
-    if (codeSent) {
-      otpRefs.current[0]?.focus();
+    if (authLoading || user) return;
+
+    if (mode === "password") {
+      usernameInputRef.current?.focus();
+      return;
     }
-  }, [codeSent]);
+
+    if (!codeSent) {
+      if (!sendingOtp) phoneInputRef.current?.focus();
+      return;
+    }
+
+    otpRefs.current[0]?.focus();
+  }, [authLoading, user, mode, codeSent, sendingOtp]);
+
+  useEffect(() => {
+    if (authLoading || user || mode !== "otp" || !codeSent || verifyingOtp || !error) return;
+    otpRefs.current[0]?.focus();
+  }, [authLoading, user, mode, codeSent, verifyingOtp, error]);
 
   // Countdown timer (server validates expiry on /api/auth/otp/verify)
   useEffect(() => {
@@ -277,6 +293,7 @@ export default function LoginPage() {
         {mode === "password" ? (
           <div className="space-y-4">
             <input
+              ref={usernameInputRef}
               value={phone_number}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setPhone_number(e.target.value)
@@ -314,6 +331,7 @@ export default function LoginPage() {
             {!codeSent ? (
               <form onSubmit={handleSendOtpSubmit} className="space-y-4">
                 <input
+                  ref={phoneInputRef}
                   type="tel"
                   inputMode="numeric"
                   value={phone}
