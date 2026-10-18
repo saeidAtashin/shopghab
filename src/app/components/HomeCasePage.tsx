@@ -9,7 +9,7 @@ import { getModelBySlug } from "@/lib/cases/brands.static";
 import { getCaseTemplateBySlug } from "@/lib/cases/templates.static";
 import { designHasImage, isPublishedDesign } from "@/lib/catalog/logic";
 import { readCatalog } from "@/lib/catalog/store";
-import { LANDING_SECTION_COPY, type LandingSectionKey } from "@/lib/landing/sections";
+import { LANDING_SECTION_COPY, selectLandingItems, type LandingSectionKey } from "@/lib/landing/sections";
 import { readLandingSections } from "@/lib/landing/store";
 import { landingTaxonomy } from "@/lib/landing/taxonomy";
 import type { CaseTemplate } from "@/lib/design/types";
@@ -88,7 +88,7 @@ export default function HomeCasePage() {
             key={key}
             title={LANDING_SECTION_COPY[key].title}
             description={LANDING_SECTION_COPY[key].description}
-            items={taxonomy[key]}
+            items={selectLandingItems(taxonomy[key], landing[key].itemIds)}
             style={landing[key].style}
             seeAllHref="/designs"
           />

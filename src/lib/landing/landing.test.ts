@@ -11,7 +11,7 @@ import {
   queryPublicDesigns,
 } from "../catalog/logic";
 import type { CategoryWriteInput, DesignWriteInput } from "../catalog/schema";
-import { DEFAULT_LANDING_SECTIONS, parseLandingSections } from "./sections";
+import { DEFAULT_LANDING_SECTIONS, parseLandingSections, selectLandingItems } from "./sections";
 import { landingTaxonomy } from "./taxonomy";
 
 const NOW = "2026-01-01T00:00:00.000Z";
@@ -35,6 +35,31 @@ test("landing section defaults survive invalid files", () => {
   assert.equal(parseLandingSections({ categories: { visible: true, style: "nope" } }).categories.style, "bento");
   assert.deepEqual(parseLandingSections(DEFAULT_LANDING_SECTIONS), DEFAULT_LANDING_SECTIONS);
   assert.equal(parseLandingSections(undefined).categories.visible, true);
+  assert.equal(parseLandingSections(undefined).features.itemIds, undefined);
+  assert.deepEqual(
+    parseLandingSections({
+      ...DEFAULT_LANDING_SECTIONS,
+      features: { visible: true, style: "glass", itemIds: ["val_red", "missing"] },
+    }).features.itemIds,
+    ["val_red", "missing"],
+  );
+});
+
+test("landing item selection keeps order and drops unknown ids", () => {
+  const items = [
+    { id: "red", title: "قرمز" },
+    { id: "blue", title: "آبی" },
+    { id: "green", title: "سبز" },
+  ];
+  assert.deepEqual(
+    selectLandingItems(items, undefined).map((item) => item.id),
+    ["red", "blue", "green"],
+  );
+  assert.deepEqual(
+    selectLandingItems(items, ["green", "missing", "red", "green"]).map((item) => item.id),
+    ["green", "red"],
+  );
+  assert.deepEqual(selectLandingItems(items, []), []);
 });
 
 test("attribute query filters published designs and stays out of the index", () => {
@@ -106,7 +131,12 @@ test("attribute query filters published designs and stays out of the index", () 
   assert.equal(cards.collections.length, 2);
   assert.equal(cards.collections[0]?.href, "/designs/collection/yalda");
   assert.equal(cards.features.length, 1);
-  assert.equal(cards.features[0]?.chips[0]?.href, `/designs?attr=${encodeURIComponent(value.id)}`);
+  assert.equal(cards.features[0]?.title, "قرمز");
+  assert.equal(cards.features[0]?.description, "رنگ");
+  assert.equal(cards.features[0]?.group, "رنگ");
+  assert.equal(cards.features[0]?.href, `/designs?attr=${encodeURIComponent(value.id)}`);
+  assert.equal(cards.featureGroups.length, 1);
+  assert.equal(cards.featureGroups[0]?.chips[0]?.href, `/designs?attr=${encodeURIComponent(value.id)}`);
 
   assert.equal(queryPublicDesigns(emptyCollection.catalog, { attributeValueId: value.id }).total, 1);
   assert.equal(queryPublicDesigns(emptyCollection.catalog, { attributeValueId: "val_missing" }).total, 0);

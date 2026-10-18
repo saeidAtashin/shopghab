@@ -4764,13 +4764,16 @@
       "thumbnailPath": "/designed/thumbs/vecteezy_abstract-background-black-and-white-ball-repeat-pattern_53688284.webp",
       "width": 1681,
       "height": 1920,
-      "title": "طرح قاب انتزاعی Abstract Background Black And White Ball Repeat Pattern",
-      "titleEn": "",
+      "title": "طرح قاب انتزاعی",
+      "titleEn": "Abstract Background Black And White Ball Repeat Pattern",
       "slug": "vecteezy_abstract-background-black-and-white-ball-repeat-pattern_53688284",
       "shortDescription": "طرح قاب انتزاعی Abstract Background Black And White Ball Repeat Pattern — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "description": "طرح قاب انتزاعی Abstract Background Black And White Ball Repeat Pattern — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_c59ddd3f7ba6"
+        "cat_c59ddd3f7ba6",
+        "cat_0feae16d5536",
+        "cat_13c8bb6d4284",
+        "cat_fd1802a34b5f"
       ],
       "tags": [
         "انتزاعی",
@@ -4779,7 +4782,19 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_87ccac233e86",
+        "val_a3d2f3d093a8",
+        "val_3e300ac7bc4c",
+        "val_cc09f73b02a0",
+        "val_4a5cb1b822de",
+        "val_e4d90923e1cf",
+        "val_385daa843360",
+        "val_d2d2c66b203d",
+        "val_c67b7018d3ca",
+        "val_724549f44e75",
+        "val_735377ec49ee"
+      ],
       "collectionIds": [],
       "alt": "طرح قاب انتزاعی Abstract Background Black And White Ball Repeat Pattern",
       "gallery": [],
@@ -4829,7 +4844,7 @@
       "sortOrder": 23,
       "assetMissing": false,
       "createdAt": "2026-07-23T21:18:52.033Z",
-      "updatedAt": "2026-10-16T18:51:06.284Z",
+      "updatedAt": "2026-10-18T07:35:03.065Z",
       "publishedAt": "2026-07-23T21:18:52.033Z"
     },
     {
@@ -11309,8 +11324,8 @@
       "thumbnailPath": "/designed/thumbs/vecteezy_arabic-luxury-and-elegant-islamic-background-with-pattern_9922551.webp",
       "width": 1920,
       "height": 1080,
-      "title": "طرح قاب اسلامی Arabic Luxury And Elegant Islamic Background With Pattern",
-      "titleEn": "",
+      "title": "طرح قاب اسلامی",
+      "titleEn": "Arabic Luxury And Elegant Islamic Background With Pattern",
       "slug": "vecteezy_arabic-luxury-and-elegant-islamic-background-with-pattern_9922551",
       "shortDescription": "طرح قاب اسلامی Arabic Luxury And Elegant Islamic Background With Pattern — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "description": "طرح قاب اسلامی Arabic Luxury And Elegant Islamic Background With Pattern — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
@@ -11374,7 +11389,7 @@
       "sortOrder": 108,
       "assetMissing": false,
       "createdAt": "2026-07-23T21:25:16.573Z",
-      "updatedAt": "2026-10-16T18:51:06.284Z",
+      "updatedAt": "2026-10-18T07:32:46.835Z",
       "publishedAt": "2026-07-23T21:25:16.573Z"
     },
     {
@@ -11848,8 +11863,8 @@
       "thumbnailPath": "/designed/thumbs/vecteezy_color-ornamental-patterned-stone-relief-in-arabic_5939891.webp",
       "width": 1920,
       "height": 1280,
-      "title": "طرح قاب اسلامی Color Ornamental Patterned Stone Relief In Arabic",
-      "titleEn": "",
+      "title": "طرح قاب اسلامی",
+      "titleEn": "Color Ornamental Patterned Stone Relief In Arabic",
       "slug": "vecteezy_color-ornamental-patterned-stone-relief-in-arabic_5939891",
       "shortDescription": "طرح قاب اسلامی Color Ornamental Patterned Stone Relief In Arabic — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "description": "طرح قاب اسلامی Color Ornamental Patterned Stone Relief In Arabic — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
@@ -11913,7 +11928,7 @@
       "sortOrder": 115,
       "assetMissing": false,
       "createdAt": "2026-07-23T21:25:49.249Z",
-      "updatedAt": "2026-10-16T18:51:06.284Z",
+      "updatedAt": "2026-10-18T07:32:56.688Z",
       "publishedAt": "2026-07-23T21:25:49.249Z"
     },
     {

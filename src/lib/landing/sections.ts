@@ -5,6 +5,7 @@ export const landingCardStyleSchema = z.enum(["glass", "bento", "editorial", "ti
 export const landingSectionSchema = z.object({
   visible: z.boolean(),
   style: landingCardStyleSchema,
+  itemIds: z.array(z.string()).optional(),
 });
 
 export const landingSectionsSchema = z.object({
@@ -53,4 +54,21 @@ export function parseLandingSections(value: unknown): LandingSections {
   const parsed = landingSectionsSchema.safeParse(value);
   if (!parsed.success) return structuredClone(DEFAULT_LANDING_SECTIONS);
   return parsed.data;
+}
+
+export function selectLandingItems<T extends { id: string }>(
+  items: T[],
+  itemIds: string[] | undefined,
+): T[] {
+  if (itemIds === undefined) return items;
+  const byId = new Map(items.map((item) => [item.id, item]));
+  const seen = new Set<string>();
+  const selected: T[] = [];
+  for (const id of itemIds) {
+    if (seen.has(id)) continue;
+    seen.add(id);
+    const item = byId.get(id);
+    if (item) selected.push(item);
+  }
+  return selected;
 }

@@ -23,11 +23,13 @@ export type TaxonomyCard = {
   image: string;
   count: number;
   chips: TaxonomyChip[];
+  group?: string;
 };
 
 export type LandingTaxonomy = {
   categories: TaxonomyCard[];
   features: TaxonomyCard[];
+  featureGroups: TaxonomyCard[];
   collections: TaxonomyCard[];
 };
 
@@ -88,7 +90,8 @@ export function landingTaxonomy(catalog: DesignCatalog): LandingTaxonomy {
       };
     });
 
-  const features = [...catalog.attributeGroups]
+  const features: TaxonomyCard[] = [];
+  const featureGroups = [...catalog.attributeGroups]
     .sort((a, b) => a.sortOrder - b.sortOrder || a.name.localeCompare(b.name, "fa"))
     .map((group) => {
       const values = catalog.attributeValues
@@ -98,11 +101,18 @@ export function landingTaxonomy(catalog: DesignCatalog): LandingTaxonomy {
       const valueIds = new Set(values.map((value) => value.id));
       let image = "";
       for (const value of values) {
-        const thumb = valueThumb.get(value.id);
-        if (thumb) {
-          image = thumb;
-          break;
-        }
+        const thumb = valueThumb.get(value.id) ?? "";
+        if (!image && thumb) image = thumb;
+        features.push({
+          id: value.id,
+          title: value.name,
+          description: group.name,
+          href: `/designs?attr=${encodeURIComponent(value.id)}`,
+          image: thumb,
+          count: published.filter((design) => design.attributeValueIds.includes(value.id)).length,
+          chips: [],
+          group: group.name,
+        });
       }
       const count = published.filter((design) =>
         design.attributeValueIds.some((id) => valueIds.has(id)),
@@ -138,5 +148,5 @@ export function landingTaxonomy(catalog: DesignCatalog): LandingTaxonomy {
       chips: [],
     }));
 
-  return { categories, features, collections };
+  return { categories, features, featureGroups, collections };
 }

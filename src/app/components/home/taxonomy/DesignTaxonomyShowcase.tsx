@@ -8,7 +8,7 @@ export default function DesignTaxonomyShowcase({ taxonomy }: { taxonomy: Landing
   return (
     <div className="mb-12 space-y-14">
       {ORDER.map((key) => {
-        const items = taxonomy[key];
+        const items = key === "features" ? taxonomy.featureGroups : taxonomy[key];
         if (items.length === 0) return null;
         const copy = LANDING_SECTION_COPY[key];
         return (
