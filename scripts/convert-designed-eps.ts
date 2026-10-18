@@ -149,9 +149,15 @@ function reserveSlug(base: string, reserved: Set<string>): string {
 function assignSafeSlugs(sources: SourceCandidate[]): SourceCandidate[] {
   const reserved = new Set<string>();
   for (const slug of catalogIdentity().slugs) reserved.add(slug.toLowerCase());
-  for (const entry of readExistingManifest()) reserved.add(entry.slug.toLowerCase());
-  for (const source of sources) {
-    if (SAFE_SLUG.test(source.slug)) reserved.delete(source.slug);
+  const manifest = readExistingManifest();
+  for (const entry of manifest) reserved.add(entry.slug.toLowerCase());
+  // Reuse a slug only when this batch contains the same source file that already owns it.
+  const sourceKeys = new Set(
+    sources.map((source) => source.sourceKey.replace(/\\/g, "/").toLowerCase()),
+  );
+  for (const entry of manifest) {
+    const key = entry.sourceKey.replace(/\\/g, "/").toLowerCase();
+    if (key && sourceKeys.has(key)) reserved.delete(entry.slug.toLowerCase());
   }
 
   return sources.map((source) => {

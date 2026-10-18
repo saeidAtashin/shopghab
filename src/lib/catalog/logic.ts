@@ -141,7 +141,7 @@ function cloneCatalog(catalog: DesignCatalog): DesignCatalog {
 }
 
 export function titleFromBasename(filename: string): string {
-  let slug = filename.replace(/\.(eps|jpe?g|png|webp|svg)$/i, "");
+  let slug = filename.replace(/\.(eps|jpe?g|jfif|png|webp|svg)$/i, "");
   slug = slug.split("/").pop() ?? slug;
   if (/^vecteezy_/i.test(slug)) {
     slug = slug.replace(/^vecteezy_/i, "");
