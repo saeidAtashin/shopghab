@@ -4,11 +4,11 @@
     "style": "bento"
   },
   "features": {
-    "visible": true,
+    "visible": false,
     "style": "glass"
   },
   "collections": {
-    "visible": true,
+    "visible": false,
     "style": "ticket"
   }
 }
