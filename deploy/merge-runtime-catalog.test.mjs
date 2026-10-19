@@ -320,6 +320,25 @@ test("a design already on the server is not added again by source key or slug", 
   assert.equal(merged.designs[0]?.title, "عنوان دستی");
 });
 
+test("a release replaces product mockup photos and keeps the rest of a live design", () => {
+  const live = catalog();
+  const incoming = catalog({
+    designs: [
+      design({
+        title: "پیش‌فرض",
+        description: "پیش‌فرض",
+        mockups: [{ templateId: "iphone-free-case", image: "/designed/mockups/space-cat/iphone-free-case.webp", status: "ready" }],
+      }),
+    ],
+  });
+
+  const merged = mergeCatalog(live, incoming);
+  assert.equal(merged.designs.length, 1);
+  assert.equal(merged.designs[0]?.title, "عنوان دستی");
+  assert.equal(merged.designs[0]?.description, "توضیح دستی");
+  assert.equal(merged.designs[0]?.mockups[0]?.templateId, "iphone-free-case");
+});
+
 test("cli writes the merged catalog without changing the live file", () => {
   const dir = mkdtempSync(join(tmpdir(), "catalog-merge-"));
   const livePath = join(dir, "live.json");

@@ -78,7 +78,7 @@ bash /tmp/update-from-release.sh
 
 Run the `curl` after this change is on `main`, so the raw URL exists. The script keeps `.env` and `deploy/ssl`. It also keeps the live catalog, landing settings, customers, orders, and payment receipts. A release does not replace those files with the git copies.
 
-The server catalog stays the source of truth. Existing designs, categories, collections, attributes, and redirects are left as they were edited on the site. Records that exist only in the new release are added. Customers and orders are never taken from git. New image files under `public/` still come from the release. `npm run catalog:sync` adds new design files to the local catalog; commit that catalog when you want those new rows to appear on the server. Pushing does not copy local edits over rows that already exist on the server.
+The server catalog stays the source of truth. Existing designs, categories, collections, attributes, and redirects are left as they were edited on the site. Product mockup photos on an existing design are replaced when the release includes a new mockup list. Records that exist only in the new release are added. Customers and orders are never taken from git. New image files under `public/` still come from the release. `npm run catalog:sync` adds new design files to the local catalog; commit that catalog when you want those new rows to appear on the server. Pushing does not copy local edits over rows that already exist on the server.
 
 The copy of this script already on the VPS is what runs the next update. Before the first deploy that contains this change, copy `/root/shopghab/data` aside. After the change is on `main`, install the new script before cron runs it, so that update does not reset the catalog:
 

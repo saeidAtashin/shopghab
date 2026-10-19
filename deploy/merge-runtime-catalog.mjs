@@ -1,6 +1,7 @@
 /**
  * Merge a newly released catalog into the live server catalog.
- * Existing rows stay as they are. Incoming rows are appended only when
+ * Existing rows stay as they are, except product mockup photos, which
+ * are replaced from the release. Incoming rows are appended only when
  * the server does not already have that record.
  */
 import { readFileSync, realpathSync, renameSync, writeFileSync } from "node:fs";
@@ -52,6 +53,15 @@ function rememberMatch(map, incoming, existing) {
 function remap(map, id) {
   if (!id || !map.has(id)) return id;
   return map.get(id);
+}
+
+function refreshMockups(existing, incoming, matches) {
+  for (const item of incoming) {
+    if (!item || typeof item !== "object" || !Array.isArray(item.mockups) || item.mockups.length === 0) continue;
+    const found = existing.find((candidate) => matches(candidate, item));
+    if (!found) continue;
+    found.mockups = structuredClone(item.mockups);
+  }
 }
 
 function appendMissing(existing, incoming, matches, map, prepare) {
@@ -121,9 +131,11 @@ export function mergeCatalog(live, incoming) {
   );
 
   next.designs = list(next, "designs");
+  const incomingDesigns = list(incoming, "designs");
+  refreshMockups(next.designs, incomingDesigns, designMatches);
   appendMissing(
     next.designs,
-    list(incoming, "designs"),
+    incomingDesigns,
     designMatches,
     designIds,
     (copy) => {
