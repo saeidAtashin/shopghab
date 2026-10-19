@@ -437,7 +437,7 @@ export default function DesignEditorForm({ design, categories, groups, values, c
               label="اسلاگ"
               value={resolved.slug}
               custom={custom.slug}
-              preserved={Boolean(design) && custom.slug && !editing.slug && slug === design.slug}
+              preserved={Boolean(design && custom.slug && !editing.slug && slug === design.slug)}
               editing={Boolean(editing.slug)}
               onEdit={() => unlock("slug")}
               onReset={() => resetAuto("slug")}
