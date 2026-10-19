@@ -1016,6 +1016,56 @@ export function isCategoryIndexable(catalog: DesignCatalog, category: CategoryRe
   return category.status === "active" && publishedCountForCategory(catalog, category.id) > 0;
 }
 
+export type PublicCategoryCard = {
+  slug: string;
+  name: string;
+  href: string;
+  image: string;
+  count: number;
+};
+
+function categoryCover(cover: string): string {
+  const trimmed = cover.trim();
+  if (trimmed.startsWith("/designed/") && !trimmed.includes("..")) return trimmed;
+  return "";
+}
+
+function publicDesignThumb(design: DesignRecord): string {
+  const images = selectProductImages(design);
+  return images.thumb.trim() || images.hero.trim();
+}
+
+function categoryCardImage(catalog: DesignCatalog, categoryId: string): string {
+  const category = catalog.categories.find((item) => item.id === categoryId);
+  const cover = category ? categoryCover(category.coverImage) : "";
+  if (cover) return cover;
+  const ids = descendantCategoryIds(catalog, categoryId);
+  for (const design of catalog.designs) {
+    if (!isPublicCatalogDesign(design)) continue;
+    if (!design.categoryIds.some((id) => ids.has(id))) continue;
+    const thumb = publicDesignThumb(design);
+    if (thumb) return thumb;
+  }
+  return "";
+}
+
+export function publicCategoryCards(
+  catalog: DesignCatalog,
+  parentId: string | null,
+): PublicCategoryCard[] {
+  const categories =
+    parentId === null ? rootCategories(catalog) : childCategories(catalog, parentId);
+  return categories
+    .filter((category) => isCategoryIndexable(catalog, category))
+    .map((category) => ({
+      slug: category.slug,
+      name: category.name,
+      href: `/designs/category/${category.slug}`,
+      image: categoryCardImage(catalog, category.id),
+      count: publishedCountForCategory(catalog, category.id),
+    }));
+}
+
 export function findCategoryRedirect(catalog: DesignCatalog, slug: string): CategoryRecord | undefined {
   const redirect = catalog.categoryRedirects.find((item) => item.fromSlug === slug);
   if (!redirect) return undefined;

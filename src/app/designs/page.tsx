@@ -1,16 +1,11 @@
 import { notFound } from "next/navigation";
 
 import CatalogBreadcrumbs from "@/app/components/designs/CatalogBreadcrumbs";
+import CatalogCategoryNav from "@/app/components/designs/CatalogCategoryNav";
 import CatalogListing from "@/app/components/designs/CatalogListing";
-import DesignTaxonomyShowcase from "@/app/components/home/taxonomy/DesignTaxonomyShowcase";
 import JsonLd from "@/app/components/seo/JsonLd";
-import {
-  indexableRootCategories,
-  parsePublicListingQuery,
-  queryPublicDesigns,
-} from "@/lib/catalog/logic";
+import { parsePublicListingQuery, publicCategoryCards, queryPublicDesigns } from "@/lib/catalog/logic";
 import { readCatalog } from "@/lib/catalog/store";
-import { landingTaxonomy } from "@/lib/landing/taxonomy";
 import { breadcrumbJsonLd, breadcrumbTrail } from "@/lib/seo/breadcrumbs";
 import { collectionPageJsonLd, itemListJsonLd, webPageJsonLd } from "@/lib/seo/jsonld";
 import { createPageMetadata } from "@/lib/seo/metadata";
@@ -22,40 +17,42 @@ const DESCRIPTION =
 export const dynamic = "force-dynamic";
 
 type Props = {
-  searchParams: Promise<{ q?: string; sort?: string; page?: string; attr?: string }>;
+  searchParams: Promise<{ q?: string; sort?: string; page?: string; attr?: string; view?: string }>;
 };
 
 export async function generateMetadata({ searchParams }: Props) {
-  const query = parsePublicListingQuery(await searchParams);
+  const params = await searchParams;
+  const query = parsePublicListingQuery(params);
   return createPageMetadata({
     title: TITLE,
     description: DESCRIPTION,
     path: "/designs",
-    noIndex: query.noIndex || query.page > 1,
+    noIndex: query.noIndex || query.page > 1 || params.view === "all",
   });
 }
 
 export default async function DesignsGalleryPage({ searchParams }: Props) {
-  const query = parsePublicListingQuery(await searchParams);
+  const params = await searchParams;
+  const query = parsePublicListingQuery(params);
   const catalog = readCatalog();
-  const result = queryPublicDesigns(catalog, {
-    q: query.q,
-    sort: query.sort,
-    page: query.page,
-    attributeValueId: query.attr || undefined,
-  });
+  const showResults = params.view === "all" || query.q.length > 0 || query.attr.length > 0;
+  const result = showResults
+    ? queryPublicDesigns(catalog, {
+        q: query.q,
+        sort: query.sort,
+        page: query.page,
+        attributeValueId: query.attr || undefined,
+      })
+    : null;
+  if (result && query.page > result.pageCount && result.total > 0) notFound();
+
   const attributeName =
     catalog.attributeValues.find((value) => value.id === query.attr)?.name ?? "";
-  if (query.page > result.pageCount && result.total > 0) notFound();
-
-  const categories = indexableRootCategories(catalog).map((category) => ({
-    slug: category.slug,
-    name: category.name,
-  }));
   const categoryNames = Object.fromEntries(
     catalog.categories.map((category) => [category.id, category.name]),
   );
   const crumbs = breadcrumbTrail({ label: TITLE });
+  const listed = result?.items ?? [];
 
   return (
     <>
@@ -68,36 +65,49 @@ export default async function DesignsGalleryPage({ searchParams }: Props) {
             path: "/designs",
           }),
           breadcrumbJsonLd(crumbs, "/designs"),
-          itemListJsonLd({
-            name: TITLE,
-            path: "/designs",
-            items: result.items.map((design) => ({
-              name: design.title,
-              url: `/designs/${design.slug}`,
-            })),
-          }),
+          ...(listed.length > 0
+            ? [
+                itemListJsonLd({
+                  name: TITLE,
+                  path: "/designs",
+                  items: listed.map((design) => ({
+                    name: design.title,
+                    url: `/designs/${design.slug}`,
+                  })),
+                }),
+              ]
+            : []),
         ]}
       />
-      <main id="main" tabIndex={-1} className="min-h-screen bg-background px-4 pb-16 pt-24 text-foreground outline-none sm:px-6">
+      <main
+        id="main"
+        tabIndex={-1}
+        className="min-h-screen bg-background px-4 pb-16 pt-24 text-foreground outline-none sm:px-6"
+      >
         <div className="mx-auto max-w-6xl">
           <CatalogBreadcrumbs items={crumbs} />
           <h1 className="mt-4 text-2xl font-black text-foreground sm:text-3xl">{TITLE}</h1>
           <p className="mt-2 max-w-2xl text-muted">{DESCRIPTION}</p>
-          <div className="mt-10">
-            <DesignTaxonomyShowcase taxonomy={landingTaxonomy(catalog, {}, { publicOnly: true })} />
+          <div className="mt-10 space-y-10">
+            <CatalogCategoryNav
+              roots={publicCategoryCards(catalog, null)}
+              inners={[]}
+              allActive={params.view === "all"}
+            />
             <CatalogListing
-              designs={result.items}
+              designs={listed}
               categoryNames={categoryNames}
-              categories={categories}
               basePath="/designs"
               q={query.q}
               sort={query.sort}
-              page={result.page}
-              pageSize={result.pageSize}
-              pageCount={result.pageCount}
-              total={result.total}
+              page={result?.page ?? 1}
+              pageSize={result?.pageSize ?? 24}
+              pageCount={result?.pageCount ?? 1}
+              total={result?.total ?? 0}
               attr={query.attr}
               attrLabel={attributeName}
+              showResults={showResults}
+              viewAll={params.view === "all"}
             />
           </div>
         </div>

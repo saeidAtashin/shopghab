@@ -15,6 +15,7 @@ import {
   moveDesign,
   syncCatalog,
   queryDesigns,
+  publicCategoryCards,
   queryPublicDesigns,
   updateAttribute,
   updateCategory,
@@ -262,6 +263,86 @@ test("category parent cycles are rejected", () => {
       }),
     (error: unknown) => error instanceof CatalogError && error.status === 400,
   );
+});
+
+test("public category cards list indexable roots and their inner categories", () => {
+  let catalog = emptyCatalog();
+  const parent = createCategory(
+    catalog,
+    {
+      name: "حیوانات",
+      slug: "animals",
+      parentId: null,
+      description: "",
+      seoTitle: "",
+      seoDescription: "",
+      coverImage: "/designed/covers/animals.webp",
+      status: "active",
+    },
+    NOW,
+  );
+  catalog = parent.catalog;
+  const child = createCategory(
+    catalog,
+    {
+      name: "گربه",
+      slug: "cats",
+      parentId: parent.category.id,
+      description: "",
+      seoTitle: "",
+      seoDescription: "",
+      coverImage: "",
+      status: "active",
+    },
+    NOW,
+  );
+  catalog = child.catalog;
+  catalog = createCategory(
+    catalog,
+    {
+      name: "سگ",
+      slug: "dogs",
+      parentId: parent.category.id,
+      description: "",
+      seoTitle: "",
+      seoDescription: "",
+      coverImage: "",
+      status: "active",
+    },
+    NOW,
+  ).catalog;
+  const created = createDesign(
+    catalog,
+    writeInput({
+      slug: "cat-case",
+      title: "قاب گربه",
+      categoryIds: [child.category.id],
+      imagePath: "/designed/cat.webp",
+      thumbnailPath: "/designed/thumbs/cat.webp",
+    }),
+    NOW,
+  );
+  catalog = created.catalog;
+  const design = catalog.designs.find((item) => item.id === created.design.id);
+  assert.ok(design);
+  design.mockups = [readyMockup(design.imagePath, design.thumbnailPath)];
+
+  const roots = publicCategoryCards(catalog, null);
+  assert.deepEqual(
+    roots.map((card) => card.slug),
+    ["animals"],
+  );
+  assert.equal(roots[0]?.href, "/designs/category/animals");
+  assert.equal(roots[0]?.image, "/designed/covers/animals.webp");
+  assert.equal(roots[0]?.count, 1);
+
+  const children = publicCategoryCards(catalog, parent.category.id);
+  assert.deepEqual(
+    children.map((card) => card.slug),
+    ["cats"],
+  );
+  assert.equal(children[0]?.image, "/designed/thumbs/cat.webp");
+  assert.equal(children[0]?.count, 1);
 });
 
 test("sitemap includes published designs with a product mockup and skips drafts and flat artwork", () => {

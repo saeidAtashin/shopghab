@@ -6,7 +6,6 @@ import JsonLd from "@/app/components/seo/JsonLd";
 import {
   collectionSeoDescription,
   collectionSeoTitle,
-  indexableRootCategories,
   isCollectionIndexable,
   parsePublicListingQuery,
   queryPublicDesigns,
@@ -65,10 +64,6 @@ export default async function DesignCollectionPage({ params, searchParams }: Pro
     { label: "طراحی‌های آماده", href: "/designs" },
     { label: collection.name },
   );
-  const categories = indexableRootCategories(catalog).map((item) => ({
-    slug: item.slug,
-    name: item.name,
-  }));
   const categoryNames = Object.fromEntries(
     catalog.categories.map((item) => [item.id, item.name]),
   );
@@ -101,7 +96,6 @@ export default async function DesignCollectionPage({ params, searchParams }: Pro
             <CatalogListing
               designs={result.items}
               categoryNames={categoryNames}
-              categories={categories}
               basePath={path}
               q={query.q}
               sort={query.sort}
