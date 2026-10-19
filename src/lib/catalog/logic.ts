@@ -802,7 +802,11 @@ export function queryDesigns(catalog: DesignCatalog, query: DesignQuery = {}) {
     );
   });
 
-  filtered.sort((a, b) => a.title.localeCompare(b.title, "fa"));
+  filtered.sort(
+    query.categoryId
+      ? compareCatalogDesigns
+      : (a, b) => a.title.localeCompare(b.title, "fa"),
+  );
   const total = filtered.length;
   const start = (page - 1) * pageSize;
   return {
@@ -825,6 +829,14 @@ export type PublicDesignQuery = {
   pageSize?: number;
 };
 
+export function compareCatalogDesigns(a: DesignRecord, b: DesignRecord): number {
+  if (a.featured !== b.featured) return a.featured ? -1 : 1;
+  if (a.sortOrder !== b.sortOrder) return a.sortOrder - b.sortOrder;
+  const aTime = a.publishedAt ?? a.createdAt;
+  const bTime = b.publishedAt ?? b.createdAt;
+  return bTime.localeCompare(aTime);
+}
+
 function sortDesigns(designs: DesignRecord[], sort: CatalogSort): DesignRecord[] {
   const items = [...designs];
   if (sort === "title") {
@@ -839,14 +851,64 @@ function sortDesigns(designs: DesignRecord[], sort: CatalogSort): DesignRecord[]
     });
     return items;
   }
-  items.sort((a, b) => {
-    if (a.featured !== b.featured) return a.featured ? -1 : 1;
-    if (a.sortOrder !== b.sortOrder) return a.sortOrder - b.sortOrder;
-    const aTime = a.publishedAt ?? a.createdAt;
-    const bTime = b.publishedAt ?? b.createdAt;
-    return bTime.localeCompare(aTime);
-  });
+  items.sort(compareCatalogDesigns);
   return items;
+}
+
+export function moveDesign(
+  catalog: DesignCatalog,
+  id: string,
+  categoryId: string,
+  direction: -1 | 1,
+): DesignCatalog {
+  const design = catalog.designs.find((item) => item.id === id);
+  if (!design) throw new CatalogError("طرح پیدا نشد", 404);
+  if (!design.categoryIds.includes(categoryId)) {
+    throw new CatalogError("طرح در این دسته نیست", 400);
+  }
+
+  const ordered = catalog.designs
+    .filter((item) => item.categoryIds.includes(categoryId))
+    .sort(compareCatalogDesigns);
+  const index = ordered.findIndex((item) => item.id === id);
+  const target = index + direction;
+  if (target < 0) throw new CatalogError("این طرح در ابتدای دسته است", 400);
+  if (target >= ordered.length) throw new CatalogError("این طرح در انتهای دسته است", 400);
+  const neighbor = ordered[target];
+  if (!neighbor) throw new CatalogError("طرح پیدا نشد", 404);
+  if (neighbor.featured !== design.featured) {
+    throw new CatalogError(
+      direction < 0 ? "این طرح در ابتدای دسته است" : "این طرح در انتهای دسته است",
+      400,
+    );
+  }
+
+  const next = cloneCatalog(catalog);
+  const moved = next.designs.find((item) => item.id === id);
+  const other = next.designs.find((item) => item.id === neighbor.id);
+  if (!moved || !other) throw new CatalogError("طرح پیدا نشد", 404);
+
+  const now = new Date().toISOString();
+  if (moved.sortOrder === other.sortOrder) {
+    const used = new Set(
+      next.designs.filter((item) => item.id !== moved.id).map((item) => item.sortOrder),
+    );
+    let candidate = other.sortOrder + direction;
+    while (used.has(candidate)) candidate += direction;
+    if (!Number.isInteger(candidate) || candidate < 0 || candidate > 1_000_000) {
+      throw new CatalogError("ترتیب قابل تغییر نیست", 400);
+    }
+    moved.sortOrder = candidate;
+    moved.updatedAt = now;
+    return next;
+  }
+
+  const current = moved.sortOrder;
+  moved.sortOrder = other.sortOrder;
+  other.sortOrder = current;
+  moved.updatedAt = now;
+  other.updatedAt = now;
+  return next;
 }
 
 export function queryPublicDesigns(catalog: DesignCatalog, query: PublicDesignQuery = {}) {

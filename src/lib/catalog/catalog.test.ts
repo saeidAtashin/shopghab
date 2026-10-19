@@ -12,8 +12,10 @@ import {
   deleteAttribute,
   emptyCatalog,
   indexableCatalogPaths,
+  moveDesign,
   syncCatalog,
   queryDesigns,
+  queryPublicDesigns,
   updateAttribute,
   updateCategory,
   updateDesign,
@@ -349,6 +351,223 @@ test("deleting an attribute group removes its values from designs", () => {
     () => deleteAttribute(catalog, { kind: "group", id: group.id }),
     (error: unknown) => error instanceof CatalogError && error.status === 404,
   );
+});
+
+test("category list uses the same order as the public category page", () => {
+  const created = createCategory(emptyCatalog(), {
+    name: "الگو",
+    slug: "patterns",
+    parentId: null,
+    description: "",
+    seoTitle: "",
+    seoDescription: "",
+    coverImage: "",
+    status: "active",
+  }, NOW);
+  const categoryId = created.category.id;
+  let catalog = created.catalog;
+  const specs = [
+    { title: "آلفا", slug: "alpha", sortOrder: 30, featured: false },
+    { title: "گاما", slug: "gamma", sortOrder: 10, featured: false },
+    { title: "بتا", slug: "beta", sortOrder: 99, featured: true },
+  ];
+  for (const spec of specs) {
+    const saved = createDesign(
+      catalog,
+      writeInput({
+        title: spec.title,
+        slug: spec.slug,
+        sortOrder: spec.sortOrder,
+        featured: spec.featured,
+        categoryIds: [categoryId],
+        imagePath: `/designed/${spec.slug}.webp`,
+        thumbnailPath: `/designed/thumbs/${spec.slug}.webp`,
+      }),
+      NOW,
+    );
+    catalog = saved.catalog;
+    const design = catalog.designs.find((item) => item.slug === spec.slug);
+    assert.ok(design);
+    design.mockups = [readyMockup(design.imagePath, design.thumbnailPath)];
+  }
+
+  const expected = ["beta", "gamma", "alpha"];
+  assert.deepEqual(
+    queryDesigns(catalog, { categoryId, pageSize: 10 }).items.map((design) => design.slug),
+    expected,
+  );
+  assert.deepEqual(
+    queryPublicDesigns(catalog, { categoryId, pageSize: 10 }).items.map((design) => design.slug),
+    expected,
+  );
+  assert.deepEqual(
+    queryDesigns(catalog, { pageSize: 10 }).items.map((design) => design.slug),
+    ["alpha", "beta", "gamma"],
+  );
+});
+
+test("moving a design updates category order and stops at the ends", () => {
+  const created = createCategory(emptyCatalog(), {
+    name: "الگو",
+    slug: "patterns",
+    parentId: null,
+    description: "",
+    seoTitle: "",
+    seoDescription: "",
+    coverImage: "",
+    status: "active",
+  }, NOW);
+  const categoryId = created.category.id;
+  let catalog = created.catalog;
+  for (const spec of [
+    { title: "اول", slug: "first", sortOrder: 1 },
+    { title: "دوم", slug: "second", sortOrder: 2 },
+    { title: "سوم", slug: "third", sortOrder: 3 },
+  ]) {
+    catalog = createDesign(
+      catalog,
+      writeInput({
+        title: spec.title,
+        slug: spec.slug,
+        sortOrder: spec.sortOrder,
+        featured: false,
+        categoryIds: [categoryId],
+        imagePath: `/designed/${spec.slug}.webp`,
+        thumbnailPath: `/designed/thumbs/${spec.slug}.webp`,
+      }),
+      NOW,
+    ).catalog;
+  }
+  for (const design of catalog.designs) {
+    design.mockups = [readyMockup(design.imagePath, design.thumbnailPath)];
+  }
+
+  const blocked = createDesign(
+    catalog,
+    writeInput({
+      title: "ویژه",
+      slug: "featured",
+      sortOrder: 0,
+      featured: true,
+      categoryIds: [categoryId],
+      imagePath: "/designed/featured.webp",
+      thumbnailPath: "/designed/thumbs/featured.webp",
+    }),
+    NOW,
+  ).catalog;
+  const featured = blocked.designs.find((design) => design.slug === "featured");
+  const leading = blocked.designs.find((design) => design.slug === "first");
+  assert.ok(featured);
+  assert.ok(leading);
+  const blockedOrders = blocked.designs.map((design) => design.sortOrder);
+  assert.throws(
+    () => moveDesign(blocked, leading.id, categoryId, -1),
+    (error: unknown) => error instanceof CatalogError && error.status === 400,
+  );
+  assert.deepEqual(
+    blocked.designs.map((design) => design.sortOrder),
+    blockedOrders,
+  );
+
+  const ordersBefore = catalog.designs.map((design) => design.sortOrder);
+  const first = catalog.designs.find((design) => design.slug === "first");
+  const third = catalog.designs.find((design) => design.slug === "third");
+  assert.ok(first);
+  assert.ok(third);
+
+  assert.throws(
+    () => moveDesign(catalog, first.id, categoryId, -1),
+    (error: unknown) => error instanceof CatalogError && error.status === 400,
+  );
+  assert.throws(
+    () => moveDesign(catalog, third.id, categoryId, 1),
+    (error: unknown) => error instanceof CatalogError && error.status === 400,
+  );
+  assert.deepEqual(
+    catalog.designs.map((design) => design.sortOrder),
+    ordersBefore,
+  );
+
+  const moved = moveDesign(catalog, third.id, categoryId, -1);
+  assert.deepEqual(
+    queryPublicDesigns(moved, { categoryId, pageSize: 10 }).items.map((design) => design.slug),
+    ["first", "third", "second"],
+  );
+  assert.deepEqual(
+    queryDesigns(moved, { categoryId, pageSize: 10 }).items.map((design) => design.slug),
+    ["first", "third", "second"],
+  );
+  assert.equal(moved.designs.find((design) => design.slug === "second")?.sortOrder, 3);
+  assert.equal(moved.designs.find((design) => design.slug === "third")?.sortOrder, 2);
+});
+
+test("moving past an equal sort order assigns a free neighboring number", () => {
+  const created = createCategory(emptyCatalog(), {
+    name: "الگو",
+    slug: "patterns",
+    parentId: null,
+    description: "",
+    seoTitle: "",
+    seoDescription: "",
+    coverImage: "",
+    status: "active",
+  }, NOW);
+  const other = createCategory(created.catalog, {
+    name: "دیگر",
+    slug: "other",
+    parentId: null,
+    description: "",
+    seoTitle: "",
+    seoDescription: "",
+    coverImage: "",
+    status: "active",
+  }, NOW);
+  let catalog = createDesign(
+    other.catalog,
+    writeInput({
+      title: "رزرو",
+      slug: "taken",
+      sortOrder: 4,
+      featured: false,
+      categoryIds: [other.category.id],
+      imagePath: "/designed/taken.webp",
+      thumbnailPath: "/designed/thumbs/taken.webp",
+    }),
+    NOW,
+  ).catalog;
+  catalog = createDesign(
+    catalog,
+    writeInput({
+      title: "تازه",
+      slug: "newer",
+      sortOrder: 5,
+      featured: false,
+      categoryIds: [created.category.id],
+      imagePath: "/designed/newer.webp",
+      thumbnailPath: "/designed/thumbs/newer.webp",
+    }),
+    "2026-03-01T00:00:00.000Z",
+  ).catalog;
+  catalog = createDesign(
+    catalog,
+    writeInput({
+      title: "قدیمی",
+      slug: "older",
+      sortOrder: 5,
+      featured: false,
+      categoryIds: [created.category.id],
+      imagePath: "/designed/older.webp",
+      thumbnailPath: "/designed/thumbs/older.webp",
+    }),
+    "2026-01-01T00:00:00.000Z",
+  ).catalog;
+  const older = catalog.designs.find((design) => design.slug === "older");
+  assert.ok(older);
+
+  const moved = moveDesign(catalog, older.id, created.category.id, -1);
+  assert.equal(moved.designs.find((design) => design.slug === "older")?.sortOrder, 3);
+  assert.equal(moved.designs.find((design) => design.slug === "newer")?.sortOrder, 5);
+  assert.equal(moved.designs.find((design) => design.slug === "taken")?.sortOrder, 4);
 });
 
 function readyMockup(imagePath: string, thumbnailPath: string): MockupRecord {

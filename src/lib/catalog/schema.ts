@@ -188,6 +188,11 @@ export const categoryStatusPatchSchema = z
   })
   .strict();
 
+export const designMoveSchema = z.object({
+  categoryId: z.string().min(1),
+  direction: z.union([z.literal(-1), z.literal(1)]),
+});
+
 export const categoryReorderSchema = z.object({
   items: z
     .array(

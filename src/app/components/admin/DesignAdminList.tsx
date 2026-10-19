@@ -37,6 +37,10 @@ export default function DesignAdminList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
+  const [busyId, setBusyId] = useState("");
+  const [listVersion, setListVersion] = useState(0);
+  const canReorder =
+    Boolean(categoryId) && !q.trim() && status === "all" && !missingSeo && !missingImage && !unedited;
 
   useEffect(() => {
     void adminJson<{ categories: CategoryRecord[] }>("/api/admin/catalog/categories")
@@ -71,7 +75,26 @@ export default function DesignAdminList() {
     }, 250);
 
     return () => window.clearTimeout(timer);
-  }, [q, categoryId, status, missingSeo, missingImage, uneditedOnly, page]);
+  }, [q, categoryId, status, missingSeo, missingImage, uneditedOnly, page, listVersion]);
+
+  async function move(design: DesignRecord, direction: -1 | 1) {
+    if (!categoryId) return;
+    setNotice("");
+    setError("");
+    setBusyId(design.id);
+    try {
+      await adminJson(`/api/admin/catalog/designs/${design.id}/move`, {
+        method: "POST",
+        body: JSON.stringify({ categoryId, direction }),
+      });
+      setNotice("ترتیب طرح ذخیره شد.");
+      setListVersion((current) => current + 1);
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "تغییر ترتیب انجام نشد");
+    } finally {
+      setBusyId("");
+    }
+  }
 
   async function changeStatus(design: DesignRecord, next: DesignStatus) {
     setNotice("");
@@ -191,7 +214,11 @@ export default function DesignAdminList() {
           return (
             <article
               key={design.id}
-              className="grid grid-cols-1 items-center gap-4 rounded-3xl border border-border bg-surface p-4 md:grid-cols-[5rem_minmax(0,1fr)_10rem_11rem]"
+              className={`grid grid-cols-1 items-center gap-4 rounded-3xl border border-border bg-surface p-4 ${
+                canReorder
+                  ? "md:grid-cols-[5rem_minmax(0,1fr)_6.5rem_10rem_11rem]"
+                  : "md:grid-cols-[5rem_minmax(0,1fr)_10rem_11rem]"
+              }`}
             >
               <div className="relative h-20 w-20 overflow-hidden rounded-2xl bg-background">
                 {image ? (
@@ -205,6 +232,26 @@ export default function DesignAdminList() {
                   {design.unedited ? " · ویرایش‌نشده" : ""}
                 </p>
               </div>
+              {canReorder ? (
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    disabled={busyId === design.id}
+                    onClick={() => void move(design, -1)}
+                    className="rounded-2xl border border-border px-3 py-2 text-xs disabled:opacity-40"
+                  >
+                    بالا
+                  </button>
+                  <button
+                    type="button"
+                    disabled={busyId === design.id}
+                    onClick={() => void move(design, 1)}
+                    className="rounded-2xl border border-border px-3 py-2 text-xs disabled:opacity-40"
+                  >
+                    پایین
+                  </button>
+                </div>
+              ) : null}
               <AdminSelect
                 value={design.status}
                 onChange={(next) => void changeStatus(design, next as DesignStatus)}
