@@ -267,11 +267,15 @@ async function ancestorMasks(layer: Layer, ancestors: Buffer[], size: Size): Pro
   return [...ancestors, await maskToCanvas(layer.mask, size, layer)];
 }
 
+function omittedLayer(layer: Layer): boolean {
+  return (layer.name ?? "") === "Web Tag";
+}
+
 async function flattenLayers(layers: Layer[], ancestors: Buffer[], size: Size): Promise<Buffer> {
   let canvas = await emptyCanvas(size);
   let clip: Buffer | null = null;
   for (const layer of layers) {
-    if (layer.hidden || layerOpacity(layer) <= 0) continue;
+    if (omittedLayer(layer) || layer.hidden || layerOpacity(layer) <= 0) continue;
     if (layer.children?.length) {
       const nested = await flattenLayers(layer.children, await ancestorMasks(layer, ancestors, size), size);
       const plate = await applyOpacity(nested, layerOpacity(layer));
@@ -322,7 +326,7 @@ async function paintContainer(layers: Layer[], ancestors: Buffer[], target: Pain
       target.mask = await slotMask(slot, ancestors, size);
       continue;
     }
-    if (samePlaced(layer, slot) || layer.hidden || layerOpacity(layer) <= 0) continue;
+    if (omittedLayer(layer) || samePlaced(layer, slot) || layer.hidden || layerOpacity(layer) <= 0) continue;
     if (layer.children?.length) {
       const nestedMasks = await ancestorMasks(layer, ancestors, size);
       const pass = (layer.blendMode ?? "pass through") === "pass through" || containsSlot(layer, slot);

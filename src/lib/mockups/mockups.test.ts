@@ -866,6 +866,39 @@ test("a styled warp is not a placement and a custom grid is", () => {
   assert.equal(grid?.points.length, 4);
 });
 
+test("the Web Tag is left out and the shadow and highlight stay above the design", async () => {
+  const stack = await splitPrintStack({
+    width: 2,
+    height: 2,
+    smartObjectName: "Design",
+    layers: [
+      { name: "Background", left: 0, top: 0, imageData: solidPixels(2, 2, [40, 40, 40, 255]) },
+      {
+        name: "Design",
+        placedLayer: {
+          id: "design",
+          type: "raster",
+          transform: [0, 0, 2, 0, 2, 2, 0, 2],
+          width: 4,
+          height: 8,
+          warp: { style: "none" },
+        },
+        mask: { left: 0, top: 0, defaultColor: 0, imageData: maskPixels(2, 2, () => true) },
+      },
+      { name: "Shadows", blendMode: "multiply", left: 0, top: 0, imageData: solidPixels(2, 2, [0, 0, 0, 255]) },
+      { name: "Highlights", blendMode: "screen", left: 0, top: 0, imageData: solidPixels(2, 2, [255, 255, 255, 255]) },
+      { name: "Web Tag", left: 0, top: 0, imageData: solidPixels(2, 2, [255, 0, 0, 255]) },
+    ],
+  });
+  assert.ok(stack);
+  assert.equal(stack.name, "Design");
+  assert.deepEqual(
+    stack.overlays.map((overlay) => overlay.blend),
+    ["multiply", "screen"],
+  );
+  assert.equal(stack.overlays.some((overlay) => overlay.name === "Web Tag"), false);
+});
+
 test("a 2x2 mesh moves the artwork corner with that grid point", () => {
   const data = Buffer.alloc(4 * 4 * 4, 255);
   for (let pixelIndex = 0; pixelIndex < 16; pixelIndex += 1) data[pixelIndex * 4] = 220;

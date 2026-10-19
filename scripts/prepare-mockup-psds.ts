@@ -54,6 +54,11 @@ function nextVersion(version: string): string {
   return `${version}-stack`;
 }
 
+function overlayKey(overlays: { blend: string }[] | undefined): string | null {
+  if (!overlays) return null;
+  return overlays.map((overlay) => overlay.blend).join(",");
+}
+
 function renderConfig(templates: MockupTemplateConfig[]): string {
   const body = templates
     .map((template) => {
@@ -186,7 +191,7 @@ async function prepareFromPixels(root: string, template: MockupTemplateConfig): 
   const next: MockupTemplateConfig = {
     ...template,
     enabled: true,
-    version: template.overlays ? template.version : nextVersion(template.version),
+    version: overlayKey(template.overlays) === overlayKey(overlays) ? template.version : nextVersion(template.version),
     listing: template.listing && !flatCard,
     output: { ...template.output, width: size.width, height: size.height },
     printable: {
