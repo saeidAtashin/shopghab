@@ -2,7 +2,9 @@ import { notFound, permanentRedirect } from "next/navigation";
 
 import CatalogBreadcrumbs from "@/app/components/designs/CatalogBreadcrumbs";
 import CatalogCategoryNav from "@/app/components/designs/CatalogCategoryNav";
+import CatalogFilters from "@/app/components/designs/CatalogFilters";
 import CatalogListing from "@/app/components/designs/CatalogListing";
+import CatalogPickCards from "@/app/components/designs/CatalogPickCards";
 import JsonLd from "@/app/components/seo/JsonLd";
 import {
   categoryChain,
@@ -12,6 +14,8 @@ import {
   isCategoryIndexable,
   parsePublicListingQuery,
   publicCategoryCards,
+  publicListingFilters,
+  publicPickCards,
   queryPublicDesigns,
 } from "@/lib/catalog/logic";
 import { readCatalog } from "@/lib/catalog/store";
@@ -23,7 +27,7 @@ export const dynamic = "force-dynamic";
 
 type Props = {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ q?: string; sort?: string; page?: string }>;
+  searchParams: Promise<{ q?: string; sort?: string; page?: string; attr?: string; sub?: string }>;
 };
 
 export async function generateMetadata({ params, searchParams }: Props) {
@@ -57,23 +61,41 @@ export default async function DesignCategoryPage({ params, searchParams }: Props
   if (!category || !isCategoryIndexable(catalog, category)) notFound();
 
   const childCards = publicCategoryCards(catalog, category.id);
+  const ancestry = categoryChain(catalog, category);
+  const root = ancestry[0] ?? category;
+  const innerCards = publicCategoryCards(catalog, root.id);
+  const allowedSubs = new Set(innerCards.map((card) => card.slug));
+  const querySubs = query.subs.filter((slug) => allowedSubs.has(slug));
+  const markedSubs = querySubs.length > 0 ? querySubs : allowedSubs.has(category.slug) ? [category.slug] : [];
+  const selectedChildIds = querySubs.flatMap((slug) => {
+    const match = catalog.categories.find((item) => item.slug === slug);
+    return match ? [match.id] : [];
+  });
   const searching = query.q.length > 0;
+  const hasAttr = query.attrs.length > 0;
+  const hasSubs = selectedChildIds.length > 0;
   const result = queryPublicDesigns(catalog, {
-    ...query,
-    categoryId: category.id,
-    includeDescendants: childCards.length > 0 && !searching ? false : undefined,
+    q: query.q,
+    sort: query.sort,
+    page: query.page,
+    attributeValueIds: query.attrs,
+    ...(hasSubs
+      ? { categoryIds: selectedChildIds }
+      : {
+          categoryId: category.id,
+          includeDescendants: childCards.length > 0 && !searching && !hasAttr ? false : undefined,
+        }),
   });
   if (query.page > result.pageCount && result.total > 0) notFound();
 
-  const showResults = childCards.length === 0 || searching || result.total > 0;
+  const showResults = childCards.length === 0 || searching || hasAttr || hasSubs || result.total > 0;
   const parentName = category.parentId
     ? catalog.categories.find((item) => item.id === category.parentId)?.name
     : undefined;
   const title = categorySeoTitle(category);
   const description = categorySeoDescription(category, parentName);
   const path = `/designs/category/${category.slug}`;
-  const ancestry = categoryChain(catalog, category);
-  const root = ancestry[0];
+  const filterBasePath = root.id === category.id ? path : `/designs/category/${root.slug}`;
   const chain = breadcrumbTrail(
     { label: "طراحی‌های آماده", href: "/designs" },
     ...ancestry.map((item, index) =>
@@ -122,9 +144,18 @@ export default async function DesignCategoryPage({ params, searchParams }: Props
           <div className="mt-8 space-y-10">
             <CatalogCategoryNav
               roots={publicCategoryCards(catalog, null)}
-              inners={root ? publicCategoryCards(catalog, root.id) : []}
-              activeRootSlug={root?.slug}
+              inners={innerCards}
+              activeRootSlug={root.slug}
               activeChildSlug={ancestry[1]?.slug}
+            />
+            <CatalogPickCards cards={publicPickCards(catalog)} />
+            <CatalogFilters
+              basePath={filterBasePath}
+              groups={publicListingFilters(catalog, { parentCategoryId: root.id })}
+              selectedSubs={markedSubs}
+              selectedAttrs={query.attrs}
+              q={query.q}
+              sort={query.sort}
             />
             <CatalogListing
               designs={listed}
@@ -136,8 +167,14 @@ export default async function DesignCategoryPage({ params, searchParams }: Props
               pageSize={result.pageSize}
               pageCount={result.pageCount}
               total={showResults ? result.total : 0}
+              attr={query.attr}
+              sub={querySubs.join(",")}
               showResults={showResults}
-              heading={childCards.length > 0 && !searching && result.total > 0 ? "طرح‌های این دسته" : undefined}
+              heading={
+                childCards.length > 0 && !searching && !hasAttr && !hasSubs && result.total > 0
+                  ? "طرح‌های این دسته"
+                  : undefined
+              }
             />
           </div>
         </div>

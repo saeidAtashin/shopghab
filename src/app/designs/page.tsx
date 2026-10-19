@@ -2,9 +2,17 @@ import { notFound } from "next/navigation";
 
 import CatalogBreadcrumbs from "@/app/components/designs/CatalogBreadcrumbs";
 import CatalogCategoryNav from "@/app/components/designs/CatalogCategoryNav";
+import CatalogFilters from "@/app/components/designs/CatalogFilters";
 import CatalogListing from "@/app/components/designs/CatalogListing";
+import CatalogPickCards from "@/app/components/designs/CatalogPickCards";
 import JsonLd from "@/app/components/seo/JsonLd";
-import { parsePublicListingQuery, publicCategoryCards, queryPublicDesigns } from "@/lib/catalog/logic";
+import {
+  parsePublicListingQuery,
+  publicCategoryCards,
+  publicListingFilters,
+  publicPickCards,
+  queryPublicDesigns,
+} from "@/lib/catalog/logic";
 import { readCatalog } from "@/lib/catalog/store";
 import { breadcrumbJsonLd, breadcrumbTrail } from "@/lib/seo/breadcrumbs";
 import { collectionPageJsonLd, itemListJsonLd, webPageJsonLd } from "@/lib/seo/jsonld";
@@ -35,19 +43,17 @@ export default async function DesignsGalleryPage({ searchParams }: Props) {
   const params = await searchParams;
   const query = parsePublicListingQuery(params);
   const catalog = readCatalog();
-  const showResults = params.view === "all" || query.q.length > 0 || query.attr.length > 0;
+  const showResults = params.view === "all" || query.q.length > 0 || query.attrs.length > 0;
   const result = showResults
     ? queryPublicDesigns(catalog, {
         q: query.q,
         sort: query.sort,
         page: query.page,
-        attributeValueId: query.attr || undefined,
+        attributeValueIds: query.attrs,
       })
     : null;
   if (result && query.page > result.pageCount && result.total > 0) notFound();
 
-  const attributeName =
-    catalog.attributeValues.find((value) => value.id === query.attr)?.name ?? "";
   const categoryNames = Object.fromEntries(
     catalog.categories.map((category) => [category.id, category.name]),
   );
@@ -94,6 +100,18 @@ export default async function DesignsGalleryPage({ searchParams }: Props) {
               inners={[]}
               allActive={params.view === "all"}
             />
+            <CatalogPickCards cards={publicPickCards(catalog)} />
+            {showResults ? (
+              <CatalogFilters
+                basePath="/designs"
+                groups={publicListingFilters(catalog)}
+                selectedSubs={[]}
+                selectedAttrs={query.attrs}
+                q={query.q}
+                sort={query.sort}
+                viewAll={params.view === "all"}
+              />
+            ) : null}
             <CatalogListing
               designs={listed}
               categoryNames={categoryNames}
@@ -105,7 +123,6 @@ export default async function DesignsGalleryPage({ searchParams }: Props) {
               pageCount={result?.pageCount ?? 1}
               total={result?.total ?? 0}
               attr={query.attr}
-              attrLabel={attributeName}
               showResults={showResults}
               viewAll={params.view === "all"}
             />

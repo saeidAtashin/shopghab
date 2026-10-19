@@ -50,15 +50,43 @@ export class CatalogError extends Error {
 
 export type CatalogSort = "featured" | "newest" | "title";
 
+const LISTING_TOKEN = /^[A-Za-z0-9_-]{1,80}$/;
+
+function parseListingTokens(raw: string | undefined, limit: number): string[] {
+  if (!raw) return [];
+  const tokens: string[] = [];
+  const seen = new Set<string>();
+  for (const part of raw.split(",")) {
+    const token = part.trim();
+    if (!LISTING_TOKEN.test(token) || seen.has(token)) continue;
+    seen.add(token);
+    tokens.push(token);
+    if (tokens.length >= limit) break;
+  }
+  return tokens;
+}
+
 export function parsePublicListingQuery(params: {
   q?: string;
   sort?: string;
   page?: string;
   attr?: string;
-}): { q: string; sort: CatalogSort; page: number; attr: string; noIndex: boolean } {
+  sub?: string;
+}): {
+  q: string;
+  sort: CatalogSort;
+  page: number;
+  attr: string;
+  attrs: string[];
+  sub: string;
+  subs: string[];
+  noIndex: boolean;
+} {
   const q = (params.q ?? "").trim().slice(0, 80);
-  const rawAttr = (params.attr ?? "").trim();
-  const attr = /^[A-Za-z0-9_-]{1,80}$/.test(rawAttr) ? rawAttr : "";
+  const attrs = parseListingTokens(params.attr, 20);
+  const subs = parseListingTokens(params.sub, 20);
+  const attr = attrs.join(",");
+  const sub = subs.join(",");
   const sort: CatalogSort =
     params.sort === "newest" || params.sort === "title" || params.sort === "featured"
       ? params.sort
@@ -68,8 +96,9 @@ export function parsePublicListingQuery(params: {
   const noIndex =
     q.length > 0 ||
     attr.length > 0 ||
+    sub.length > 0 ||
     (typeof params.sort === "string" && params.sort !== "" && params.sort !== "featured");
-  return { q, sort, page, attr, noIndex };
+  return { q, sort, page, attr, attrs, sub, subs, noIndex };
 }
 
 export type SyncReport = {
@@ -820,14 +849,36 @@ export function queryDesigns(catalog: DesignCatalog, query: DesignQuery = {}) {
 
 export type PublicDesignQuery = {
   categoryId?: string;
+  categoryIds?: string[];
   collectionId?: string;
   attributeValueId?: string;
+  attributeValueIds?: string[];
   includeDescendants?: boolean;
   q?: string;
   sort?: CatalogSort;
   page?: number;
   pageSize?: number;
 };
+
+function selectedAttributeGroups(catalog: DesignCatalog, ids: string[]): Map<string, Set<string>> {
+  const groups = new Map<string, Set<string>>();
+  for (const id of ids) {
+    const value = catalog.attributeValues.find((item) => item.id === id);
+    const key = value?.groupId ?? `missing:${id}`;
+    const set = groups.get(key) ?? new Set<string>();
+    set.add(id);
+    groups.set(key, set);
+  }
+  return groups;
+}
+
+function matchesAttributeSelection(design: DesignRecord, groups: Map<string, Set<string>>): boolean {
+  if (groups.size === 0) return true;
+  for (const ids of groups.values()) {
+    if (![...ids].some((id) => design.attributeValueIds.includes(id))) return false;
+  }
+  return true;
+}
 
 export function compareCatalogDesigns(a: DesignRecord, b: DesignRecord): number {
   if (a.featured !== b.featured) return a.featured ? -1 : 1;
@@ -915,17 +966,30 @@ export function queryPublicDesigns(catalog: DesignCatalog, query: PublicDesignQu
   const pageSize = query.pageSize ?? 24;
   const page = Math.max(1, query.page ?? 1);
   const q = query.q?.trim().toLowerCase() ?? "";
-  const categoryIds = query.categoryId
-    ? query.includeDescendants === false
-      ? new Set([query.categoryId])
-      : descendantCategoryIds(catalog, query.categoryId)
-    : null;
+  const categoryIds = new Set<string>();
+  if (query.categoryIds && query.categoryIds.length > 0) {
+    for (const id of query.categoryIds) {
+      for (const descendant of descendantCategoryIds(catalog, id)) categoryIds.add(descendant);
+    }
+  } else if (query.categoryId) {
+    const ids =
+      query.includeDescendants === false
+        ? [query.categoryId]
+        : descendantCategoryIds(catalog, query.categoryId);
+    for (const id of ids) categoryIds.add(id);
+  }
+  const scopedCategories = categoryIds.size > 0 ? categoryIds : null;
+  const attributeIds = [
+    ...(query.attributeValueIds ?? []),
+    ...(query.attributeValueId ? [query.attributeValueId] : []),
+  ];
+  const attributeGroups = selectedAttributeGroups(catalog, attributeIds);
 
   const filtered = catalog.designs.filter((design) => {
     if (!isPublicCatalogDesign(design)) return false;
-    if (categoryIds && !design.categoryIds.some((id) => categoryIds.has(id))) return false;
+    if (scopedCategories && !design.categoryIds.some((id) => scopedCategories.has(id))) return false;
     if (query.collectionId && !design.collectionIds.includes(query.collectionId)) return false;
-    if (query.attributeValueId && !design.attributeValueIds.includes(query.attributeValueId)) return false;
+    if (!matchesAttributeSelection(design, attributeGroups)) return false;
     if (!q) return true;
     return (
       design.title.toLowerCase().includes(q) ||
@@ -1066,6 +1130,59 @@ export function publicCategoryCards(
     }));
 }
 
+export type PublicFilterOption = {
+  id: string;
+  label: string;
+};
+
+export type PublicFilterGroup = {
+  id: string;
+  label: string;
+  param: "sub" | "attr";
+  options: PublicFilterOption[];
+};
+
+export function publicListingFilters(
+  catalog: DesignCatalog,
+  scope: { parentCategoryId?: string } = {},
+): PublicFilterGroup[] {
+  const scopeIds = scope.parentCategoryId
+    ? descendantCategoryIds(catalog, scope.parentCategoryId)
+    : null;
+  const designs = catalog.designs.filter(
+    (design) =>
+      isPublicCatalogDesign(design) &&
+      (!scopeIds || design.categoryIds.some((id) => scopeIds.has(id))),
+  );
+  const groups: PublicFilterGroup[] = [];
+  if (scope.parentCategoryId) {
+    const options = publicCategoryCards(catalog, scope.parentCategoryId).map((card) => ({
+      id: card.slug,
+      label: card.name,
+    }));
+    if (options.length > 0) {
+      groups.push({ id: "sub", label: "زیردسته", param: "sub", options });
+    }
+  }
+
+  const used = new Set<string>();
+  for (const design of designs) {
+    for (const id of design.attributeValueIds) used.add(id);
+  }
+  const attributeGroups = [...catalog.attributeGroups].sort(
+    (a, b) => a.sortOrder - b.sortOrder || a.name.localeCompare(b.name, "fa"),
+  );
+  for (const group of attributeGroups) {
+    const options = catalog.attributeValues
+      .filter((value) => value.groupId === group.id && used.has(value.id))
+      .sort((a, b) => a.sortOrder - b.sortOrder || a.name.localeCompare(b.name, "fa"))
+      .map((value) => ({ id: value.id, label: value.name }));
+    if (options.length === 0) continue;
+    groups.push({ id: group.id, label: group.name, param: "attr", options });
+  }
+  return groups;
+}
+
 export function findCategoryRedirect(catalog: DesignCatalog, slug: string): CategoryRecord | undefined {
   const redirect = catalog.categoryRedirects.find((item) => item.fromSlug === slug);
   if (!redirect) return undefined;
@@ -1080,6 +1197,41 @@ export function isCollectionIndexable(catalog: DesignCatalog, collection: Collec
   return catalog.designs.some(
     (design) => isPublicCatalogDesign(design) && design.collectionIds.includes(collection.id),
   );
+}
+
+export type PublicPickCard = {
+  slug: string;
+  title: string;
+  href: string;
+  image: string;
+};
+
+const PUBLIC_PICKS = [
+  { slug: "bestsellers", title: "پرفروش‌ترین‌ها" },
+  { slug: "popular", title: "پر بازدیدترین‌ها" },
+  { slug: "shopghab-exclusive", title: "طرح‌های اختصاصی" },
+] as const;
+
+export function publicPickCards(catalog: DesignCatalog): PublicPickCard[] {
+  const cards: PublicPickCard[] = [];
+  for (const pick of PUBLIC_PICKS) {
+    const collection = catalog.collections.find((item) => item.slug === pick.slug);
+    if (!collection || !isCollectionIndexable(catalog, collection)) continue;
+    let image = categoryCover(collection.coverImage);
+    if (!image) {
+      const design = catalog.designs.find(
+        (item) => isPublicCatalogDesign(item) && item.collectionIds.includes(collection.id),
+      );
+      image = design ? publicDesignThumb(design) : "";
+    }
+    cards.push({
+      slug: pick.slug,
+      title: pick.title,
+      href: `/designs/collection/${collection.slug}`,
+      image,
+    });
+  }
+  return cards;
 }
 
 export function relatedDesigns(

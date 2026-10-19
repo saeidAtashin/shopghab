@@ -15,7 +15,7 @@ type Props = {
   pageCount: number;
   total: number;
   attr?: string;
-  attrLabel?: string;
+  sub?: string;
   showResults?: boolean;
   viewAll?: boolean;
   heading?: string;
@@ -27,10 +27,12 @@ function listingHref(
   q: string,
   sort: CatalogSort,
   attr: string,
+  sub: string,
   viewAll: boolean,
 ): string {
   const params = new URLSearchParams();
   if (q) params.set("q", q);
+  if (sub) params.set("sub", sub);
   if (attr) params.set("attr", attr);
   if (viewAll) params.set("view", "all");
   if (sort !== "featured") params.set("sort", sort);
@@ -50,7 +52,7 @@ export default function CatalogListing({
   pageCount,
   total,
   attr = "",
-  attrLabel = "",
+  sub = "",
   showResults = true,
   viewAll = false,
   heading,
@@ -60,19 +62,8 @@ export default function CatalogListing({
 
   return (
     <div className="space-y-6">
-      {attr ? (
-        <p className="flex flex-wrap items-center gap-3 text-sm text-muted">
-          <span>ویژگی: {attrLabel || "انتخاب‌شده"}</span>
-          <Link
-            href={listingHref(basePath, 1, q, sort, "", viewAll)}
-            className="font-semibold text-cyan-300 hover:underline"
-          >
-            حذف ویژگی
-          </Link>
-        </p>
-      ) : null}
-
       <form action={basePath} method="get" className="flex flex-col gap-3 sm:flex-row">
+        {sub ? <input type="hidden" name="sub" value={sub} /> : null}
         {attr ? <input type="hidden" name="attr" value={attr} /> : null}
         {viewAll ? <input type="hidden" name="view" value="all" /> : null}
         <label className="flex-1 text-sm">
@@ -140,7 +131,7 @@ export default function CatalogListing({
           <div className="flex items-center gap-2">
             {page > 1 ? (
               <Link
-                href={listingHref(basePath, page - 1, q, sort, attr, viewAll)}
+                href={listingHref(basePath, page - 1, q, sort, attr, sub, viewAll)}
                 className="rounded-lg border border-border px-3 py-2 text-sm font-semibold"
                 rel="prev"
               >
@@ -154,7 +145,7 @@ export default function CatalogListing({
             </span>
             {page < pageCount ? (
               <Link
-                href={listingHref(basePath, page + 1, q, sort, attr, viewAll)}
+                href={listingHref(basePath, page + 1, q, sort, attr, sub, viewAll)}
                 className="rounded-lg border border-border px-3 py-2 text-sm font-semibold"
                 rel="next"
               >

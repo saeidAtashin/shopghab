@@ -16,6 +16,7 @@ import {
   syncCatalog,
   queryDesigns,
   publicCategoryCards,
+  parsePublicListingQuery,
   queryPublicDesigns,
   updateAttribute,
   updateCategory,
@@ -343,6 +344,113 @@ test("public category cards list indexable roots and their inner categories", ()
   );
   assert.equal(children[0]?.image, "/designed/thumbs/cat.webp");
   assert.equal(children[0]?.count, 1);
+});
+
+test("public design filters combine inner categories and attribute groups", () => {
+  let catalog = createAttribute(emptyCatalog(), { kind: "group", name: "رنگ", slug: "colors" }, NOW);
+  const colorGroup = catalog.attributeGroups.find((group) => group.slug === "colors");
+  assert.ok(colorGroup);
+  catalog = createAttribute(catalog, { kind: "value", groupId: colorGroup.id, name: "مشکی" }, NOW);
+  catalog = createAttribute(catalog, { kind: "value", groupId: colorGroup.id, name: "سفید" }, NOW);
+  catalog = createAttribute(catalog, { kind: "group", name: "سبک", slug: "styles" }, NOW);
+  const styleGroup = catalog.attributeGroups.find((group) => group.slug === "styles");
+  assert.ok(styleGroup);
+  catalog = createAttribute(catalog, { kind: "value", groupId: styleGroup.id, name: "مینیمال" }, NOW);
+  const black = catalog.attributeValues.find((value) => value.name === "مشکی");
+  const white = catalog.attributeValues.find((value) => value.name === "سفید");
+  const minimal = catalog.attributeValues.find((value) => value.name === "مینیمال");
+  assert.ok(black && white && minimal);
+
+  const parent = createCategory(
+    catalog,
+    {
+      name: "حیوانات",
+      slug: "animals",
+      parentId: null,
+      description: "",
+      seoTitle: "",
+      seoDescription: "",
+      coverImage: "",
+      status: "active",
+    },
+    NOW,
+  );
+  catalog = parent.catalog;
+  const cats = createCategory(
+    catalog,
+    {
+      name: "گربه",
+      slug: "cats",
+      parentId: parent.category.id,
+      description: "",
+      seoTitle: "",
+      seoDescription: "",
+      coverImage: "",
+      status: "active",
+    },
+    NOW,
+  );
+  catalog = cats.catalog;
+  const dogs = createCategory(
+    catalog,
+    {
+      name: "سگ",
+      slug: "dogs",
+      parentId: parent.category.id,
+      description: "",
+      seoTitle: "",
+      seoDescription: "",
+      coverImage: "",
+      status: "active",
+    },
+    NOW,
+  );
+  catalog = dogs.catalog;
+
+  const catDesign = createDesign(
+    catalog,
+    writeInput({
+      slug: "black-cat",
+      title: "گربه مشکی",
+      categoryIds: [cats.category.id],
+      attributeValueIds: [black.id],
+      imagePath: "/designed/black-cat.webp",
+      thumbnailPath: "/designed/thumbs/black-cat.webp",
+    }),
+    NOW,
+  );
+  catalog = catDesign.catalog;
+  const dogDesign = createDesign(
+    catalog,
+    writeInput({
+      slug: "white-dog",
+      title: "سگ سفید",
+      categoryIds: [dogs.category.id],
+      attributeValueIds: [white.id, minimal.id],
+      imagePath: "/designed/white-dog.webp",
+      thumbnailPath: "/designed/thumbs/white-dog.webp",
+    }),
+    NOW,
+  );
+  catalog = dogDesign.catalog;
+  for (const design of catalog.designs) {
+    design.mockups = [readyMockup(design.imagePath, design.thumbnailPath)];
+  }
+
+  const eitherColor = queryPublicDesigns(catalog, { attributeValueIds: [black.id, white.id] });
+  assert.deepEqual(eitherColor.items.map((design) => design.slug).sort(), ["black-cat", "white-dog"]);
+  assert.deepEqual(
+    queryPublicDesigns(catalog, { attributeValueIds: [white.id, minimal.id] }).items.map((design) => design.slug),
+    ["white-dog"],
+  );
+  assert.equal(queryPublicDesigns(catalog, { attributeValueIds: [black.id, minimal.id] }).total, 0);
+  assert.deepEqual(
+    queryPublicDesigns(catalog, { categoryIds: [cats.category.id, dogs.category.id] }).items.map((design) => design.slug).sort(),
+    ["black-cat", "white-dog"],
+  );
+  assert.equal(parsePublicListingQuery({ attr: `${black.id},${white.id}`, sub: "cats,dogs" }).attrs.length, 2);
+  assert.deepEqual(parsePublicListingQuery({ sub: "cats,dogs" }).subs, ["cats", "dogs"]);
+  assert.equal(parsePublicListingQuery({ sub: "cats,dogs" }).noIndex, true);
 });
 
 test("sitemap includes published designs with a product mockup and skips drafts and flat artwork", () => {

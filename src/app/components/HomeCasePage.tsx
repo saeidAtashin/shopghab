@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { Palette, Truck, Shield, Smartphone } from "lucide-react";
 import DesignSamplesSection from "@/app/components/designs/DesignSamplesSection";
+import CatalogPickCards from "@/app/components/designs/CatalogPickCards";
 import HomeHero from "@/app/components/home/hero/HomeHero";
 import TaxonomySection from "@/app/components/home/taxonomy/TaxonomySection";
 import { PhoneBackSvg } from "@/app/components/case-wizard/PhoneBackSvg";
 import { getHeroTemplates } from "@/app/components/home/hero/hero.constants";
 import { getModelBySlug } from "@/lib/cases/brands.static";
 import { getCaseTemplateBySlug } from "@/lib/cases/templates.static";
-import { isPublicCatalogDesign } from "@/lib/catalog/logic";
+import { isPublicCatalogDesign, publicPickCards } from "@/lib/catalog/logic";
 import { readCatalog } from "@/lib/catalog/store";
 import { LANDING_SECTION_COPY, selectLandingItems, type LandingSectionKey } from "@/lib/landing/sections";
 import { readLandingSections } from "@/lib/landing/store";
@@ -57,20 +58,27 @@ const HOME_SECTIONS: LandingSectionKey[] = ["categories", "features", "collectio
 export default function HomeCasePage() {
   const heroTemplates = publishedHomeTemplates();
   const popularModels = getPopularModels();
+  const catalog = readCatalog();
   const landing = readLandingSections();
-  const taxonomy = landingTaxonomy(
-    readCatalog(),
-    {
-      categories: landing.categories.banners,
-      features: landing.features.banners,
-      collections: landing.collections.banners,
-    },
-    { publicOnly: true },
-  );
+  const taxonomy = landingTaxonomy(catalog, {
+    categories: landing.categories.banners,
+    features: landing.features.banners,
+    collections: landing.collections.banners,
+  }, { publicOnly: true });
+
+  const picks = publicPickCards(catalog);
 
   return (
     <main id="main" tabIndex={-1} className="min-h-screen bg-background outline-none">
       <HomeHero />
+
+      {picks.length > 0 ? (
+        <section className="px-4 pt-10 sm:px-6">
+          <div className="mx-auto max-w-6xl">
+            <CatalogPickCards cards={picks} />
+          </div>
+        </section>
+      ) : null}
 
       <section className="border-y border-border bg-background/50 px-4 py-8 sm:px-6">
         <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-3">
