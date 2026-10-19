@@ -6,7 +6,7 @@ import sharp from "sharp";
 
 import { MockupError } from "./errors";
 import { resolveInside } from "./paths";
-import type { FillStrategy, MockupTemplateConfig, Point } from "./types";
+import type { FillStrategy, MockupTemplateConfig, OverlayBlend, Point } from "./types";
 import { displaceImage, warpImage, type RawImage } from "./warp";
 
 type Rgba = { r: number; g: number; b: number; alpha: number };
@@ -159,6 +159,40 @@ async function rawPng(image: RawImage): Promise<Buffer> {
   return sharp(image.data, { raw: { width: image.width, height: image.height, channels: 4 } }).png().toBuffer();
 }
 
+/** Photoshop linear burn: max(0, source + destination - 255), mixed by source alpha. */
+export async function applyLinearBurn(bottom: Buffer, top: Buffer): Promise<Buffer> {
+  const dest = await sharp(bottom).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  const src = await sharp(top)
+    .ensureAlpha()
+    .resize(dest.info.width, dest.info.height, { fit: "fill" })
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+  const out = Buffer.from(dest.data);
+  const pixels = dest.info.width * dest.info.height;
+  for (let pixel = 0; pixel < pixels; pixel += 1) {
+    const index = pixel * 4;
+    const srcAlpha = (src.data[index + 3] ?? 0) / 255;
+    if (srcAlpha <= 0) continue;
+    for (let channel = 0; channel < 3; channel += 1) {
+      const burned = Math.max(0, (src.data[index + channel] ?? 0) + (dest.data[index + channel] ?? 0) - 255);
+      const base = dest.data[index + channel] ?? 0;
+      out[index + channel] = Math.round(base * (1 - srcAlpha) + burned * srcAlpha);
+    }
+    const destAlpha = dest.data[index + 3] ?? 0;
+    const sourceAlpha = src.data[index + 3] ?? 0;
+    out[index + 3] = Math.round(destAlpha + sourceAlpha * (1 - destAlpha / 255));
+  }
+  return sharp(out, { raw: { width: dest.info.width, height: dest.info.height, channels: 4 } }).png().toBuffer();
+}
+
+async function compositeBlend(bottom: Buffer, top: Buffer, blend: OverlayBlend): Promise<Buffer> {
+  if (blend === "linear-burn") return applyLinearBurn(bottom, top);
+  return sharp(bottom)
+    .composite([{ input: top, blend: blend === "normal" ? "over" : blend }])
+    .png()
+    .toBuffer();
+}
+
 function roundedMask(width: number, height: number, radius: number, origin: Point, rectWidth: number, rectHeight: number): Buffer {
   return Buffer.from(
     `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg"><rect x="${origin.x}" y="${origin.y}" width="${rectWidth}" height="${rectHeight}" rx="${radius}" ry="${radius}" fill="#fff"/></svg>`,
@@ -295,28 +329,30 @@ export async function compositePrepared(options: {
       .toBuffer();
   }
 
-  const overlays: { input: Buffer; blend?: "multiply" | "screen" }[] = [{ input: placed }];
+  let image = await compositeBlend(await fitLayer(basePath, outputWidth, outputHeight), placed, "normal");
   if (template.shadePath) {
-    overlays.push({
-      input: await fitLayer(existingFile(options.templateRoot, template.shadePath, "unsupported"), outputWidth, outputHeight),
-      blend: "multiply",
-    });
+    image = await compositeBlend(
+      image,
+      await fitLayer(existingFile(options.templateRoot, template.shadePath, "unsupported"), outputWidth, outputHeight),
+      "multiply",
+    );
   }
   if (template.highlightPath) {
-    overlays.push({
-      input: await fitLayer(
-        existingFile(options.templateRoot, template.highlightPath, "unsupported"),
-        outputWidth,
-        outputHeight,
-      ),
-      blend: "screen",
-    });
+    image = await compositeBlend(
+      image,
+      await fitLayer(existingFile(options.templateRoot, template.highlightPath, "unsupported"), outputWidth, outputHeight),
+      "screen",
+    );
+  }
+  for (const overlay of template.overlays ?? []) {
+    image = await compositeBlend(
+      image,
+      await fitLayer(existingFile(options.templateRoot, overlay.path, "unsupported"), outputWidth, outputHeight),
+      overlay.blend,
+    );
   }
 
-  const composited = await sharp(await fitLayer(basePath, outputWidth, outputHeight))
-    .composite(overlays)
-    .webp({ quality: template.output.quality })
-    .toBuffer();
+  const composited = await sharp(image).webp({ quality: template.output.quality }).toBuffer();
 
   const dir = mkdtempSync(join(tmpdir(), "shopghab-mockup-"));
   const tempImage = join(dir, "out.webp");

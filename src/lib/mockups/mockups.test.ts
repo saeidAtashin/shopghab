@@ -8,7 +8,7 @@ import { writePsdBuffer } from "ag-psd";
 import sharp from "sharp";
 
 import { validateMockupTemplates } from "./config";
-import { buildPrintableTexture, compositePrepared } from "./composite";
+import { applyLinearBurn, buildPrintableTexture, compositePrepared } from "./composite";
 import { selectProductImages } from "./display";
 import { templatesForDesign } from "./generate";
 import { MockupError } from "./errors";
@@ -18,6 +18,7 @@ import { opaqueBoundsFillRectangle, placementCorners, quadIsAxisAligned } from "
 import { publishValidatedWebp } from "./output";
 import { artworkAbsolutePath, mockupPublicPaths, resolveInside } from "./paths";
 import { mergeMockupRecords, renderDesignTemplates, shouldReuseOutput } from "./render";
+import { splitPrintStack } from "./stack";
 import { summarizeMockups } from "./status";
 import type { MockupRecord, MockupTemplateConfig } from "./types";
 import { warpImage } from "./warp";
@@ -685,4 +686,243 @@ test("photoshop renderer stays unsuccessful when Photoshop is not configured", a
     else process.env.PHOTOSHOP_EXE = previous;
     removeTemp(cwd);
   }
+});
+
+function solidPixels(width: number, height: number, rgba: [number, number, number, number]) {
+  const data = new Uint8ClampedArray(width * height * 4);
+  for (let pixelIndex = 0; pixelIndex < width * height; pixelIndex += 1) data.set(rgba, pixelIndex * 4);
+  return { width, height, data };
+}
+
+function maskPixels(width: number, height: number, on: (x: number, y: number) => boolean) {
+  const data = new Uint8ClampedArray(width * height * 4);
+  for (let y = 0; y < height; y += 1) {
+    for (let x = 0; x < width; x += 1) {
+      const index = (y * width + x) * 4;
+      data[index] = on(x, y) ? 255 : 0;
+      data[index + 3] = 255;
+    }
+  }
+  return { width, height, data };
+}
+
+function smartObject(id: string) {
+  return {
+    id,
+    type: "raster" as const,
+    transform: [0, 0, 4, 0, 4, 4, 0, 4],
+    width: 10,
+    height: 20,
+    warp: { style: "none" as const },
+  };
+}
+
+test("a hidden Print smart object is the design slot and its twin is left out of the base", async () => {
+  const stack = await splitPrintStack({
+    width: 4,
+    height: 4,
+    smartObjectName: "[YOUR IMAGE HERE] - Print",
+    layers: [
+      { name: "Photo", left: 0, top: 0, imageData: solidPixels(4, 4, [210, 0, 0, 255]) },
+      {
+        name: "[YOUR IMAGE HERE] - Embossed",
+        left: 0,
+        top: 0,
+        placedLayer: smartObject("shared"),
+        imageData: solidPixels(4, 4, [0, 0, 220, 255]),
+      },
+      {
+        name: "[YOUR IMAGE HERE] - Print",
+        hidden: true,
+        placedLayer: smartObject("shared"),
+        mask: { left: 0, top: 0, defaultColor: 0, imageData: maskPixels(4, 4, (x, y) => x === 0 && y === 0) },
+      },
+      {
+        name: "Shadow",
+        blendMode: "linear burn",
+        left: 2,
+        top: 2,
+        imageData: solidPixels(1, 1, [0, 0, 0, 255]),
+      },
+    ],
+  });
+  assert.ok(stack);
+  assert.equal(stack.name, "[YOUR IMAGE HERE] - Print");
+  assert.equal(stack.width, 10);
+  assert.equal(stack.height, 20);
+  const base = await pixel(stack.base, 0, 0);
+  assert.ok(base[0] > 180);
+  assert.ok(base[2] < 40);
+  const hole = await pixel(stack.mask, 0, 0);
+  const outside = await pixel(stack.mask, 1, 0);
+  assert.ok(hole[3] > 200);
+  assert.ok(outside[3] < 20);
+  assert.equal(stack.overlays.length, 1);
+  assert.equal(stack.overlays[0]?.name, "Shadow");
+  assert.equal(stack.overlays[0]?.blend, "linear-burn");
+  const shadow = await pixel(stack.overlays[0]?.png ?? Buffer.alloc(0), 2, 2);
+  assert.ok(shadow[3] > 200);
+});
+
+test("the parent group mask clips the case color and the Print mask", async () => {
+  const stack = await splitPrintStack({
+    width: 4,
+    height: 4,
+    smartObjectName: "Print",
+    layers: [
+      { name: "Photo", left: 0, top: 0, imageData: solidPixels(4, 4, [210, 0, 0, 255]) },
+      {
+        name: "Phone Case",
+        blendMode: "pass through",
+        mask: { left: 0, top: 0, defaultColor: 0, imageData: maskPixels(4, 4, (x) => x >= 2) },
+        children: [
+          { name: "Change Case Color", left: 0, top: 0, imageData: solidPixels(4, 4, [0, 170, 0, 255]) },
+          {
+            name: "Print",
+            hidden: true,
+            placedLayer: smartObject("case"),
+            mask: { left: 0, top: 0, defaultColor: 0, imageData: maskPixels(4, 4, () => true) },
+          },
+        ],
+      },
+    ],
+  });
+  assert.ok(stack);
+  const open = await pixel(stack.base, 0, 0);
+  const covered = await pixel(stack.base, 3, 0);
+  assert.ok(open[0] > 180);
+  assert.ok(open[1] < 40);
+  assert.ok(covered[1] > 140);
+  assert.ok(covered[0] < 40);
+  const maskedOut = await pixel(stack.mask, 0, 0);
+  const maskedIn = await pixel(stack.mask, 3, 0);
+  assert.ok(maskedOut[3] < 20);
+  assert.ok(maskedIn[3] > 200);
+});
+
+test("a clipping layer above the print is clipped to the layer under it", async () => {
+  const stack = await splitPrintStack({
+    width: 2,
+    height: 2,
+    smartObjectName: "Print",
+    layers: [
+      { name: "Paper", left: 0, top: 0, imageData: solidPixels(2, 2, [180, 0, 0, 255]) },
+      {
+        name: "Print",
+        hidden: true,
+        placedLayer: {
+          id: "print",
+          type: "raster",
+          transform: [0, 0, 2, 0, 2, 2, 0, 2],
+          width: 4,
+          height: 8,
+          warp: { style: "none" },
+        },
+        mask: { left: 0, top: 0, defaultColor: 0, imageData: maskPixels(2, 2, () => true) },
+      },
+      {
+        name: "Cameras Ring",
+        left: 0,
+        top: 0,
+        imageData: (() => {
+          const data = new Uint8ClampedArray(2 * 2 * 4);
+          data[3] = 255;
+          data[0] = 255;
+          data[1] = 255;
+          data[2] = 255;
+          return { width: 2, height: 2, data };
+        })(),
+      },
+      { name: "Change Ring Color", clipping: true, left: 0, top: 0, imageData: solidPixels(2, 2, [0, 0, 200, 255]) },
+    ],
+  });
+  assert.ok(stack);
+  assert.equal(stack.overlays.map((overlay) => overlay.name).join(","), "Cameras Ring,Change Ring Color");
+  const tint = stack.overlays[1]?.png ?? Buffer.alloc(0);
+  const inside = await pixel(tint, 0, 0);
+  const outside = await pixel(tint, 1, 0);
+  assert.ok(inside[2] > 150);
+  assert.ok(inside[3] > 200);
+  assert.ok(outside[3] < 20);
+});
+
+test("a mesh warp is not treated as a four-corner print slot", async () => {
+  const stack = await splitPrintStack({
+    width: 2,
+    height: 2,
+    smartObjectName: "Print",
+    layers: [
+      {
+        name: "Print",
+        placedLayer: {
+          id: "mesh",
+          type: "raster",
+          transform: [0, 0, 2, 0, 2, 2, 0, 2],
+          width: 4,
+          height: 4,
+          warp: { style: "arc", value: 30 },
+        },
+      },
+    ],
+  });
+  assert.equal(stack, null);
+});
+
+test("linear burn darkens the artwork and stays above it", async () => {
+  const burned = await applyLinearBurn(
+    await sharp({ create: { width: 1, height: 1, channels: 4, background: { r: 200, g: 200, b: 200, alpha: 1 } } }).png().toBuffer(),
+    await sharp({ create: { width: 1, height: 1, channels: 4, background: { r: 100, g: 100, b: 100, alpha: 1 } } }).png().toBuffer(),
+  );
+  const burnPixel = await pixel(burned, 0, 0);
+  assert.ok(burnPixel[0] < 80);
+  assert.ok(burnPixel[0] > 20);
+
+  const dir = mkdtempSync(join(tmpdir(), "mockup-overlay-"));
+  try {
+    const { mkdirSync } = await import("node:fs");
+    const root = join(dir, "templates");
+    mkdirSync(join(root, "prepared"), { recursive: true });
+    await sharp({ create: { width: 8, height: 8, channels: 4, background: { r: 255, g: 255, b: 255, alpha: 1 } } })
+      .png()
+      .toFile(join(root, "prepared", "base.png"));
+    await sharp({ create: { width: 8, height: 8, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 1 } } })
+      .png()
+      .toFile(join(root, "prepared", "shadow.png"));
+    const artPath = join(dir, "art.png");
+    await sharp({
+      create: { width: 8, height: 8, channels: 4, background: { r: 220, g: 20, b: 20, alpha: 1 } },
+    })
+      .png()
+      .toFile(artPath);
+    await compositePrepared({
+      artworkPath: artPath,
+      template: placementTemplate({
+        output: { width: 8, height: 8, quality: 90, thumbEdge: 4 },
+        printable: { width: 8, height: 8, origin: { x: 0, y: 0 } },
+        basePath: "prepared/base.png",
+        fit: "cover",
+        overlays: [{ path: "prepared/shadow.png", blend: "linear-burn" }],
+      }),
+      templateRoot: root,
+      outputPath: join(dir, "out.webp"),
+      thumbPath: join(dir, "thumb.webp"),
+    });
+    const output = await pixel(readFileSync(join(dir, "out.webp")), 4, 4);
+    assert.ok(output[0] < 40);
+  } finally {
+    removeTemp(dir);
+  }
+});
+
+test("an unknown overlay blend is rejected", () => {
+  const root = mkdtempSync(join(tmpdir(), "mockup-overlay-config-"));
+  assert.throws(
+    () =>
+      validateMockupTemplates(
+        [placementTemplate({ overlays: [{ path: "prepared/shadow.png", blend: "hue" as "normal" }] })],
+        root,
+      ),
+    /unknown overlay blend/,
+  );
+  removeTemp(root);
 });

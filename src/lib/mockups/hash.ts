@@ -28,6 +28,7 @@ export function templateSettingsHash(template: MockupTemplateConfig): string {
     fit: template.fit,
     cornerRadius: template.cornerRadius,
     displacementScale: template.displacementScale,
+    overlays: template.overlays ?? [],
   });
   return createHash("sha256").update(payload).digest("hex");
 }

@@ -3,6 +3,7 @@ import type { FillStrategy, MockupTemplateConfig } from "./types";
 import { mockupTemplates } from "../../../mockup-templates/templates.config";
 
 const FILL_STRATEGIES = new Set(["solid", "edge-extend", "blur"]);
+const OVERLAY_BLENDS = new Set(["normal", "screen", "multiply", "linear-burn"]);
 
 function assertRelative(root: string, value: string | null): void {
   if (!value) return;
@@ -47,6 +48,12 @@ export function validateMockupTemplates(templates: MockupTemplateConfig[], templ
     assertRelative(templateRoot, template.shadePath);
     assertRelative(templateRoot, template.highlightPath);
     assertRelative(templateRoot, template.displacementPath);
+    for (const overlay of template.overlays ?? []) {
+      if (!OVERLAY_BLENDS.has(overlay.blend)) {
+        throw new Error(`Template ${template.id} has an unknown overlay blend.`);
+      }
+      assertRelative(templateRoot, overlay.path);
+    }
     if (template.printable.quad && template.printable.quad.length !== 4) {
       throw new Error(`Template ${template.id} quad must have four points.`);
     }

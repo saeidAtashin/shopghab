@@ -7,6 +7,13 @@ export type FillStrategy =
 
 export type MockupRenderer = "prepared" | "photoshop";
 
+export type OverlayBlend = "normal" | "screen" | "multiply" | "linear-burn";
+
+export type MockupOverlay = {
+  path: string;
+  blend: OverlayBlend;
+};
+
 export type PrintableRegion = {
   width: number;
   height: number;
@@ -29,6 +36,8 @@ export type MockupTemplateConfig = {
   basePath: string | null;
   shadePath: string | null;
   highlightPath: string | null;
+  /** Layers above the Print smart object, bottom to top. */
+  overlays?: MockupOverlay[];
   displacementPath: string | null;
   displacementScale: number;
   fit: "contain" | "cover";
