@@ -112,6 +112,53 @@ export function warpImage(
   return { data, width, height };
 }
 
+export function warpMesh(
+  source: RawImage,
+  columns: number,
+  rows: number,
+  points: Point[],
+  width: number,
+  height: number,
+): RawImage {
+  const data = Buffer.alloc(width * height * 4);
+  if (columns < 2 || rows < 2 || points.length !== columns * rows) return { data, width, height };
+  const at = (column: number, row: number): Point => points[row * columns + column] ?? { x: 0, y: 0 };
+  const maxSrcX = Math.max(1, source.width - 1);
+  const maxSrcY = Math.max(1, source.height - 1);
+  for (let row = 0; row < rows - 1; row += 1) {
+    for (let column = 0; column < columns - 1; column += 1) {
+      const quad: [Point, Point, Point, Point] = [
+        at(column, row),
+        at(column + 1, row),
+        at(column + 1, row + 1),
+        at(column, row + 1),
+      ];
+      const minX = Math.max(0, Math.floor(Math.min(quad[0].x, quad[1].x, quad[2].x, quad[3].x)));
+      const maxX = Math.min(width - 1, Math.ceil(Math.max(quad[0].x, quad[1].x, quad[2].x, quad[3].x)));
+      const minY = Math.max(0, Math.floor(Math.min(quad[0].y, quad[1].y, quad[2].y, quad[3].y)));
+      const maxY = Math.min(height - 1, Math.ceil(Math.max(quad[0].y, quad[1].y, quad[2].y, quad[3].y)));
+      const u0 = column / (columns - 1);
+      const u1 = (column + 1) / (columns - 1);
+      const v0 = row / (rows - 1);
+      const v1 = (row + 1) / (rows - 1);
+      for (let y = minY; y <= maxY; y += 1) {
+        for (let x = minX; x <= maxX; x += 1) {
+          const uv = invertQuad(x + 0.5, y + 0.5, quad);
+          if (!uv) continue;
+          const pixel = sample(source, (u0 + uv.u * (u1 - u0)) * maxSrcX, (v0 + uv.v * (v1 - v0)) * maxSrcY);
+          if (pixel[3] === 0) continue;
+          const index = (y * width + x) * 4;
+          data[index] = pixel[0];
+          data[index + 1] = pixel[1];
+          data[index + 2] = pixel[2];
+          data[index + 3] = pixel[3];
+        }
+      }
+    }
+  }
+  return { data, width, height };
+}
+
 export function displaceImage(source: RawImage, map: RawImage, scaleX: number, scaleY: number): RawImage {
   const data = Buffer.alloc(source.width * source.height * 4);
   for (let y = 0; y < source.height; y += 1) {

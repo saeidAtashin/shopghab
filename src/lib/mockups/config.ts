@@ -57,6 +57,10 @@ export function validateMockupTemplates(templates: MockupTemplateConfig[], templ
     if (template.printable.quad && template.printable.quad.length !== 4) {
       throw new Error(`Template ${template.id} quad must have four points.`);
     }
+    const mesh = template.printable.mesh;
+    if (mesh && (mesh.columns < 2 || mesh.rows < 2 || mesh.points.length !== mesh.columns * mesh.rows)) {
+      throw new Error(`Template ${template.id} mesh does not match its grid.`);
+    }
   }
 
   const enabled = templates.filter((template) => template.enabled);

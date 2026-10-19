@@ -14,11 +14,19 @@ export type MockupOverlay = {
   blend: OverlayBlend;
 };
 
+export type PrintableMesh = {
+  columns: number;
+  rows: number;
+  /** Row-major grid in smart-object pixels. */
+  points: Point[];
+};
+
 export type PrintableRegion = {
   width: number;
   height: number;
   origin?: Point;
   quad?: [Point, Point, Point, Point];
+  mesh?: PrintableMesh;
   smartObjectName?: string;
 };
 

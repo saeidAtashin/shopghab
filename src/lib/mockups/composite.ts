@@ -7,7 +7,7 @@ import sharp from "sharp";
 import { MockupError } from "./errors";
 import { resolveInside } from "./paths";
 import type { FillStrategy, MockupTemplateConfig, OverlayBlend, Point } from "./types";
-import { displaceImage, warpImage, type RawImage } from "./warp";
+import { displaceImage, warpImage, warpMesh, type RawImage } from "./warp";
 
 type Rgba = { r: number; g: number; b: number; alpha: number };
 
@@ -281,7 +281,11 @@ export async function compositePrepared(options: {
     template.fill,
     template.fit,
   );
-  const textureRaw = await toRaw(texture, regionWidth, regionHeight);
+  let textureRaw = await toRaw(texture, regionWidth, regionHeight);
+  const mesh = template.printable.mesh;
+  if (mesh && mesh.columns >= 2 && mesh.rows >= 2 && mesh.points.length === mesh.columns * mesh.rows) {
+    textureRaw = warpMesh(textureRaw, mesh.columns, mesh.rows, mesh.points, regionWidth, regionHeight);
+  }
 
   let placed: Buffer;
   if (template.printable.quad) {

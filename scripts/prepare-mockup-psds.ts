@@ -61,6 +61,12 @@ function renderConfig(templates: MockupTemplateConfig[]): string {
       const quadText = quad
         ? `\n      quad: [\n${quad.map((point) => `        { x: ${point.x}, y: ${point.y} },`).join("\n")}\n      ],`
         : "";
+      const mesh = template.printable.mesh;
+      const meshText = mesh
+        ? `\n      mesh: {\n        columns: ${mesh.columns},\n        rows: ${mesh.rows},\n        points: [\n${mesh.points
+            .map((point) => `          { x: ${point.x}, y: ${point.y} },`)
+            .join("\n")}\n        ],\n      },`
+        : "";
       const overlays = template.overlays;
       const overlayText =
         overlays === undefined
@@ -81,7 +87,7 @@ function renderConfig(templates: MockupTemplateConfig[]): string {
     output: { width: ${template.output.width}, height: ${template.output.height}, quality: ${template.output.quality}, thumbEdge: ${template.output.thumbEdge} },
     printable: {
       width: ${template.printable.width},
-      height: ${template.printable.height},${quadText}
+      height: ${template.printable.height},${quadText}${meshText}
       smartObjectName: ${JSON.stringify(template.printable.smartObjectName ?? "")},
     },
     maskPath: ${template.maskPath ? JSON.stringify(template.maskPath) : "null"},
@@ -101,9 +107,9 @@ function renderConfig(templates: MockupTemplateConfig[]): string {
 
 /**
  * Placement comes from each PSD Smart Object. Rotated and perspective cases use
- * the non-affine corners, so the design turns with the case. A mesh warp is not
- * a four-corner placement and stays disabled. Layers above the Print slot are
- * composited after the design, in the PSD's stack order.
+ * the non-affine corners, so the design turns with the case. A custom envelope
+ * grid is applied in the smart object before that quad. Other warps stay disabled.
+ * Layers above the Print slot are composited after the design, in the PSD's stack order.
  */
 export const mockupTemplates: MockupTemplateConfig[] = [
 ${body},
@@ -187,6 +193,16 @@ async function prepareFromPixels(root: string, template: MockupTemplateConfig): 
       width: stack.width,
       height: stack.height,
       quad: quadFromTransform(stack.transform, width, height, size.width, size.height),
+      mesh: stack.mesh
+        ? {
+            columns: stack.mesh.columns,
+            rows: stack.mesh.rows,
+            points: stack.mesh.points.map((point) => ({
+              x: Math.round(point.x * 100) / 100,
+              y: Math.round(point.y * 100) / 100,
+            })),
+          }
+        : undefined,
       smartObjectName: stack.name,
     },
     basePath,

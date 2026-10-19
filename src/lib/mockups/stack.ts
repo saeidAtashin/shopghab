@@ -3,7 +3,7 @@ import sharp from "sharp";
 
 import { applyLinearBurn } from "./composite";
 import { placementCorners } from "./placement";
-import type { OverlayBlend } from "./types";
+import type { OverlayBlend, PrintableMesh } from "./types";
 
 export type StackOverlay = {
   name: string;
@@ -16,6 +16,7 @@ export type PrintStack = {
   width: number;
   height: number;
   transform: number[];
+  mesh: PrintableMesh | null;
   base: Buffer;
   mask: Buffer;
   overlays: StackOverlay[];
@@ -30,9 +31,22 @@ type PaintTarget = {
   overlays: StackOverlay[];
 };
 
-/** A custom envelope or a styled warp is not a four-corner placement. */
+/** A styled warp we cannot place. A complete custom envelope grid is kept. */
+export function envelopeMesh(warp: Warp | undefined): PrintableMesh | null {
+  const columns = warp?.deformNumCols ?? 0;
+  const rows = warp?.deformNumRows ?? 0;
+  const points = warp?.customEnvelopeWarp?.meshPoints ?? [];
+  if (columns < 2 || rows < 2 || points.length !== columns * rows) return null;
+  return {
+    columns,
+    rows,
+    points: points.map((point) => ({ x: point.x, y: point.y })),
+  };
+}
+
 export function warpIsMesh(warp: Warp | undefined): boolean {
   if (!warp) return false;
+  if (envelopeMesh(warp)) return false;
   if (warp.customEnvelopeWarp?.meshPoints?.length) return true;
   if (warp.style && warp.style !== "none") return true;
   if ((warp.value ?? 0) !== 0) return true;
@@ -351,7 +365,7 @@ async function emit(target: PaintTarget, layer: Layer, plate: Buffer): Promise<v
  * Splits a PSD around the named Print smart object.
  * Layers below become the base, the Print mask stays in document pixels,
  * and each visible layer above is saved in stack order.
- * Returns null when that smart object is missing or uses a real mesh warp.
+ * Returns null when that smart object is missing or uses a warp we cannot place.
  */
 export async function splitPrintStack(options: {
   layers: Layer[];
@@ -383,6 +397,7 @@ export async function splitPrintStack(options: {
     transform: corners,
     base: target.base,
     mask: target.mask,
+    mesh: envelopeMesh(placed.warp),
     overlays: target.overlays,
   };
 }

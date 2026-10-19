@@ -18,10 +18,10 @@ import { opaqueBoundsFillRectangle, placementCorners, quadIsAxisAligned } from "
 import { publishValidatedWebp } from "./output";
 import { artworkAbsolutePath, mockupPublicPaths, resolveInside } from "./paths";
 import { mergeMockupRecords, renderDesignTemplates, shouldReuseOutput } from "./render";
-import { splitPrintStack } from "./stack";
+import { splitPrintStack, envelopeMesh } from "./stack";
 import { summarizeMockups } from "./status";
 import type { MockupRecord, MockupTemplateConfig } from "./types";
-import { warpImage } from "./warp";
+import { warpImage, warpMesh } from "./warp";
 
 function removeTemp(dir: string): void {
   try {
@@ -844,6 +844,90 @@ test("a clipping layer above the print is clipped to the layer under it", async 
   assert.ok(inside[2] > 150);
   assert.ok(inside[3] > 200);
   assert.ok(outside[3] < 20);
+});
+
+test("a styled warp is not a placement and a custom grid is", () => {
+  assert.equal(envelopeMesh({ style: "arc", value: 30 }), null);
+  const grid = envelopeMesh({
+    style: "custom",
+    deformNumCols: 2,
+    deformNumRows: 2,
+    customEnvelopeWarp: {
+      meshPoints: [
+        { x: 0, y: 0 },
+        { x: 1, y: 0 },
+        { x: 0, y: 1 },
+        { x: 1, y: 1 },
+      ],
+    },
+  });
+  assert.equal(grid?.columns, 2);
+  assert.equal(grid?.rows, 2);
+  assert.equal(grid?.points.length, 4);
+});
+
+test("a 2x2 mesh moves the artwork corner with that grid point", () => {
+  const data = Buffer.alloc(4 * 4 * 4, 255);
+  for (let pixelIndex = 0; pixelIndex < 16; pixelIndex += 1) data[pixelIndex * 4] = 220;
+  const moved = warpMesh(
+    { data, width: 4, height: 4 },
+    2,
+    2,
+    [
+      { x: 0, y: 2 },
+      { x: 3, y: 0 },
+      { x: 0, y: 3 },
+      { x: 3, y: 3 },
+    ],
+    4,
+    4,
+  );
+  assert.equal(moved.data[3], 0);
+  const lower = (2 * 4 + 1) * 4;
+  assert.ok((moved.data[lower] ?? 0) > 180);
+  assert.ok((moved.data[lower + 3] ?? 0) > 200);
+});
+
+test("a complete custom envelope stays the print slot with the light above it", async () => {
+  const stack = await splitPrintStack({
+    width: 2,
+    height: 2,
+    smartObjectName: "YOUR DESIGN HERE",
+    layers: [
+      { name: "Photo", left: 0, top: 0, imageData: solidPixels(2, 2, [10, 10, 10, 255]) },
+      {
+        name: "YOUR DESIGN HERE",
+        placedLayer: {
+          id: "path",
+          type: "raster",
+          transform: [0, 0, 2, 0, 2, 2, 0, 2],
+          width: 4,
+          height: 8,
+          warp: {
+            style: "custom",
+            deformNumCols: 2,
+            deformNumRows: 2,
+            customEnvelopeWarp: {
+              meshPoints: [
+                { x: 0, y: 0 },
+                { x: 4, y: 0 },
+                { x: 0, y: 8 },
+                { x: 4, y: 8 },
+              ],
+            },
+          },
+        },
+        mask: { left: 0, top: 0, defaultColor: 0, imageData: maskPixels(2, 2, () => true) },
+      },
+      { name: "Light", blendMode: "screen", left: 0, top: 0, imageData: solidPixels(1, 1, [255, 255, 255, 255]) },
+    ],
+  });
+  assert.ok(stack);
+  assert.equal(stack.name, "YOUR DESIGN HERE");
+  assert.equal(stack.mesh?.columns, 2);
+  assert.equal(stack.mesh?.points.length, 4);
+  assert.equal(stack.overlays[0]?.name, "Light");
+  assert.equal(stack.overlays[0]?.blend, "screen");
 });
 
 test("a mesh warp is not treated as a four-corner print slot", async () => {
