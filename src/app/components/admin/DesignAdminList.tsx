@@ -40,7 +40,7 @@ export default function DesignAdminList() {
   const [busyId, setBusyId] = useState("");
   const [listVersion, setListVersion] = useState(0);
   const canReorder =
-    Boolean(categoryId) && !q.trim() && status === "all" && !missingSeo && !missingImage && !unedited;
+    Boolean(categoryId) && !q.trim() && status === "all" && !missingSeo && !missingImage && !uneditedOnly;
 
   useEffect(() => {
     void adminJson<{ categories: CategoryRecord[] }>("/api/admin/catalog/categories")
