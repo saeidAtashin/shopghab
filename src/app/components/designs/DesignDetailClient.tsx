@@ -54,6 +54,10 @@ export default function DesignDetailClient({
   const caseType = CASE_TYPES.find((item) => item.slug === caseTypeSlug) ?? CASE_TYPES[0];
   const price = caseType ? getCaseTotalPrice(caseType, true) : null;
 
+  function stepGallery(direction: number): void {
+    setActiveIndex((current) => (current + direction + gallery.length) % gallery.length);
+  }
+
   return (
     <>
       <div className="grid gap-10 lg:grid-cols-2">
@@ -68,6 +72,7 @@ export default function DesignDetailClient({
               sizes="(max-width: 1024px) 100vw, 640px"
               className="min-h-80 rounded-2xl border border-border"
               imageClassName="object-contain p-6"
+              onZoom={() => setZoomOpen(true)}
             />
           ) : active ? (
             <button
@@ -118,12 +123,14 @@ export default function DesignDetailClient({
               ))}
             </div>
           ) : null}
-          {active && !active.artwork ? (
+          {active ? (
             <DesignImageZoom
               open={zoomOpen}
               src={active.src}
               alt={imageAlt}
               onClose={() => setZoomOpen(false)}
+              onPrev={gallery.length > 1 ? () => stepGallery(-1) : undefined}
+              onNext={gallery.length > 1 ? () => stepGallery(1) : undefined}
             />
           ) : null}
         </div>

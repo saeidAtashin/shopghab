@@ -17,6 +17,10 @@ type Props = {
   sizes: string;
   className?: string;
   imageClassName?: string;
+  /** When false, the image is not clickable and this stage does not open a viewer. */
+  zoomable?: boolean;
+  /** Parent-owned viewer. A click calls this instead of the built-in viewer. */
+  onZoom?: () => void;
 };
 
 export default function DesignArtworkStage({
@@ -28,9 +32,12 @@ export default function DesignArtworkStage({
   sizes,
   className,
   imageClassName = "object-contain p-3",
+  zoomable = true,
+  onZoom,
 }: Props) {
   const [active, setActive] = useState(false);
   const [zoomOpen, setZoomOpen] = useState(false);
+  const canZoom = Boolean(onZoom) || zoomable;
 
   if (!src) {
     return (
@@ -54,12 +61,27 @@ export default function DesignArtworkStage({
         if (!(next instanceof Node) || !event.currentTarget.contains(next)) setActive(false);
       }}
     >
-      <button
-        type="button"
-        onClick={() => setZoomOpen(true)}
-        className="absolute inset-0 cursor-zoom-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/50"
-        aria-label={`بزرگ‌نمایی ${alt}`}
-      >
+      {canZoom ? (
+        <button
+          type="button"
+          onClick={() => (onZoom ? onZoom() : setZoomOpen(true))}
+          className="absolute inset-0 cursor-zoom-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/50"
+          aria-label={`بزرگ‌نمایی ${alt}`}
+        >
+          <Image
+            src={designedAssetUrl(src)}
+            alt={alt}
+            fill
+            priority={priority}
+            sizes={sizes}
+            className={cn(
+              imageClassName,
+              "transition-opacity duration-300 motion-reduce:transition-none",
+              active && "opacity-0",
+            )}
+          />
+        </button>
+      ) : (
         <Image
           src={designedAssetUrl(src)}
           alt={alt}
@@ -72,7 +94,7 @@ export default function DesignArtworkStage({
             active && "opacity-0",
           )}
         />
-      </button>
+      )}
 
       {active ? (
         <div className="pointer-events-none absolute inset-0 z-[3]" aria-hidden>
@@ -80,7 +102,9 @@ export default function DesignArtworkStage({
         </div>
       ) : null}
 
-      <DesignImageZoom open={zoomOpen} src={src} alt={alt} onClose={() => setZoomOpen(false)} />
+      {zoomable && !onZoom ? (
+        <DesignImageZoom open={zoomOpen} src={src} alt={alt} onClose={() => setZoomOpen(false)} />
+      ) : null}
     </div>
   );
 }

@@ -3,9 +3,9 @@
 import { useState, type MouseEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import DesignArtworkStage from "@/app/components/designs/DesignArtworkStage";
-import DesignImageZoom from "@/app/components/designs/DesignImageZoom";
 import { designedAssetUrl } from "@/lib/designed-assets";
 import { designImageAlt } from "@/lib/mockups/display";
 import type { PublicDesign } from "@/lib/catalog/schema";
@@ -37,13 +37,11 @@ export default function CatalogDesignCard({ design, categoryName, priority = fal
   const href = `/designs/${design.slug}`;
   const frames = cardFrames(design);
   const [index, setIndex] = useState(0);
-  const [zoomOpen, setZoomOpen] = useState(false);
   const frame = frames[index] ?? frames[0];
 
   function step(event: MouseEvent<HTMLButtonElement>, direction: number): void {
     event.preventDefault();
     event.stopPropagation();
-    setZoomOpen(false);
     setIndex((current) => (current + direction + frames.length) % frames.length);
   }
 
@@ -56,54 +54,56 @@ export default function CatalogDesignCard({ design, categoryName, priority = fal
           </span>
         ) : null}
         <div className="relative h-40 overflow-hidden bg-[radial-gradient(ellipse_at_50%_30%,rgba(34,211,238,0.12),transparent_55%)] sm:h-44">
-          {frame?.artwork ? (
-            <DesignArtworkStage
-              id={design.id}
-              src={frame.src}
-              thumb={frame.thumb}
-              alt={alt}
-              priority={priority && index === 0}
-              sizes="(max-width: 640px) 50vw, 25vw"
-              className="h-full bg-transparent"
-            />
-          ) : frame ? (
-            <button
-              type="button"
-              onClick={() => setZoomOpen(true)}
-              className="absolute inset-0 cursor-zoom-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/50"
-              aria-label={`بزرگ‌نمایی ${alt}`}
+          {frame ? (
+            <Link
+              href={href}
+              aria-label={alt}
+              className="absolute inset-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/50"
             >
-              <Image
-                src={designedAssetUrl(frame.thumb || frame.src)}
-                alt={alt}
-                fill
-                priority={priority && index === 0}
-                sizes="(max-width: 640px) 50vw, 25vw"
-                className="object-contain p-3"
-              />
-            </button>
+              {frame.artwork ? (
+                <DesignArtworkStage
+                  id={design.id}
+                  src={frame.src}
+                  thumb={frame.thumb}
+                  alt={alt}
+                  priority={priority && index === 0}
+                  sizes="(max-width: 640px) 50vw, 25vw"
+                  className="h-full bg-transparent"
+                  zoomable={false}
+                />
+              ) : (
+                <Image
+                  src={designedAssetUrl(frame.thumb || frame.src)}
+                  alt={alt}
+                  fill
+                  priority={priority && index === 0}
+                  sizes="(max-width: 640px) 50vw, 25vw"
+                  className="object-contain p-3"
+                />
+              )}
+            </Link>
           ) : (
             <span className="flex h-full items-center justify-center text-xs text-muted">بدون تصویر</span>
           )}
           {frames.length > 1 ? (
-            <div className="absolute inset-x-2 bottom-2 z-20 flex justify-between">
+            <>
               <button
                 type="button"
                 onClick={(event) => step(event, -1)}
-                className="rounded-full border border-border/70 bg-background/80 px-2.5 py-1 text-[11px] font-medium text-foreground backdrop-blur-sm"
+                className="absolute start-2 top-1/2 z-20 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-black/70 text-white shadow-lg backdrop-blur-sm transition hover:bg-black/85"
                 aria-label="تصویر قبلی"
               >
-                قبلی
+                <ChevronRight className="h-4 w-4" aria-hidden />
               </button>
               <button
                 type="button"
                 onClick={(event) => step(event, 1)}
-                className="rounded-full border border-border/70 bg-background/80 px-2.5 py-1 text-[11px] font-medium text-foreground backdrop-blur-sm"
+                className="absolute end-2 top-1/2 z-20 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-black/70 text-white shadow-lg backdrop-blur-sm transition hover:bg-black/85"
                 aria-label="تصویر بعدی"
               >
-                بعدی
+                <ChevronLeft className="h-4 w-4" aria-hidden />
               </button>
-            </div>
+            </>
           ) : null}
         </div>
       </div>
@@ -116,9 +116,6 @@ export default function CatalogDesignCard({ design, categoryName, priority = fal
           <p className="line-clamp-2 text-xs leading-6 text-muted">{design.shortDescription}</p>
         ) : null}
       </Link>
-      {frame && !frame.artwork ? (
-        <DesignImageZoom open={zoomOpen} src={frame.src} alt={alt} onClose={() => setZoomOpen(false)} />
-      ) : null}
     </article>
   );
 }

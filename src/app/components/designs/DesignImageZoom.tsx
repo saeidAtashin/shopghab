@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { Minus, Plus, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Minus, Plus, X } from "lucide-react";
 
 import { designedAssetUrl } from "@/lib/designed-assets";
 
@@ -11,6 +11,8 @@ type Props = {
   src: string;
   alt: string;
   onClose: () => void;
+  onPrev?: () => void;
+  onNext?: () => void;
 };
 
 type Offset = { x: number; y: number };
@@ -31,7 +33,7 @@ function clampOffset(offset: Offset, scale: number): Offset {
   };
 }
 
-export default function DesignImageZoom({ open, src, alt, onClose }: Props) {
+export default function DesignImageZoom({ open, src, alt, onClose, onPrev, onNext }: Props) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(MIN_SCALE);
@@ -60,7 +62,7 @@ export default function DesignImageZoom({ open, src, alt, onClose }: Props) {
     }
     setSharp(false);
     if (node.open) node.close();
-  }, [open]);
+  }, [open, src]);
 
   const scaleRef = useRef(scale);
   scaleRef.current = scale;
@@ -81,6 +83,23 @@ export default function DesignImageZoom({ open, src, alt, onClose }: Props) {
     node.addEventListener("wheel", onWheel, { passive: false });
     return () => node.removeEventListener("wheel", onWheel);
   }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    function onKey(event: KeyboardEvent): void {
+      if (event.key === "ArrowRight" && onPrev) {
+        event.preventDefault();
+        onPrev();
+      } else if (event.key === "ArrowLeft" && onNext) {
+        event.preventDefault();
+        onNext();
+      }
+    }
+
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, onPrev, onNext]);
 
   function onPointerDown(event: React.PointerEvent<HTMLDivElement>): void {
     if (scale <= MIN_SCALE) return;
@@ -153,6 +172,27 @@ export default function DesignImageZoom({ open, src, alt, onClose }: Props) {
           </button>
         </div>
       </div>
+
+      {onPrev ? (
+        <button
+          type="button"
+          onClick={onPrev}
+          className="absolute start-3 top-1/2 z-20 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-black/70 text-white shadow-lg backdrop-blur-sm transition hover:bg-black/85"
+          aria-label="تصویر قبلی"
+        >
+          <ChevronRight className="h-5 w-5" aria-hidden />
+        </button>
+      ) : null}
+      {onNext ? (
+        <button
+          type="button"
+          onClick={onNext}
+          className="absolute end-3 top-1/2 z-20 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-black/70 text-white shadow-lg backdrop-blur-sm transition hover:bg-black/85"
+          aria-label="تصویر بعدی"
+        >
+          <ChevronLeft className="h-5 w-5" aria-hidden />
+        </button>
+      ) : null}
 
       {src ? (
         <div
