@@ -76,7 +76,17 @@ bash /tmp/update-from-release.sh
 (crontab -l 2>/dev/null | grep -v update-from-release.sh; echo '* * * * * bash /root/shopghab/deploy/update-from-release.sh >> /var/log/shopghab-update.log 2>&1') | crontab -
 ```
 
-Run the `curl` after this change is on `main`, so the raw URL exists. The script keeps `.env` and `deploy/ssl`. Each new sha replaces `data/design-catalog.json` from that commit and mounts it into the container. `npm run catalog:sync` shows up on the site after those catalog changes are committed and pushed to `main`. The file stays writable for the admin UI until the next deploy.
+Run the `curl` after this change is on `main`, so the raw URL exists. The script keeps `.env` and `deploy/ssl`. It also keeps the live catalog, landing settings, customers, orders, and payment receipts. A release does not replace those files with the git copies.
+
+The server catalog stays the source of truth. Existing designs, categories, collections, attributes, and redirects are left as they were edited on the site. Records that exist only in the new release are added. Customers and orders are never taken from git. New image files under `public/` still come from the release. `npm run catalog:sync` adds new design files to the local catalog; commit that catalog when you want those new rows to appear on the server. Pushing does not copy local edits over rows that already exist on the server.
+
+The copy of this script already on the VPS is what runs the next update. Before the first deploy that contains this change, copy `/root/shopghab/data` aside. After the change is on `main`, install the new script before cron runs it, so that update does not reset the catalog:
+
+```bash
+cp -a /root/shopghab/data /root/shopghab-data-backup
+curl -fsSL -o /root/shopghab/deploy/update-from-release.sh https://raw.githubusercontent.com/saeidAtashin/shopghab/main/deploy/update-from-release.sh
+bash /root/shopghab/deploy/update-from-release.sh
+```
 
 After a successful update the app should answer on `http://127.0.0.1:3002` and at `https://shopghab.ir`.
 

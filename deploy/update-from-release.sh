@@ -26,6 +26,29 @@ if [ "$remote_sha" = "$local_sha" ]; then
   exit 0
 fi
 
+RUNTIME="$(mktemp -d)"
+cleanup() {
+  rm -rf "$RUNTIME"
+}
+trap cleanup EXIT
+
+snapshot_runtime_data() {
+  local source_dir="$1"
+  if [ -f "$source_dir/data/design-catalog.json" ]; then
+    cp "$source_dir/data/design-catalog.json" "$RUNTIME/design-catalog.json"
+  fi
+  if [ -f "$source_dir/data/landing-sections.json" ]; then
+    cp "$source_dir/data/landing-sections.json" "$RUNTIME/landing-sections.json"
+  fi
+  if [ -f "$source_dir/data/shop-activity.json" ]; then
+    cp "$source_dir/data/shop-activity.json" "$RUNTIME/shop-activity.json"
+  fi
+  if [ -d "$source_dir/data/receipts" ]; then
+    mkdir -p "$RUNTIME/receipts"
+    cp -a "$source_dir/data/receipts/." "$RUNTIME/receipts/"
+  fi
+}
+
 preserve_local_files() {
   local source_dir="$1"
   local dest_dir="$2"
@@ -38,13 +61,61 @@ preserve_local_files() {
   fi
 }
 
+restore_runtime_files() {
+  local dest_dir="$1"
+  mkdir -p "$dest_dir/data"
+  # Landing is tracked, so git reset replaces it. Put the live file back.
+  if [ -f "$RUNTIME/landing-sections.json" ]; then
+    cp "$RUNTIME/landing-sections.json" "$dest_dir/data/landing-sections.json"
+  fi
+  # Customers, orders, and receipts are not in git. A reset leaves them in
+  # place; a fresh clone does not. Copy the snapshot only when the update
+  # removed them, so an order written during the pull is kept.
+  if [ -f "$RUNTIME/shop-activity.json" ] && [ ! -f "$dest_dir/data/shop-activity.json" ]; then
+    cp "$RUNTIME/shop-activity.json" "$dest_dir/data/shop-activity.json"
+  fi
+  if [ -d "$RUNTIME/receipts" ] && [ ! -d "$dest_dir/data/receipts" ]; then
+    mkdir -p "$dest_dir/data/receipts"
+    cp -a "$RUNTIME/receipts/." "$dest_dir/data/receipts/"
+  fi
+}
+
+merge_live_catalog() {
+  local dest_dir="$1"
+  if [ ! -f "$RUNTIME/design-catalog.json" ]; then
+    return 0
+  fi
+  mkdir -p "$dest_dir/data"
+  if [ ! -f "$dest_dir/data/design-catalog.json" ]; then
+    cp "$RUNTIME/design-catalog.json" "$dest_dir/data/design-catalog.json"
+    return 0
+  fi
+  cp "$dest_dir/data/design-catalog.json" "$RUNTIME/incoming-design-catalog.json"
+  if ! docker run --rm \
+    -v "$dest_dir/deploy/merge-runtime-catalog.mjs:/merge.mjs:ro" \
+    -v "$RUNTIME/design-catalog.json:/live.json:ro" \
+    -v "$RUNTIME/incoming-design-catalog.json:/incoming.json:ro" \
+    -v "$dest_dir/data:/out" \
+    node:22-bookworm-slim \
+    node /merge.mjs --live /live.json --incoming /incoming.json --out /out/design-catalog.json
+  then
+    cp "$RUNTIME/design-catalog.json" "$dest_dir/data/design-catalog.json"
+    echo "catalog merge failed; restored the live catalog" >&2
+    exit 1
+  fi
+}
+
+if [ -d "$APP_DIR" ]; then
+  snapshot_runtime_data "$APP_DIR"
+fi
+
 if [ -d "$APP_DIR/.git" ]; then
   git -C "$APP_DIR" fetch --depth 1 origin main
   git -C "$APP_DIR" reset --hard FETCH_HEAD
 else
-staging="$(mktemp -d)"
-rmdir "$staging"
-git clone --depth 1 --branch main "$REPO_URL" "$staging"
+  staging="$(mktemp -d)"
+  rmdir "$staging"
+  git clone --depth 1 --branch main "$REPO_URL" "$staging"
   if [ -d "$APP_DIR" ]; then
     preserve_local_files "$APP_DIR" "$staging"
     rm -rf /root/shopghab.old
@@ -52,6 +123,9 @@ git clone --depth 1 --branch main "$REPO_URL" "$staging"
   fi
   mv "$staging" "$APP_DIR"
 fi
+
+restore_runtime_files "$APP_DIR"
+merge_live_catalog "$APP_DIR"
 
 if [ ! -f "$APP_DIR/.env" ]; then
   printf '%s\n' \
