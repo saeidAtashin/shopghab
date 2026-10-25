@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { X } from "lucide-react";
 import { useEditorStore } from "@/lib/design/editor-store";
 import { createRafResizeHandler } from "@/lib/design/throttle-raf";
+import { lockPageScroll } from "@/lib/scroll-lock";
 import CaseCanvas from "./CaseCanvas";
 
 type Props = {
@@ -38,13 +39,7 @@ export default function PreviewModal({ caseColor, caseMaterial, onClose }: Props
     return () => setPreviewMode(false);
   }, [setPreviewMode]);
 
-  useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  }, []);
+  useEffect(() => lockPageScroll(), []);
 
   useEffect(() => {
     const { handler, cancel } = createRafResizeHandler(() =>

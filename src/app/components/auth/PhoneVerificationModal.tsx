@@ -12,6 +12,7 @@ import {
   normalizeIranPhone,
   sanitizePhoneInput,
 } from "@/lib/phone";
+import { lockPageScroll } from "@/lib/scroll-lock";
 
 type Props = {
   open: boolean;
@@ -60,6 +61,11 @@ export default function PhoneVerificationModal({
   phoneRef.current = phone;
 
   const phoneLocked = Boolean(initialPhone.trim());
+
+  useEffect(() => {
+    if (!open) return;
+    return lockPageScroll();
+  }, [open]);
 
   useEffect(() => {
     if (!open) {

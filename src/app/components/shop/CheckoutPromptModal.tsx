@@ -5,6 +5,8 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ShoppingBag, Store, X } from "lucide-react";
 
+import { lockPageScroll } from "@/lib/scroll-lock";
+
 export type CheckoutPrompt = {
   title: string;
   previewUrl?: string;
@@ -18,13 +20,7 @@ type Props = {
 export default function CheckoutPromptModal({ prompt, onClose }: Props) {
   const reduceMotion = useReducedMotion();
 
-  useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  }, []);
+  useEffect(() => lockPageScroll(), []);
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {

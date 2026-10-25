@@ -8,6 +8,7 @@ import {
   loadEditorFonts,
   type EditorFontOption,
 } from "@/lib/design/editor-fonts";
+import { lockPageScroll } from "@/lib/scroll-lock";
 
 type Props = {
   text: string;
@@ -81,6 +82,8 @@ export default function FontPickerSheet({
 }: Props) {
   const [query, setQuery] = useState("");
   const preview = previewCopy(text);
+
+  useEffect(() => lockPageScroll(), []);
   const selectedRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

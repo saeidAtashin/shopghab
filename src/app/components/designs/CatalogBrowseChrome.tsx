@@ -22,6 +22,7 @@ import {
   type BrowseShell,
   type BrowseSort,
 } from "@/lib/catalog/browse";
+import { lockPageScroll } from "@/lib/scroll-lock";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -48,14 +49,13 @@ export default function CatalogBrowseChrome({ shell, children }: Props) {
 
   useEffect(() => {
     if (!drawerOpen) return;
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    const unlock = lockPageScroll();
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") setDrawerOpen(false);
     };
     window.addEventListener("keydown", onKey);
     return () => {
-      document.body.style.overflow = previous;
+      unlock();
       window.removeEventListener("keydown", onKey);
     };
   }, [drawerOpen]);

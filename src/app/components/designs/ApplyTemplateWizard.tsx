@@ -19,6 +19,7 @@ import { rememberSelectedPhone } from "@/lib/cases/device-phone";
 import { searchPhoneModels } from "@/lib/cases/model-search";
 import type { PhoneModel } from "@/lib/cases/types";
 import type { CaseTemplate } from "@/lib/design/types";
+import { lockPageScroll } from "@/lib/scroll-lock";
 import { cn } from "@/lib/utils";
 
 type Step = "brand" | "model";
@@ -165,10 +166,7 @@ export default function ApplyTemplateWizard({
 
   useEffect(() => {
     if (!open) return;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "";
-    };
+    return lockPageScroll();
   }, [open]);
 
   const brand = getBrandBySlug(brandSlug);
@@ -290,13 +288,14 @@ export default function ApplyTemplateWizard({
           />
         </div>
 
-        <SuggestedPhoneCard
-          className="mx-4 mt-4 shrink-0 sm:mx-5"
-          onPick={(pick) => {
-            setBrandSlug(pick.brandSlug);
-            handleContinue(pick.modelSlug, pick.brandSlug);
-          }}
-        />
+        <div className="shrink-0 px-4 pt-4 empty:hidden sm:px-5">
+          <SuggestedPhoneCard
+            onPick={(pick) => {
+              setBrandSlug(pick.brandSlug);
+              handleContinue(pick.modelSlug, pick.brandSlug);
+            }}
+          />
+        </div>
 
         <div className="min-h-0 flex-1 overflow-y-auto p-4 sm:p-5">
           {step === "brand" ? (

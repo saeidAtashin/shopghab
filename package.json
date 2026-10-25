@@ -13,7 +13,7 @@
     "catalog:sync": "npx tsx scripts/catalog-sync.ts",
     "catalog:seed": "npx tsx scripts/catalog-seed-taxonomy.ts",
     "catalog:seo": "npx tsx scripts/fill-catalog-seo.ts",
-    "test": "npx tsx --test src/lib/catalog/catalog.test.ts src/lib/catalog/catalog-route.test.ts src/lib/catalog/taxonomy.test.ts src/lib/catalog/session.test.ts src/lib/catalog/seo-copy.test.ts src/lib/catalog/design-autofill.test.ts src/lib/landing/landing.test.ts src/lib/mockups/mockups.test.ts src/lib/design/selection-view.test.ts src/lib/cases/device-phone.test.ts deploy/merge-runtime-catalog.test.mjs",
+    "test": "npx tsx --test src/lib/catalog/catalog.test.ts src/lib/catalog/catalog-route.test.ts src/lib/catalog/taxonomy.test.ts src/lib/catalog/session.test.ts src/lib/catalog/seo-copy.test.ts src/lib/catalog/design-autofill.test.ts src/lib/landing/landing.test.ts src/lib/mockups/mockups.test.ts src/lib/design/selection-view.test.ts src/lib/cases/device-phone.test.ts src/lib/scroll-lock.test.ts deploy/merge-runtime-catalog.test.mjs",
     "mockups:inspect": "npx tsx scripts/inspect-mockup-psds.ts",
     "mockups:prepare": "npx tsx scripts/prepare-mockup-psds.ts",
     "mockups:generate": "npx tsx scripts/generate-mockups.ts",

@@ -21,7 +21,6 @@ import {
   HelpCircle,
   GraduationCap,
   AlertTriangle,
-  MoreHorizontal,
   ChevronDown,
   ChevronRight,
   Info,
@@ -64,6 +63,7 @@ import {
 } from "@/lib/design/editor-fonts";
 import { useCanvasDisplaySize } from "@/lib/design/use-canvas-display-size";
 import { useMediaQuery } from "@/lib/design/use-media-query";
+import { lockPageScroll } from "@/lib/scroll-lock";
 import { formatToman } from "@/lib/shop/format";
 import {
   getVisibleCartRect,
@@ -181,21 +181,7 @@ export default function EditorPageClient({
 
   useEffect(() => {
     if (!isMobileViewport) return;
-
-    const page = window.document;
-    const html = page.documentElement;
-    const previousBodyOverflow = page.body.style.overflow;
-    const previousHtmlOverflow = html.style.overflow;
-    const previousBodyOverscroll = page.body.style.overscrollBehavior;
-    page.body.style.overflow = "hidden";
-    html.style.overflow = "hidden";
-    page.body.style.overscrollBehavior = "none";
-
-    return () => {
-      page.body.style.overflow = previousBodyOverflow;
-      html.style.overflow = previousHtmlOverflow;
-      page.body.style.overscrollBehavior = previousBodyOverscroll;
-    };
+    return lockPageScroll();
   }, [isMobileViewport]);
 
   const [activeTab, setActiveTab] = useState<EditorTab>(initialTab ?? "text");
@@ -204,7 +190,6 @@ export default function EditorPageClient({
   );
   const [showPreview, setShowPreview] = useState(false);
   const [showShortcuts, setShowShortcuts] = useState(false);
-  const [showMoreMenu, setShowMoreMenu] = useState(false);
   const [warningExpanded, setWarningExpanded] = useState(false);
   const [mobileDockCollapsed, setMobileDockCollapsed] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -449,7 +434,6 @@ export default function EditorPageClient({
 
   const handleOpenEditorGuide = useCallback(() => {
     setShowShortcuts(false);
-    setShowMoreMenu(false);
     setShowEditorGuide(true);
   }, []);
 
@@ -551,28 +535,26 @@ export default function EditorPageClient({
 
   if (isMobileViewport) {
     return (
-      <div className="flex h-dvh max-h-dvh flex-col overflow-hidden overscroll-none bg-background pt-[4.5rem]">
+      <div className="fixed inset-x-0 bottom-0 top-[4.5rem] z-40 flex flex-col overflow-hidden overscroll-none bg-background">
         <div
           data-editor-guide="toolbar"
-          className="flex shrink-0 flex-nowrap items-center gap-1 overflow-x-auto overscroll-x-contain border-b border-border px-1.5 py-1.5"
+          className="flex shrink-0 flex-wrap items-center gap-1 border-b border-border px-1.5 py-1.5"
         >
           <Link
             href={`/phones/${brandSlug}/${modelSlug}`}
             aria-label={`بازگشت به ${model.name}`}
             title={model.name}
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-muted transition hover:text-foreground"
+            className="flex min-h-11 min-w-[3.4rem] flex-col items-center justify-center gap-0.5 rounded-lg px-1 py-1 text-[10px] leading-tight text-muted transition hover:bg-card/70 hover:text-foreground"
           >
-            <ChevronRight size={16} />
+            <ChevronRight size={15} />
+            مدل
           </Link>
 
           <div className="relative">
             <MobileIconButton
-              onClick={() => {
-                setShowMoreMenu(false);
-                setWarningExpanded((v) => !v);
-              }}
+              onClick={() => setWarningExpanded((v) => !v)}
               icon={<Info size={15} />}
-              label="توجه طراحی"
+              label="توجه"
             />
             {warningExpanded ? (
               <div className="absolute right-0 top-full z-50 mt-1 w-[min(18rem,calc(100vw-2rem))] rounded-xl border border-amber-500/30 bg-card p-3 shadow-xl">
@@ -609,63 +591,30 @@ export default function EditorPageClient({
             icon={<Save size={15} />}
             label="ذخیره"
           />
+          <MobileIconButton
+            onClick={() => void handleShare()}
+            icon={<Share2 size={15} />}
+            label="اشتراک"
+          />
+          <MobileIconButton
+            onClick={() => void handleDownload()}
+            icon={<Download size={15} />}
+            label="دانلود"
+          />
+          <MobileIconButton
+            onClick={handleOpenEditorGuide}
+            icon={<GraduationCap size={15} />}
+            label="راهنما"
+          />
 
-          <div className="relative">
-            <MobileIconButton
-              onClick={() => {
-                setWarningExpanded(false);
-                setShowMoreMenu((v) => !v);
-              }}
-              icon={<MoreHorizontal size={15} />}
-              label="بیشتر"
-            />
-            {showMoreMenu ? (
-              <div className="absolute right-0 top-full z-50 mt-1 min-w-[10rem] rounded-xl border border-border bg-card p-1 shadow-xl">
-                <button
-                  type="button"
-                  onClick={() => {
-                    void handleShare();
-                    setShowMoreMenu(false);
-                  }}
-                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-xs text-foreground hover:bg-background"
-                >
-                  <Share2 size={14} />
-                  اشتراک
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    void handleDownload();
-                    setShowMoreMenu(false);
-                  }}
-                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-xs text-foreground hover:bg-background"
-                >
-                  <Download size={14} />
-                  دانلود
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    handleOpenEditorGuide();
-                    setShowMoreMenu(false);
-                  }}
-                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-xs text-foreground hover:bg-background"
-                >
-                  <GraduationCap size={14} />
-                  راهنما
-                </button>
-              </div>
-            ) : null}
-          </div>
-
-          <DockableAction className="mr-auto shrink-0">
+          <DockableAction className="ms-auto shrink-0">
             <button
               type="button"
               data-editor-guide="buy"
               onClick={() => void handleBuy()}
               disabled={buyBusy}
               aria-label={`خرید — ${formatToman(getCaseTotalPrice(caseType, true))}`}
-              className="flex h-8 shrink-0 items-center gap-1 rounded-lg bg-cyan-500 px-2 text-[11px] font-bold text-black transition hover:bg-cyan-400 disabled:opacity-60"
+              className="flex min-h-11 shrink-0 items-center gap-1 rounded-lg bg-cyan-500 px-2.5 text-[11px] font-bold text-black transition hover:bg-cyan-400 disabled:opacity-60"
             >
               <ShoppingCart size={13} />
               {new Intl.NumberFormat("fa-IR").format(getCaseTotalPrice(caseType, true))}
@@ -716,21 +665,21 @@ export default function EditorPageClient({
               </div>
             </div>
           ) : null}
-          <div className="flex overflow-x-auto overscroll-x-contain">
+          <div className="grid grid-cols-4">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 type="button"
                 data-editor-guide={`tab-${tab.id}`}
                 onClick={() => handleMobileTabChange(tab.id)}
-                className={`flex min-h-11 min-w-[4.5rem] flex-1 flex-col items-center justify-center gap-0.5 px-1 py-1.5 text-[10px] ${
+                className={`flex min-h-11 min-w-0 flex-col items-center justify-center gap-0.5 px-1 py-1.5 text-[10px] leading-tight ${
                   activeTab === tab.id && !mobileDockCollapsed
                     ? "text-cyan-400"
                     : "text-muted"
                 }`}
               >
                 {tab.icon}
-                {tab.label}
+                <span className="line-clamp-2 w-full text-center">{tab.label}</span>
               </button>
             ))}
           </div>
@@ -900,9 +849,10 @@ function MobileIconButton({
       disabled={disabled}
       aria-label={label}
       title={label}
-      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-border text-muted transition hover:border-cyan-500/50 hover:text-foreground disabled:opacity-40"
+      className="flex min-h-11 min-w-[3.4rem] max-w-[4.75rem] flex-col items-center justify-center gap-0.5 rounded-lg px-1 py-1 text-[10px] leading-tight text-muted transition hover:bg-card/70 hover:text-foreground disabled:opacity-40"
     >
       {icon}
+      <span className="line-clamp-2 w-full text-center">{label}</span>
     </button>
   );
 }

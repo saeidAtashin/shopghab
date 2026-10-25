@@ -20,6 +20,7 @@ export function PhoneBackSvg({
   return (
     <svg
       viewBox={viewBox}
+      preserveAspectRatio="xMidYMid meet"
       className={className}
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden

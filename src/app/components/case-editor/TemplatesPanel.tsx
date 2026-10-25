@@ -1,13 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   getAllTemplates,
 } from "@/lib/cases/templates.static";
 import { useEditorStore } from "@/lib/design/editor-store";
 import type { CaseTemplate } from "@/lib/design/types";
+import { lockPageScroll } from "@/lib/scroll-lock";
 
 type Props = {
   brandSlug: string;
@@ -19,6 +20,11 @@ export default function TemplatesPanel({ brandSlug: _brandSlug, modelSlug: _mode
   const document = useEditorStore((s) => s.document);
   const loadTemplate = useEditorStore((s) => s.loadTemplate);
   const [confirmTemplate, setConfirmTemplate] = useState<CaseTemplate | null>(null);
+
+  useEffect(() => {
+    if (!confirmTemplate) return;
+    return lockPageScroll();
+  }, [confirmTemplate]);
 
   const displayTemplates = getAllTemplates();
 

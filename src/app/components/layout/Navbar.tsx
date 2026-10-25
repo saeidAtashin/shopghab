@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import SiteLogo from "@/app/components/ui/SiteLogo";
+import { lockPageScroll } from "@/lib/scroll-lock";
 
 import DesktopNav from "./nav/DesktopNav";
 import MobileDrawer from "./nav/MobileDrawer";
@@ -20,10 +21,8 @@ export default function Navbar() {
   }, [pathname]);
 
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
+    if (!open) return;
+    return lockPageScroll();
   }, [open]);
 
   useEffect(() => {

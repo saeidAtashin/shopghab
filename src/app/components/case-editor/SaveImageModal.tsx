@@ -13,6 +13,7 @@ import {
   shareOrDownloadImage,
   type ExportImageFormat,
 } from "@/lib/design/export";
+import { lockPageScroll } from "@/lib/scroll-lock";
 
 type Props = {
   stage: Konva.Stage | null;
@@ -39,13 +40,7 @@ export default function SaveImageModal({
   const [busy, setBusy] = useState<"download" | "share" | null>(null);
   const [status, setStatus] = useState<string | null>(null);
 
-  useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  }, []);
+  useEffect(() => lockPageScroll(), []);
 
   useEffect(() => {
     if (!stage) return;

@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import type { EditorTab } from "@/app/components/case-editor/EditorPageClient";
 import { EDITOR_GUIDE_STEPS, type EditorGuideStep } from "@/app/components/case-editor/editor-guide-steps";
+import { lockPageScroll } from "@/lib/scroll-lock";
 
 const SPOTLIGHT_PADDING = 8;
 
@@ -42,16 +43,6 @@ function findGuideTarget(selector: string): Element | null {
   });
 
   return best;
-}
-
-function scrollGuideTargetIntoView(target: string, isMobileViewport: boolean): void {
-  if (!isMobileViewport) return;
-  if (!target.startsWith("tab-")) return;
-
-  const el = findGuideTarget(target);
-  if (!el) return;
-
-  el.scrollIntoView({ behavior: "instant", block: "nearest", inline: "center" });
 }
 
 function measureTarget(selector: string): SpotlightRect | null {
@@ -153,6 +144,11 @@ export default function EditorGuideOverlay({
   const isLastStep = stepIndex >= EDITOR_GUIDE_STEPS.length - 1;
   const isModalStep = step?.kind === "modal";
 
+  useEffect(() => {
+    if (!open) return;
+    return lockPageScroll();
+  }, [open]);
+
   const updateMeasurements = useCallback(() => {
     setViewport({ width: window.innerWidth, height: window.innerHeight });
 
@@ -176,10 +172,6 @@ export default function EditorGuideOverlay({
     if (!open || !step) return;
 
     applyStepSideEffects(step, onTabChange, onEnsureMobileDockOpen, isMobileViewport);
-
-    if (step.kind === "spotlight" && isMobileViewport) {
-      scrollGuideTargetIntoView(step.target, true);
-    }
 
     const raf = requestAnimationFrame(() => {
       updateMeasurements();

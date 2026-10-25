@@ -103,8 +103,8 @@ export default function SuggestedPhoneCard({ className, onPick }: Props) {
   const pick = { brandSlug: suggestion.brandSlug, modelSlug: suggestion.modelSlug };
   const body = (
     <>
-      <div className="flex h-16 w-10 shrink-0 items-center justify-center">
-        <PhoneBackSvg model={model} className="h-full w-auto" />
+      <div className="relative h-14 w-8 shrink-0 overflow-hidden">
+        <PhoneBackSvg model={model} className="absolute inset-0 h-full w-full" />
       </div>
       <div className="min-w-0 flex-1 text-right">
         <p className="text-xs font-semibold text-cyan-400">گوشی پیشنهادی</p>
@@ -116,7 +116,7 @@ export default function SuggestedPhoneCard({ className, onPick }: Props) {
     </>
   );
   const cardClass = cn(
-    "flex w-full items-center gap-3 rounded-2xl border border-cyan-500/40 bg-cyan-500/10 p-3 text-right transition hover:border-cyan-400",
+    "flex w-full max-w-full min-w-0 items-center gap-3 rounded-2xl border border-cyan-500/40 bg-cyan-500/10 p-3 text-right transition hover:border-cyan-400",
     className,
   );
 

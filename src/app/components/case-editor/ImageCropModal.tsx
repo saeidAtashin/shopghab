@@ -6,6 +6,7 @@ import { Loader2, X } from "lucide-react";
 import type { CropRect } from "@/lib/design/image-tools/types";
 import { createRafResizeHandler } from "@/lib/design/throttle-raf";
 import { clamp, loadImageElement } from "@/lib/design/image-tools/utils";
+import { lockPageScroll } from "@/lib/scroll-lock";
 
 type Props = {
   open: boolean;
@@ -36,6 +37,11 @@ export default function ImageCropModal({ open, src, onClose, onConfirm }: Props)
   const dragStart = useRef<{ px: number; py: number; rect: NormalizedRect } | null>(
     null,
   );
+
+  useEffect(() => {
+    if (!open) return;
+    return lockPageScroll();
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
