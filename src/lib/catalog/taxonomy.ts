@@ -309,6 +309,21 @@ const CATEGORIES: SeedCategory[] = [
       { name: "هدیه‌ی شخصی‌سازی‌شده", slug: "personalized-gift" },
     ],
   },
+  {
+    name: "الکترونیک",
+    slug: "electronics",
+    children: [],
+  },
+  {
+    name: "پینترستی",
+    slug: "pinterest",
+    children: [],
+  },
+  {
+    name: "خطای دید",
+    slug: "optical-illusion",
+    children: [],
+  },
 ];
 
 const ATTRIBUTE_GROUPS: SeedGroup[] = [
