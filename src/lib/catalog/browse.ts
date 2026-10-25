@@ -23,6 +23,7 @@ export type BrowseCategoryNode = BrowseCategoryLink & {
 export type BrowseFilterGroup = {
   id: string;
   label: string;
+  slug: string;
   options: { id: string; label: string }[];
 };
 

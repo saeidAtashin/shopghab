@@ -350,6 +350,7 @@ test("public category cards list indexable roots and their inner categories", ()
 
   const sections = publicBrowseSections(catalog, 6);
   assert.equal(sections.length, 1);
+  assert.equal(sections[0]?.slug, "animals");
   assert.equal(sections[0]?.title, "حیوانات");
   assert.equal(sections[0]?.href, "/designs/category/animals");
   assert.equal(sections[0]?.count, 1);

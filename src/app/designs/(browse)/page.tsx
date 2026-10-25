@@ -100,9 +100,9 @@ export default async function DesignsGalleryPage({ searchParams }: Props) {
             viewAll={params.view === "all"}
           />
         ) : (
-          <div className="space-y-8">
-            {sections.map((section) => (
-              <CatalogSectionPreview key={section.id} section={section} />
+          <div className="space-y-10">
+            {sections.map((section, index) => (
+              <CatalogSectionPreview key={section.id} section={section} index={index} />
             ))}
           </div>
         )}

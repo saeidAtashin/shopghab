@@ -1,10 +1,17 @@
 "use client";
 
-import { ChevronDown, SlidersHorizontal, X } from "lucide-react";
+import { ArrowUpDown, ChevronDown, Search, SlidersHorizontal, X, type LucideIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useId, useState, type FormEvent, type ReactNode } from "react";
 
 import BrowseLink from "@/app/components/designs/BrowseLink";
+import {
+  allDesignsVisual,
+  categoryVisual,
+  colorSwatch,
+  filterVisual,
+  type Accent,
+} from "@/app/components/designs/browse-visuals";
 import {
   browseHref,
   browseQueryFromParams,
@@ -131,23 +138,30 @@ export default function CatalogBrowseChrome({ shell, children }: Props) {
           </button>
         </div>
         <div className="flex gap-2 overflow-x-auto pb-1">
-          <BrowseLink href={browseHref("/designs", { viewAll: true })} className={chipClass(allActive)}>
-            همه
-          </BrowseLink>
-          {shell.categories.map((category) => (
-            <BrowseLink
-              key={category.slug}
-              href={category.href}
-              aria-current={activeRoot?.slug === category.slug ? "page" : undefined}
-              className={chipClass(activeRoot?.slug === category.slug)}
-            >
-              {category.name}
-            </BrowseLink>
-          ))}
+          <CategoryChip
+            href={browseHref("/designs", { viewAll: true })}
+            active={allActive}
+            icon={allDesignsVisual.icon}
+            accent={allDesignsVisual.accent}
+            label="همه"
+          />
+          {shell.categories.map((category) => {
+            const visual = categoryVisual(category.slug);
+            return (
+              <CategoryChip
+                key={category.slug}
+                href={category.href}
+                active={activeRoot?.slug === category.slug}
+                icon={visual.icon}
+                accent={visual.accent}
+                label={category.name}
+              />
+            );
+          })}
         </div>
       </div>
 
-      <div className="lg:grid lg:grid-cols-[16rem_minmax(0,1fr)] lg:items-start lg:gap-8">
+      <div className="lg:grid lg:grid-cols-[18rem_minmax(0,1fr)] lg:items-start lg:gap-8">
         <aside data-route-loader-ignore="true" className="hidden lg:block">
           <div className="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto pe-1">
             <BrowseControls {...sharedControls} instance="sidebar" searchId={searchId} />
@@ -176,7 +190,7 @@ export default function CatalogBrowseChrome({ shell, children }: Props) {
           aria-modal="true"
           aria-label="فیلترها"
           className={cn(
-            "absolute end-0 top-0 flex h-full w-[min(100vw-3rem,20rem)] flex-col border-s border-border bg-background transition-transform duration-300",
+            "absolute end-0 top-0 flex h-full w-[min(100vw-3rem,22rem)] flex-col border-s border-border bg-background transition-transform duration-300",
             drawerOpen ? "translate-x-0" : "-translate-x-full",
           )}
         >
@@ -200,12 +214,31 @@ export default function CatalogBrowseChrome({ shell, children }: Props) {
   );
 }
 
-function chipClass(active: boolean): string {
+function chipClass(active: boolean, accent: Accent): string {
   return cn(
-    "inline-flex min-h-11 shrink-0 items-center rounded-full border px-3 text-xs font-semibold",
-    active
-      ? "border-cyan-500/60 bg-cyan-500/15 text-cyan-300"
-      : "border-border text-muted",
+    "inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full border px-3 text-xs font-semibold",
+    active ? accent.chip : "border-border text-muted",
+  );
+}
+
+function CategoryChip({
+  href,
+  active,
+  icon: Icon,
+  accent,
+  label,
+}: {
+  href: string;
+  active: boolean;
+  icon: LucideIcon;
+  accent: Accent;
+  label: string;
+}) {
+  return (
+    <BrowseLink href={href} aria-current={active ? "page" : undefined} className={chipClass(active, accent)}>
+      <Icon className={cn("h-3.5 w-3.5", accent.text)} aria-hidden />
+      {label}
+    </BrowseLink>
   );
 }
 
@@ -226,17 +259,21 @@ function SearchForm({
 }) {
   return (
     <form onSubmit={onSubmit} role="search" className={className}>
-      <label htmlFor={id} className={labelled ? "mb-1 block text-xs font-bold text-muted" : "sr-only"}>
+      <label htmlFor={id} className={labelled ? "mb-1 flex items-center gap-1.5 text-xs font-bold text-cyan-300" : "sr-only"}>
+        <Search className="h-3.5 w-3.5" aria-hidden />
         جستجو
       </label>
-      <input
-        id={id}
-        type="search"
-        value={draft}
-        placeholder="نام طرح"
-        onChange={(event) => onDraft(event.target.value)}
-        className={fieldClass}
-      />
+      <div className="relative">
+        <Search className="pointer-events-none absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-cyan-300" aria-hidden />
+        <input
+          id={id}
+          type="search"
+          value={draft}
+          placeholder="نام طرح"
+          onChange={(event) => onDraft(event.target.value)}
+          className={`${fieldClass} ps-10`}
+        />
+      </div>
     </form>
   );
 }
@@ -251,8 +288,11 @@ function SortField({
   onSort: (sort: BrowseSort) => void;
 }) {
   return (
-    <label htmlFor={id} className="block text-xs font-bold text-muted">
-      مرتب‌سازی
+    <label htmlFor={id} className="block">
+      <span className="mb-1 flex items-center gap-1.5 text-xs font-bold text-amber-300">
+        <ArrowUpDown className="h-3.5 w-3.5" aria-hidden />
+        مرتب‌سازی
+      </span>
       <select
         id={id}
         value={sort}
@@ -319,14 +359,17 @@ function BrowseControls({
       </div>
 
       <nav aria-label="دسته‌ها" className="space-y-1">
-        <h2 className="px-2.5 text-xs font-bold text-muted">دسته‌ها</h2>
-        <BrowseLink
+        <h2 className="flex items-center gap-2 px-2 text-xs font-bold text-cyan-300">
+          <LayoutMark />
+          دسته‌ها
+        </h2>
+        <CategoryRow
           href={browseHref("/designs", { viewAll: true })}
-          aria-current={allActive ? "page" : undefined}
-          className={categoryClass(allActive)}
-        >
-          <span>همه طرح‌ها</span>
-        </BrowseLink>
+          active={allActive}
+          icon={allDesignsVisual.icon}
+          accent={allDesignsVisual.accent}
+          label="همه طرح‌ها"
+        />
         {shell.categories.map((category) => (
           <CategoryBranch
             key={category.slug}
@@ -364,10 +407,45 @@ function BrowseControls({
   );
 }
 
-function categoryClass(active: boolean): string {
+function LayoutMark() {
+  const Icon = allDesignsVisual.icon;
+  return <Icon className="h-3.5 w-3.5" aria-hidden />;
+}
+
+function categoryClass(active: boolean, accent: Accent): string {
   return cn(
-    "flex min-h-11 items-center justify-between gap-2 rounded-lg px-2.5 text-sm",
-    active ? "bg-cyan-500/15 font-bold text-cyan-300" : "text-muted hover:bg-card hover:text-foreground",
+    "flex min-h-11 items-center gap-2 rounded-xl px-2 text-sm",
+    active ? cn("font-bold", accent.soft, accent.text) : "text-muted hover:bg-card hover:text-foreground",
+  );
+}
+
+function CategoryRow({
+  href,
+  active,
+  icon: Icon,
+  accent,
+  label,
+  count,
+}: {
+  href: string;
+  active: boolean;
+  icon: LucideIcon;
+  accent: Accent;
+  label: string;
+  count?: number;
+}) {
+  return (
+    <BrowseLink href={href} aria-current={active ? "page" : undefined} className={categoryClass(active, accent)}>
+      <span className={cn("flex h-8 w-8 shrink-0 items-center justify-center rounded-lg", accent.soft, accent.text)}>
+        <Icon className="h-4 w-4" aria-hidden />
+      </span>
+      <span className="min-w-0 flex-1 truncate">{label}</span>
+      {typeof count === "number" ? (
+        <span className={cn("shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold", accent.soft, accent.text)}>
+          {count.toLocaleString("fa-IR")}
+        </span>
+      ) : null}
+    </BrowseLink>
   );
 }
 
@@ -382,33 +460,32 @@ function CategoryBranch({
   expanded: boolean;
   subs: string[];
 }) {
+  const visual = categoryVisual(category.slug);
   const rootActive = category.slug === activeSlug;
   return (
     <div>
-      <BrowseLink
+      <CategoryRow
         href={category.href}
-        aria-current={rootActive ? "page" : undefined}
-        className={categoryClass(rootActive)}
-      >
-        <span className="truncate">{category.name}</span>
-        <span className="shrink-0 text-[10px] font-medium text-muted">{category.count.toLocaleString("fa-IR")}</span>
-      </BrowseLink>
+        active={rootActive}
+        icon={visual.icon}
+        accent={visual.accent}
+        label={category.name}
+        count={category.count}
+      />
       {expanded && category.children.length > 0 ? (
-        <div className="mt-0.5 space-y-0.5 ps-3">
+        <div className="mt-0.5 space-y-0.5 ps-4">
           {category.children.map((child) => {
             const active = child.slug === activeSlug || subs.includes(child.slug);
             return (
-              <BrowseLink
+              <CategoryRow
                 key={child.slug}
                 href={child.href}
-                aria-current={active ? "true" : undefined}
-                className={categoryClass(active)}
-              >
-                <span className="truncate">{child.name}</span>
-                <span className="shrink-0 text-[10px] font-medium text-muted">
-                  {child.count.toLocaleString("fa-IR")}
-                </span>
-              </BrowseLink>
+                active={active}
+                icon={visual.icon}
+                accent={visual.accent}
+                label={child.name}
+                count={child.count}
+              />
             );
           })}
         </div>
@@ -430,33 +507,52 @@ function FilterGroup({
   onToggle: () => void;
   hrefFor: (id: string) => string;
 }) {
+  const visual = filterVisual(group.slug);
+  const Icon = visual.icon;
+  const swatches = group.slug === "colors";
   return (
     <section aria-label={group.label}>
       <button
         type="button"
         onClick={onToggle}
         aria-expanded={open}
-        className="flex min-h-11 w-full items-center justify-between gap-2 rounded-lg px-2.5 text-sm font-bold text-foreground"
+        className="flex min-h-11 w-full items-center gap-2 rounded-xl px-2 text-sm font-bold text-foreground"
       >
-        {group.label}
+        <span className={cn("flex h-8 w-8 shrink-0 items-center justify-center rounded-lg", visual.accent.soft, visual.accent.text)}>
+          <Icon className="h-4 w-4" aria-hidden />
+        </span>
+        <span className="min-w-0 flex-1 truncate text-start">{group.label}</span>
         <ChevronDown className={cn("h-4 w-4 text-muted transition", open && "rotate-180")} aria-hidden />
       </button>
       {open ? (
-        <div className="flex flex-wrap gap-1.5 px-2.5 pb-2">
+        <div className="flex flex-wrap gap-1.5 px-2 pb-2">
           {group.options.map((option) => {
             const active = selected.includes(option.id);
+            const swatch = swatches ? colorSwatch(option.label) : null;
             return (
               <BrowseLink
                 key={option.id}
                 href={hrefFor(option.id)}
                 aria-current={active ? "true" : undefined}
                 className={cn(
-                  "inline-flex min-h-11 items-center rounded-full border px-2.5 text-xs font-semibold",
+                  "inline-flex min-h-11 items-center gap-2 rounded-full border px-2.5 text-xs font-semibold",
                   active
-                    ? "border-cyan-500/60 bg-cyan-500/15 text-cyan-300"
+                    ? cn(visual.accent.chip, "ring-2 ring-offset-2 ring-offset-background", visual.accent.ring)
                     : "border-border text-muted hover:text-foreground",
                 )}
               >
+                {swatch === "split" ? (
+                  <span
+                    aria-hidden
+                    className="h-5 w-5 shrink-0 rounded-full border border-white/30 bg-[conic-gradient(#ef4444,#f59e0b,#22c55e,#3b82f6,#a855f7,#ef4444)]"
+                  />
+                ) : swatch ? (
+                  <span
+                    aria-hidden
+                    className="h-5 w-5 shrink-0 rounded-full border border-white/30"
+                    style={{ backgroundColor: swatch }}
+                  />
+                ) : null}
                 {option.label}
               </BrowseLink>
             );

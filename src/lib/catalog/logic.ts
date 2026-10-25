@@ -1237,6 +1237,7 @@ export function publicPickCards(catalog: DesignCatalog): PublicPickCard[] {
 
 export type PublicBrowseSection = {
   id: string;
+  slug: string;
   title: string;
   href: string;
   count: number;
@@ -1256,6 +1257,7 @@ export function publicBrowseSections(catalog: DesignCatalog, limit = 6): PublicB
     if (result.total === 0) continue;
     sections.push({
       id: category.id,
+      slug: card.slug,
       title: card.name,
       href: card.href,
       count: card.count,
@@ -1273,6 +1275,7 @@ export function publicBrowseSections(catalog: DesignCatalog, limit = 6): PublicB
     if (result.total === 0) continue;
     sections.push({
       id: collection.id,
+      slug: pick.slug,
       title: pick.title,
       href: pick.href,
       count: result.total,
@@ -1304,6 +1307,7 @@ export function publicBrowseShell(catalog: DesignCatalog): BrowseShell {
     .map((group) => ({
       id: group.id,
       label: group.label,
+      slug: catalog.attributeGroups.find((item) => item.id === group.id)?.slug ?? group.id,
       options: group.options,
     }));
   return { categories, groups };

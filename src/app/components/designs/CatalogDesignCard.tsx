@@ -17,6 +17,7 @@ type Props = {
   categoryName?: string;
   priority?: boolean;
   compact?: boolean;
+  frame?: "base" | "lead" | "portrait";
 };
 
 function cardFrames(design: PublicDesign): Frame[] {
@@ -38,37 +39,41 @@ export default function CatalogDesignCard({
   categoryName,
   priority = false,
   compact = false,
+  frame: artFrame = "base",
 }: Props) {
   const alt = designImageAlt(design);
   const href = `/designs/${design.slug}`;
   const frames = cardFrames(design);
   const [index, setIndex] = useState(0);
   const frame = frames[index] ?? frames[0];
-  const thumb = design.thumbnailPath || design.imagePath;
+  const art = design.imagePath || design.thumbnailPath;
+  const artHeight =
+    artFrame === "lead" ? "h-72 sm:h-96" : artFrame === "portrait" ? "h-64 sm:h-80" : "h-48 sm:h-56";
 
   if (compact) {
     return (
-      <article className="overflow-hidden rounded-xl border border-border bg-card/60 text-right">
+      <article className="overflow-hidden rounded-2xl border border-border bg-card/70 text-right shadow-[0_10px_30px_-18px_rgba(0,0,0,0.7)]">
         <Link
           href={href}
-          aria-label={alt}
-          className="flex flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/50"
+          className="flex h-full flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/50"
         >
-          <div className="relative h-24 overflow-hidden bg-[radial-gradient(ellipse_at_50%_30%,rgba(34,211,238,0.12),transparent_55%)] sm:h-28">
-            {thumb ? (
+          <div
+            className={`relative overflow-hidden bg-[radial-gradient(ellipse_at_50%_30%,rgba(34,211,238,0.14),transparent_60%)] ${artHeight}`}
+          >
+            {art ? (
               <Image
-                src={designedAssetUrl(thumb)}
-                alt=""
+                src={designedAssetUrl(art)}
+                alt={alt}
                 fill
                 priority={priority}
-                sizes="(max-width: 640px) 45vw, 180px"
-                className="object-contain p-2"
+                sizes="(max-width: 640px) 70vw, 360px"
+                className="object-contain p-1.5"
               />
             ) : (
-              <span className="flex h-full items-center justify-center text-[10px] text-muted">بدون تصویر</span>
+              <span className="flex h-full items-center justify-center text-xs text-muted">بدون تصویر</span>
             )}
           </div>
-          <h2 className="line-clamp-2 px-2.5 py-2 text-xs font-bold text-foreground">{design.title}</h2>
+          <h2 className="line-clamp-2 px-3 py-2.5 text-sm font-bold text-foreground">{design.title}</h2>
         </Link>
       </article>
     );
