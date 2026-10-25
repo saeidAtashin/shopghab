@@ -11,6 +11,10 @@ test("findAdminPhone accepts the admin phone from the upstream body", () => {
   assert.equal(findAdminPhone({ data: { phone_number: "09368165125" } }), "09368165125");
 });
 
+test("findAdminPhone accepts the second admin phone", () => {
+  assert.equal(findAdminPhone({ data: { phone_number: "09107701704" } }), "09107701704");
+});
+
 test("findAdminPhone accepts the admin phone from the access token", () => {
   assert.equal(
     findAdminPhone({}, jwt({ phone_number: "+989368165125" })),

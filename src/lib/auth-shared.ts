@@ -1,6 +1,6 @@
 export type SessionRole = "admin" | "user";
 
-export const ADMIN_PHONE = "09368165125";
+export const ADMIN_PHONES = new Set(["09368165125", "09107701704"]);
 
 export type SessionUser = {
   name: string;
@@ -9,7 +9,7 @@ export type SessionUser = {
 };
 
 export function resolveRoleForPhone(phone: string): SessionRole {
-  return phone === ADMIN_PHONE ? "admin" : "user";
+  return ADMIN_PHONES.has(phone) ? "admin" : "user";
 }
 
 export function getPostLoginPath(role: SessionRole): string {
