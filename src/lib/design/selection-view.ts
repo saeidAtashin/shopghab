@@ -71,21 +71,25 @@ export function transformedAabb(input: {
   };
 }
 
-export function unionRects(a: ViewRect, b: ViewRect): ViewRect {
-  const x = Math.min(a.x, b.x);
-  const y = Math.min(a.y, b.y);
-  const right = Math.max(a.x + a.width, b.x + b.width);
-  const bottom = Math.max(a.y + a.height, b.y + b.height);
-  return { x, y, width: right - x, height: bottom - y };
-}
+export function clampRectInside(rect: ViewRect, bounds: ViewRect): ViewRect {
+  const left = Math.max(rect.x, bounds.x);
+  const top = Math.max(rect.y, bounds.y);
+  const right = Math.min(rect.x + rect.width, bounds.x + bounds.width);
+  const bottom = Math.min(rect.y + rect.height, bounds.y + bounds.height);
+  if (right - left >= 1 && bottom - top >= 1) {
+    return { x: left, y: top, width: right - left, height: bottom - top };
+  }
 
-function expandRect(rect: ViewRect, pad: number): ViewRect {
-  return {
-    x: rect.x - pad,
-    y: rect.y - pad,
-    width: rect.width + pad * 2,
-    height: rect.height + pad * 2,
-  };
+  const size = Math.min(24, bounds.width, bounds.height);
+  const x = Math.min(
+    Math.max(bounds.x, rect.x + rect.width / 2 - size / 2),
+    bounds.x + bounds.width - size,
+  );
+  const y = Math.min(
+    Math.max(bounds.y, rect.y + rect.height / 2 - size / 2),
+    bounds.y + bounds.height - size,
+  );
+  return { x, y, width: size, height: size };
 }
 
 function estimateTextBlockHeight(layer: TextLayer, boxWidth: number): number {
@@ -99,30 +103,129 @@ function estimateTextBlockHeight(layer: TextLayer, boxWidth: number): number {
   return Math.max(fontSize, lines) * fontSize * 1.3 + padding * 2;
 }
 
-export function layerSelectionRect(layer: DesignLayer, canvasWidth: number): ViewRect {
+export function selectionLocalFrame(
+  layer: DesignLayer,
+  canvasWidth: number,
+): { width: number; height: number; offsetX: number; offsetY: number } {
   if (layer.type === "image") {
-    return transformedAabb({
-      x: layer.x,
-      y: layer.y,
-      width: layer.width,
-      height: layer.height,
-      scaleX: layer.scaleX,
-      scaleY: layer.scaleY,
-      rotation: layer.rotation,
-    });
+    return { width: layer.width, height: layer.height, offsetX: 0, offsetY: 0 };
   }
 
   const boxWidth = layer.width ?? getDefaultTextBoxWidth(canvasWidth);
+  return {
+    width: boxWidth,
+    height: estimateTextBlockHeight(layer, boxWidth),
+    offsetX: getTextOffsetX(layer.align, boxWidth),
+    offsetY: 0,
+  };
+}
+
+export function layerSelectionRect(layer: DesignLayer, canvasWidth: number): ViewRect {
+  const frame = selectionLocalFrame(layer, canvasWidth);
   return transformedAabb({
     x: layer.x,
     y: layer.y,
-    width: boxWidth,
-    height: estimateTextBlockHeight(layer, boxWidth),
+    width: frame.width,
+    height: frame.height,
     scaleX: layer.scaleX,
     scaleY: layer.scaleY,
     rotation: layer.rotation,
-    offsetX: getTextOffsetX(layer.align, boxWidth),
+    offsetX: frame.offsetX,
+    offsetY: frame.offsetY,
   });
+}
+
+export type ResizeHandle =
+  | "top-left"
+  | "top-right"
+  | "bottom-left"
+  | "bottom-right"
+  | "middle-left"
+  | "middle-right";
+
+const HANDLE_LAYOUT: Record<
+  ResizeHandle,
+  { dragX: number; dragY: number; oppX: number; oppY: number; axis: "both" | "x" }
+> = {
+  "top-left": { dragX: 0, dragY: 0, oppX: 1, oppY: 1, axis: "both" },
+  "top-right": { dragX: 1, dragY: 0, oppX: 0, oppY: 1, axis: "both" },
+  "bottom-left": { dragX: 0, dragY: 1, oppX: 1, oppY: 0, axis: "both" },
+  "bottom-right": { dragX: 1, dragY: 1, oppX: 0, oppY: 0, axis: "both" },
+  "middle-left": { dragX: 0, dragY: 0.5, oppX: 1, oppY: 0.5, axis: "x" },
+  "middle-right": { dragX: 1, dragY: 0.5, oppX: 0, oppY: 0.5, axis: "x" },
+};
+
+function worldPoint(input: {
+  x: number;
+  y: number;
+  rotation: number;
+  scaleX: number;
+  scaleY: number;
+  offsetX: number;
+  offsetY: number;
+  localX: number;
+  localY: number;
+}): { x: number; y: number } {
+  const rad = (input.rotation * Math.PI) / 180;
+  const cos = Math.cos(rad);
+  const sin = Math.sin(rad);
+  const lx = (input.localX - input.offsetX) * input.scaleX;
+  const ly = (input.localY - input.offsetY) * input.scaleY;
+  return {
+    x: input.x + lx * cos - ly * sin,
+    y: input.y + lx * sin + ly * cos,
+  };
+}
+
+export function resizeFromHandle(input: {
+  handle: ResizeHandle;
+  pointerX: number;
+  pointerY: number;
+  x: number;
+  y: number;
+  rotation: number;
+  scaleX: number;
+  scaleY: number;
+  width: number;
+  height: number;
+  offsetX: number;
+  offsetY: number;
+}): { x: number; y: number; scaleX: number; scaleY: number } {
+  const layout = HANDLE_LAYOUT[input.handle];
+  const width = Math.max(1, input.width);
+  const height = Math.max(1, input.height);
+  const opposite = worldPoint({
+    ...input,
+    localX: layout.oppX * width,
+    localY: layout.oppY * height,
+  });
+  const rad = (input.rotation * Math.PI) / 180;
+  const cos = Math.cos(rad);
+  const sin = Math.sin(rad);
+  const dx = input.pointerX - opposite.x;
+  const dy = input.pointerY - opposite.y;
+  const localDx = dx * cos + dy * sin;
+  const localDy = -dx * sin + dy * cos;
+  const spanX = (layout.dragX - layout.oppX) * width;
+  const spanY = (layout.dragY - layout.oppY) * height;
+  let scaleX = input.scaleX;
+  let scaleY = input.scaleY;
+  if (Math.abs(spanX) > 1e-6) scaleX = localDx / spanX;
+  if (layout.axis === "both" && Math.abs(spanY) > 1e-6) scaleY = localDy / spanY;
+
+  const minScaleX = 10 / width;
+  const minScaleY = 10 / height;
+  if (Math.abs(scaleX) < minScaleX) scaleX = Math.sign(scaleX || 1) * minScaleX;
+  if (Math.abs(scaleY) < minScaleY) scaleY = Math.sign(scaleY || 1) * minScaleY;
+
+  const lx = (layout.oppX * width - input.offsetX) * scaleX;
+  const ly = (layout.oppY * height - input.offsetY) * scaleY;
+  return {
+    x: opposite.x - (lx * cos - ly * sin),
+    y: opposite.y - (lx * sin + ly * cos),
+    scaleX,
+    scaleY,
+  };
 }
 
 export function fitSelectionView(input: {
@@ -130,29 +233,22 @@ export function fitSelectionView(input: {
   canvasHeight: number;
   maxWidth: number;
   maxHeight: number;
-  layerBox: ViewRect | null;
-  handleScreenPx: number;
 }): SelectionView {
   const canvasWidth = Math.max(1, input.canvasWidth);
   const canvasHeight = Math.max(1, input.canvasHeight);
   const maxWidth = Math.max(1, input.maxWidth);
   const maxHeight = Math.max(1, input.maxHeight);
-  const phone: ViewRect = { x: 0, y: 0, width: canvasWidth, height: canvasHeight };
   const baseScale = Math.min(maxWidth / canvasWidth, maxHeight / canvasHeight);
-  const content = input.layerBox ? unionRects(phone, input.layerBox) : phone;
-  const pad =
-    input.layerBox && input.handleScreenPx > 0 ? input.handleScreenPx / baseScale : 0;
-  const padded = pad > 0 ? expandRect(content, pad) : content;
 
   return {
     scale: baseScale,
-    stageWidth: Math.max(1, Math.ceil(padded.width * baseScale - 1e-6)),
-    stageHeight: Math.max(1, Math.ceil(padded.height * baseScale - 1e-6)),
-    offsetX: -padded.x || 0,
-    offsetY: -padded.y || 0,
+    stageWidth: Math.max(1, Math.ceil(canvasWidth * baseScale - 1e-6)),
+    stageHeight: Math.max(1, Math.ceil(canvasHeight * baseScale - 1e-6)),
+    offsetX: 0,
+    offsetY: 0,
     phoneCrop: {
-      x: (-padded.x || 0) * baseScale,
-      y: (-padded.y || 0) * baseScale,
+      x: 0,
+      y: 0,
       width: canvasWidth * baseScale,
       height: canvasHeight * baseScale,
       pixelRatioBoost: 1,

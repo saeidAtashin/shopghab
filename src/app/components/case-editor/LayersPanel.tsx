@@ -136,6 +136,21 @@ export default function LayersPanel({ compact = false }: { compact?: boolean }) 
                 </button>
                 <button
                   type="button"
+                  title={isLayerLocked(layer) ? "باز کردن قفل" : "قفل کردن"}
+                  aria-label={isLayerLocked(layer) ? "باز کردن قفل" : "قفل کردن"}
+                  aria-pressed={isLayerLocked(layer)}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    updateLayer(layer.id, { locked: !isLayerLocked(layer) });
+                  }}
+                  className={`shrink-0 p-1 ${
+                    isLayerLocked(layer) ? "text-amber-300" : "text-muted hover:text-foreground"
+                  }`}
+                >
+                  {isLayerLocked(layer) ? <Lock size={14} /> : <LockOpen size={14} />}
+                </button>
+                <button
+                  type="button"
                   onClick={() => setLayerVisible(layer.id, !visible)}
                   className="shrink-0 p-1 text-muted hover:text-foreground"
                   title={visible ? "مخفی کردن" : "نمایش"}

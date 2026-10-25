@@ -1,18 +1,10 @@
 import { notFound } from "next/navigation";
 
 import CatalogBreadcrumbs from "@/app/components/designs/CatalogBreadcrumbs";
-import CatalogCategoryNav from "@/app/components/designs/CatalogCategoryNav";
-import CatalogFilters from "@/app/components/designs/CatalogFilters";
 import CatalogListing from "@/app/components/designs/CatalogListing";
-import CatalogPickCards from "@/app/components/designs/CatalogPickCards";
+import CatalogSectionPreview from "@/app/components/designs/CatalogSectionPreview";
 import JsonLd from "@/app/components/seo/JsonLd";
-import {
-  parsePublicListingQuery,
-  publicCategoryCards,
-  publicListingFilters,
-  publicPickCards,
-  queryPublicDesigns,
-} from "@/lib/catalog/logic";
+import { parsePublicListingQuery, publicBrowseSections, queryPublicDesigns } from "@/lib/catalog/logic";
 import { readCatalog } from "@/lib/catalog/store";
 import { breadcrumbJsonLd, breadcrumbTrail } from "@/lib/seo/breadcrumbs";
 import { collectionPageJsonLd, itemListJsonLd, webPageJsonLd } from "@/lib/seo/jsonld";
@@ -43,7 +35,12 @@ export default async function DesignsGalleryPage({ searchParams }: Props) {
   const params = await searchParams;
   const query = parsePublicListingQuery(params);
   const catalog = readCatalog();
-  const showResults = params.view === "all" || query.q.length > 0 || query.attrs.length > 0;
+  const showResults =
+    params.view === "all" ||
+    query.q.length > 0 ||
+    query.attrs.length > 0 ||
+    query.sort !== "featured" ||
+    query.page > 1;
   const result = showResults
     ? queryPublicDesigns(catalog, {
         q: query.q,
@@ -54,9 +51,8 @@ export default async function DesignsGalleryPage({ searchParams }: Props) {
     : null;
   if (result && query.page > result.pageCount && result.total > 0) notFound();
 
-  const categoryNames = Object.fromEntries(
-    catalog.categories.map((category) => [category.id, category.name]),
-  );
+  const sections = showResults ? [] : publicBrowseSections(catalog);
+  const categoryNames = Object.fromEntries(catalog.categories.map((category) => [category.id, category.name]));
   const crumbs = breadcrumbTrail({ label: TITLE });
   const listed = result?.items ?? [];
 
@@ -85,50 +81,32 @@ export default async function DesignsGalleryPage({ searchParams }: Props) {
             : []),
         ]}
       />
-      <main
-        id="main"
-        tabIndex={-1}
-        className="min-h-screen bg-background px-4 pb-16 pt-24 text-foreground outline-none sm:px-6"
-      >
-        <div className="mx-auto max-w-6xl">
-          <CatalogBreadcrumbs items={crumbs} />
-          <h1 className="mt-4 text-2xl font-black text-foreground sm:text-3xl">{TITLE}</h1>
-          <p className="mt-2 max-w-2xl text-muted">{DESCRIPTION}</p>
-          <div className="mt-10 space-y-10">
-            <CatalogCategoryNav
-              roots={publicCategoryCards(catalog, null)}
-              inners={[]}
-              allActive={params.view === "all"}
-            />
-            <CatalogPickCards cards={publicPickCards(catalog)} />
-            {showResults ? (
-              <CatalogFilters
-                basePath="/designs"
-                groups={publicListingFilters(catalog)}
-                selectedSubs={[]}
-                selectedAttrs={query.attrs}
-                q={query.q}
-                sort={query.sort}
-                viewAll={params.view === "all"}
-              />
-            ) : null}
-            <CatalogListing
-              designs={listed}
-              categoryNames={categoryNames}
-              basePath="/designs"
-              q={query.q}
-              sort={query.sort}
-              page={result?.page ?? 1}
-              pageSize={result?.pageSize ?? 24}
-              pageCount={result?.pageCount ?? 1}
-              total={result?.total ?? 0}
-              attr={query.attr}
-              showResults={showResults}
-              viewAll={params.view === "all"}
-            />
+      <CatalogBreadcrumbs items={crumbs} soft />
+      <h1 className="mt-4 text-2xl font-black text-foreground sm:text-3xl">{TITLE}</h1>
+      <p className="mt-2 max-w-2xl text-muted">{DESCRIPTION}</p>
+      <div className="mt-6">
+        {showResults ? (
+          <CatalogListing
+            designs={listed}
+            categoryNames={categoryNames}
+            basePath="/designs"
+            q={query.q}
+            sort={query.sort}
+            page={result?.page ?? 1}
+            pageSize={result?.pageSize ?? 24}
+            pageCount={result?.pageCount ?? 1}
+            total={result?.total ?? 0}
+            attr={query.attr}
+            viewAll={params.view === "all"}
+          />
+        ) : (
+          <div className="space-y-8">
+            {sections.map((section) => (
+              <CatalogSectionPreview key={section.id} section={section} />
+            ))}
           </div>
-        </div>
-      </main>
+        )}
+      </div>
     </>
   );
 }

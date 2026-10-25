@@ -20,7 +20,7 @@ export const dynamic = "force-dynamic";
 
 type Props = {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ q?: string; sort?: string; page?: string }>;
+  searchParams: Promise<{ q?: string; sort?: string; page?: string; attr?: string }>;
 };
 
 function redirectFoldedOccasion(slug: string) {
@@ -54,7 +54,13 @@ export default async function DesignCollectionPage({ params, searchParams }: Pro
   const collection = catalog.collections.find((item) => item.slug === slug);
   if (!collection || !isCollectionIndexable(catalog, collection)) notFound();
 
-  const result = queryPublicDesigns(catalog, { ...query, collectionId: collection.id });
+  const result = queryPublicDesigns(catalog, {
+    q: query.q,
+    sort: query.sort,
+    page: query.page,
+    attributeValueIds: query.attrs,
+    collectionId: collection.id,
+  });
   if (query.page > result.pageCount && result.total > 0) notFound();
 
   const title = collectionSeoTitle(collection);
@@ -64,9 +70,7 @@ export default async function DesignCollectionPage({ params, searchParams }: Pro
     { label: "طراحی‌های آماده", href: "/designs" },
     { label: collection.name },
   );
-  const categoryNames = Object.fromEntries(
-    catalog.categories.map((item) => [item.id, item.name]),
-  );
+  const categoryNames = Object.fromEntries(catalog.categories.map((item) => [item.id, item.name]));
 
   return (
     <>
@@ -85,28 +89,25 @@ export default async function DesignCollectionPage({ params, searchParams }: Pro
           }),
         ]}
       />
-      <main id="main" tabIndex={-1} className="min-h-screen bg-background px-4 pb-16 pt-24 text-foreground outline-none sm:px-6">
-        <div className="mx-auto max-w-6xl">
-          <CatalogBreadcrumbs items={crumbs} />
-          <h1 className="mt-4 text-2xl font-black sm:text-3xl">{collection.name}</h1>
-          {collection.description ? (
-            <p className="mt-2 max-w-2xl leading-8 text-muted">{collection.description}</p>
-          ) : null}
-          <div className="mt-8">
-            <CatalogListing
-              designs={result.items}
-              categoryNames={categoryNames}
-              basePath={path}
-              q={query.q}
-              sort={query.sort}
-              page={result.page}
-              pageSize={result.pageSize}
-              pageCount={result.pageCount}
-              total={result.total}
-            />
-          </div>
-        </div>
-      </main>
+      <CatalogBreadcrumbs items={crumbs} soft />
+      <h1 className="mt-4 text-2xl font-black sm:text-3xl">{collection.name}</h1>
+      {collection.description ? (
+        <p className="mt-2 max-w-2xl leading-8 text-muted">{collection.description}</p>
+      ) : null}
+      <div className="mt-6">
+        <CatalogListing
+          designs={result.items}
+          categoryNames={categoryNames}
+          basePath={path}
+          q={query.q}
+          sort={query.sort}
+          page={result.page}
+          pageSize={result.pageSize}
+          pageCount={result.pageCount}
+          total={result.total}
+          attr={query.attr}
+        />
+      </div>
     </>
   );
 }

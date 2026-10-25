@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { fitSelectionView, transformedAabb } from "./selection-view";
+import { clampRectInside, fitSelectionView, resizeFromHandle, transformedAabb } from "./selection-view";
 import { lockImageLayers, type DesignLayer } from "./types";
 
 test("a rotated box keeps every corner inside the axis-aligned frame", () => {
@@ -21,14 +21,12 @@ test("a rotated box keeps every corner inside the axis-aligned frame", () => {
   assert.ok(Math.abs(box.height - 10) < 0.001);
 });
 
-test("the phone fills the stage until a layer is selected", () => {
+test("the phone fills the stage", () => {
   const view = fitSelectionView({
     canvasWidth: 280,
     canvasHeight: 560,
     maxWidth: 280,
     maxHeight: 560,
-    layerBox: null,
-    handleScreenPx: 48,
   });
 
   assert.equal(view.scale, 1);
@@ -40,31 +38,38 @@ test("the phone fills the stage until a layer is selected", () => {
   assert.equal(view.stageHeight, 560);
 });
 
-test("an oversized layer keeps the phone at full size and grows the stage around it", () => {
-  const idle = fitSelectionView({
-    canvasWidth: 280,
-    canvasHeight: 560,
-    maxWidth: 280,
-    maxHeight: 560,
-    layerBox: null,
-    handleScreenPx: 48,
-  });
-  const view = fitSelectionView({
-    canvasWidth: 280,
-    canvasHeight: 560,
-    maxWidth: 280,
-    maxHeight: 560,
-    layerBox: { x: -400, y: 0, width: 1080, height: 560 },
-    handleScreenPx: 48,
+test("an oversized layer box is clipped inside the phone", () => {
+  const visible = clampRectInside(
+    { x: -400, y: 0, width: 1080, height: 560 },
+    { x: 8, y: 8, width: 264, height: 544 },
+  );
+
+  assert.equal(visible.x, 8);
+  assert.equal(visible.y, 8);
+  assert.equal(visible.width, 264);
+  assert.equal(visible.height, 544);
+});
+
+test("resizing from a corner keeps the opposite corner fixed", () => {
+  const next = resizeFromHandle({
+    handle: "bottom-right",
+    pointerX: 200,
+    pointerY: 100,
+    x: 0,
+    y: 0,
+    rotation: 0,
+    scaleX: 1,
+    scaleY: 1,
+    width: 100,
+    height: 50,
+    offsetX: 0,
+    offsetY: 0,
   });
 
-  assert.equal(view.scale, idle.scale);
-  assert.equal(view.phoneCrop.pixelRatioBoost, 1);
-  assert.equal(view.phoneCrop.width, idle.phoneCrop.width);
-  assert.equal(view.phoneCrop.height, idle.phoneCrop.height);
-  assert.ok(view.stageWidth > view.phoneCrop.width);
-  assert.ok(view.phoneCrop.x > 0);
-  assert.ok(view.phoneCrop.x + view.phoneCrop.width <= view.stageWidth + 0.5);
+  assert.equal(next.x, 0);
+  assert.equal(next.y, 0);
+  assert.equal(next.scaleX, 2);
+  assert.equal(next.scaleY, 2);
 });
 
 test("ready-made image layers lock and other layers stay as they were", () => {

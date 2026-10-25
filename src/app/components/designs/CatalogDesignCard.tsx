@@ -16,6 +16,7 @@ type Props = {
   design: PublicDesign;
   categoryName?: string;
   priority?: boolean;
+  compact?: boolean;
 };
 
 function cardFrames(design: PublicDesign): Frame[] {
@@ -32,12 +33,46 @@ function cardFrames(design: PublicDesign): Frame[] {
   return frames;
 }
 
-export default function CatalogDesignCard({ design, categoryName, priority = false }: Props) {
+export default function CatalogDesignCard({
+  design,
+  categoryName,
+  priority = false,
+  compact = false,
+}: Props) {
   const alt = designImageAlt(design);
   const href = `/designs/${design.slug}`;
   const frames = cardFrames(design);
   const [index, setIndex] = useState(0);
   const frame = frames[index] ?? frames[0];
+  const thumb = design.thumbnailPath || design.imagePath;
+
+  if (compact) {
+    return (
+      <article className="overflow-hidden rounded-xl border border-border bg-card/60 text-right">
+        <Link
+          href={href}
+          aria-label={alt}
+          className="flex flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/50"
+        >
+          <div className="relative h-24 overflow-hidden bg-[radial-gradient(ellipse_at_50%_30%,rgba(34,211,238,0.12),transparent_55%)] sm:h-28">
+            {thumb ? (
+              <Image
+                src={designedAssetUrl(thumb)}
+                alt=""
+                fill
+                priority={priority}
+                sizes="(max-width: 640px) 45vw, 180px"
+                className="object-contain p-2"
+              />
+            ) : (
+              <span className="flex h-full items-center justify-center text-[10px] text-muted">بدون تصویر</span>
+            )}
+          </div>
+          <h2 className="line-clamp-2 px-2.5 py-2 text-xs font-bold text-foreground">{design.title}</h2>
+        </Link>
+      </article>
+    );
+  }
 
   function step(event: MouseEvent<HTMLButtonElement>, direction: number): void {
     event.preventDefault();
@@ -90,7 +125,7 @@ export default function CatalogDesignCard({ design, categoryName, priority = fal
               <button
                 type="button"
                 onClick={(event) => step(event, -1)}
-                className="absolute start-2 top-1/2 z-20 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-black/70 text-white shadow-lg backdrop-blur-sm transition hover:bg-black/85"
+                className="absolute start-2 top-1/2 z-20 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-black/70 text-white shadow-lg backdrop-blur-sm transition hover:bg-black/85 lg:opacity-0 lg:group-hover/card:opacity-100 lg:focus-visible:opacity-100"
                 aria-label="تصویر قبلی"
               >
                 <ChevronRight className="h-4 w-4" aria-hidden />
@@ -98,7 +133,7 @@ export default function CatalogDesignCard({ design, categoryName, priority = fal
               <button
                 type="button"
                 onClick={(event) => step(event, 1)}
-                className="absolute end-2 top-1/2 z-20 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-black/70 text-white shadow-lg backdrop-blur-sm transition hover:bg-black/85"
+                className="absolute end-2 top-1/2 z-20 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-black/70 text-white shadow-lg backdrop-blur-sm transition hover:bg-black/85 lg:opacity-0 lg:group-hover/card:opacity-100 lg:focus-visible:opacity-100"
                 aria-label="تصویر بعدی"
               >
                 <ChevronLeft className="h-4 w-4" aria-hidden />

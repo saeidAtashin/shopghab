@@ -1,8 +1,8 @@
 "use client";
 
-import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { Stage, Layer, Transformer, Group, Rect } from "react-konva";
-import { Lock, LockOpen } from "lucide-react";
+import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef } from "react";
+import { Stage, Layer, Group, Rect } from "react-konva";
+import { Lock, LockOpen, RotateCw } from "lucide-react";
 import type Konva from "konva";
 
 import { PhoneBackKonvaLayers } from "@/app/components/case-wizard/PhoneBackKonva";
@@ -13,7 +13,14 @@ import {
 } from "@/lib/cases/phone-back";
 import { useEditorStore } from "@/lib/design/editor-store";
 import { STAGE_EXPORT_CROP_ATTR } from "@/lib/design/export";
-import { fitSelectionView, layerSelectionRect } from "@/lib/design/selection-view";
+import {
+  clampRectInside,
+  fitSelectionView,
+  layerSelectionRect,
+  resizeFromHandle,
+  selectionLocalFrame,
+  type ResizeHandle,
+} from "@/lib/design/selection-view";
 import {
   findTextureImage,
   isLayerLocked,
@@ -63,7 +70,26 @@ function touchAngle(t1: Touch, t2: Touch): number {
 }
 
 const CHROME_PAD = 12;
+const FRAME_MARGIN = 8;
 const LOCK_BUTTON = 44;
+const RESIZE_HANDLES: ResizeHandle[] = [
+  "top-left",
+  "top-right",
+  "bottom-left",
+  "bottom-right",
+  "middle-left",
+  "middle-right",
+];
+
+type ChromeGesture =
+  | {
+      kind: "rotate";
+      startAngle: number;
+      startRotation: number;
+      centerX: number;
+      centerY: number;
+    }
+  | { kind: "resize"; handle: ResizeHandle };
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
@@ -79,9 +105,10 @@ function CaseCanvas({
   mobileTouchMode = false,
 }: Props) {
   const stageRef = useRef<Konva.Stage>(null);
-  const transformerRef = useRef<Konva.Transformer>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const touchGestureRef = useRef<TouchGesture | null>(null);
-  const [lockAnchor, setLockAnchor] = useState<{ x: number; y: number } | null>(null);
+  const chromeGestureRef = useRef<ChromeGesture | null>(null);
+  const chromeMovedRef = useRef(false);
 
   const layers = useEditorStore((s) => s.document.layers);
   const canvasWidth = useEditorStore((s) => s.document.canvas.width);
@@ -91,6 +118,7 @@ function CaseCanvas({
   const previewMode = useEditorStore((s) => s.previewMode);
   const selectLayer = useEditorStore((s) => s.selectLayer);
   const updateLayer = useEditorStore((s) => s.updateLayer);
+  const commitHistory = useEditorStore((s) => s.commitHistory);
 
   const width = meta?.canvasWidth ?? canvasWidth;
   const height = meta?.canvasHeight ?? canvasHeight;
@@ -106,11 +134,6 @@ function CaseCanvas({
     canvasHeight: height,
     maxWidth: maxW,
     maxHeight: maxH,
-    layerBox:
-      interactive && selectedLayer && isLayerVisible(selectedLayer)
-        ? layerSelectionRect(selectedLayer, width)
-        : null,
-    handleScreenPx: mobileTouchMode ? 72 : 48,
   });
   const layoutWidth = view.phoneCrop.width + CHROME_PAD * 2;
   const layoutHeight = view.phoneCrop.height + CHROME_PAD * 2;
@@ -131,40 +154,79 @@ function CaseCanvas({
     if (stageRef.current) onStageRef?.(stageRef.current);
   }, [onStageRef]);
 
+  const selectedLayerRef = useRef(selectedLayer);
+  const canvasWidthRef = useRef(width);
+  const viewRef = useRef(view);
+  const stagePosRef = useRef({ left: stageLeft, top: stageTop });
+  selectedLayerRef.current = selectedLayer;
+  canvasWidthRef.current = width;
+  viewRef.current = view;
+  stagePosRef.current = { left: stageLeft, top: stageTop };
+
   useLayoutEffect(() => {
-    const stage = stageRef.current;
-    const transformer = transformerRef.current;
-    if (stage) stage.setAttr(STAGE_EXPORT_CROP_ATTR, view.phoneCrop);
-    if (!transformer || !stage || !interactive) {
-      transformer?.nodes([]);
-      setLockAnchor(null);
-      return;
-    }
+    stageRef.current?.setAttr(STAGE_EXPORT_CROP_ATTR, view.phoneCrop);
+  }, [view.phoneCrop]);
 
-    const layer = selectedLayer && isLayerVisible(selectedLayer) ? selectedLayer : null;
-    const selected = layer ? stage.findOne(`#${layer.id}`) : null;
-    if (!selected || !layer) {
-      transformer.nodes([]);
-      setLockAnchor(null);
-      return;
-    }
+  const clientToCanvas = useCallback((clientX: number, clientY: number) => {
+    const host = wrapperRef.current;
+    const current = viewRef.current;
+    const stagePos = stagePosRef.current;
+    if (!host) return { x: 0, y: 0 };
+    const rect = host.getBoundingClientRect();
+    return {
+      x: (clientX - rect.left - stagePos.left) / current.scale - current.offsetX,
+      y: (clientY - rect.top - stagePos.top) / current.scale - current.offsetY,
+    };
+  }, []);
 
-    transformer.nodes([selected]);
-    transformer.getLayer()?.batchDraw();
-
-    const box = transformer.getClientRect();
-    if (box.width < 1 || box.height < 1) {
-      setLockAnchor(null);
-      return;
-    }
-    const rawX = box.x + box.width - LOCK_BUTTON;
-    const rawY = box.y - LOCK_BUTTON - 6;
-    const x = clamp(rawX, 0, Math.max(0, stage.width() - LOCK_BUTTON));
-    const y = clamp(rawY, 0, Math.max(0, stage.height() - LOCK_BUTTON));
-    setLockAnchor((prev) =>
-      prev && Math.abs(prev.x - x) < 0.5 && Math.abs(prev.y - y) < 0.5 ? prev : { x, y },
-    );
-  }, [interactive, layers, selectedLayer, view.phoneCrop, view.scale, view.offsetX, view.offsetY]);
+  useEffect(() => {
+    const move = (event: PointerEvent) => {
+      const gesture = chromeGestureRef.current;
+      const layer = selectedLayerRef.current;
+      if (!gesture || !layer || isLayerLocked(layer)) return;
+      const point = clientToCanvas(event.clientX, event.clientY);
+      chromeMovedRef.current = true;
+      if (gesture.kind === "rotate") {
+        const angle =
+          (Math.atan2(point.y - gesture.centerY, point.x - gesture.centerX) * 180) / Math.PI;
+        updateLayer(
+          layer.id,
+          { rotation: gesture.startRotation + (angle - gesture.startAngle) },
+          { recordHistory: false },
+        );
+        return;
+      }
+      const frame = selectionLocalFrame(layer, canvasWidthRef.current);
+      updateLayer(
+        layer.id,
+        resizeFromHandle({
+          handle: gesture.handle,
+          pointerX: point.x,
+          pointerY: point.y,
+          x: layer.x,
+          y: layer.y,
+          rotation: layer.rotation,
+          scaleX: layer.scaleX,
+          scaleY: layer.scaleY,
+          ...frame,
+        }),
+        { recordHistory: false },
+      );
+    };
+    const end = () => {
+      if (chromeGestureRef.current && chromeMovedRef.current) commitHistory();
+      chromeGestureRef.current = null;
+      chromeMovedRef.current = false;
+    };
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", end);
+    window.addEventListener("pointercancel", end);
+    return () => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", end);
+      window.removeEventListener("pointercancel", end);
+    };
+  }, [clientToCanvas, commitHistory, updateLayer]);
 
   const handleStageClick = (e: Konva.KonvaEventObject<MouseEvent | TouchEvent>) => {
     if (readOnly || previewMode) return;
@@ -283,9 +345,33 @@ function CaseCanvas({
   const bodyFill = isClear ? "rgba(10,10,15,0.85)" : "#0a0a0f";
 
   const selectedLocked = selectedLayer ? isLayerLocked(selectedLayer) : false;
+  const handleSize = mobileTouchMode ? 22 : 14;
+  const rotateGap = mobileTouchMode ? 36 : 28;
+  const selectionFrame = useMemo(() => {
+    if (!interactive || !selectedLayer || !isLayerVisible(selectedLayer)) return null;
+    const box = layerSelectionRect(selectedLayer, width);
+    const screen = {
+      x: stageLeft + view.phoneCrop.x + (box.x + view.offsetX) * view.scale,
+      y: stageTop + view.phoneCrop.y + (box.y + view.offsetY) * view.scale,
+      width: box.width * view.scale,
+      height: box.height * view.scale,
+    };
+    return clampRectInside(screen, {
+      x: CHROME_PAD + FRAME_MARGIN,
+      y: CHROME_PAD + FRAME_MARGIN,
+      width: Math.max(1, view.phoneCrop.width - FRAME_MARGIN * 2),
+      height: Math.max(1, view.phoneCrop.height - FRAME_MARGIN * 2),
+    });
+  }, [interactive, selectedLayer, stageLeft, stageTop, view, width]);
+
+  const placeControl = (x: number, y: number, size: number) => ({
+    x: clamp(x, 0, Math.max(0, layoutWidth - size)),
+    y: clamp(y, 0, Math.max(0, layoutHeight - size)),
+  });
 
   return (
     <div
+      ref={wrapperRef}
       className="relative mx-auto"
       style={{ width: layoutWidth, height: layoutHeight, touchAction: "none" }}
     >
@@ -377,65 +463,157 @@ function CaseCanvas({
                 />
               ) : null}
 
-              {interactive ? (
-                <Transformer
-                  ref={transformerRef}
-                  name="selection-transformer"
-                  padding={mobileTouchMode ? 12 : 8}
-                  anchorSize={mobileTouchMode ? 22 : 14}
-                  borderStroke="#22d3ee"
-                  borderStrokeWidth={mobileTouchMode ? 2.5 : 1.5}
-                  anchorStroke={selectedLocked ? "#64748b" : "#06b6d4"}
-                  anchorFill={selectedLocked ? "#94a3b8" : "#ffffff"}
-                  rotateAnchorOffset={mobileTouchMode ? 36 : 28}
-                  listening={!selectedLocked}
-                  boundBoxFunc={(oldBox, newBox) => {
-                    if (newBox.width < 10 || newBox.height < 10) return oldBox;
-                    return newBox;
-                  }}
-                  rotateEnabled
-                  resizeEnabled
-                  enabledAnchors={[
-                    "top-left",
-                    "top-right",
-                    "bottom-left",
-                    "bottom-right",
-                    "middle-left",
-                    "middle-right",
-                  ]}
-                />
-              ) : null}
             </Group>
           </Layer>
         </Stage>
       </div>
-      {interactive && lockAnchor && selectedLayer ? (
-        <button
-          type="button"
-          aria-pressed={selectedLocked}
-          aria-label={selectedLocked ? "باز کردن قفل لایه" : "قفل کردن لایه"}
-          title={selectedLocked ? "باز کردن قفل" : "قفل"}
-          onPointerDown={(event) => event.stopPropagation()}
-          onClick={(event) => {
+      {selectionFrame && selectedLayer ? (
+        <SelectionChrome
+          frame={selectionFrame}
+          locked={selectedLocked}
+          handleSize={handleSize}
+          rotateGap={rotateGap}
+          placeControl={placeControl}
+          onLock={() => updateLayer(selectedLayer.id, { locked: !selectedLocked })}
+          onRotateStart={(event) => {
+            if (selectedLocked) return;
+            event.preventDefault();
             event.stopPropagation();
-            updateLayer(selectedLayer.id, { locked: !selectedLocked });
+            const box = layerSelectionRect(selectedLayer, width);
+            const centerX = box.x + box.width / 2;
+            const centerY = box.y + box.height / 2;
+            const point = clientToCanvas(event.clientX, event.clientY);
+            chromeMovedRef.current = false;
+            chromeGestureRef.current = {
+              kind: "rotate",
+              startAngle:
+                (Math.atan2(point.y - centerY, point.x - centerX) * 180) / Math.PI,
+              startRotation: selectedLayer.rotation,
+              centerX,
+              centerY,
+            };
           }}
-          className={`absolute z-10 flex items-center justify-center rounded-full border shadow-lg ${
-            selectedLocked
-              ? "border-amber-300 bg-amber-400 text-black"
-              : "border-cyan-300 bg-white text-slate-900"
-          }`}
-          style={{
-            left: stageLeft + lockAnchor.x,
-            top: stageTop + lockAnchor.y,
-            width: LOCK_BUTTON,
-            height: LOCK_BUTTON,
+          onResizeStart={(handle, event) => {
+            if (selectedLocked) return;
+            event.preventDefault();
+            event.stopPropagation();
+            chromeMovedRef.current = false;
+            chromeGestureRef.current = { kind: "resize", handle };
           }}
-        >
-          {selectedLocked ? <Lock size={18} /> : <LockOpen size={18} />}
-        </button>
+        />
       ) : null}
     </div>
+  );
+}
+
+function SelectionChrome({
+  frame,
+  locked,
+  handleSize,
+  rotateGap,
+  placeControl,
+  onLock,
+  onRotateStart,
+  onResizeStart,
+}: {
+  frame: { x: number; y: number; width: number; height: number };
+  locked: boolean;
+  handleSize: number;
+  rotateGap: number;
+  placeControl: (x: number, y: number, size: number) => { x: number; y: number };
+  onLock: () => void;
+  onRotateStart: (event: React.PointerEvent<HTMLButtonElement>) => void;
+  onResizeStart: (handle: ResizeHandle, event: React.PointerEvent<HTMLButtonElement>) => void;
+}) {
+  const rotateSize = handleSize + 10;
+  const rotate = placeControl(
+    frame.x + frame.width / 2 - rotateSize / 2,
+    frame.y - rotateGap - rotateSize,
+    rotateSize,
+  );
+  const lock = placeControl(
+    frame.x + frame.width - LOCK_BUTTON,
+    frame.y - LOCK_BUTTON - 6,
+    LOCK_BUTTON,
+  );
+  const anchorFill = locked ? "#94a3b8" : "#ffffff";
+  const anchorStroke = locked ? "#64748b" : "#06b6d4";
+
+  return (
+    <>
+      <div
+        className="pointer-events-none absolute z-10 border-2 border-cyan-400"
+        style={{
+          left: frame.x,
+          top: frame.y,
+          width: frame.width,
+          height: frame.height,
+        }}
+      />
+      {RESIZE_HANDLES.map((handle) => {
+        const nx = handle.includes("right") ? 1 : handle.includes("left") ? 0 : 0.5;
+        const ny = handle.startsWith("bottom") ? 1 : handle.startsWith("top") ? 0 : 0.5;
+        const pos = placeControl(
+          frame.x + frame.width * nx - handleSize / 2,
+          frame.y + frame.height * ny - handleSize / 2,
+          handleSize,
+        );
+        return (
+          <button
+            key={handle}
+            type="button"
+            aria-label="تغییر اندازه"
+            onPointerDown={(event) => onResizeStart(handle, event)}
+            className="absolute z-20 rounded-sm border-2"
+            style={{
+              left: pos.x,
+              top: pos.y,
+              width: handleSize,
+              height: handleSize,
+              backgroundColor: anchorFill,
+              borderColor: anchorStroke,
+              touchAction: "none",
+            }}
+          />
+        );
+      })}
+      <button
+        type="button"
+        aria-label="چرخاندن"
+        onPointerDown={onRotateStart}
+        className="absolute z-20 flex items-center justify-center rounded-full border-2"
+        style={{
+          left: rotate.x,
+          top: rotate.y,
+          width: rotateSize,
+          height: rotateSize,
+          backgroundColor: anchorFill,
+          borderColor: anchorStroke,
+          touchAction: "none",
+        }}
+      >
+        <RotateCw size={12} color={anchorStroke} />
+      </button>
+      <button
+        type="button"
+        aria-pressed={locked}
+        aria-label={locked ? "باز کردن قفل لایه" : "قفل کردن لایه"}
+        title={locked ? "باز کردن قفل" : "قفل"}
+        onPointerDown={(event) => event.stopPropagation()}
+        onClick={(event) => {
+          event.stopPropagation();
+          onLock();
+        }}
+        className={`absolute z-30 flex items-center justify-center rounded-full border shadow-lg ${
+          locked
+            ? "border-amber-300 bg-amber-400 text-black"
+            : "border-cyan-300 bg-white text-slate-900"
+        }`}
+        style={{ left: lock.x, top: lock.y, width: LOCK_BUTTON, height: LOCK_BUTTON }}
+      >
+        {locked ? <Lock size={18} /> : <LockOpen size={18} />}
+      </button>
+    </>
   );
 }
 

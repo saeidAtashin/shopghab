@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
+import { browseHref } from "./browse";
 import { stableDesignId } from "./ids";
 import {
   CatalogError,
@@ -15,6 +16,8 @@ import {
   moveDesign,
   syncCatalog,
   queryDesigns,
+  publicBrowseSections,
+  publicBrowseShell,
   publicCategoryCards,
   parsePublicListingQuery,
   queryPublicDesigns,
@@ -344,6 +347,40 @@ test("public category cards list indexable roots and their inner categories", ()
   );
   assert.equal(children[0]?.image, "/designed/thumbs/cat.webp");
   assert.equal(children[0]?.count, 1);
+
+  const sections = publicBrowseSections(catalog, 6);
+  assert.equal(sections.length, 1);
+  assert.equal(sections[0]?.title, "حیوانات");
+  assert.equal(sections[0]?.href, "/designs/category/animals");
+  assert.equal(sections[0]?.count, 1);
+  assert.equal(sections[0]?.designs.length, 1);
+  assert.equal(sections[0]?.designs[0]?.slug, "cat-case");
+
+  const shell = publicBrowseShell(catalog);
+  assert.deepEqual(
+    shell.categories.map((item) => item.slug),
+    ["animals"],
+  );
+  assert.deepEqual(
+    shell.categories[0]?.children.map((item) => item.slug),
+    ["cats"],
+  );
+});
+
+test("browse href omits the default page and sort", () => {
+  assert.equal(browseHref("/designs", { viewAll: true }), "/designs?view=all");
+  const href = browseHref("/designs/category/animals", {
+    q: "گربه",
+    sort: "newest",
+    attrs: ["black", "blue"],
+    page: 1,
+  });
+  const url = new URL(href, "http://localhost");
+  assert.equal(url.pathname, "/designs/category/animals");
+  assert.equal(url.searchParams.get("q"), "گربه");
+  assert.equal(url.searchParams.get("sort"), "newest");
+  assert.equal(url.searchParams.get("attr"), "black,blue");
+  assert.equal(url.searchParams.get("page"), null);
 });
 
 test("public design filters combine inner categories and attribute groups", () => {

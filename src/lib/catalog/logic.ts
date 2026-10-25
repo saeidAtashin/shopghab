@@ -1,3 +1,4 @@
+import type { BrowseShell } from "@/lib/catalog/browse";
 import { designHasProductMockup, selectProductImages } from "@/lib/mockups/display";
 import {
   suggestedCategorySeoDescription,
@@ -1232,6 +1233,80 @@ export function publicPickCards(catalog: DesignCatalog): PublicPickCard[] {
     });
   }
   return cards;
+}
+
+export type PublicBrowseSection = {
+  id: string;
+  title: string;
+  href: string;
+  count: number;
+  designs: PublicDesign[];
+};
+
+export function publicBrowseSections(catalog: DesignCatalog, limit = 6): PublicBrowseSection[] {
+  const sections: PublicBrowseSection[] = [];
+  for (const card of publicCategoryCards(catalog, null)) {
+    const category = catalog.categories.find((item) => item.slug === card.slug);
+    if (!category) continue;
+    const result = queryPublicDesigns(catalog, {
+      categoryId: category.id,
+      pageSize: limit,
+      sort: "featured",
+    });
+    if (result.total === 0) continue;
+    sections.push({
+      id: category.id,
+      title: card.name,
+      href: card.href,
+      count: card.count,
+      designs: result.items,
+    });
+  }
+  for (const pick of publicPickCards(catalog)) {
+    const collection = catalog.collections.find((item) => item.slug === pick.slug);
+    if (!collection) continue;
+    const result = queryPublicDesigns(catalog, {
+      collectionId: collection.id,
+      pageSize: limit,
+      sort: "featured",
+    });
+    if (result.total === 0) continue;
+    sections.push({
+      id: collection.id,
+      title: pick.title,
+      href: pick.href,
+      count: result.total,
+      designs: result.items,
+    });
+  }
+  return sections;
+}
+
+export function publicBrowseShell(catalog: DesignCatalog): BrowseShell {
+  const categories = publicCategoryCards(catalog, null).map((card) => {
+    const category = catalog.categories.find((item) => item.slug === card.slug);
+    const children = category ? publicCategoryCards(catalog, category.id) : [];
+    return {
+      slug: card.slug,
+      name: card.name,
+      href: card.href,
+      count: card.count,
+      children: children.map((child) => ({
+        slug: child.slug,
+        name: child.name,
+        href: child.href,
+        count: child.count,
+      })),
+    };
+  });
+  const groups = publicListingFilters(catalog)
+    .filter((group) => group.param === "attr")
+    .map((group) => ({
+      id: group.id,
+      label: group.label,
+      options: group.options,
+    }));
+  return { categories, groups };
 }
 
 export function relatedDesigns(
