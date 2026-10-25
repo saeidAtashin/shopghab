@@ -9,7 +9,17 @@ export type DesignLayerBase = {
   visible?: boolean;
   /** Optional label for layers panel */
   name?: string;
+  /** True = selectable, but drag, rotate, and resize stay off until unlocked. */
+  locked?: boolean;
 };
+
+export type ImageBlendMode =
+  | "normal"
+  | "multiply"
+  | "screen"
+  | "overlay"
+  | "darken"
+  | "lighten";
 
 export type TextLayer = DesignLayerBase & {
   type: "text";
@@ -26,15 +36,12 @@ export type TextLayer = DesignLayerBase & {
   cornerRadius?: number;
   /** Inner padding for text background box */
   padding?: number;
+  /** 0–1, default 1 */
+  opacity?: number;
+  blendMode?: ImageBlendMode;
+  /** Image layer whose pixels fill the glyphs. Empty keeps the solid color. */
+  textureImageLayerId?: string | null;
 };
-
-export type ImageBlendMode =
-  | "normal"
-  | "multiply"
-  | "screen"
-  | "overlay"
-  | "darken"
-  | "lighten";
 
 export type ImageEffectType =
   | "grayscale"
@@ -145,6 +152,27 @@ export type CaseTemplate = {
 
 export function isLayerVisible(layer: DesignLayer): boolean {
   return layer.visible !== false;
+}
+
+export function isLayerLocked(layer: DesignLayer): boolean {
+  return layer.locked === true;
+}
+
+export function lockImageLayers(layers: DesignLayer[]): DesignLayer[] {
+  return layers.map((layer) =>
+    layer.type === "image" ? { ...layer, locked: true } : layer,
+  );
+}
+
+export function findTextureImage(
+  layers: DesignLayer[],
+  text: TextLayer,
+): ImageLayer | null {
+  const id = text.textureImageLayerId;
+  if (!id) return null;
+  const found = layers.find((layer) => layer.id === id);
+  if (!found || found.type !== "image") return null;
+  return found;
 }
 
 export function cloneLayersWithNewIds(layers: DesignLayer[]): DesignLayer[] {

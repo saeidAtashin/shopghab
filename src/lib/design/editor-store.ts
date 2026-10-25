@@ -11,6 +11,7 @@ import {
   cloneLayersWithNewIds,
   createEmptyDesign,
   generateLayerId,
+  lockImageLayers,
   type CaseTemplate,
   type DesignDocument,
   type DesignLayer,
@@ -226,6 +227,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       isSticker,
       name: name ?? (isSticker ? `استیکر ${imageCount}` : `تصویر ${imageCount}`),
       visible: true,
+      locked: isSticker ? true : undefined,
       x: meta.canvasWidth / 2 - width / 2,
       y: meta.canvasHeight / 2 - height / 2,
       rotation: 0,
@@ -344,7 +346,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
 
   nudgeLayer: (id, dx, dy) => {
     const layer = get().document.layers.find((l) => l.id === id);
-    if (!layer || layer.visible === false) return;
+    if (!layer || layer.visible === false || layer.locked) return;
     get().updateLayer(id, { x: layer.x + dx, y: layer.y + dy });
   },
 
@@ -355,7 +357,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       ? { width: meta.canvasWidth, height: meta.canvasHeight }
       : from;
     const scaled = scaleLayersToCanvas(template.layers, from, to, "cover");
-    const cloned = cloneLayersWithNewIds(scaled);
+    const cloned = lockImageLayers(cloneLayersWithNewIds(scaled));
     set((state) => {
       const next = updateDoc(state, (doc) => ({
         ...doc,

@@ -9,6 +9,8 @@ import {
   Eye,
   EyeOff,
   Image as ImageIcon,
+  Lock,
+  LockOpen,
   Plus,
   Sticker,
   Trash2,
@@ -26,12 +28,14 @@ import {
 } from "@/lib/design/image-layer-filters";
 import {
   generateEffectId,
+  isLayerLocked,
   isLayerVisible,
   type DesignLayer,
   type ImageBlendMode,
   type ImageEffectType,
   type ImageLayer,
   type ImageLayerEffect,
+  type TextLayer,
 } from "@/lib/design/types";
 
 const ImageToolsPanel = dynamic(
@@ -126,6 +130,9 @@ export default function LayersPanel({ compact = false }: { compact?: boolean }) 
                 >
                   <LayerTypeIcon layer={layer} />
                   <span className="truncate">{layerLabel(layer)}</span>
+                  {isLayerLocked(layer) ? (
+                    <Lock size={12} className="shrink-0 text-amber-300" aria-hidden />
+                  ) : null}
                 </button>
                 <button
                   type="button"
@@ -221,6 +228,11 @@ export default function LayersPanel({ compact = false }: { compact?: boolean }) 
               icon={<Copy size={14} />}
               label="کپی"
             />
+            <ActionButton
+              onClick={() => updateLayer(selected.id, { locked: !isLayerLocked(selected) })}
+              icon={isLayerLocked(selected) ? <LockOpen size={14} /> : <Lock size={14} />}
+              label={isLayerLocked(selected) ? "باز کردن" : "قفل"}
+            />
             {isLayerVisible(selected) ? (
               <ActionButton
                 onClick={() => setLayerVisible(selected.id, false)}
@@ -244,9 +256,104 @@ export default function LayersPanel({ compact = false }: { compact?: boolean }) 
               />
               <ImageToolsPanel layer={selected} />
             </>
-          ) : null}
+          ) : (
+            <TextLayerSettings
+              layer={selected}
+              layers={layers}
+              onUpdate={(patch) => updateLayer(selected.id, patch)}
+            />
+          )}
         </div>
       ) : null}
+    </div>
+  );
+}
+
+function nearestImageBelow(layers: DesignLayer[], textId: string): string | null {
+  const index = layers.findIndex((layer) => layer.id === textId);
+  for (let i = index - 1; i >= 0; i -= 1) {
+    const layer = layers[i];
+    if (layer?.type === "image" && isLayerVisible(layer)) return layer.id;
+  }
+  return null;
+}
+
+function TextLayerSettings({
+  layer,
+  layers,
+  onUpdate,
+}: {
+  layer: TextLayer;
+  layers: DesignLayer[];
+  onUpdate: (patch: Partial<TextLayer>) => void;
+}) {
+  const imageLayers = layers.filter(
+    (item): item is ImageLayer =>
+      item.type === "image" &&
+      (isLayerVisible(item) || item.id === layer.textureImageLayerId),
+  );
+  const behindId = nearestImageBelow(layers, layer.id);
+  const textureId = imageLayers.some((item) => item.id === layer.textureImageLayerId)
+    ? (layer.textureImageLayerId ?? "")
+    : "";
+  const opacityPercent = Math.round((layer.opacity ?? 1) * 100);
+  const orderedImages = [...imageLayers].sort((a, b) => {
+    if (a.id === behindId) return -1;
+    if (b.id === behindId) return 1;
+    return 0;
+  });
+
+  return (
+    <div className="space-y-3 border-t border-border pt-3">
+      <p className="text-xs font-semibold text-muted">تنظیمات متن</p>
+      <label className="block space-y-1">
+        <span className="text-[10px] text-muted">شفافیت ({opacityPercent}٪)</span>
+        <input
+          type="range"
+          min={0}
+          max={100}
+          value={opacityPercent}
+          onChange={(event) => onUpdate({ opacity: Number(event.target.value) / 100 })}
+          className="w-full accent-cyan-500"
+        />
+      </label>
+      <label className="block space-y-1">
+        <span className="text-[10px] text-muted">حالت ترکیب / Blend Mode</span>
+        <select
+          value={layer.blendMode ?? "normal"}
+          onChange={(event) =>
+            onUpdate({ blendMode: event.target.value as ImageBlendMode })
+          }
+          className="w-full rounded-lg border border-border bg-background px-2 py-1.5 text-xs text-foreground"
+        >
+          {BLEND_MODE_OPTIONS.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label className="block space-y-1">
+        <span className="text-[10px] text-muted">بافت تصویر</span>
+        <select
+          value={textureId}
+          onChange={(event) =>
+            onUpdate({ textureImageLayerId: event.target.value || null })
+          }
+          className="w-full rounded-lg border border-border bg-background px-2 py-1.5 text-xs text-foreground"
+        >
+          <option value="">بدون بافت</option>
+          {orderedImages.map((image) => (
+            <option key={image.id} value={image.id}>
+              {image.name || (image.isSticker ? "استیکر" : "تصویر")}
+              {image.id === behindId ? " (زیر متن)" : ""}
+            </option>
+          ))}
+        </select>
+        <span className="block text-[10px] text-muted/80">
+          حروف با تصویر انتخاب‌شده پر می‌شوند.
+        </span>
+      </label>
     </div>
   );
 }

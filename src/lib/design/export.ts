@@ -1,6 +1,11 @@
 import type Konva from "konva";
 
+import type { StageExportCrop } from "./selection-view";
+
 export type ExportImageFormat = "png" | "jpg";
+
+export const STAGE_EXPORT_CROP_ATTR = "exportCrop";
+const SELECTION_TRANSFORMER_NAME = "selection-transformer";
 
 /** Pixel ratio used when the editor exports a finished case image. */
 export const EXPORT_STAGE_PIXEL_RATIO = 3;
@@ -9,6 +14,31 @@ export const EXPORT_MIME: Record<ExportImageFormat, string> = {
   png: "image/png",
   jpg: "image/jpeg",
 };
+
+function captureStage(stage: Konva.Stage, pixelRatio: number): HTMLCanvasElement {
+  const crop = stage.getAttr(STAGE_EXPORT_CROP_ATTR) as StageExportCrop | undefined;
+  const boost =
+    crop && crop.pixelRatioBoost > 0 ? Math.min(crop.pixelRatioBoost, 12) : 1;
+  const transformer = stage.findOne(`.${SELECTION_TRANSFORMER_NAME}`);
+  const wasVisible = transformer?.visible();
+  if (transformer) {
+    transformer.visible(false);
+  }
+  stage.batchDraw();
+  try {
+    return stage.toCanvas({
+      pixelRatio: pixelRatio * boost,
+      ...(crop && crop.width > 1 && crop.height > 1
+        ? { x: crop.x, y: crop.y, width: crop.width, height: crop.height }
+        : {}),
+    });
+  } finally {
+    if (transformer) {
+      transformer.visible(wasVisible ?? true);
+      transformer.getLayer()?.batchDraw();
+    }
+  }
+}
 
 export async function exportStageToDataUrl(
   stage: Konva.Stage,
@@ -21,8 +51,7 @@ export async function exportStageToDataUrl(
   const format = options.format ?? "png";
   const pixelRatio = options.pixelRatio ?? 2;
   const quality = options.quality ?? 0.92;
-  stage.batchDraw();
-  const source = stage.toCanvas({ pixelRatio });
+  const source = captureStage(stage, pixelRatio);
 
   if (format === "png") {
     return source.toDataURL("image/png");
