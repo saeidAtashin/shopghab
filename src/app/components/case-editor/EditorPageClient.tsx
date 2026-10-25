@@ -926,8 +926,8 @@ function EditorSidePanel({
             ? "flex h-full min-h-0 flex-col"
             : "min-h-0"
           : designTab
-            ? "flex h-[min(44rem,calc(100dvh-13rem))] min-h-0 min-w-0 flex-col rounded-2xl border border-border bg-card/60"
-            : "flex max-h-[calc(100dvh-13rem)] min-h-0 min-w-0 flex-col rounded-2xl border border-border bg-card/60"
+            ? "sticky top-24 flex h-[max(min(72dvh,560px),calc(100dvh-7rem))] min-h-0 min-w-0 flex-col self-start rounded-2xl border border-border bg-card/60"
+            : "sticky top-24 flex max-h-[calc(100dvh-7rem)] min-h-[min(42dvh,320px)] min-w-0 flex-col self-start rounded-2xl border border-border bg-card/60"
       }
     >
       {!compact ? (
