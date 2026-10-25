@@ -25,6 +25,7 @@ import {
 import { AnimatePresence } from "framer-motion";
 import type Konva from "konva";
 
+import PhoneVerificationModal from "@/app/components/auth/PhoneVerificationModal";
 import WizardBreadcrumb from "@/app/components/case-wizard/WizardBreadcrumb";
 import DockableAction from "@/app/components/ui/DockableAction";
 import TextPanel from "@/app/components/case-editor/TextPanel";
@@ -131,7 +132,7 @@ export default function EditorPageClient({
   const caseType = getCaseTypeBySlug(caseTypeSlug)!;
 
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const { addCustomCase, startFlyToCart } = useShopCart();
   const stageRef = useRef<Konva.Stage | null>(null);
   const loadedRef = useRef(false);
@@ -174,9 +175,9 @@ export default function EditorPageClient({
   }, [document.layers]);
 
   useEffect(() => {
-    if (!isMobileViewport) return;
+    if (!user || !isMobileViewport) return;
     return lockPageScroll();
-  }, [isMobileViewport]);
+  }, [user, isMobileViewport]);
 
   const [activeTab, setActiveTab] = useState<EditorTab>(initialTab ?? "text");
   const [loadedTabs, setLoadedTabs] = useState<Set<EditorTab>>(
@@ -219,7 +220,7 @@ export default function EditorPageClient({
   }, [editorReady]);
 
   useEffect(() => {
-    if (loadedRef.current) return;
+    if (authLoading || !user || loadedRef.current) return;
 
     async function bootstrap() {
       const meta = {
@@ -295,6 +296,8 @@ export default function EditorPageClient({
     loadTemplate,
     caseType,
     model,
+    authLoading,
+    user,
   ]);
 
   const handleSaveToAccount = useCallback(async () => {
@@ -325,6 +328,14 @@ export default function EditorPageClient({
     router.push(`/phones/${brandSlug}/${modelSlug}`);
   }, [brandSlug, modelSlug, router]);
 
+  const leaveEditor = useCallback(() => {
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      router.back();
+      return;
+    }
+    router.push("/create");
+  }, [router]);
+
   const handleCanvasBackdropPointerDown = useCallback(
     (event: React.PointerEvent<HTMLDivElement>) => {
       if (event.target === event.currentTarget) selectLayer(null);
@@ -334,6 +345,10 @@ export default function EditorPageClient({
 
   const handleBuy = useCallback(async () => {
     if (buyBusy) return;
+    if (!user) {
+      setMessage("برای خرید ابتدا وارد شوید.");
+      return;
+    }
     setBuyBusy(true);
     setMessage(null);
     try {
@@ -391,6 +406,7 @@ export default function EditorPageClient({
     brandSlug,
     modelSlug,
     caseTypeSlug,
+    user,
   ]);
 
   const tabs: { id: EditorTab; label: string; icon: React.ReactNode }[] = [
@@ -550,6 +566,22 @@ export default function EditorPageClient({
       ) : null}
     </AnimatePresence>
   );
+
+  if (authLoading || !user) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4 pt-24 text-center">
+        <p className="text-sm text-muted">
+          {authLoading ? "در حال بررسی ورود…" : "برای استفاده از ادیتور ابتدا وارد شوید."}
+        </p>
+        <PhoneVerificationModal
+          open={!authLoading && !user}
+          phone=""
+          onClose={leaveEditor}
+          onVerified={() => {}}
+        />
+      </div>
+    );
+  }
 
   if (isMobileViewport) {
     return (

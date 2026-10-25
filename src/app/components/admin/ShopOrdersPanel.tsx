@@ -27,6 +27,7 @@ function itemLabel(item: CartLineItem): string {
   if (item.kind === "ready") {
     return getReadyCaseById(item.productId)?.title ?? item.productId;
   }
+  if (item.kind === "catalog") return `طرح پیش‌ساخته: ${item.title}`;
   return item.title;
 }
 

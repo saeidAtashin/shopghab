@@ -241,7 +241,9 @@ export default function CheckoutPageClient() {
                   <span>
                     {entry.item.kind === "ready"
                       ? entry.product?.title
-                      : entry.item.title}{" "}
+                      : entry.item.kind === "catalog"
+                        ? `طرح پیش‌ساخته: ${entry.item.title}`
+                        : entry.item.title}{" "}
                     × {entry.item.qty}
                   </span>
                 </li>

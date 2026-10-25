@@ -3,6 +3,7 @@ import {
   getCartItemKey,
   normalizeCartItem,
   type CartLineItem,
+  type CatalogCartLineItem,
   type CustomCartLineItem,
   type ReadyCartLineItem,
 } from "./types";
@@ -68,6 +69,20 @@ export function addReadyToCart(
   );
 }
 
+export function addCatalogToCart(
+  items: CartLineItem[],
+  catalog: Omit<CatalogCartLineItem, "kind" | "qty">,
+): CartLineItem[] {
+  const next: CatalogCartLineItem = { kind: "catalog", ...catalog, qty: 1 };
+  const key = getCartItemKey(next);
+  const existing = items.find((item) => getCartItemKey(item) === key);
+  if (!existing) return [...items, next];
+
+  return items.map((item) =>
+    getCartItemKey(item) === key ? { ...item, qty: item.qty + 1 } : item,
+  );
+}
+
 export function addCustomToCart(
   items: CartLineItem[],
   custom: Omit<CustomCartLineItem, "kind" | "qty">,
@@ -107,4 +122,4 @@ export function removeCartItem(items: CartLineItem[], key: string): CartLineItem
   return items.filter((item) => getCartItemKey(item) !== key);
 }
 
-export type { CartLineItem, CustomCartLineItem, ReadyCartLineItem };
+export type { CartLineItem, CatalogCartLineItem, CustomCartLineItem, ReadyCartLineItem };

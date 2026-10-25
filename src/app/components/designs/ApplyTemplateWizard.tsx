@@ -1,26 +1,36 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { Check, Search, X } from "lucide-react";
 
+import PhoneVerificationModal from "@/app/components/auth/PhoneVerificationModal";
 import { PhoneBackSvg } from "@/app/components/case-wizard/PhoneBackSvg";
 import SuggestedPhoneCard, { useSuggestedPhone } from "@/app/components/case-wizard/SuggestedPhoneCard";
+import { useAuth } from "@/app/context/AuthContext";
 import { usePreferredBrandLoader } from "@/app/context/PreferredBrandLoaderContext";
+import { useShopCart } from "@/app/context/ShopCartContext";
 import { designedAssetUrl } from "@/lib/designed-assets";
 import {
   buildCustomDesignPath,
   getBrandBySlug,
+  getCaseTotalPrice,
+  getCaseTypeBySlug,
   getModelsByBrand,
   PHONE_BRANDS,
+  SELECTABLE_CASE_TYPE_SLUG,
 } from "@/lib/cases/brands.static";
 import { rememberSelectedPhone } from "@/lib/cases/device-phone";
 import { searchPhoneModels } from "@/lib/cases/model-search";
 import type { PhoneModel } from "@/lib/cases/types";
+import { designPublicTitle } from "@/lib/seo/design-copy";
 import type { CaseTemplate } from "@/lib/design/types";
 import { lockPageScroll } from "@/lib/scroll-lock";
+import { formatToman } from "@/lib/shop/format";
 import { cn } from "@/lib/utils";
+
+export type TemplatePurchaseIntent = "premade" | "custom";
 
 type Step = "brand" | "model";
 
@@ -35,6 +45,8 @@ type Props = {
   onClose: () => void;
   initialBrandSlug?: string;
   initialModelSlug?: string;
+  /** When omitted, the user chooses premade or custom after picking a phone. */
+  intent?: TemplatePurchaseIntent;
 };
 
 function stepIndex(step: Step): number {
@@ -119,39 +131,104 @@ export default function ApplyTemplateWizard({
   onClose,
   initialBrandSlug,
   initialModelSlug,
+  intent,
 }: Props) {
   const router = useRouter();
   const suggested = useSuggestedPhone();
+  const { user, loading: authLoading } = useAuth();
+  const { addCatalogCase } = useShopCart();
   const { setPreferredBrandSlug } = usePreferredBrandLoader();
   const [brandSlug, setBrandSlug] = useState(initialBrandSlug ?? "");
   const [modelSlug, setModelSlug] = useState(initialModelSlug ?? "");
   const [modelQuery, setModelQuery] = useState("");
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [pendingPath, setPendingPath] = useState<string | null>(null);
+  const autoStartedRef = useRef(false);
+  const navigatedRef = useRef(false);
 
   const initialStep: Step = initialBrandSlug ? "model" : "brand";
   const [step, setStep] = useState<Step>(initialStep);
+  const caseType = getCaseTypeBySlug(SELECTABLE_CASE_TYPE_SLUG);
+  const premadePrice = caseType ? getCaseTotalPrice(caseType, false) : null;
+  const customPrice = caseType ? getCaseTotalPrice(caseType, true) : null;
+
+  const finish = useCallback(
+    (nextIntent: TemplatePurchaseIntent, nextModelSlug: string, nextBrandSlug: string) => {
+      if (!nextBrandSlug || !nextModelSlug) return;
+      rememberSelectedPhone({ brandSlug: nextBrandSlug, modelSlug: nextModelSlug });
+      setPreferredBrandSlug(nextBrandSlug);
+
+      if (nextIntent === "premade") {
+        if (!caseType || premadePrice == null) return;
+        addCatalogCase({
+          templateSlug: template.slug,
+          title: designPublicTitle(template),
+          previewUrl: template.thumbnail,
+          unitPrice: premadePrice,
+          brandSlug: nextBrandSlug,
+          modelSlug: nextModelSlug,
+          caseTypeSlug: SELECTABLE_CASE_TYPE_SLUG,
+        });
+        onClose();
+        return;
+      }
+
+      const path = `${buildCustomDesignPath(nextBrandSlug, nextModelSlug)}?template=${encodeURIComponent(template.slug)}`;
+      if (authLoading || !user) {
+        setPendingPath(path);
+        if (!authLoading) setLoginOpen(true);
+        return;
+      }
+      router.push(path);
+      onClose();
+    },
+    [
+      addCatalogCase,
+      authLoading,
+      caseType,
+      onClose,
+      premadePrice,
+      router,
+      setPreferredBrandSlug,
+      template,
+      user,
+    ],
+  );
 
   useEffect(() => {
-    if (!open) return;
+    if (!open) {
+      autoStartedRef.current = false;
+      navigatedRef.current = false;
+      return;
+    }
     setBrandSlug(initialBrandSlug ?? "");
     setModelSlug(initialModelSlug ?? "");
     setModelQuery("");
     setStep(initialStep);
+    setLoginOpen(false);
+    setPendingPath(null);
+  }, [open, initialBrandSlug, initialModelSlug, initialStep]);
 
-    if (initialBrandSlug && initialModelSlug) {
-      router.push(
-        `${buildCustomDesignPath(initialBrandSlug, initialModelSlug)}?template=${template.slug}`,
-      );
-      onClose();
+  useEffect(() => {
+    if (!open || !intent || !initialBrandSlug || !initialModelSlug || autoStartedRef.current) return;
+    autoStartedRef.current = true;
+    finish(intent, initialModelSlug, initialBrandSlug);
+  }, [open, intent, initialBrandSlug, initialModelSlug, finish]);
+
+  useEffect(() => {
+    if (!pendingPath || authLoading) return;
+    if (!user) {
+      setLoginOpen(true);
+      return;
     }
-  }, [
-    open,
-    initialBrandSlug,
-    initialModelSlug,
-    initialStep,
-    onClose,
-    router,
-    template.slug,
-  ]);
+    if (navigatedRef.current) return;
+    navigatedRef.current = true;
+    const path = pendingPath;
+    setPendingPath(null);
+    setLoginOpen(false);
+    router.push(path);
+    onClose();
+  }, [pendingPath, authLoading, user, router, onClose]);
 
   useEffect(() => {
     if (!open) return;
@@ -197,13 +274,13 @@ export default function ApplyTemplateWizard({
   }
 
   function handleContinue(nextModelSlug = modelSlug, nextBrandSlug = brandSlug) {
-    if (!nextBrandSlug || !nextModelSlug) return;
-    rememberSelectedPhone({ brandSlug: nextBrandSlug, modelSlug: nextModelSlug });
-    setPreferredBrandSlug(nextBrandSlug);
-    router.push(
-      `${buildCustomDesignPath(nextBrandSlug, nextModelSlug)}?template=${template.slug}`,
-    );
-    handleClose();
+    if (!intent) {
+      setBrandSlug(nextBrandSlug);
+      setModelSlug(nextModelSlug);
+      setStep("model");
+      return;
+    }
+    finish(intent, nextModelSlug, nextBrandSlug);
   }
 
   function handleStepClick(target: Step) {
@@ -265,7 +342,11 @@ export default function ApplyTemplateWizard({
                 {template.title}
               </p>
               <p className="mt-1 hidden text-xs text-muted sm:block">
-                طراحی روی قاب به‌صورت تمام‌صفحه اعمال می‌شود و سپس می‌توانید ویرایش کنید.
+                {intent === "premade"
+                  ? "مدل گوشی را انتخاب کنید تا همین طرح به سبد خرید اضافه شود."
+                  : intent === "custom"
+                    ? "مدل گوشی را انتخاب کنید تا طراحی اختصاصی در ادیتور شروع شود."
+                    : "مدل گوشی را انتخاب کنید، سپس خرید طرح آماده یا طراحی اختصاصی را مشخص کنید."}
               </p>
             </div>
           </div>
@@ -384,8 +465,19 @@ export default function ApplyTemplateWizard({
                     <button
                       key={item.slug}
                       type="button"
-                      onClick={() => handleContinue(item.slug)}
-                      className="group rounded-2xl border border-border bg-card/60 p-3 text-right transition hover:border-cyan-500/50 hover:bg-card sm:p-4"
+                      onClick={() => {
+                        if (intent) {
+                          finish(intent, item.slug, brandSlug);
+                          return;
+                        }
+                        setModelSlug(item.slug);
+                      }}
+                      className={cn(
+                        "group rounded-2xl border bg-card/60 p-3 text-right transition hover:border-cyan-500/50 hover:bg-card sm:p-4",
+                        !intent && modelSlug === item.slug
+                          ? "border-cyan-500/60 ring-1 ring-cyan-500/30"
+                          : "border-border",
+                      )}
                     >
                       <div className="relative mx-auto flex h-28 w-16 items-center justify-center sm:h-32 sm:w-20">
                         <PhoneBackSvg
@@ -409,7 +501,35 @@ export default function ApplyTemplateWizard({
             </div>
           ) : null}
         </div>
+
+        {!intent && brandSlug && modelSlug ? (
+          <div className="shrink-0 space-y-2 border-t border-border p-4 sm:p-5">
+            <button
+              type="button"
+              onClick={() => finish("premade", modelSlug, brandSlug)}
+              className="flex w-full items-center justify-center rounded-xl bg-cyan-500 py-3 text-sm font-bold text-black transition hover:bg-cyan-400"
+            >
+              خرید طرح پیش‌ساخته
+              {premadePrice != null ? ` · ${formatToman(premadePrice)}` : ""}
+            </button>
+            <button
+              type="button"
+              onClick={() => finish("custom", modelSlug, brandSlug)}
+              className="flex w-full items-center justify-center rounded-xl border border-cyan-500/50 bg-cyan-500/10 py-3 text-sm font-bold text-cyan-300 transition hover:bg-cyan-500/20"
+            >
+              طراحی اختصاصی
+              {customPrice != null ? ` · ${formatToman(customPrice)}` : ""}
+            </button>
+          </div>
+        ) : null}
       </div>
+
+      <PhoneVerificationModal
+        open={loginOpen}
+        phone=""
+        onClose={() => setLoginOpen(false)}
+        onVerified={() => setLoginOpen(false)}
+      />
     </div>
   );
 }

@@ -17,7 +17,19 @@ export type CustomCartLineItem = {
   description?: string;
 };
 
-export type CartLineItem = ReadyCartLineItem | CustomCartLineItem;
+export type CatalogCartLineItem = {
+  kind: "catalog";
+  templateSlug: string;
+  previewUrl: string;
+  qty: number;
+  unitPrice: number;
+  title: string;
+  brandSlug: string;
+  modelSlug: string;
+  caseTypeSlug: string;
+};
+
+export type CartLineItem = ReadyCartLineItem | CustomCartLineItem | CatalogCartLineItem;
 
 /** Legacy console shop types (kept for unused modules) */
 export const SHOP_CONSOLES = ["ps4", "ps5", "xbox-one", "xbox-series"] as const;
@@ -74,7 +86,11 @@ export type ShopOrderResponse = {
 };
 
 export function getCartItemKey(item: CartLineItem): string {
-  return item.kind === "ready" ? `ready:${item.productId}` : `custom:${item.designId}`;
+  if (item.kind === "ready") return `ready:${item.productId}`;
+  if (item.kind === "catalog") {
+    return `catalog:${item.templateSlug}:${item.brandSlug}:${item.modelSlug}:${item.caseTypeSlug}`;
+  }
+  return `custom:${item.designId}`;
 }
 
 export function isReadyCartItem(item: CartLineItem): item is ReadyCartLineItem {
@@ -83,6 +99,10 @@ export function isReadyCartItem(item: CartLineItem): item is ReadyCartLineItem {
 
 export function isCustomCartItem(item: CartLineItem): item is CustomCartLineItem {
   return item.kind === "custom";
+}
+
+export function isCatalogCartItem(item: CartLineItem): item is CatalogCartLineItem {
+  return item.kind === "catalog";
 }
 
 /** Migrate legacy cart items without kind field */
@@ -106,6 +126,26 @@ export function normalizeCartItem(item: unknown): CartLineItem | null {
       modelSlug: String(obj.modelSlug ?? ""),
       caseTypeSlug: String(obj.caseTypeSlug ?? ""),
       description: obj.description ? String(obj.description) : undefined,
+    };
+  }
+  if (
+    obj.kind === "catalog" &&
+    typeof obj.templateSlug === "string" &&
+    obj.templateSlug.length > 0 &&
+    typeof obj.brandSlug === "string" &&
+    typeof obj.modelSlug === "string" &&
+    typeof obj.caseTypeSlug === "string"
+  ) {
+    return {
+      kind: "catalog",
+      templateSlug: obj.templateSlug,
+      previewUrl: String(obj.previewUrl ?? ""),
+      qty: obj.qty,
+      unitPrice: Number(obj.unitPrice) || 0,
+      title: String(obj.title ?? "طرح پیش‌ساخته"),
+      brandSlug: obj.brandSlug,
+      modelSlug: obj.modelSlug,
+      caseTypeSlug: obj.caseTypeSlug,
     };
   }
   if (typeof obj.productId === "string") {

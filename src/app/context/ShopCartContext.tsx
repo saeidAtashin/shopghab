@@ -17,7 +17,9 @@ import CheckoutPromptModal, {
 } from "@/app/components/shop/CheckoutPromptModal";
 import FlyToCartAnimator from "@/app/components/shop/FlyToCartAnimator";
 import { getReadyCaseById } from "@/lib/cases/ready.static";
+import { designedAssetUrl } from "@/lib/designed-assets";
 import {
+  addCatalogToCart,
   addCustomToCart,
   addReadyToCart,
   getCartCount,
@@ -27,6 +29,7 @@ import {
   setCartItemQty,
   writeCartItems,
   type CartLineItem,
+  type CatalogCartLineItem,
   type CustomCartLineItem,
 } from "@/lib/shop/cart";
 import {
@@ -49,6 +52,7 @@ type ShopCartContextValue = {
   checkoutPrompt: CheckoutPrompt | null;
   flyAnimation: FlyToCartAnimationState | null;
   addReadyCase: (productId: string, title?: string) => void;
+  addCatalogCase: (item: Omit<CatalogCartLineItem, "kind" | "qty">) => void;
   addCustomCase: (
     item: Omit<CustomCartLineItem, "kind" | "qty">,
     options?: AddToCartOptions,
@@ -171,6 +175,13 @@ export function ShopCartProvider({ children }: { children: React.ReactNode }) {
           title: title ?? product?.title ?? "قاب",
           previewUrl: product?.image,
         });
+      },
+      addCatalogCase: (item) => {
+        setItems((prev) => addCatalogToCart(prev, item));
+        const preview = item.previewUrl.startsWith("data:")
+          ? item.previewUrl
+          : designedAssetUrl(item.previewUrl);
+        queuePrompt({ title: item.title, previewUrl: preview });
       },
       addCustomCase: (item, options) => {
         setItems((prev) => addCustomToCart(prev, item));

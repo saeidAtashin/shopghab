@@ -4,10 +4,14 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import ApplyTemplateWizard from "@/app/components/designs/ApplyTemplateWizard";
+import PhoneVerificationModal from "@/app/components/auth/PhoneVerificationModal";
+import ApplyTemplateWizard, {
+  type TemplatePurchaseIntent,
+} from "@/app/components/designs/ApplyTemplateWizard";
 import DockableAction from "@/app/components/ui/DockableAction";
 import DesignArtworkStage from "@/app/components/designs/DesignArtworkStage";
 import DesignImageZoom from "@/app/components/designs/DesignImageZoom";
+import { useAuth } from "@/app/context/AuthContext";
 import {
   CASE_TYPES,
   getCaseTotalPrice,
@@ -47,13 +51,31 @@ export default function DesignDetailClient({
   tags,
   related,
 }: Props) {
+  const { user, loading: authLoading } = useAuth();
   const [wizardOpen, setWizardOpen] = useState(false);
+  const [wizardIntent, setWizardIntent] = useState<TemplatePurchaseIntent>("premade");
+  const [loginOpen, setLoginOpen] = useState(false);
   const [caseTypeSlug, setCaseTypeSlug] = useState(SELECTABLE_CASE_TYPE_SLUG);
   const [activeIndex, setActiveIndex] = useState(0);
   const [zoomOpen, setZoomOpen] = useState(false);
   const active = gallery[activeIndex] ?? gallery[0];
   const caseType = CASE_TYPES.find((item) => item.slug === caseTypeSlug) ?? CASE_TYPES[0];
-  const price = caseType ? getCaseTotalPrice(caseType, true) : null;
+  const premadePrice = caseType ? getCaseTotalPrice(caseType, false) : null;
+  const customPrice = caseType ? getCaseTotalPrice(caseType, true) : null;
+
+  function openWizard(intent: TemplatePurchaseIntent) {
+    setWizardIntent(intent);
+    setWizardOpen(true);
+  }
+
+  function startCustomDesign() {
+    if (authLoading) return;
+    if (!user) {
+      setLoginOpen(true);
+      return;
+    }
+    openWizard("custom");
+  }
 
   function stepGallery(direction: number): void {
     setActiveIndex((current) => (current + direction + gallery.length) % gallery.length);
@@ -198,29 +220,46 @@ export default function DesignDetailClient({
                       />
                       {item.name}
                     </span>
-                    <span>{formatToman(getCaseTotalPrice(item, true))}</span>
+                    <span>{formatToman(getCaseTotalPrice(item, false))}</span>
                   </label>
                 );
               })}
             </div>
           </fieldset>
 
-          {price != null ? (
-            <p className="mt-4 text-lg font-black text-foreground">
-              قیمت چاپ روی {caseType?.name}: {formatToman(price)}
+          {premadePrice != null ? (
+            <p className="mt-4 text-sm text-muted">
+              طرح پیش‌ساخته:{" "}
+              <span className="font-black text-foreground">{formatToman(premadePrice)}</span>
+              {customPrice != null ? (
+                <>
+                  {" "}
+                  · طراحی اختصاصی:{" "}
+                  <span className="font-black text-foreground">{formatToman(customPrice)}</span>
+                </>
+              ) : null}
             </p>
           ) : null}
           <p className="mt-2 text-sm text-muted">این طرح روی همه مدل‌های گوشی قابل چاپ است.</p>
 
           {template ? (
             <DockableAction className="mt-8">
-              <button
-                type="button"
-                onClick={() => setWizardOpen(true)}
-                className="inline-flex w-full items-center justify-center rounded-xl bg-cyan-500 py-3.5 text-sm font-bold text-black transition hover:bg-cyan-400 sm:w-auto sm:px-10"
-              >
-                انتخاب گوشی و ادامه خرید
-              </button>
+              <div className="flex w-full flex-col gap-2 sm:w-auto sm:min-w-64">
+                <button
+                  type="button"
+                  onClick={() => openWizard("premade")}
+                  className="inline-flex w-full items-center justify-center rounded-xl bg-cyan-500 py-3.5 text-sm font-bold text-black transition hover:bg-cyan-400"
+                >
+                  خرید طرح پیش‌ساخته
+                </button>
+                <button
+                  type="button"
+                  onClick={startCustomDesign}
+                  className="inline-flex w-full items-center justify-center rounded-xl border border-cyan-500/50 bg-cyan-500/10 py-3.5 text-sm font-bold text-cyan-300 transition hover:bg-cyan-500/20"
+                >
+                  طراحی اختصاصی
+                </button>
+              </div>
             </DockableAction>
           ) : (
             <p className="mt-8 text-sm text-muted">قالب ویرایش این طرح هنوز به ادیتور وصل نشده است.</p>
@@ -262,10 +301,20 @@ export default function DesignDetailClient({
       {template ? (
         <ApplyTemplateWizard
           template={template}
+          intent={wizardIntent}
           open={wizardOpen}
           onClose={() => setWizardOpen(false)}
         />
       ) : null}
+      <PhoneVerificationModal
+        open={loginOpen}
+        phone=""
+        onClose={() => setLoginOpen(false)}
+        onVerified={() => {
+          setLoginOpen(false);
+          openWizard("custom");
+        }}
+      />
     </>
   );
 }

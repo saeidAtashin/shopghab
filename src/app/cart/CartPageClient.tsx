@@ -6,8 +6,17 @@ import { useShopCart } from "@/app/context/ShopCartContext";
 import DockableAction from "@/app/components/ui/DockableAction";
 import { getReadyCaseById } from "@/lib/cases/ready.static";
 import { getBrandBySlug, getCaseTypeBySlug, getModelBySlug } from "@/lib/cases";
+import { designedAssetUrl } from "@/lib/designed-assets";
 import { formatToman } from "@/lib/shop/format";
 import { getCartItemKey } from "@/lib/shop/types";
+
+function cartPreviewSrc(image: string): string {
+  if (!image) return "";
+  if (image.startsWith("data:") || image.startsWith("blob:") || image.startsWith("http")) {
+    return image;
+  }
+  return designedAssetUrl(image);
+}
 
 export default function CartPageClient() {
   const { items, subtotal, incrementQty, decrementQty, removeItem } = useShopCart();
@@ -27,7 +36,7 @@ export default function CartPageClient() {
           title: item.title,
           price: item.unitPrice,
           image: item.previewUrl,
-          description: item.description,
+          description: item.kind === "custom" ? item.description : undefined,
         };
       }).filter(Boolean),
     [items],
@@ -63,14 +72,12 @@ export default function CartPageClient() {
             >
               <div className="relative h-20 w-16 shrink-0 overflow-hidden rounded-xl bg-surface">
                 {entry.image ? (
-                  entry.image.startsWith("data:") ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={entry.image} alt="" className="h-full w-full object-cover" />
-                  ) : (
-                    <div className="flex h-full items-center justify-center bg-gradient-to-br from-cyan-900/40 to-purple-900/40">
-                      <div className="h-14 w-7 rounded-lg border border-border bg-card" />
-                    </div>
-                  )
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={cartPreviewSrc(entry.image)}
+                    alt=""
+                    className="h-full w-full object-contain"
+                  />
                 ) : (
                   <div className="flex h-full items-center justify-center bg-gradient-to-br from-cyan-900/40 to-purple-900/40">
                     <div className="h-14 w-7 rounded-lg border border-border bg-card" />
@@ -82,8 +89,10 @@ export default function CartPageClient() {
                 {entry.description ? (
                   <p className="mt-1 line-clamp-2 text-xs text-muted">{entry.description}</p>
                 ) : null}
-                {entry.item.kind === "custom" ? (
+                {entry.item.kind !== "ready" ? (
                   <p className="mt-1 text-xs text-muted">
+                    {entry.item.kind === "catalog" ? "طرح پیش‌ساخته" : "طراحی اختصاصی"}
+                    {" — "}
                     {getBrandBySlug(entry.item.brandSlug)?.name} —{" "}
                     {getModelBySlug(entry.item.brandSlug, entry.item.modelSlug)?.name} —{" "}
                     {getCaseTypeBySlug(entry.item.caseTypeSlug)?.name}

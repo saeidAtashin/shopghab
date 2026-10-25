@@ -203,7 +203,7 @@ export function findShopOrderTracking(code: string): ShopOrderTracking | null {
   const order = readShopActivity().orders.find((entry) => entry.orderCode.toUpperCase() === wanted);
   if (!order) return null;
   const summary = order.items
-    .map((item) => (item.kind === "custom" ? item.title.trim() : "قاب آماده"))
+    .map((item) => (item.kind === "ready" ? "قاب آماده" : item.title.trim()))
     .filter((title) => title.length > 0)
     .join("، ");
   return {
