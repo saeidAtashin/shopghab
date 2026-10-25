@@ -1,4 +1,5 @@
 import type { BrowseShell } from "@/lib/catalog/browse";
+import type { EditorDesignPicker } from "@/lib/catalog/editor-picker";
 import { designHasProductMockup, selectProductImages } from "@/lib/mockups/display";
 import {
   suggestedCategorySeoDescription,
@@ -1311,6 +1312,78 @@ export function publicBrowseShell(catalog: DesignCatalog): BrowseShell {
       options: group.options,
     }));
   return { categories, groups };
+}
+
+function editorArtworkPath(path: string): string {
+  const trimmed = path.trim();
+  if (trimmed.startsWith("/designed/") && !trimmed.includes("..") && !trimmed.includes("\\")) {
+    return trimmed;
+  }
+  return "";
+}
+
+export function editorDesignPicker(catalog: DesignCatalog): EditorDesignPicker {
+  const categories = publicCategoryCards(catalog, null).flatMap((card) => {
+    const category = catalog.categories.find((item) => item.slug === card.slug);
+    if (!category) return [];
+    const children = publicCategoryCards(catalog, category.id).flatMap((childCard) => {
+      const child = catalog.categories.find((item) => item.slug === childCard.slug);
+      if (!child) return [];
+      return [
+        {
+          id: child.id,
+          slug: child.slug,
+          name: child.name,
+          count: childCard.count,
+          matchIds: [...descendantCategoryIds(catalog, child.id)],
+        },
+      ];
+    });
+    return [
+      {
+        id: category.id,
+        slug: category.slug,
+        name: category.name,
+        count: card.count,
+        matchIds: [...descendantCategoryIds(catalog, category.id)],
+        children,
+      },
+    ];
+  });
+
+  const groups = publicListingFilters(catalog)
+    .filter((group) => group.param === "attr")
+    .map((group) => ({
+      id: group.id,
+      slug: catalog.attributeGroups.find((item) => item.id === group.id)?.slug ?? group.id,
+      label: group.label,
+      options: group.options,
+    }));
+
+  const designs = catalog.designs.flatMap((design) => {
+    if (!isPublicCatalogDesign(design)) return [];
+    const src = editorArtworkPath(design.imagePath);
+    if (!src) return [];
+    const thumb = editorArtworkPath(design.thumbnailPath) || src;
+    return [
+      {
+        id: design.id,
+        title: design.title,
+        thumb,
+        src,
+        width: design.width > 0 ? design.width : 1600,
+        height: design.height > 0 ? design.height : 1600,
+        categoryIds: design.categoryIds,
+        attributeValueIds: design.attributeValueIds,
+        search: [design.title, design.titleEn, design.slug, ...design.tags].join(" ").toLowerCase(),
+        featured: design.featured,
+        sortOrder: design.sortOrder,
+        publishedAt: design.publishedAt ?? design.createdAt,
+      },
+    ];
+  });
+
+  return { categories, groups, designs };
 }
 
 export function relatedDesigns(

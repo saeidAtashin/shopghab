@@ -21,12 +21,14 @@ import {
   publicCategoryCards,
   parsePublicListingQuery,
   queryPublicDesigns,
+  editorDesignPicker,
   updateAttribute,
   updateCategory,
   updateDesign,
   updateDesignStatus,
   type CatalogImportEntry,
 } from "./logic";
+import { filterEditorDesigns } from "./editor-picker";
 import type { DesignWriteInput } from "./schema";
 import type { MockupRecord } from "@/lib/mockups/types";
 
@@ -489,6 +491,172 @@ test("public design filters combine inner categories and attribute groups", () =
   assert.equal(parsePublicListingQuery({ attr: `${black.id},${white.id}`, sub: "cats,dogs" }).attrs.length, 2);
   assert.deepEqual(parsePublicListingQuery({ sub: "cats,dogs" }).subs, ["cats", "dogs"]);
   assert.equal(parsePublicListingQuery({ sub: "cats,dogs" }).noIndex, true);
+});
+
+test("editor picker keeps flat artwork and the same category and filter rules", () => {
+  let catalog = createAttribute(emptyCatalog(), { kind: "group", name: "رنگ", slug: "colors" }, NOW);
+  const colorGroup = catalog.attributeGroups.find((group) => group.slug === "colors");
+  assert.ok(colorGroup);
+  catalog = createAttribute(catalog, { kind: "value", groupId: colorGroup.id, name: "مشکی" }, NOW);
+  catalog = createAttribute(catalog, { kind: "value", groupId: colorGroup.id, name: "سفید" }, NOW);
+  catalog = createAttribute(catalog, { kind: "group", name: "سبک", slug: "styles" }, NOW);
+  const styleGroup = catalog.attributeGroups.find((group) => group.slug === "styles");
+  assert.ok(styleGroup);
+  catalog = createAttribute(catalog, { kind: "value", groupId: styleGroup.id, name: "مینیمال" }, NOW);
+  const black = catalog.attributeValues.find((value) => value.name === "مشکی");
+  const white = catalog.attributeValues.find((value) => value.name === "سفید");
+  const minimal = catalog.attributeValues.find((value) => value.name === "مینیمال");
+  assert.ok(black && white && minimal);
+
+  const parent = createCategory(
+    catalog,
+    {
+      name: "حیوانات",
+      slug: "animals",
+      parentId: null,
+      description: "",
+      seoTitle: "",
+      seoDescription: "",
+      coverImage: "",
+      status: "active",
+    },
+    NOW,
+  );
+  catalog = parent.catalog;
+  const cats = createCategory(
+    catalog,
+    {
+      name: "گربه",
+      slug: "cats",
+      parentId: parent.category.id,
+      description: "",
+      seoTitle: "",
+      seoDescription: "",
+      coverImage: "",
+      status: "active",
+    },
+    NOW,
+  );
+  catalog = cats.catalog;
+  const dogs = createCategory(
+    catalog,
+    {
+      name: "سگ",
+      slug: "dogs",
+      parentId: parent.category.id,
+      description: "",
+      seoTitle: "",
+      seoDescription: "",
+      coverImage: "",
+      status: "active",
+    },
+    NOW,
+  );
+  catalog = dogs.catalog;
+
+  const catDesign = createDesign(
+    catalog,
+    writeInput({
+      slug: "black-cat",
+      title: "گربه مشکی",
+      titleEn: "Black Cat",
+      tags: ["گربه"],
+      categoryIds: [cats.category.id],
+      attributeValueIds: [black.id],
+      imagePath: "/designed/black-cat.webp",
+      thumbnailPath: "/designed/thumbs/black-cat.webp",
+      featured: true,
+      sortOrder: 2,
+    }),
+    NOW,
+  );
+  catalog = catDesign.catalog;
+  catDesign.design.width = 800;
+  catDesign.design.height = 1000;
+  catDesign.design.mockups = [
+    readyMockup("/designed/mockups/black-cat/case.webp", "/designed/mockups/black-cat/case.thumb.webp"),
+  ];
+
+  const dogDesign = createDesign(
+    catalog,
+    writeInput({
+      slug: "white-dog",
+      title: "سگ سفید",
+      titleEn: "White Dog",
+      tags: ["سگ"],
+      categoryIds: [dogs.category.id],
+      attributeValueIds: [white.id, minimal.id],
+      imagePath: "/designed/white-dog.webp",
+      thumbnailPath: "/designed/thumbs/white-dog.webp",
+      featured: false,
+      sortOrder: 1,
+    }),
+    "2026-03-01T00:00:00.000Z",
+  );
+  catalog = dogDesign.catalog;
+  dogDesign.design.width = 0;
+  dogDesign.design.height = 0;
+  dogDesign.design.mockups = [
+    readyMockup("/designed/mockups/white-dog/case.webp", "/designed/mockups/white-dog/case.thumb.webp"),
+  ];
+
+  const draft = createDesign(
+    catalog,
+    writeInput({
+      slug: "draft-bird",
+      title: "پرنده",
+      categoryIds: [parent.category.id],
+      imagePath: "/designed/draft-bird.webp",
+      thumbnailPath: "/designed/thumbs/draft-bird.webp",
+      status: "draft",
+    }),
+    NOW,
+  );
+  catalog = draft.catalog;
+
+  const picker = editorDesignPicker(catalog);
+  assert.deepEqual(
+    picker.designs.map((design) => design.src),
+    ["/designed/black-cat.webp", "/designed/white-dog.webp"],
+  );
+  assert.equal(picker.designs[0]?.thumb, "/designed/thumbs/black-cat.webp");
+  assert.equal(picker.designs[0]?.width, 800);
+  assert.equal(picker.designs[0]?.height, 1000);
+  assert.equal(picker.designs[1]?.width, 1600);
+  const animals = picker.categories.find((category) => category.slug === "animals");
+  assert.ok(animals);
+  assert.deepEqual(
+    animals.children.map((child) => child.slug),
+    ["cats", "dogs"],
+  );
+  assert.equal(picker.groups.find((group) => group.slug === "colors")?.label, "رنگ");
+
+  const catId = animals.children.find((child) => child.slug === "cats")?.id;
+  assert.ok(catId);
+  assert.deepEqual(
+    filterEditorDesigns(picker, { categoryId: animals.id, childIds: [catId] }).map((design) => design.title),
+    ["گربه مشکی"],
+  );
+  assert.deepEqual(
+    filterEditorDesigns(picker, { categoryId: animals.id }).map((design) => design.title).sort(),
+    ["سگ سفید", "گربه مشکی"],
+  );
+  assert.deepEqual(
+    filterEditorDesigns(picker, { attributeValueIds: [black.id, white.id] }).map((design) => design.title).sort(),
+    ["سگ سفید", "گربه مشکی"],
+  );
+  assert.equal(
+    filterEditorDesigns(picker, { attributeValueIds: [black.id, minimal.id] }).length,
+    0,
+  );
+  assert.deepEqual(
+    filterEditorDesigns(picker, { q: "black" }).map((design) => design.title),
+    ["گربه مشکی"],
+  );
+  assert.deepEqual(
+    filterEditorDesigns(picker, { sort: "newest" }).map((design) => design.title),
+    ["سگ سفید", "گربه مشکی"],
+  );
 });
 
 test("sitemap includes published designs with a product mockup and skips drafts and flat artwork", () => {

@@ -41,8 +41,8 @@ import {
   getCaseTypeBySlug,
   getCaseTotalPrice,
   getModelBySlug,
-  getStickerPacks,
 } from "@/lib/cases";
+import type { EditorDesignPicker } from "@/lib/catalog/editor-picker";
 import { getCaseTemplateBySlug } from "@/lib/cases/templates.static";
 import { getReadyCaseBySlug } from "@/lib/cases/ready.static";
 import { getDesign, getDesignByShareToken } from "@/lib/design/api";
@@ -76,7 +76,7 @@ const CaseCanvas = dynamic(() => import("@/app/components/case-editor/CaseCanvas
   ssr: false,
 });
 
-const StickerPanel = dynamic(() => import("@/app/components/case-editor/StickerPanel"), {
+const DesignPickerPanel = dynamic(() => import("@/app/components/case-editor/DesignPickerPanel"), {
   ssr: false,
   loading: () => <PanelLoading />,
 });
@@ -105,6 +105,7 @@ type Props = {
   initialShareToken?: string;
   initialTemplateSlug?: string;
   initialTab?: EditorTab;
+  designPicker: EditorDesignPicker;
 };
 
 function PanelLoading() {
@@ -123,11 +124,11 @@ export default function EditorPageClient({
   initialShareToken,
   initialTemplateSlug,
   initialTab,
+  designPicker,
 }: Props) {
   const brand = getBrandBySlug(brandSlug)!;
   const model = getModelBySlug(brandSlug, modelSlug)!;
   const caseType = getCaseTypeBySlug(caseTypeSlug)!;
-  const stickerPacks = getStickerPacks();
 
   const router = useRouter();
   const { user } = useAuth();
@@ -430,7 +431,7 @@ export default function EditorPageClient({
     tabs,
     activeTab,
     onTabChange: setActiveTab,
-    stickerPacks,
+    designPicker,
     brandSlug,
     modelSlug,
     caseTypeSlug,
@@ -649,7 +650,13 @@ export default function EditorPageClient({
           className="relative z-40 shrink-0 border-t border-border bg-background pb-[env(safe-area-inset-bottom)]"
         >
           {!mobileDockCollapsed ? (
-            <div className="absolute inset-x-0 bottom-full z-20 flex max-h-[min(42dvh,320px)] flex-col overflow-hidden rounded-t-2xl border border-b-0 border-border bg-background shadow-[0_-12px_32px_rgba(0,0,0,0.4)]">
+            <div
+              className={`absolute inset-x-0 bottom-full z-20 flex flex-col overflow-hidden rounded-t-2xl border border-b-0 border-border bg-background shadow-[0_-12px_32px_rgba(0,0,0,0.4)] ${
+                activeTab === "stickers"
+                  ? "h-[min(72dvh,560px)]"
+                  : "max-h-[min(42dvh,320px)]"
+              }`}
+            >
               <button
                 type="button"
                 aria-expanded
@@ -659,7 +666,13 @@ export default function EditorPageClient({
                 <ChevronDown size={16} />
                 بستن ابزارها
               </button>
-              <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-3">
+              <div
+                className={
+                  activeTab === "stickers"
+                    ? "flex min-h-0 flex-1 flex-col overflow-hidden px-3 pb-3 pt-2"
+                    : "min-h-0 flex-1 overflow-y-auto overscroll-contain p-3"
+                }
+              >
                 <EditorSidePanel {...sidePanelProps} compact />
               </div>
             </div>
@@ -885,7 +898,7 @@ function EditorSidePanel({
   tabs,
   activeTab,
   onTabChange,
-  stickerPacks,
+  designPicker,
   brandSlug,
   modelSlug,
   caseTypeSlug,
@@ -896,7 +909,7 @@ function EditorSidePanel({
   tabs: { id: EditorTab; label: string; icon: React.ReactNode }[];
   activeTab: EditorTab;
   onTabChange: (tab: EditorTab) => void;
-  stickerPacks: ReturnType<typeof getStickerPacks>;
+  designPicker: EditorDesignPicker;
   brandSlug: string;
   modelSlug: string;
   caseTypeSlug: string;
@@ -904,12 +917,17 @@ function EditorSidePanel({
   compact?: boolean;
   loadedTabs: Set<EditorTab>;
 }) {
+  const designTab = activeTab === "stickers";
   return (
     <div
       className={
         compact
-          ? "min-h-0"
-          : "flex max-h-[calc(100dvh-13rem)] min-h-0 min-w-0 flex-col rounded-2xl border border-border bg-card/60"
+          ? designTab
+            ? "flex h-full min-h-0 flex-col"
+            : "min-h-0"
+          : designTab
+            ? "flex h-[min(44rem,calc(100dvh-13rem))] min-h-0 min-w-0 flex-col rounded-2xl border border-border bg-card/60"
+            : "flex max-h-[calc(100dvh-13rem)] min-h-0 min-w-0 flex-col rounded-2xl border border-border bg-card/60"
       }
     >
       {!compact ? (
@@ -934,15 +952,25 @@ function EditorSidePanel({
           </div>
         </div>
       ) : null}
-      <div className={compact ? "min-h-0" : "min-h-0 flex-1 overflow-y-auto overscroll-contain p-4"}>
+      <div
+        className={
+          designTab
+            ? "flex min-h-0 flex-1 flex-col overflow-hidden p-3"
+            : compact
+              ? "min-h-0"
+              : "min-h-0 flex-1 overflow-y-auto overscroll-contain p-4"
+        }
+      >
         {loadedTabs.has("layers") && activeTab === "layers" ? (
           <LayersPanel compact={compact} />
         ) : null}
         {loadedTabs.has("text") && activeTab === "text" ? (
           <TextPanel compact={compact} />
         ) : null}
-        {loadedTabs.has("stickers") && activeTab === "stickers" ? (
-          <StickerPanel packs={stickerPacks} compact={compact} />
+        {loadedTabs.has("stickers") ? (
+          <div className={designTab ? "flex min-h-0 flex-1 flex-col" : "hidden"}>
+            <DesignPickerPanel picker={designPicker} />
+          </div>
         ) : null}
         {loadedTabs.has("upload") && activeTab === "upload" ? <UploadPanel /> : null}
         {loadedTabs.has("design-for-you") && activeTab === "design-for-you" ? (

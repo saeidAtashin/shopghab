@@ -3,6 +3,8 @@ import { createPageMetadata } from "@/lib/seo/metadata";
 import EditorPageClient, {
   type EditorTab,
 } from "@/app/components/case-editor/EditorPageClient";
+import { editorDesignPicker } from "@/lib/catalog/logic";
+import { readCatalog } from "@/lib/catalog/store";
 import {
   getBrandBySlug,
   getCaseTypeBySlug,
@@ -69,6 +71,7 @@ export default async function DesignEditorPage({ params, searchParams }: Props) 
       initialShareToken={query.share}
       initialTemplateSlug={query.template}
       initialTab={initialTab}
+      designPicker={editorDesignPicker(readCatalog())}
     />
   );
 }
