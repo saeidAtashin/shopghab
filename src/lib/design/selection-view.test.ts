@@ -40,7 +40,15 @@ test("the phone fills the stage until a layer is selected", () => {
   assert.equal(view.stageHeight, 560);
 });
 
-test("an oversized layer zooms the stage out and keeps the phone crop inside it", () => {
+test("an oversized layer keeps the phone at full size and grows the stage around it", () => {
+  const idle = fitSelectionView({
+    canvasWidth: 280,
+    canvasHeight: 560,
+    maxWidth: 280,
+    maxHeight: 560,
+    layerBox: null,
+    handleScreenPx: 48,
+  });
   const view = fitSelectionView({
     canvasWidth: 280,
     canvasHeight: 560,
@@ -50,11 +58,13 @@ test("an oversized layer zooms the stage out and keeps the phone crop inside it"
     handleScreenPx: 48,
   });
 
-  assert.ok(view.scale < 1);
-  assert.ok(view.phoneCrop.pixelRatioBoost > 1);
+  assert.equal(view.scale, idle.scale);
+  assert.equal(view.phoneCrop.pixelRatioBoost, 1);
+  assert.equal(view.phoneCrop.width, idle.phoneCrop.width);
+  assert.equal(view.phoneCrop.height, idle.phoneCrop.height);
+  assert.ok(view.stageWidth > view.phoneCrop.width);
   assert.ok(view.phoneCrop.x > 0);
-  assert.ok(view.phoneCrop.x + view.phoneCrop.width < view.stageWidth + 0.5);
-  assert.ok(view.phoneCrop.width < view.stageWidth);
+  assert.ok(view.phoneCrop.x + view.phoneCrop.width <= view.stageWidth + 0.5);
 });
 
 test("ready-made image layers lock and other layers stay as they were", () => {

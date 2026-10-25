@@ -25,8 +25,6 @@ export type SelectionView = {
   phoneCrop: StageExportCrop;
 };
 
-const MAX_PIXEL_RATIO_BOOST = 12;
-
 export function transformedAabb(input: {
   x: number;
   y: number;
@@ -142,36 +140,22 @@ export function fitSelectionView(input: {
   const phone: ViewRect = { x: 0, y: 0, width: canvasWidth, height: canvasHeight };
   const baseScale = Math.min(maxWidth / canvasWidth, maxHeight / canvasHeight);
   const content = input.layerBox ? unionRects(phone, input.layerBox) : phone;
-
-  let scale = Math.min(maxWidth / Math.max(content.width, 1), maxHeight / Math.max(content.height, 1));
-  let padded = content;
-  if (input.layerBox && input.handleScreenPx > 0) {
-    const pad = input.handleScreenPx / Math.max(scale, 1e-4);
-    padded = expandRect(content, pad);
-    scale = Math.min(
-      maxWidth / Math.max(padded.width, 1),
-      maxHeight / Math.max(padded.height, 1),
-    );
-  }
-  scale = Math.min(scale, baseScale);
-
-  const stageWidth = Math.max(1, Math.round(padded.width * scale));
-  const stageHeight = Math.max(1, Math.round(padded.height * scale));
-  const uniform = Math.min(stageWidth / padded.width, stageHeight / padded.height);
-  const boost = Math.min(MAX_PIXEL_RATIO_BOOST, Math.max(1, baseScale / uniform));
+  const pad =
+    input.layerBox && input.handleScreenPx > 0 ? input.handleScreenPx / baseScale : 0;
+  const padded = pad > 0 ? expandRect(content, pad) : content;
 
   return {
-    scale: uniform,
-    stageWidth,
-    stageHeight,
+    scale: baseScale,
+    stageWidth: Math.max(1, Math.ceil(padded.width * baseScale - 1e-6)),
+    stageHeight: Math.max(1, Math.ceil(padded.height * baseScale - 1e-6)),
     offsetX: -padded.x || 0,
     offsetY: -padded.y || 0,
     phoneCrop: {
-      x: (-padded.x || 0) * uniform,
-      y: (-padded.y || 0) * uniform,
-      width: canvasWidth * uniform,
-      height: canvasHeight * uniform,
-      pixelRatioBoost: boost,
+      x: (-padded.x || 0) * baseScale,
+      y: (-padded.y || 0) * baseScale,
+      width: canvasWidth * baseScale,
+      height: canvasHeight * baseScale,
+      pixelRatioBoost: 1,
     },
   };
 }

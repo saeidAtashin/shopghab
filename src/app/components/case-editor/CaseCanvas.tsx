@@ -112,14 +112,10 @@ function CaseCanvas({
         : null,
     handleScreenPx: mobileTouchMode ? 72 : 48,
   });
-  const chromeX = view.phoneCrop.x - CHROME_PAD;
-  const chromeY = view.phoneCrop.y - CHROME_PAD;
-  const shiftX = Math.max(0, -chromeX);
-  const shiftY = Math.max(0, -chromeY);
-  const chromeW = view.phoneCrop.width + CHROME_PAD * 2;
-  const chromeH = view.phoneCrop.height + CHROME_PAD * 2;
-  const wrapperWidth = Math.max(view.stageWidth + shiftX, shiftX + chromeX + chromeW);
-  const wrapperHeight = Math.max(view.stageHeight + shiftY, shiftY + chromeY + chromeH);
+  const layoutWidth = view.phoneCrop.width + CHROME_PAD * 2;
+  const layoutHeight = view.phoneCrop.height + CHROME_PAD * 2;
+  const stageLeft = CHROME_PAD - view.phoneCrop.x;
+  const stageTop = CHROME_PAD - view.phoneCrop.y;
   const model = meta?.model;
   const designClipFunc = model
     ? createCaseDesignClipFunc(mapGeometryToCanvas(model))
@@ -291,20 +287,20 @@ function CaseCanvas({
   return (
     <div
       className="relative mx-auto"
-      style={{ width: wrapperWidth, height: wrapperHeight, touchAction: "none" }}
+      style={{ width: layoutWidth, height: layoutHeight, touchAction: "none" }}
     >
       <div
         className="pointer-events-none absolute rounded-[2rem] shadow-2xl"
         style={{
-          left: shiftX + chromeX,
-          top: shiftY + chromeY,
-          width: chromeW,
-          height: chromeH,
+          left: 0,
+          top: 0,
+          width: layoutWidth,
+          height: layoutHeight,
           backgroundColor: isClear ? "rgba(255,255,255,0.06)" : caseColor,
           border: "2px solid rgba(255,255,255,0.12)",
         }}
       />
-      <div className="absolute" style={{ left: shiftX, top: shiftY }}>
+      <div className="absolute" style={{ left: stageLeft, top: stageTop }}>
         <Stage
           ref={stageRef}
           width={view.stageWidth}
@@ -430,8 +426,8 @@ function CaseCanvas({
               : "border-cyan-300 bg-white text-slate-900"
           }`}
           style={{
-            left: shiftX + lockAnchor.x,
-            top: shiftY + lockAnchor.y,
+            left: stageLeft + lockAnchor.x,
+            top: stageTop + lockAnchor.y,
             width: LOCK_BUTTON,
             height: LOCK_BUTTON,
           }}
