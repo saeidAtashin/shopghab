@@ -208,7 +208,7 @@ function CaseCanvas({
       setTextLineWidths((current) => (current ? null : current));
       return;
     }
-    const group = stageRef.current?.findOne(`#${selectedLayer.id}`);
+    const group = stageRef.current?.findOne<Konva.Group>(`#${selectedLayer.id}`);
     const text = group?.findOne<Konva.Text>("Text");
     (text as (Konva.Text & { _setTextData?: () => void }) | undefined)?._setTextData?.();
     const next = readTextLineWidths(text);
