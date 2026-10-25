@@ -92,32 +92,78 @@ export function clampRectInside(rect: ViewRect, bounds: ViewRect): ViewRect {
   return { x, y, width: size, height: size };
 }
 
-function estimateTextBlockHeight(layer: TextLayer, boxWidth: number): number {
+export type LocalFrame = {
+  width: number;
+  height: number;
+  offsetX: number;
+  offsetY: number;
+};
+
+function fallbackLineWidths(layer: TextLayer, boxWidth: number): number[] {
   const padding = layer.padding ?? 8;
   const fontSize = Math.max(1, layer.fontSize);
-  const inner = Math.max(1, boxWidth - padding * 2);
-  const charsPerLine = Math.max(1, Math.floor(inner / (fontSize * 0.55)));
-  const lines = layer.text.split("\n").reduce((count, line) => {
-    return count + Math.max(1, Math.ceil(Math.max(1, line.length) / charsPerLine));
-  }, 0);
-  return Math.max(fontSize, lines) * fontSize * 1.3 + padding * 2;
+  const inner = Math.max(fontSize, boxWidth - padding * 2);
+  const charWidth = fontSize * 0.9;
+  const widths: number[] = [];
+  for (const line of layer.text.split("\n")) {
+    const raw = Math.max(fontSize, Math.max(1, line.length) * charWidth);
+    if (raw <= inner) {
+      widths.push(raw);
+      continue;
+    }
+    const charsPerLine = Math.max(1, Math.floor(inner / charWidth));
+    for (let index = 0; index < line.length; index += charsPerLine) {
+      const slice = line.slice(index, index + charsPerLine);
+      widths.push(Math.min(inner, Math.max(fontSize, slice.length * charWidth)));
+    }
+  }
+  return widths.length ? widths : [fontSize];
+}
+
+export function textSelectionFrame(input: {
+  align: TextLayer["align"];
+  boxWidth: number;
+  fontSize: number;
+  padding: number;
+  lineHeight?: number;
+  lineWidths: number[];
+}): LocalFrame {
+  const padding = input.padding;
+  const fontSize = Math.max(1, input.fontSize);
+  const lineHeight = input.lineHeight ?? 1;
+  const measured = input.lineWidths.filter((width) => width > 0);
+  const maxLine = measured.length ? Math.max(...measured) : fontSize;
+  const lineCount = Math.max(1, measured.length);
+  const width = maxLine + padding * 2;
+  const height = fontSize * lineCount * lineHeight + padding * 2;
+  let tightLeft = 0;
+  if (input.align === "center") tightLeft = (input.boxWidth - maxLine) / 2 - padding;
+  if (input.align === "right") tightLeft = input.boxWidth - maxLine - padding * 2;
+  return {
+    width,
+    height,
+    offsetX: getTextOffsetX(input.align, input.boxWidth) - tightLeft,
+    offsetY: 0,
+  };
 }
 
 export function selectionLocalFrame(
   layer: DesignLayer,
   canvasWidth: number,
-): { width: number; height: number; offsetX: number; offsetY: number } {
+  lineWidths?: number[] | null,
+): LocalFrame {
   if (layer.type === "image") {
     return { width: layer.width, height: layer.height, offsetX: 0, offsetY: 0 };
   }
 
   const boxWidth = layer.width ?? getDefaultTextBoxWidth(canvasWidth);
-  return {
-    width: boxWidth,
-    height: estimateTextBlockHeight(layer, boxWidth),
-    offsetX: getTextOffsetX(layer.align, boxWidth),
-    offsetY: 0,
-  };
+  return textSelectionFrame({
+    align: layer.align,
+    boxWidth,
+    fontSize: layer.fontSize,
+    padding: layer.padding ?? 8,
+    lineWidths: lineWidths?.length ? lineWidths : fallbackLineWidths(layer, boxWidth),
+  });
 }
 
 export function layerSelectionRect(layer: DesignLayer, canvasWidth: number): ViewRect {
@@ -141,11 +187,13 @@ export type ResizeHandle =
   | "bottom-left"
   | "bottom-right"
   | "middle-left"
-  | "middle-right";
+  | "middle-right"
+  | "middle-top"
+  | "middle-bottom";
 
 const HANDLE_LAYOUT: Record<
   ResizeHandle,
-  { dragX: number; dragY: number; oppX: number; oppY: number; axis: "both" | "x" }
+  { dragX: number; dragY: number; oppX: number; oppY: number; axis: "both" | "x" | "y" }
 > = {
   "top-left": { dragX: 0, dragY: 0, oppX: 1, oppY: 1, axis: "both" },
   "top-right": { dragX: 1, dragY: 0, oppX: 0, oppY: 1, axis: "both" },
@@ -153,9 +201,11 @@ const HANDLE_LAYOUT: Record<
   "bottom-right": { dragX: 1, dragY: 1, oppX: 0, oppY: 0, axis: "both" },
   "middle-left": { dragX: 0, dragY: 0.5, oppX: 1, oppY: 0.5, axis: "x" },
   "middle-right": { dragX: 1, dragY: 0.5, oppX: 0, oppY: 0.5, axis: "x" },
+  "middle-top": { dragX: 0.5, dragY: 0, oppX: 0.5, oppY: 1, axis: "y" },
+  "middle-bottom": { dragX: 0.5, dragY: 1, oppX: 0.5, oppY: 0, axis: "y" },
 };
 
-function worldPoint(input: {
+export function worldPoint(input: {
   x: number;
   y: number;
   rotation: number;
@@ -190,6 +240,7 @@ export function resizeFromHandle(input: {
   height: number;
   offsetX: number;
   offsetY: number;
+  lockAspect?: boolean;
 }): { x: number; y: number; scaleX: number; scaleY: number } {
   const layout = HANDLE_LAYOUT[input.handle];
   const width = Math.max(1, input.width);
@@ -210,13 +261,34 @@ export function resizeFromHandle(input: {
   const spanY = (layout.dragY - layout.oppY) * height;
   let scaleX = input.scaleX;
   let scaleY = input.scaleY;
-  if (Math.abs(spanX) > 1e-6) scaleX = localDx / spanX;
-  if (layout.axis === "both" && Math.abs(spanY) > 1e-6) scaleY = localDy / spanY;
+  if (layout.axis !== "y" && Math.abs(spanX) > 1e-6) scaleX = localDx / spanX;
+  if (layout.axis !== "x" && Math.abs(spanY) > 1e-6) scaleY = localDy / spanY;
 
   const minScaleX = 10 / width;
   const minScaleY = 10 / height;
-  if (Math.abs(scaleX) < minScaleX) scaleX = Math.sign(scaleX || 1) * minScaleX;
-  if (Math.abs(scaleY) < minScaleY) scaleY = Math.sign(scaleY || 1) * minScaleY;
+  if (input.lockAspect && layout.axis === "both") {
+    const baseX = Math.abs(input.scaleX) < 1e-6 ? Math.sign(input.scaleX || 1) : input.scaleX;
+    const baseY = Math.abs(input.scaleY) < 1e-6 ? Math.sign(input.scaleY || 1) : input.scaleY;
+    const cornerX = spanX * baseX;
+    const cornerY = spanY * baseY;
+    const diagonal = Math.hypot(cornerX, cornerY);
+    const alignment = localDx * cornerX + localDy * cornerY;
+    const sign = alignment >= 0 ? 1 : -1;
+    const factor = diagonal > 1e-6 ? (Math.hypot(localDx, localDy) / diagonal) * sign : 1;
+    scaleX = baseX * factor;
+    scaleY = baseY * factor;
+    const bump = Math.max(
+      Math.abs(scaleX) < minScaleX ? minScaleX / Math.abs(scaleX || 1) : 1,
+      Math.abs(scaleY) < minScaleY ? minScaleY / Math.abs(scaleY || 1) : 1,
+    );
+    if (bump > 1) {
+      scaleX *= bump;
+      scaleY *= bump;
+    }
+  } else {
+    if (Math.abs(scaleX) < minScaleX) scaleX = Math.sign(scaleX || 1) * minScaleX;
+    if (Math.abs(scaleY) < minScaleY) scaleY = Math.sign(scaleY || 1) * minScaleY;
+  }
 
   const lx = (layout.oppX * width - input.offsetX) * scaleX;
   const ly = (layout.oppY * height - input.offsetY) * scaleY;
@@ -225,6 +297,23 @@ export function resizeFromHandle(input: {
     y: opposite.y - (lx * sin + ly * cos),
     scaleX,
     scaleY,
+  };
+}
+
+export function rotationKeepingCenter(input: {
+  rotation: number;
+  centerX: number;
+  centerY: number;
+  vx: number;
+  vy: number;
+}): { x: number; y: number; rotation: number } {
+  const rad = (input.rotation * Math.PI) / 180;
+  const cos = Math.cos(rad);
+  const sin = Math.sin(rad);
+  return {
+    rotation: input.rotation,
+    x: input.centerX - (input.vx * cos - input.vy * sin),
+    y: input.centerY - (input.vx * sin + input.vy * cos),
   };
 }
 

@@ -24,7 +24,6 @@ const VALID_TABS = new Set<EditorTab>([
   "text",
   "stickers",
   "upload",
-  "templates",
   "design-for-you",
   "description",
 ]);
@@ -55,9 +54,10 @@ export default async function DesignEditorPage({ params, searchParams }: Props) 
     notFound();
   }
 
+  const requestedTab = query.tab === "templates" ? "stickers" : query.tab;
   const initialTab =
-    query.tab && VALID_TABS.has(query.tab as EditorTab)
-      ? (query.tab as EditorTab)
+    requestedTab && VALID_TABS.has(requestedTab as EditorTab)
+      ? (requestedTab as EditorTab)
       : undefined;
 
   return (

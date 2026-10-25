@@ -26,14 +26,18 @@ function FontPreviewRow({
   font,
   preview,
   selected,
-  onSelect,
+  armed,
+  onArm,
+  onConfirm,
 }: {
   font: EditorFontOption;
   preview: string;
   selected: boolean;
-  onSelect: (family: string) => void;
+  armed: boolean;
+  onArm: (family: string) => void;
+  onConfirm: (family: string) => void;
 }) {
-  const ref = useRef<HTMLButtonElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -52,25 +56,38 @@ function FontPreviewRow({
   }, [font.family]);
 
   return (
-    <button
+    <div
       ref={ref}
-      type="button"
-      onClick={() => onSelect(font.family)}
-      className={`w-full rounded-xl border px-3 py-2 text-right transition ${
-        selected
+      className={`flex items-center gap-2 rounded-xl border px-2 py-2 transition ${
+        selected || armed
           ? "border-cyan-400 bg-cyan-500/15"
-          : "border-border bg-card/70 hover:border-cyan-500/40"
+          : "border-border bg-card/70"
       }`}
     >
-      <span className="block text-[10px] text-muted">{font.label}</span>
-      <span
-        dir="auto"
-        className="mt-1 block line-clamp-2 text-xl leading-8 text-foreground"
-        style={ready ? { fontFamily: `"${font.family}", sans-serif` } : undefined}
+      <button
+        type="button"
+        onClick={() => onArm(font.family)}
+        className="min-w-0 flex-1 px-1 text-right"
       >
-        {preview}
-      </span>
-    </button>
+        <span className="block text-[10px] text-muted">{font.label}</span>
+        <span
+          dir="auto"
+          className="mt-1 block line-clamp-2 text-xl leading-8 text-foreground"
+          style={ready ? { fontFamily: `"${font.family}", sans-serif` } : undefined}
+        >
+          {preview}
+        </span>
+      </button>
+      {armed ? (
+        <button
+          type="button"
+          onClick={() => onConfirm(font.family)}
+          className="shrink-0 rounded-lg bg-cyan-500 px-2.5 py-1.5 text-xs font-bold text-black"
+        >
+          تأیید
+        </button>
+      ) : null}
+    </div>
   );
 }
 
@@ -81,14 +98,16 @@ export default function FontPickerSheet({
   onClose,
 }: Props) {
   const [query, setQuery] = useState("");
+  const [armedFamily, setArmedFamily] = useState<string | null>(null);
   const preview = previewCopy(text);
+  const previewFamily = armedFamily ?? selectedFamily;
 
   useEffect(() => lockPageScroll(), []);
   const selectedRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    void loadEditorFonts([selectedFamily]);
-  }, [selectedFamily]);
+    void loadEditorFonts([previewFamily]);
+  }, [previewFamily]);
 
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
@@ -135,16 +154,16 @@ export default function FontPickerSheet({
           <button
             type="button"
             onClick={onClose}
-            className="ms-auto min-h-11 rounded-xl bg-cyan-500 px-4 text-sm font-bold text-black"
+            className="ms-auto min-h-11 rounded-xl border border-border bg-card px-4 text-sm font-bold text-foreground"
           >
-            تأیید
+            بستن فونت
           </button>
         </div>
         <div className="border-b border-border px-3 py-3">
           <p
             dir="auto"
             className="line-clamp-3 min-h-16 text-2xl leading-9 text-foreground"
-            style={{ fontFamily: `"${selectedFamily}", sans-serif` }}
+            style={{ fontFamily: `"${previewFamily}", sans-serif` }}
           >
             {preview}
           </p>
@@ -167,7 +186,12 @@ export default function FontPickerSheet({
                   font={font}
                   preview={preview}
                   selected={font.family === selectedFamily}
-                  onSelect={onSelect}
+                  armed={font.family === armedFamily}
+                  onArm={setArmedFamily}
+                  onConfirm={(family) => {
+                    onSelect(family);
+                    onClose();
+                  }}
                 />
               </div>
             ))

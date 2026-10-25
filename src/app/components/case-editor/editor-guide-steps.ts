@@ -40,8 +40,8 @@ export const EDITOR_GUIDE_STEPS: EditorGuideStep[] = [
     kind: "spotlight",
     target: "tab-stickers",
     tab: "stickers",
-    title: "طراحی آماده",
-    body: "استیکر و طرح‌های آماده برای اضافه کردن سریع به قاب.",
+    title: "طرح",
+    body: "اولین طرح تمام قاب را می‌پوشاند و طرح‌های بعدی کوچک روی آن می‌نشینند.",
   },
   {
     kind: "spotlight",
@@ -49,13 +49,6 @@ export const EDITOR_GUIDE_STEPS: EditorGuideStep[] = [
     tab: "upload",
     title: "تصویر",
     body: "آپلود عکس و استفاده از ابزار ویرایش تصویر.",
-  },
-  {
-    kind: "spotlight",
-    target: "tab-templates",
-    tab: "templates",
-    title: "قالب",
-    body: "شروع سریع با قالب‌های آماده برای مدل گوشی شما.",
   },
   {
     kind: "spotlight",
@@ -75,7 +68,7 @@ export const EDITOR_GUIDE_STEPS: EditorGuideStep[] = [
     kind: "spotlight",
     target: "toolbar",
     title: "ابزارهای بالا",
-    body: "بازگشت، پیش‌نمایش، ذخیره و اشتراک‌گذاری طراحی.",
+    body: "خروج، بازگشت، پیش‌نمایش و ذخیره طراحی.",
   },
   {
     kind: "spotlight",

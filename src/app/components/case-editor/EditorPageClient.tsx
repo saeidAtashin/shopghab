@@ -2,27 +2,24 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Undo2,
   Redo2,
   Eye,
   Save,
-  Share2,
-  Download,
+  LogOut,
   ShoppingCart,
   Type,
   Sticker,
   Upload,
   FileText,
   Layers,
-  LayoutTemplate,
   Sparkles,
   HelpCircle,
   GraduationCap,
   AlertTriangle,
   ChevronDown,
-  ChevronRight,
   Info,
 } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
@@ -51,7 +48,7 @@ import { getReadyCaseBySlug } from "@/lib/cases/ready.static";
 import { getDesign, getDesignByShareToken } from "@/lib/design/api";
 import { useEditorStore } from "@/lib/design/editor-store";
 import { saveDesign } from "@/lib/design/api";
-import { exportAndDownload, exportStageToPng } from "@/lib/design/export";
+import { exportStageToPng } from "@/lib/design/export";
 import {
   SHORTCUT_HELP,
   useEditorShortcuts,
@@ -84,11 +81,6 @@ const StickerPanel = dynamic(() => import("@/app/components/case-editor/StickerP
   loading: () => <PanelLoading />,
 });
 
-const TemplatesPanel = dynamic(() => import("@/app/components/case-editor/TemplatesPanel"), {
-  ssr: false,
-  loading: () => <PanelLoading />,
-});
-
 const DesignForYouPanel = dynamic(
   () => import("@/app/components/case-editor/DesignForYouPanel"),
   {
@@ -102,7 +94,6 @@ export type EditorTab =
   | "text"
   | "stickers"
   | "upload"
-  | "templates"
   | "design-for-you"
   | "description";
 
@@ -138,6 +129,7 @@ export default function EditorPageClient({
   const caseType = getCaseTypeBySlug(caseTypeSlug)!;
   const stickerPacks = getStickerPacks();
 
+  const router = useRouter();
   const { user } = useAuth();
   const { addCustomCase, startFlyToCart } = useShopCart();
   const stageRef = useRef<Konva.Stage | null>(null);
@@ -163,6 +155,7 @@ export default function EditorPageClient({
   const canUndo = useEditorStore((s) => s.canUndo);
   const canRedo = useEditorStore((s) => s.canRedo);
   const setPreviewMode = useEditorStore((s) => s.setPreviewMode);
+  const selectLayer = useEditorStore((s) => s.selectLayer);
   const [, setFontsTick] = useState(0);
 
   useEditorShortcuts();
@@ -200,6 +193,7 @@ export default function EditorPageClient({
   const [message, setMessage] = useState<string | null>(null);
   const [editorReady, setEditorReady] = useState(false);
   const [showEditorGuide, setShowEditorGuide] = useState(false);
+  const [showExitConfirm, setShowExitConfirm] = useState(false);
 
   useEffect(() => {
     setLoadedTabs((prev) => {
@@ -321,25 +315,21 @@ export default function EditorPageClient({
     }
   }, [user, document]);
 
-  const handleShare = useCallback(async () => {
-    const saved = await saveDesign(document);
-    const url = `${window.location.origin}/share/${saved.shareToken}`;
-    setShareUrl(url);
-    try {
-      await navigator.clipboard.writeText(url);
-      setMessage("لینک اشتراک‌گذاری کپی شد.");
-    } catch {
-      setMessage(url);
-    }
-  }, [document]);
+  const requestExit = useCallback(() => {
+    setShowExitConfirm(true);
+  }, []);
 
-  const handleDownload = useCallback(async () => {
-    if (!stageRef.current) return;
-    await exportAndDownload(
-      stageRef.current,
-      `case-${brandSlug}-${modelSlug}.png`,
-    );
-  }, [brandSlug, modelSlug]);
+  const confirmExit = useCallback(() => {
+    setShowExitConfirm(false);
+    router.push(`/phones/${brandSlug}/${modelSlug}`);
+  }, [brandSlug, modelSlug, router]);
+
+  const handleCanvasBackdropPointerDown = useCallback(
+    (event: React.PointerEvent<HTMLDivElement>) => {
+      if (event.target === event.currentTarget) selectLayer(null);
+    },
+    [selectLayer],
+  );
 
   const handleBuy = useCallback(async () => {
     if (buyBusy) return;
@@ -405,9 +395,8 @@ export default function EditorPageClient({
   const tabs: { id: EditorTab; label: string; icon: React.ReactNode }[] = [
     { id: "layers", label: "لایه‌ها", icon: <Layers size={16} /> },
     { id: "text", label: "متن", icon: <Type size={16} /> },
-    { id: "stickers", label: "طراحی آماده", icon: <Sticker size={16} /> },
+    { id: "stickers", label: "طرح", icon: <Sticker size={16} /> },
     { id: "upload", label: "تصویر", icon: <Upload size={16} /> },
-    { id: "templates", label: "قالب", icon: <LayoutTemplate size={16} /> },
     { id: "design-for-you", label: "طراحی برای شما", icon: <Sparkles size={16} /> },
     { id: "description", label: "توضیحات", icon: <FileText size={16} /> },
   ];
@@ -450,7 +439,7 @@ export default function EditorPageClient({
   };
 
   const canvasStage = (
-    <>
+    <div className="relative mx-auto w-fit">
       <div
         className="pointer-events-none absolute inset-x-6 top-1/2 h-24 -translate-y-1/2 rounded-full bg-cyan-400/20 blur-3xl animate-preview-glow motion-reduce:animate-none"
         aria-hidden
@@ -467,31 +456,24 @@ export default function EditorPageClient({
       />
       {analyzing ? (
         <div
-          className="absolute inset-0 z-30 overflow-hidden rounded-2xl bg-black/50 backdrop-blur-[2px]"
+          className="absolute inset-0 z-30 overflow-hidden rounded-[2rem] bg-black/55"
           aria-live="polite"
         >
           <div
-            className="pointer-events-none absolute inset-0 opacity-25"
-            style={{
-              backgroundImage:
-                "linear-gradient(to left, rgba(34,211,238,0.35) 1px, transparent 1px), linear-gradient(to bottom, rgba(34,211,238,0.35) 1px, transparent 1px)",
-              backgroundSize: "18px 18px",
-            }}
+            className="pointer-events-none absolute inset-x-0 h-28 animate-print-analyze-scan"
             aria-hidden
-          />
-          <div
-            className="pointer-events-none absolute inset-x-4 top-0 h-16 -translate-y-1/2 bg-gradient-to-b from-cyan-400/0 via-cyan-300/70 to-cyan-400/0 animate-print-analyze-scan"
-            aria-hidden
-          />
-          <div className="pointer-events-none absolute inset-5 rounded-xl border border-cyan-300/40" aria-hidden />
-          <div className="absolute inset-x-0 bottom-5 flex justify-center">
-            <p className="rounded-full border border-cyan-400/40 bg-black/55 px-3 py-1.5 text-xs font-bold text-cyan-100">
-              در حال بررسی چاپ…
+          >
+            <div className="absolute inset-0 bg-gradient-to-b from-cyan-400/0 via-cyan-300/55 to-cyan-400/0" />
+            <div className="absolute inset-x-3 top-1/2 h-[2px] -translate-y-1/2 bg-white shadow-[0_0_18px_6px_rgba(103,232,249,0.95)]" />
+          </div>
+          <div className="absolute inset-x-0 bottom-4 flex justify-center">
+            <p className="rounded-full border border-cyan-300/50 bg-black/70 px-3 py-1.5 text-[11px] font-bold text-cyan-50">
+              در حال بررسی چاپ
             </p>
           </div>
         </div>
       ) : null}
-    </>
+    </div>
   );
 
   const editorModals = (
@@ -530,6 +512,41 @@ export default function EditorPageClient({
           isMobileViewport={isMobileViewport}
         />
       ) : null}
+      {showExitConfirm ? (
+        <div
+          key="exit-confirm"
+          className="fixed inset-0 z-[80] flex items-end justify-center bg-black/60 p-4 sm:items-center"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="editor-exit-title"
+          onClick={() => setShowExitConfirm(false)}
+        >
+          <div
+            className="w-full max-w-sm rounded-2xl border border-border bg-card p-5 shadow-2xl"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <h2 id="editor-exit-title" className="text-base font-bold text-foreground">
+              از ویرایشگر خارج می‌شوید؟
+            </h2>
+            <div className="mt-4 flex gap-2">
+              <button
+                type="button"
+                onClick={() => setShowExitConfirm(false)}
+                className="min-h-11 flex-1 rounded-xl border border-border px-4 text-sm font-bold text-foreground"
+              >
+                انصراف
+              </button>
+              <button
+                type="button"
+                onClick={confirmExit}
+                className="min-h-11 flex-1 rounded-xl bg-cyan-500 px-4 text-sm font-bold text-black"
+              >
+                خروج
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </AnimatePresence>
   );
 
@@ -540,15 +557,11 @@ export default function EditorPageClient({
           data-editor-guide="toolbar"
           className="flex shrink-0 flex-wrap items-center gap-1 border-b border-border px-1.5 py-1.5"
         >
-          <Link
-            href={`/phones/${brandSlug}/${modelSlug}`}
-            aria-label={`بازگشت به ${model.name}`}
-            title={model.name}
-            className="flex min-h-11 min-w-[3.4rem] flex-col items-center justify-center gap-0.5 rounded-lg px-1 py-1 text-[10px] leading-tight text-muted transition hover:bg-card/70 hover:text-foreground"
-          >
-            <ChevronRight size={15} />
-            مدل
-          </Link>
+          <MobileIconButton
+            onClick={requestExit}
+            icon={<LogOut size={15} />}
+            label="خروج"
+          />
 
           <div className="relative">
             <MobileIconButton
@@ -592,33 +605,18 @@ export default function EditorPageClient({
             label="ذخیره"
           />
           <MobileIconButton
-            onClick={() => void handleShare()}
-            icon={<Share2 size={15} />}
-            label="اشتراک"
-          />
-          <MobileIconButton
-            onClick={() => void handleDownload()}
-            icon={<Download size={15} />}
-            label="دانلود"
-          />
-          <MobileIconButton
             onClick={handleOpenEditorGuide}
             icon={<GraduationCap size={15} />}
             label="راهنما"
           />
 
           <DockableAction className="ms-auto shrink-0">
-            <button
-              type="button"
-              data-editor-guide="buy"
+            <EditorBuyButton
+              busy={buyBusy}
+              price={formatToman(getCaseTotalPrice(caseType, true))}
               onClick={() => void handleBuy()}
-              disabled={buyBusy}
-              aria-label={`خرید — ${formatToman(getCaseTotalPrice(caseType, true))}`}
-              className="flex min-h-11 shrink-0 items-center gap-1 rounded-lg bg-cyan-500 px-2.5 text-[11px] font-bold text-black transition hover:bg-cyan-400 disabled:opacity-60"
-            >
-              <ShoppingCart size={13} />
-              {new Intl.NumberFormat("fa-IR").format(getCaseTotalPrice(caseType, true))}
-            </button>
+              compact
+            />
           </DockableAction>
         </div>
 
@@ -631,6 +629,7 @@ export default function EditorPageClient({
           <div
             ref={canvasContainerRef}
             data-editor-guide="canvas"
+            onPointerDown={handleCanvasBackdropPointerDown}
             className="absolute inset-0 flex items-center justify-center overflow-hidden bg-[radial-gradient(ellipse_at_50%_30%,rgba(34,211,238,0.12),transparent_55%),radial-gradient(ellipse_at_80%_80%,rgba(139,92,246,0.1),transparent_50%)] bg-card/40 p-2"
           >
             {canvasStage}
@@ -647,7 +646,7 @@ export default function EditorPageClient({
 
         <div
           data-editor-guide="mobile-dock"
-          className="relative z-20 shrink-0 border-t border-border bg-background pb-[env(safe-area-inset-bottom)]"
+          className="relative z-40 shrink-0 border-t border-border bg-background pb-[env(safe-area-inset-bottom)]"
         >
           {!mobileDockCollapsed ? (
             <div className="absolute inset-x-0 bottom-full z-20 flex max-h-[min(42dvh,320px)] flex-col overflow-hidden rounded-t-2xl border border-b-0 border-border bg-background shadow-[0_-12px_32px_rgba(0,0,0,0.4)]">
@@ -655,9 +654,9 @@ export default function EditorPageClient({
                 type="button"
                 aria-expanded
                 onClick={() => setMobileDockCollapsed(true)}
-                className="flex min-h-9 w-full shrink-0 items-center justify-center gap-1.5 text-xs text-muted transition hover:bg-card/60 hover:text-foreground"
+                className="flex min-h-11 w-full shrink-0 items-center justify-center gap-2 border-b border-border bg-card text-sm font-bold text-foreground"
               >
-                <ChevronDown size={14} />
+                <ChevronDown size={16} />
                 بستن ابزارها
               </button>
               <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-3">
@@ -665,7 +664,7 @@ export default function EditorPageClient({
               </div>
             </div>
           ) : null}
-          <div className="grid grid-cols-4">
+          <div className="grid grid-cols-3">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
@@ -718,6 +717,7 @@ export default function EditorPageClient({
           className="mt-4 flex flex-wrap items-center gap-2 md:flex-nowrap"
         >
           <div className="flex flex-wrap items-center gap-2 md:flex-nowrap">
+            <ToolbarButton onClick={requestExit} icon={<LogOut size={16} />} label="خروج" />
             <ToolbarButton onClick={undo} disabled={!canUndo()} icon={<Undo2 size={16} />} label="بازگشت" />
             <ToolbarButton onClick={redo} disabled={!canRedo()} icon={<Redo2 size={16} />} label="جلو" />
             <ToolbarButton
@@ -734,8 +734,6 @@ export default function EditorPageClient({
           <div className="hidden h-6 w-px shrink-0 bg-border sm:block" aria-hidden />
 
           <div className="hidden sm:contents">
-            <ToolbarButton onClick={handleShare} icon={<Share2 size={16} />} label="اشتراک" />
-            <ToolbarButton onClick={handleDownload} icon={<Download size={16} />} label="دانلود" />
             <ToolbarButton
               onClick={handleOpenEditorGuide}
               icon={<GraduationCap size={16} />}
@@ -766,17 +764,11 @@ export default function EditorPageClient({
           </div>
 
           <DockableAction className="mr-auto shrink-0">
-            <button
-              type="button"
-              data-editor-guide="buy"
+            <EditorBuyButton
+              busy={buyBusy}
+              price={formatToman(getCaseTotalPrice(caseType, true))}
               onClick={() => void handleBuy()}
-              disabled={buyBusy}
-              className="flex min-h-11 items-center gap-2 rounded-xl bg-cyan-500 px-4 py-2 text-sm font-bold text-black transition hover:bg-cyan-400 disabled:opacity-60"
-            >
-              <ShoppingCart size={16} />
-              <span>خرید — </span>
-              {formatToman(getCaseTotalPrice(caseType, true))}
-            </button>
+            />
           </DockableAction>
         </div>
 
@@ -793,6 +785,7 @@ export default function EditorPageClient({
           <div
             ref={canvasContainerRef}
             data-editor-guide="canvas"
+            onPointerDown={handleCanvasBackdropPointerDown}
             className="relative flex min-h-[280px] w-full items-center justify-center overflow-hidden rounded-2xl border border-border bg-[radial-gradient(ellipse_at_50%_30%,rgba(34,211,238,0.12),transparent_55%),radial-gradient(ellipse_at_80%_80%,rgba(139,92,246,0.1),transparent_50%)] bg-card/40 p-4 md:sticky md:top-24 md:w-fit md:min-h-0 md:self-start md:p-8"
           >
             {canvasStage}
@@ -804,6 +797,37 @@ export default function EditorPageClient({
 
       {editorModals}
     </div>
+  );
+}
+
+function EditorBuyButton({
+  price,
+  busy,
+  onClick,
+  compact = false,
+}: {
+  price: string;
+  busy: boolean;
+  onClick: () => void;
+  compact?: boolean;
+}) {
+  return (
+    <button
+      type="button"
+      data-editor-guide="buy"
+      onClick={onClick}
+      disabled={busy}
+      aria-label={`خرید قاب، ${price}`}
+      className={`flex items-center rounded-2xl bg-foreground text-background shadow-[0_10px_28px_rgba(0,0,0,0.28)] transition hover:bg-cyan-300 hover:text-black disabled:opacity-60 ${
+        compact ? "min-h-12 gap-1.5 px-3" : "min-h-12 gap-2 px-4"
+      }`}
+    >
+      <ShoppingCart size={compact ? 16 : 18} />
+      <span className="flex flex-col items-start leading-none">
+        <span className="text-[10px] font-semibold">خرید قاب</span>
+        <span className={`font-black ${compact ? "mt-0.5 text-xs" : "mt-1 text-sm"}`}>{price}</span>
+      </span>
+    </button>
   );
 }
 
@@ -921,13 +945,6 @@ function EditorSidePanel({
           <StickerPanel packs={stickerPacks} compact={compact} />
         ) : null}
         {loadedTabs.has("upload") && activeTab === "upload" ? <UploadPanel /> : null}
-        {loadedTabs.has("templates") && activeTab === "templates" ? (
-          <TemplatesPanel
-            brandSlug={brandSlug}
-            modelSlug={modelSlug}
-            caseTypeSlug={caseTypeSlug}
-          />
-        ) : null}
         {loadedTabs.has("design-for-you") && activeTab === "design-for-you" ? (
           <DesignForYouPanel
             brandSlug={brandSlug}

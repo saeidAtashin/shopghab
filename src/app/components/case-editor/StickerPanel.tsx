@@ -23,7 +23,7 @@ function findScrollParent(element: HTMLElement | null): HTMLElement | null {
 }
 
 export default function StickerPanel({ packs, compact = false }: Props) {
-  const addImageLayer = useEditorStore((s) => s.addImageLayer);
+  const addDesignImage = useEditorStore((s) => s.addDesignImage);
   const containerRef = useRef<HTMLDivElement>(null);
   const sentinelRef = useRef<HTMLDivElement>(null);
   const scrollRootRef = useRef<HTMLElement | null>(null);
@@ -62,8 +62,8 @@ export default function StickerPanel({ packs, compact = false }: Props) {
 
   const visibleStickers = stickers.slice(0, visibleCount);
 
-  const handleSelect = (src: string, width: number, height: number) => {
-    addImageLayer(src, width, height, true);
+  const handleSelect = (src: string, width: number, height: number, name: string) => {
+    addDesignImage(src, width, height, name);
   };
 
   if (stickers.length === 0) {
@@ -74,9 +74,9 @@ export default function StickerPanel({ packs, compact = false }: Props) {
 
   return (
     <div ref={containerRef}>
-      <p className="text-sm font-bold text-foreground">طراحی‌های آماده</p>
+      <p className="text-sm font-bold text-foreground">طرح‌ها</p>
       <p className={`text-xs text-muted ${compact ? "mb-2 mt-0.5" : "mb-4 mt-1"}`}>
-        برای افزودن روی قاب کلیک کنید
+        اولین تصویر تمام قاب را می‌گیرد. تصویرهای بعدی کوچک اضافه می‌شوند.
       </p>
       <div
         className={`grid ${
@@ -89,7 +89,7 @@ export default function StickerPanel({ packs, compact = false }: Props) {
           <button
             key={sticker.id}
             type="button"
-            onClick={() => handleSelect(sticker.src, sticker.width, sticker.height)}
+            onClick={() => handleSelect(sticker.src, sticker.width, sticker.height, sticker.name)}
             className={`flex flex-col rounded-xl border border-border bg-card/60 text-center transition hover:border-cyan-500/50 hover:bg-cyan-500/5 hover:shadow-md ${
               compact ? "p-2" : "p-3"
             }`}

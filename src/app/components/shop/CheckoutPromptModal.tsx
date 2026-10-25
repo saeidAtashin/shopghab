@@ -108,22 +108,22 @@ export default function CheckoutPromptModal({ prompt, onClose }: Props) {
           </div>
         </div>
 
-        <div className="mt-6 flex flex-col gap-2 px-5 pb-6 sm:flex-row-reverse">
+        <div className="mt-6 flex flex-col gap-3 px-5 pb-6">
           <Link
             href="/checkout"
             onClick={onClose}
-            className="flex min-h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-cyan-500 px-4 py-3 text-sm font-bold text-black transition hover:bg-cyan-400"
+            className="flex min-h-14 w-full items-center justify-center gap-2 rounded-2xl bg-foreground px-4 text-base font-black text-background transition hover:bg-cyan-300 hover:text-black"
           >
-            <ShoppingBag size={16} />
-            ادامه و پرداخت
+            <ShoppingBag size={18} />
+            ثبت سفارش
           </Link>
           <button
             type="button"
             onClick={onClose}
-            className="flex min-h-12 flex-1 items-center justify-center gap-2 rounded-xl border border-border bg-background px-4 py-3 text-sm font-bold text-foreground transition hover:border-cyan-500/40"
+            className="flex min-h-11 w-full items-center justify-center gap-2 text-sm font-medium text-muted transition hover:text-foreground"
           >
-            <Store size={16} />
-            ادامه خرید
+            <Store size={15} />
+            ادامه طراحی
           </button>
         </div>
       </motion.div>

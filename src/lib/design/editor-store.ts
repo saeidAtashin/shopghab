@@ -51,6 +51,7 @@ type EditorState = {
   setPendingEffectPreview: (preview: PendingEffectPreview | null) => void;
   addTextLayer: (text?: string) => void;
   addImageLayer: (src: string, width: number, height: number, isSticker?: boolean, name?: string) => void;
+  addDesignImage: (src: string, width: number, height: number, name?: string) => void;
   updateLayer: (
     id: string,
     patch: Partial<DesignLayer>,
@@ -241,6 +242,45 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       }));
       const assets = isSticker ? state.uploadedAssets : [...new Set([...state.uploadedAssets, src])];
       return { ...next, selectedLayerId: layer.id, uploadedAssets: assets };
+    });
+  },
+
+  addDesignImage: (src, width, height, name) => {
+    const { meta, document } = get();
+    if (!meta) return;
+    const hasImage = document.layers.some(
+      (layer) => layer.type === "image" && layer.visible !== false,
+    );
+    const safeWidth = Math.max(1, width);
+    const safeHeight = Math.max(1, height);
+    const scale = hasImage
+      ? 1
+      : Math.max(meta.canvasWidth / safeWidth, meta.canvasHeight / safeHeight);
+    const fittedWidth = safeWidth * scale;
+    const fittedHeight = safeHeight * scale;
+    const imageCount = document.layers.filter((layer) => layer.type === "image").length + 1;
+    const layer: ImageLayer = {
+      id: generateLayerId(),
+      type: "image",
+      src,
+      width: fittedWidth,
+      height: fittedHeight,
+      isSticker: hasImage,
+      name: name ?? `طرح ${imageCount}`,
+      visible: true,
+      locked: true,
+      x: meta.canvasWidth / 2 - fittedWidth / 2,
+      y: meta.canvasHeight / 2 - fittedHeight / 2,
+      rotation: 0,
+      scaleX: 1,
+      scaleY: 1,
+    };
+    set((state) => {
+      const next = updateDoc(state, (doc) => ({
+        ...doc,
+        layers: [...doc.layers, layer],
+      }));
+      return { ...next, selectedLayerId: layer.id };
     });
   },
 

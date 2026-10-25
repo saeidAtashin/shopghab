@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useLayoutEffect, useRef } from "react";
+import { memo, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Group, Label, Tag, Text, Shape } from "react-konva";
 import useImage from "use-image";
 import Konva from "konva";
@@ -14,6 +14,7 @@ import {
   getTextOffsetX,
   normalizeFontFamily,
 } from "@/lib/design/editor-fonts";
+import { textSelectionFrame } from "@/lib/design/selection-view";
 import type { ImageLayer, TextLayer } from "@/lib/design/types";
 
 type Props = {
@@ -43,6 +44,8 @@ function TextLayerNode({
   const cornerRadius = layer.cornerRadius ?? 0;
   const fontFamily = normalizeFontFamily(layer.fontFamily);
   const cacheRef = useRef<Konva.Group>(null);
+  const textRef = useRef<Konva.Text>(null);
+  const [fontEpoch, setFontEpoch] = useState(0);
   const [source] = useImage(textureImage?.src ?? "", "anonymous");
   const bitmap = source ? downscaleBitmap(source, EDITOR_BITMAP_MAX_EDGE) : null;
   const textureOn = Boolean(textureImage && bitmap);
@@ -74,6 +77,45 @@ function TextLayerNode({
     context.drawImage(pixels, 0, 0, imageLayer.width, imageLayer.height);
     context.restore();
   };
+
+  useEffect(() => {
+    const fonts = document.fonts;
+    if (!fonts) return;
+    let cancelled = false;
+    const refresh = () => {
+      if (!cancelled) setFontEpoch((epoch) => epoch + 1);
+    };
+    void fonts.ready.then(refresh);
+    fonts.addEventListener("loadingdone", refresh);
+    return () => {
+      cancelled = true;
+      fonts.removeEventListener("loadingdone", refresh);
+    };
+  }, []);
+
+  useLayoutEffect(() => {
+    const text = textRef.current;
+    if (!text) return;
+    (text as Konva.Text & { _setTextData?: () => void })._setTextData?.();
+    const lineWidths =
+      (text as Konva.Text & { textArr?: Array<{ width: number }> }).textArr?.map(
+        (line) => line.width,
+      ) ?? [];
+    const frame = textSelectionFrame({
+      align: layer.align,
+      boxWidth,
+      fontSize: layer.fontSize,
+      padding,
+      lineWidths,
+    });
+    const tightLeft = getTextOffsetX(layer.align, boxWidth) - frame.offsetX;
+    text.hitFunc((context) => {
+      context.beginPath();
+      context.rect(tightLeft, 0, Math.max(1, frame.width), Math.max(1, frame.height));
+      context.closePath();
+      context.fillStrokeShape(text);
+    });
+  }, [boxWidth, fontEpoch, layer.align, layer.fontSize, layer.text, layer.fontFamily, padding]);
 
   useLayoutEffect(() => {
     const node = cacheRef.current;
@@ -154,9 +196,9 @@ function TextLayerNode({
     >
       <Label x={0} y={0}>
         {layer.backgroundFill ? (
-          <Tag fill={layer.backgroundFill} cornerRadius={cornerRadius} />
+          <Tag listening={false} fill={layer.backgroundFill} cornerRadius={cornerRadius} />
         ) : null}
-        <Text {...textProps} fill={layer.fill} opacity={textureOn ? 0 : 1} />
+        <Text ref={textRef} {...textProps} fill={layer.fill} opacity={textureOn ? 0 : 1} />
       </Label>
       {textureOn ? (
         <Group
