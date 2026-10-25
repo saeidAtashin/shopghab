@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Search } from "lucide-react";
 import { buildCustomDesignPath } from "@/lib/cases/brands.static";
+import { rememberSelectedPhone } from "@/lib/cases/device-phone";
 import { hasStrongModelMatch, searchPhoneModels } from "@/lib/cases/model-search";
 import type { ModelSearchResult } from "@/lib/cases/model-search";
 import { PhoneBackSvg } from "./PhoneBackSvg";
@@ -64,6 +65,10 @@ export default function ModelSearch({
     (result: ModelSearchResult) => {
       setOpen(false);
       setQuery("");
+      rememberSelectedPhone({
+        brandSlug: result.model.brandSlug,
+        modelSlug: result.model.slug,
+      });
       router.push(buildCustomDesignPath(result.model.brandSlug, result.model.slug));
     },
     [router],
@@ -127,6 +132,10 @@ export default function ModelSearch({
               <Link
                 href={buildCustomDesignPath(result.model.brandSlug, result.model.slug)}
                 onClick={() => {
+                  rememberSelectedPhone({
+                    brandSlug: result.model.brandSlug,
+                    modelSlug: result.model.slug,
+                  });
                   setOpen(false);
                   setQuery("");
                 }}

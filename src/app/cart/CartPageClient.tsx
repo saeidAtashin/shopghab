@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useMemo } from "react";
 import { useShopCart } from "@/app/context/ShopCartContext";
+import DockableAction from "@/app/components/ui/DockableAction";
 import { getReadyCaseById } from "@/lib/cases/ready.static";
 import { getBrandBySlug, getCaseTypeBySlug, getModelBySlug } from "@/lib/cases";
 import { formatToman } from "@/lib/shop/format";
@@ -123,12 +124,14 @@ export default function CartPageClient() {
           <span className="text-muted">جمع کل</span>
           <span className="text-cyan-400">{formatToman(subtotal)}</span>
         </div>
-        <Link
-          href="/checkout"
-          className="mt-4 flex w-full items-center justify-center rounded-xl bg-cyan-500 py-3.5 text-sm font-bold text-black"
-        >
-          ادامه و پرداخت
-        </Link>
+        <DockableAction className="mt-4">
+          <Link
+            href="/checkout"
+            className="flex w-full items-center justify-center rounded-xl bg-cyan-500 py-3.5 text-sm font-bold text-black"
+          >
+            ادامه و پرداخت
+          </Link>
+        </DockableAction>
       </div>
     </main>
   );

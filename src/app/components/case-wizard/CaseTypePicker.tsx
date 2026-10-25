@@ -10,6 +10,7 @@ import {
   buildCustomDesignPath,
 } from "@/lib/cases/brands.static";
 import type { CaseType } from "@/lib/cases/types";
+import DockableAction from "@/app/components/ui/DockableAction";
 import PhoneMockupPreview from "./PhoneMockupPreview";
 
 type Props = {
@@ -79,12 +80,14 @@ export default function CaseTypePicker({
       })}
 
       {showDesignLink && effectiveSlug ? (
-        <Link
-          href={buildCustomDesignPath(brandSlug, modelSlug)}
-          className="mt-4 flex w-full items-center justify-center rounded-xl bg-cyan-500 py-3.5 text-sm font-bold text-black transition hover:bg-cyan-400"
-        >
-          شروع طراحی
-        </Link>
+        <DockableAction className="mt-4">
+          <Link
+            href={buildCustomDesignPath(brandSlug, modelSlug)}
+            className="flex w-full items-center justify-center rounded-xl bg-cyan-500 py-3.5 text-sm font-bold text-black transition hover:bg-cyan-400"
+          >
+            شروع طراحی
+          </Link>
+        </DockableAction>
       ) : null}
     </div>
   );

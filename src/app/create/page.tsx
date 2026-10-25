@@ -2,6 +2,7 @@ import { createPageMetadata } from "@/lib/seo/metadata";
 import { SITE_BRAND } from "@/lib/seo/site";
 import BrandGrid from "@/app/components/case-wizard/BrandGrid";
 import ModelSearch from "@/app/components/case-wizard/ModelSearch";
+import SuggestedPhoneCard from "@/app/components/case-wizard/SuggestedPhoneCard";
 import WizardBreadcrumb from "@/app/components/case-wizard/WizardBreadcrumb";
 import { PHONE_BRANDS } from "@/lib/cases/brands.static";
 
@@ -19,6 +20,7 @@ export default function CreatePage() {
         <WizardBreadcrumb crumbs={[{ label: "برند" }]} />
         <h1 className="mt-6 text-2xl font-black text-foreground sm:text-3xl">برند گوشی خود را انتخاب کنید</h1>
         <p className="mt-2 text-muted">مرحله ۱ از ۲ — برند</p>
+        <SuggestedPhoneCard className="mt-6" />
 
         <div className="mt-10">
           <ModelSearch placeholder="مثلاً گلکسی S24، آیفون 15 Pro، ردمی نوت 13…" />

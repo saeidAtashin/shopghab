@@ -30,6 +30,7 @@ import { AnimatePresence } from "framer-motion";
 import type Konva from "konva";
 
 import WizardBreadcrumb from "@/app/components/case-wizard/WizardBreadcrumb";
+import DockableAction from "@/app/components/ui/DockableAction";
 import TextPanel from "@/app/components/case-editor/TextPanel";
 import UploadPanel from "@/app/components/case-editor/UploadPanel";
 import DescriptionPanel from "@/app/components/case-editor/DescriptionPanel";
@@ -657,17 +658,19 @@ export default function EditorPageClient({
             ) : null}
           </div>
 
-          <button
-            type="button"
-            data-editor-guide="buy"
-            onClick={() => void handleBuy()}
-            disabled={buyBusy}
-            aria-label={`خرید — ${formatToman(getCaseTotalPrice(caseType, true))}`}
-            className="mr-auto flex h-8 shrink-0 items-center gap-1 rounded-lg bg-cyan-500 px-2 text-[11px] font-bold text-black transition hover:bg-cyan-400 disabled:opacity-60"
-          >
-            <ShoppingCart size={13} />
-            {new Intl.NumberFormat("fa-IR").format(getCaseTotalPrice(caseType, true))}
-          </button>
+          <DockableAction className="mr-auto shrink-0">
+            <button
+              type="button"
+              data-editor-guide="buy"
+              onClick={() => void handleBuy()}
+              disabled={buyBusy}
+              aria-label={`خرید — ${formatToman(getCaseTotalPrice(caseType, true))}`}
+              className="flex h-8 shrink-0 items-center gap-1 rounded-lg bg-cyan-500 px-2 text-[11px] font-bold text-black transition hover:bg-cyan-400 disabled:opacity-60"
+            >
+              <ShoppingCart size={13} />
+              {new Intl.NumberFormat("fa-IR").format(getCaseTotalPrice(caseType, true))}
+            </button>
+          </DockableAction>
         </div>
 
         <div className="relative min-h-0 flex-1">
@@ -813,17 +816,19 @@ export default function EditorPageClient({
             </div>
           </div>
 
-          <button
-            type="button"
-            data-editor-guide="buy"
-            onClick={() => void handleBuy()}
-            disabled={buyBusy}
-            className="mr-auto flex min-h-11 items-center gap-2 rounded-xl bg-cyan-500 px-4 py-2 text-sm font-bold text-black transition hover:bg-cyan-400 disabled:opacity-60"
-          >
-            <ShoppingCart size={16} />
-            <span>خرید — </span>
-            {formatToman(getCaseTotalPrice(caseType, true))}
-          </button>
+          <DockableAction className="mr-auto shrink-0">
+            <button
+              type="button"
+              data-editor-guide="buy"
+              onClick={() => void handleBuy()}
+              disabled={buyBusy}
+              className="flex min-h-11 items-center gap-2 rounded-xl bg-cyan-500 px-4 py-2 text-sm font-bold text-black transition hover:bg-cyan-400 disabled:opacity-60"
+            >
+              <ShoppingCart size={16} />
+              <span>خرید — </span>
+              {formatToman(getCaseTotalPrice(caseType, true))}
+            </button>
+          </DockableAction>
         </div>
 
         {message ? (

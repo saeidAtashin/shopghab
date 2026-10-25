@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import ApplyTemplateWizard from "@/app/components/designs/ApplyTemplateWizard";
+import DockableAction from "@/app/components/ui/DockableAction";
 import DesignArtworkStage from "@/app/components/designs/DesignArtworkStage";
 import DesignImageZoom from "@/app/components/designs/DesignImageZoom";
 import {
@@ -212,13 +213,15 @@ export default function DesignDetailClient({
           <p className="mt-2 text-sm text-muted">این طرح روی همه مدل‌های گوشی قابل چاپ است.</p>
 
           {template ? (
-            <button
-              type="button"
-              onClick={() => setWizardOpen(true)}
-              className="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-cyan-500 py-3.5 text-sm font-bold text-black transition hover:bg-cyan-400 sm:w-auto sm:px-10"
-            >
-              انتخاب گوشی و ادامه خرید
-            </button>
+            <DockableAction className="mt-8">
+              <button
+                type="button"
+                onClick={() => setWizardOpen(true)}
+                className="inline-flex w-full items-center justify-center rounded-xl bg-cyan-500 py-3.5 text-sm font-bold text-black transition hover:bg-cyan-400 sm:w-auto sm:px-10"
+              >
+                انتخاب گوشی و ادامه خرید
+              </button>
+            </DockableAction>
           ) : (
             <p className="mt-8 text-sm text-muted">قالب ویرایش این طرح هنوز به ادیتور وصل نشده است.</p>
           )}

@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Check, Search, X } from "lucide-react";
 
 import { PhoneBackSvg } from "@/app/components/case-wizard/PhoneBackSvg";
+import SuggestedPhoneCard, { useSuggestedPhone } from "@/app/components/case-wizard/SuggestedPhoneCard";
 import { usePreferredBrandLoader } from "@/app/context/PreferredBrandLoaderContext";
 import { designedAssetUrl } from "@/lib/designed-assets";
 import {
@@ -14,6 +15,7 @@ import {
   getModelsByBrand,
   PHONE_BRANDS,
 } from "@/lib/cases/brands.static";
+import { rememberSelectedPhone } from "@/lib/cases/device-phone";
 import { searchPhoneModels } from "@/lib/cases/model-search";
 import type { PhoneModel } from "@/lib/cases/types";
 import type { CaseTemplate } from "@/lib/design/types";
@@ -118,6 +120,7 @@ export default function ApplyTemplateWizard({
   initialModelSlug,
 }: Props) {
   const router = useRouter();
+  const suggested = useSuggestedPhone();
   const { setPreferredBrandSlug } = usePreferredBrandLoader();
   const [brandSlug, setBrandSlug] = useState(initialBrandSlug ?? "");
   const [modelSlug, setModelSlug] = useState(initialModelSlug ?? "");
@@ -176,9 +179,18 @@ export default function ApplyTemplateWizard({
 
   const displayedModels = useMemo((): PhoneModel[] => {
     const trimmed = modelQuery.trim();
-    if (trimmed.length < 2 || !brandSlug) return models;
-    return searchPhoneModels(trimmed, { brandSlug, limit: 50 }).map((r) => r.model);
-  }, [modelQuery, brandSlug, models]);
+    const list =
+      trimmed.length < 2 || !brandSlug
+        ? models
+        : searchPhoneModels(trimmed, { brandSlug, limit: 50 }).map((r) => r.model);
+    if (!suggested || suggested.brandSlug !== brandSlug) return list;
+    const index = list.findIndex((item) => item.slug === suggested.modelSlug);
+    if (index <= 0) return list;
+    const next = [...list];
+    const [item] = next.splice(index, 1);
+    next.unshift(item);
+    return next;
+  }, [modelQuery, brandSlug, models, suggested]);
 
   if (!open) return null;
 
@@ -186,10 +198,12 @@ export default function ApplyTemplateWizard({
     onClose();
   }
 
-  function handleContinue(nextModelSlug = modelSlug) {
-    if (!brandSlug || !nextModelSlug) return;
+  function handleContinue(nextModelSlug = modelSlug, nextBrandSlug = brandSlug) {
+    if (!nextBrandSlug || !nextModelSlug) return;
+    rememberSelectedPhone({ brandSlug: nextBrandSlug, modelSlug: nextModelSlug });
+    setPreferredBrandSlug(nextBrandSlug);
     router.push(
-      `${buildCustomDesignPath(brandSlug, nextModelSlug)}?template=${template.slug}`,
+      `${buildCustomDesignPath(nextBrandSlug, nextModelSlug)}?template=${template.slug}`,
     );
     handleClose();
   }
@@ -275,6 +289,14 @@ export default function ApplyTemplateWizard({
             onStepClick={handleStepClick}
           />
         </div>
+
+        <SuggestedPhoneCard
+          className="mx-4 mt-4 shrink-0 sm:mx-5"
+          onPick={(pick) => {
+            setBrandSlug(pick.brandSlug);
+            handleContinue(pick.modelSlug, pick.brandSlug);
+          }}
+        />
 
         <div className="min-h-0 flex-1 overflow-y-auto p-4 sm:p-5">
           {step === "brand" ? (
@@ -375,6 +397,11 @@ export default function ApplyTemplateWizard({
                       <div className="mt-2 text-center">
                         <p className="text-xs font-bold text-foreground sm:text-sm">{item.name}</p>
                         <p className="text-[10px] text-muted sm:text-xs">{item.nameEn}</p>
+                        {suggested?.brandSlug === brandSlug && suggested.modelSlug === item.slug ? (
+                          <span className="mt-1 inline-flex rounded-full bg-cyan-500/15 px-2 py-0.5 text-[10px] font-semibold text-cyan-300">
+                            پیشنهادی
+                          </span>
+                        ) : null}
                       </div>
                     </button>
                   ))}

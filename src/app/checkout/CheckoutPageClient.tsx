@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import PendingButtonLabel from "@/app/components/auth/PendingButtonLabel";
+import DockableAction from "@/app/components/ui/DockableAction";
 import PhoneVerificationModal from "@/app/components/auth/PhoneVerificationModal";
 import { useAuth } from "@/app/context/AuthContext";
 import { useShopCart } from "@/app/context/ShopCartContext";
@@ -320,22 +321,24 @@ export default function CheckoutPageClient() {
 
         {error ? <p className="text-sm text-red-400">{error}</p> : null}
 
-        <button
-          type="submit"
-          disabled={loading || verifying || modalOpen}
-          aria-busy={loading || verifying}
-          className="inline-flex w-full items-center justify-center rounded-xl bg-cyan-500 py-3.5 text-sm font-bold text-black disabled:opacity-50"
-        >
-          <PendingButtonLabel
-            pending={loading || verifying}
-            pendingLabel="در حال پردازش..."
-            idle={
-              paymentMethod === "card_to_card"
-                ? "ثبت سفارش و ارسال رسید"
-                : "پرداخت با زرین‌پال"
-            }
-          />
-        </button>
+        <DockableAction>
+          <button
+            type="submit"
+            disabled={loading || verifying || modalOpen}
+            aria-busy={loading || verifying}
+            className="inline-flex w-full items-center justify-center rounded-xl bg-cyan-500 py-3.5 text-sm font-bold text-black disabled:opacity-50"
+          >
+            <PendingButtonLabel
+              pending={loading || verifying}
+              pendingLabel="در حال پردازش..."
+              idle={
+                paymentMethod === "card_to_card"
+                  ? "ثبت سفارش و ارسال رسید"
+                  : "پرداخت با زرین‌پال"
+              }
+            />
+          </button>
+        </DockableAction>
       </form>
 
       <PhoneVerificationModal {...modalProps} />

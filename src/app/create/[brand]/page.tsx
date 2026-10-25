@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import ModelGrid from "@/app/components/case-wizard/ModelGrid";
 import ModelSearch from "@/app/components/case-wizard/ModelSearch";
+import SuggestedPhoneCard from "@/app/components/case-wizard/SuggestedPhoneCard";
 import WizardBreadcrumb from "@/app/components/case-wizard/WizardBreadcrumb";
 import { getBrandBySlug, getModelsByBrandAndSeries } from "@/lib/cases/brands.static";
 import { getSeriesBySlug } from "@/lib/cases/series";
@@ -62,6 +63,7 @@ export default async function BrandModelsPage({ params, searchParams }: Props) {
             : `مدل ${brand.name} خود را انتخاب کنید`}
         </h1>
         <p className="mt-2 text-muted">مرحله ۲ از ۲ — مدل</p>
+        <SuggestedPhoneCard className="mt-6" />
 
         {series ? (
           <Link

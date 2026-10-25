@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ShoppingCart, Palette } from "lucide-react";
 import { useShopCart } from "@/app/context/ShopCartContext";
+import DockableAction from "@/app/components/ui/DockableAction";
 import WizardBreadcrumb from "@/app/components/case-wizard/WizardBreadcrumb";
 import {
   getBrandBySlug,
@@ -99,15 +100,17 @@ export default function ReadyCaseDetail({ product }: Props) {
           </div>
 
           <div className="flex flex-wrap gap-3">
-            <button
-              type="button"
-              disabled={!product.inStock}
-              onClick={() => addReadyCase(product.id, product.title)}
-              className="flex items-center gap-2 rounded-xl bg-cyan-500 px-6 py-3 text-sm font-bold text-black transition hover:bg-cyan-400 disabled:opacity-50"
-            >
-              <ShoppingCart size={18} />
-              افزودن به سبد
-            </button>
+            <DockableAction>
+              <button
+                type="button"
+                disabled={!product.inStock}
+                onClick={() => addReadyCase(product.id, product.title)}
+                className="flex items-center gap-2 rounded-xl bg-cyan-500 px-6 py-3 text-sm font-bold text-black transition hover:bg-cyan-400 disabled:opacity-50"
+              >
+                <ShoppingCart size={18} />
+                افزودن به سبد
+              </button>
+            </DockableAction>
             {product.template ? (
               <Link
                 href={`/design/${product.brandSlug}/${product.modelSlug}/${product.caseTypeSlug}?template=${product.slug}`}

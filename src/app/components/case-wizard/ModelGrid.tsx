@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { buildCustomDesignPath } from "@/lib/cases/brands.static";
+import { rememberSelectedPhone } from "@/lib/cases/device-phone";
 import type { PhoneModel } from "@/lib/cases/types";
 import { getSeriesBySlug, groupModelsBySeries } from "@/lib/cases/series";
 import { PhoneBackSvg } from "./PhoneBackSvg";
@@ -17,6 +20,7 @@ function ModelCards({ brandSlug, models }: { brandSlug: string; models: PhoneMod
         <Link
           key={model.slug}
           href={buildCustomDesignPath(brandSlug, model.slug)}
+          onClick={() => rememberSelectedPhone({ brandSlug, modelSlug: model.slug })}
           className="group rounded-2xl border border-border bg-card/60 p-4 transition hover:border-cyan-500/50 hover:bg-card"
         >
           <div className="relative mx-auto flex h-36 w-20 items-center justify-center">
