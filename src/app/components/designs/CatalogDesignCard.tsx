@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import DesignArtworkStage from "@/app/components/designs/DesignArtworkStage";
+import { colorSwatch } from "@/app/components/designs/browse-visuals";
 import { designedAssetUrl } from "@/lib/designed-assets";
 import { designImageAlt } from "@/lib/mockups/display";
 import type { PublicDesign } from "@/lib/catalog/schema";
@@ -18,6 +19,8 @@ type Props = {
   priority?: boolean;
   compact?: boolean;
   frame?: "base" | "lead" | "portrait";
+  variant?: "storefront";
+  priceLabel?: string;
 };
 
 function cardFrames(design: PublicDesign): Frame[] {
@@ -34,12 +37,37 @@ function cardFrames(design: PublicDesign): Frame[] {
   return frames;
 }
 
+function StorefrontColors({ colors }: { colors: string[] }) {
+  if (colors.length === 0) return null;
+  return (
+    <ul className="flex flex-wrap gap-1" aria-label="رنگ‌ها">
+      {colors.slice(0, 4).map((color) => {
+        const swatch = colorSwatch(color);
+        return (
+          <li key={color} className="inline-flex items-center gap-1 text-[11px] text-muted">
+            {typeof swatch === "string" ? (
+              <span
+                className="h-2.5 w-2.5 rounded-full border border-white/20"
+                style={{ backgroundColor: swatch }}
+                aria-hidden
+              />
+            ) : null}
+            <span>{color}</span>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
 export default function CatalogDesignCard({
   design,
   categoryName,
   priority = false,
   compact = false,
   frame: artFrame = "base",
+  variant,
+  priceLabel,
 }: Props) {
   const alt = designImageAlt(design);
   const href = `/designs/${design.slug}`;
@@ -47,6 +75,39 @@ export default function CatalogDesignCard({
   const [index, setIndex] = useState(0);
   const frame = frames[index] ?? frames[0];
   const art = design.imagePath || design.thumbnailPath;
+
+  if (variant === "storefront") {
+    return (
+      <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition hover:border-[#5145FF]/45">
+        <Link
+          href={href}
+          className="flex h-full flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#5145FF]/70"
+        >
+          <div className="relative aspect-[4/5] bg-surface">
+            {art ? (
+              <Image
+                src={designedAssetUrl(art)}
+                alt={alt}
+                fill
+                priority={priority}
+                sizes="(max-width: 640px) 50vw, 240px"
+                className="object-contain p-3"
+              />
+            ) : (
+              <span className="flex h-full items-center justify-center text-xs text-muted">بدون تصویر</span>
+            )}
+          </div>
+          <div className="flex flex-1 flex-col gap-1.5 p-3">
+            <h2 className="line-clamp-2 text-sm font-bold text-foreground">{design.title}</h2>
+            {categoryName ? <p className="text-xs text-muted">{categoryName}</p> : null}
+            <StorefrontColors colors={design.colors} />
+            {priceLabel ? <p className="mt-auto pt-1 text-sm font-bold text-foreground">{priceLabel}</p> : null}
+          </div>
+        </Link>
+      </article>
+    );
+  }
+
   const artHeight =
     artFrame === "lead" ? "h-72 sm:h-96" : artFrame === "portrait" ? "h-64 sm:h-80" : "h-48 sm:h-56";
 

@@ -36,6 +36,25 @@
   --overlay: rgba(9, 9, 11, 0.92);
 }
 
+/* Landing storefront only. The rest of the site keeps the tokens above. */
+.home-storefront {
+  --background: #080d18;
+  --foreground: #f4f5fa;
+  --muted: #9aa3b8;
+  --card: #0e1626;
+  --border: rgba(148, 163, 196, 0.16);
+  --surface: #131d30;
+  --input-bg: #10192b;
+  --overlay: rgba(8, 13, 24, 0.94);
+  background: #080d18;
+  color: var(--foreground);
+}
+
+.home-storefront :focus-visible,
+.site-chrome :focus-visible {
+  outline-color: #5145ff;
+}
+
 body {
   background:
     radial-gradient(circle at top, rgba(37, 99, 235, 0.08), transparent 40%),

@@ -10,6 +10,7 @@ import { lockPageScroll } from "@/lib/scroll-lock";
 import DesktopNav from "./nav/DesktopNav";
 import MobileDrawer from "./nav/MobileDrawer";
 import NavActions from "./nav/NavActions";
+import NavSearch from "./nav/NavSearch";
 import { ICON_SIZE, iconButtonClass } from "./nav/nav-styles";
 
 export default function Navbar() {
@@ -38,11 +39,12 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 h-[4.5rem] border-b border-border bg-black/30">
-        <div className="mx-auto flex h-full max-w-7xl items-center justify-between gap-3 px-4 pt-2 sm:px-6 lg:grid lg:grid-cols-[auto_minmax(0,1fr)_auto]">
+      <header className="site-chrome fixed inset-x-0 top-0 z-50 h-[4.5rem] border-b border-white/10 bg-[#080D18]/95 backdrop-blur-md">
+        <div className="mx-auto flex h-full max-w-7xl items-center gap-3 px-4 sm:px-6">
           <SiteLogo onMedia />
           <DesktopNav />
-          <div className="flex items-center gap-2">
+          <NavSearch className="ms-auto hidden w-52 shrink-0 lg:block xl:w-64" />
+          <div className="ms-auto flex items-center gap-2 lg:ms-0">
             <NavActions layout="bar" />
             <button
               type="button"

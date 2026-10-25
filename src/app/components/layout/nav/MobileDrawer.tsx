@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 
 import { isNavActive } from "./is-nav-active";
 import NavActions from "./NavActions";
+import NavSearch from "./NavSearch";
 import { navItemIcon } from "./nav-icons";
 import { ICON_SIZE, iconButtonClass } from "./nav-styles";
 
@@ -44,7 +45,7 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
         aria-modal="true"
         aria-label="منوی موبایل"
         className={cn(
-          "absolute end-0 top-0 flex h-full w-[min(100vw-3rem,20rem)] flex-col overflow-hidden border-s border-border bg-background transition-transform duration-500 sm:w-80",
+          "site-chrome absolute end-0 top-0 flex h-full w-[min(100vw-3rem,20rem)] flex-col overflow-hidden border-s border-border bg-background transition-transform duration-500 sm:w-80",
           open ? "translate-x-0" : "-translate-x-full",
         )}
       >
@@ -65,6 +66,7 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
           </div>
 
           <div className="min-h-0 flex-1 overflow-y-auto px-5 py-6 sm:px-8">
+            <NavSearch className="mb-5" onNavigate={onClose} />
             <nav className="flex flex-col gap-1 text-end" aria-label="منوی موبایل">
               {navbarNavItems.map((item) => {
                 const active = isNavActive(pathname, item.href);
@@ -82,8 +84,8 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
                             className={cn(
                               "inline-flex flex-row-reverse items-center gap-2 text-lg font-bold transition-colors",
                               active
-                                ? "text-cyan-400"
-                                : "text-foreground hover:text-cyan-400",
+                                ? "text-[#C4C0FF]"
+                                : "text-foreground hover:text-[#C4C0FF]",
                             )}
                           >
                             {Icon ? <Icon size={ICON_SIZE} aria-hidden /> : null}
@@ -94,7 +96,7 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
                             data-route-loader-ignore="true"
                             aria-expanded={sectionOpen === item.href}
                             aria-label={`${item.title} — زیرمنو`}
-                            className="rounded-lg p-2 text-cyan-500 transition-colors hover:bg-surface touch-manipulation"
+                            className="rounded-lg p-2 text-[#5145FF] transition-colors hover:bg-surface touch-manipulation"
                             onClick={() =>
                               setSectionOpen((current) =>
                                 current === item.href ? null : item.href,
@@ -121,7 +123,7 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
                           inert={sectionOpen === item.href ? undefined : true}
                           aria-hidden={sectionOpen !== item.href}
                         >
-                          <div className="me-2 flex flex-col gap-2 border-e border-cyan-500/20 py-1 pe-4">
+                          <div className="me-2 flex flex-col gap-2 border-e border-[#5145FF]/30 py-1 pe-4">
                             {item.children.map((sub) =>
                               sub.children ? (
                                 <div key={sub.href}>
@@ -132,8 +134,8 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
                                       className={cn(
                                         "text-sm transition-colors sm:text-base",
                                         isNavActive(pathname, sub.href)
-                                          ? "text-cyan-400"
-                                          : "text-muted hover:text-cyan-400",
+                                          ? "text-[#C4C0FF]"
+                                          : "text-muted hover:text-[#C4C0FF]",
                                       )}
                                     >
                                       {sub.title}
@@ -143,7 +145,7 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
                                       data-route-loader-ignore="true"
                                       aria-expanded={brandOpen === sub.href}
                                       aria-label={`${sub.title} — سری‌ها`}
-                                      className="rounded-lg p-1.5 text-cyan-500 transition-colors hover:bg-surface touch-manipulation"
+                                      className="rounded-lg p-1.5 text-[#5145FF] transition-colors hover:bg-surface touch-manipulation"
                                       onClick={() =>
                                         setBrandOpen((current) =>
                                           current === sub.href ? null : sub.href,
@@ -179,8 +181,8 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
                                           className={cn(
                                             "text-xs transition-colors sm:text-sm",
                                             isNavActive(pathname, series.href)
-                                              ? "text-cyan-400"
-                                              : "text-muted hover:text-cyan-400",
+                                              ? "text-[#C4C0FF]"
+                                              : "text-muted hover:text-[#C4C0FF]",
                                           )}
                                         >
                                           {series.title}
@@ -197,8 +199,8 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
                                   className={cn(
                                     "text-sm transition-colors sm:text-base",
                                     isNavActive(pathname, sub.href)
-                                      ? "text-cyan-400"
-                                      : "text-muted hover:text-cyan-400",
+                                      ? "text-[#C4C0FF]"
+                                      : "text-muted hover:text-[#C4C0FF]",
                                   )}
                                 >
                                   {sub.title}
@@ -216,8 +218,8 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
                         className={cn(
                           "flex flex-row-reverse items-center gap-2 rounded-xl px-2 py-3 text-lg font-bold transition-colors",
                           active
-                            ? "text-cyan-400"
-                            : "text-foreground hover:text-cyan-400",
+                            ? "text-[#C4C0FF]"
+                            : "text-foreground hover:text-[#C4C0FF]",
                         )}
                       >
                         {Icon ? <Icon size={ICON_SIZE} aria-hidden /> : null}

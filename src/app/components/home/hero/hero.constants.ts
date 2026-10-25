@@ -4,14 +4,14 @@ import type { CaseTemplate } from "@/lib/design/types";
 
 export const HERO_BADGE = "ارسال رایگان به سراسر ایران";
 
-export const HERO_HEADING = "فروش قاب موبایل؛ قاب اختصاصی خودت را طراحی کن";
+export const HERO_HEADING = "قاب گوشی، به سبک خودت";
 
 export const HERO_DESCRIPTION =
-  "در شاپ قاب برند و مدل گوشی را انتخاب کن، متن و استیکر اضافه کن و قاب اختصاصی بساز — یا از بین صدها طراحی آماده انتخاب کن.";
+  "طرح آماده را برای مدل گوشی‌ات انتخاب کن، یا قاب اختصاصی خودت را در شاپ قاب طراحی کن.";
 
 export const HERO_CTAS = {
-  primary: { label: "شروع طراحی", href: "/create" },
-  secondary: { label: "مشاهده طراحی‌ها", href: "/designs" },
+  primary: { label: "مشاهده طرح‌ها", href: "/designs" },
+  secondary: { label: "شروع طراحی", href: "/create" },
 } as const;
 
 export const HERO_RATING = {

@@ -37,12 +37,12 @@ export default function NavActions({ layout, onNavigate }: NavActionsProps) {
           href="/cart"
           data-shop-cart-target
           onClick={onNavigate}
-          className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-card py-3.5 text-sm font-bold text-foreground transition-all hover:border-cyan-500/50 touch-manipulation"
+          className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-card py-3.5 text-sm font-bold text-foreground transition-all hover:border-[#5145FF]/60 touch-manipulation"
         >
-          <ShoppingCart size={ICON_SIZE} className="text-cyan-400" aria-hidden />
+          <ShoppingCart size={ICON_SIZE} className="text-[#C4C0FF]" aria-hidden />
           سبد خرید
           {itemCount > 0 ? (
-            <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-cyan-500 px-1 text-xs text-black">
+            <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-[#5145FF] px-1 text-xs text-white">
               {itemCount}
             </span>
           ) : null}
@@ -51,7 +51,7 @@ export default function NavActions({ layout, onNavigate }: NavActionsProps) {
           <Link
             href="/login"
             onClick={onNavigate}
-            className="w-full rounded-xl bg-cyan-500 py-3.5 text-center text-sm font-bold text-black shadow-lg shadow-cyan-500/20 touch-manipulation"
+            className="w-full rounded-xl bg-[#5145FF] py-3.5 text-center text-sm font-bold text-white shadow-lg shadow-[#5145FF]/25 touch-manipulation"
           >
             ورود / ثبت‌نام
           </Link>
@@ -60,9 +60,9 @@ export default function NavActions({ layout, onNavigate }: NavActionsProps) {
             <Link
               href={panelHref}
               onClick={onNavigate}
-              className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-card py-3.5 text-sm font-bold text-foreground transition-all hover:border-cyan-500/50 touch-manipulation"
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-card py-3.5 text-sm font-bold text-foreground transition-all hover:border-[#5145FF]/60 touch-manipulation"
             >
-              <LayoutDashboard size={ICON_SIZE} className="text-cyan-400" aria-hidden />
+              <LayoutDashboard size={ICON_SIZE} className="text-[#C4C0FF]" aria-hidden />
               پنل کاربری
             </Link>
             <button
@@ -93,7 +93,7 @@ export default function NavActions({ layout, onNavigate }: NavActionsProps) {
         ) : (
           <>
             <Link href={panelHref} className={panelButtonClass}>
-              <LayoutDashboard size={ICON_SIZE} className="shrink-0 text-cyan-400" aria-hidden />
+              <LayoutDashboard size={ICON_SIZE} className="shrink-0 text-[#C4C0FF]" aria-hidden />
               پنل کاربری
             </Link>
             <button type="button" onClick={logout} className={logoutButtonClass} aria-label="خروج">

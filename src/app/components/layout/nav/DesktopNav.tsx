@@ -32,7 +32,7 @@ function LeafLink({
       className={cn(
         "group relative inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-colors xl:px-4",
         navBarLabelClass,
-        active ? "text-cyan-300" : "text-white hover:text-cyan-300",
+        active ? "text-[#C4C0FF]" : "text-white hover:text-[#C4C0FF]",
         className,
       )}
     >
@@ -40,7 +40,7 @@ function LeafLink({
       {title}
       <span
         className={cn(
-          "absolute bottom-0 left-1/2 h-0.5 -translate-x-1/2 bg-cyan-500 transition-all",
+          "absolute bottom-0 left-1/2 h-0.5 -translate-x-1/2 bg-[#5145FF] transition-all",
           active ? "w-1/2" : "w-0 group-hover:w-1/2",
         )}
       />
@@ -49,14 +49,14 @@ function LeafLink({
 }
 
 const menuItemClass =
-  "block rounded-xl px-4 py-2.5 text-sm text-foreground transition-colors hover:bg-surface hover:text-cyan-300";
+  "block rounded-xl px-4 py-2.5 text-sm text-foreground transition-colors hover:bg-surface hover:text-[#C4C0FF]";
 
 function BrandFlyout({ sub }: { sub: SiteNavBranch }) {
   return (
     <div className="group/brand relative">
       <Link
         href={sub.href}
-        className="flex items-center justify-between rounded-xl px-4 py-2.5 text-sm text-foreground transition-colors hover:bg-surface hover:text-cyan-300"
+        className="flex items-center justify-between rounded-xl px-4 py-2.5 text-sm text-foreground transition-colors hover:bg-surface hover:text-[#C4C0FF]"
       >
         <span>{sub.title}</span>
         <ChevronDown
@@ -145,7 +145,7 @@ function DesktopMenuItem({ item }: { item: SiteNavItem }) {
           className={cn(
             "inline-flex items-center gap-1.5 text-sm font-medium transition-colors",
             navBarLabelClass,
-            active ? "text-cyan-300" : "text-white hover:text-cyan-300",
+            active ? "text-[#C4C0FF]" : "text-white hover:text-[#C4C0FF]",
           )}
         >
           {Icon ? <Icon size={ICON_SIZE} aria-hidden /> : null}
@@ -157,7 +157,7 @@ function DesktopMenuItem({ item }: { item: SiteNavItem }) {
           aria-controls={menuId}
           aria-label={`${item.title} — زیرمنو`}
           className={cn(
-            "flex items-center rounded-md p-0.5 text-white transition-colors hover:text-cyan-300",
+            "flex items-center rounded-md p-0.5 text-white transition-colors hover:text-[#C4C0FF]",
             navBarLabelClass,
           )}
           onClick={() => setPinned((value) => !value)}

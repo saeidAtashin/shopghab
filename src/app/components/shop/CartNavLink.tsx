@@ -34,7 +34,7 @@ export default function CartNavLink({ itemCount, receiving, className, onClick }
         {receiving ? (
           <motion.span
             aria-hidden
-            className="pointer-events-none absolute inset-0 rounded-lg border-2 border-cyan-400/70"
+            className="pointer-events-none absolute inset-0 rounded-lg border-2 border-[#5145FF]/70"
             initial={{ scale: 0.6, opacity: 0.7 }}
             animate={{ scale: 1.6, opacity: 0 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
@@ -56,7 +56,7 @@ export default function CartNavLink({ itemCount, receiving, className, onClick }
         {itemCount > 0 ? (
           <motion.span
             key={itemCount}
-            className="absolute -right-1 -top-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-cyan-500 px-1 text-[10px] font-bold text-black"
+            className="absolute -right-1 -top-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[#5145FF] px-1 text-[10px] font-bold text-white"
             animate={receiving ? { scale: [1, 1.35, 1] } : { scale: 1 }}
             transition={receiving ? { duration: 0.45, ease: "easeOut" } : { duration: 0.2 }}
           >

@@ -1,19 +1,32 @@
 import Link from "next/link";
-import { Palette, Truck, Shield, Smartphone } from "lucide-react";
-import DesignSamplesSection from "@/app/components/designs/DesignSamplesSection";
-import CatalogPickCards from "@/app/components/designs/CatalogPickCards";
+import Image from "next/image";
+import { notFound } from "next/navigation";
+
+import HomeBenefits from "@/app/components/home/HomeBenefits";
+import HomeCategoryMosaic from "@/app/components/home/HomeCategoryMosaic";
+import HomeDiscovery from "@/app/components/home/HomeDiscovery";
+import HomeSpotlight from "@/app/components/home/HomeSpotlight";
 import HomeHero from "@/app/components/home/hero/HomeHero";
-import TaxonomySection from "@/app/components/home/taxonomy/TaxonomySection";
-import { PhoneBackSvg } from "@/app/components/case-wizard/PhoneBackSvg";
-import { getHeroTemplates } from "@/app/components/home/hero/hero.constants";
-import { getModelBySlug } from "@/lib/cases/brands.static";
+import {
+  getCaseTotalPrice,
+  getCaseTypeBySlug,
+  getModelBySlug,
+  SELECTABLE_CASE_TYPE_SLUG,
+} from "@/lib/cases/brands.static";
 import { getCaseTemplateBySlug } from "@/lib/cases/templates.static";
-import { isPublicCatalogDesign, publicPickCards } from "@/lib/catalog/logic";
+import {
+  parsePublicListingQuery,
+  publicBrowseShell,
+  publicPickCards,
+  queryPublicDesigns,
+} from "@/lib/catalog/logic";
+import type { DesignCatalog } from "@/lib/catalog/schema";
 import { readCatalog } from "@/lib/catalog/store";
-import { LANDING_SECTION_COPY, selectLandingItems, type LandingSectionKey } from "@/lib/landing/sections";
+import { designedAssetUrl } from "@/lib/designed-assets";
+import { selectLandingItems } from "@/lib/landing/sections";
 import { readLandingSections } from "@/lib/landing/store";
-import { landingTaxonomy } from "@/lib/landing/taxonomy";
-import type { CaseTemplate } from "@/lib/design/types";
+import { landingTaxonomy, type TaxonomyCard } from "@/lib/landing/taxonomy";
+import { formatToman } from "@/lib/shop/format";
 
 const POPULAR_MODELS = [
   { brandSlug: "apple", modelSlug: "iphone-16-pro" },
@@ -24,135 +37,187 @@ const POPULAR_MODELS = [
   { brandSlug: "huawei", modelSlug: "pura-70-pro" },
 ] as const;
 
-function getPopularModels() {
-  const models = [];
-  for (const { brandSlug, modelSlug } of POPULAR_MODELS) {
-    const model = getModelBySlug(brandSlug, modelSlug);
-    if (model) models.push(model);
-  }
-  return models;
+const HOME_PAGE_SIZE = 8;
+const MOSAIC_LIMIT = 6;
+
+type SearchParams = {
+  q?: string;
+  sort?: string;
+  page?: string;
+  attr?: string;
+  sub?: string;
+};
+
+function printablePrice(): string {
+  const caseType = getCaseTypeBySlug(SELECTABLE_CASE_TYPE_SLUG);
+  if (!caseType) return "";
+  return formatToman(getCaseTotalPrice(caseType, true));
 }
 
-function publishedHomeTemplates() {
-  const published = readCatalog()
-    .designs.filter((design) => isPublicCatalogDesign(design))
-    .sort((a, b) => {
-      if (a.featured !== b.featured) return a.featured ? -1 : 1;
-      if (a.sortOrder !== b.sortOrder) return a.sortOrder - b.sortOrder;
-      return (b.publishedAt ?? b.createdAt).localeCompare(a.publishedAt ?? a.createdAt);
+function collectionRail(catalog: DesignCatalog) {
+  for (const slug of ["bestsellers", "popular"] as const) {
+    const collection = catalog.collections.find((item) => item.slug === slug);
+    if (!collection) continue;
+    const result = queryPublicDesigns(catalog, {
+      collectionId: collection.id,
+      sort: "featured",
+      page: 1,
+      pageSize: 4,
     });
-
-  const templates: CaseTemplate[] = [];
-  for (const design of published) {
-    const template = getCaseTemplateBySlug(design.templateSlug);
-    if (!template) continue;
-    templates.push(template);
-    if (templates.length === 4) break;
+    if (result.items.length === 0) continue;
+    return {
+      title: collection.name,
+      href: `/designs/collection/${collection.slug}`,
+      items: result.items,
+    };
   }
-
-  return templates.length > 0 ? templates : getHeroTemplates().slice(0, 4);
+  return null;
 }
 
-const HOME_SECTIONS: LandingSectionKey[] = ["categories", "features", "collections"];
+function primaryCategory(categoryIds: string[], names: Record<string, string>): string | undefined {
+  for (const id of categoryIds) {
+    const name = names[id];
+    if (name) return name;
+  }
+  return undefined;
+}
 
-export default function HomeCasePage() {
-  const heroTemplates = publishedHomeTemplates();
-  const popularModels = getPopularModels();
+export default function HomeCasePage({ searchParams }: { searchParams: SearchParams }) {
+  const query = parsePublicListingQuery(searchParams);
   const catalog = readCatalog();
-  const landing = readLandingSections();
-  const taxonomy = landingTaxonomy(catalog, {
-    categories: landing.categories.banners,
-    features: landing.features.banners,
-    collections: landing.collections.banners,
-  }, { publicOnly: true });
+  const result = queryPublicDesigns(catalog, {
+    q: query.q,
+    sort: query.sort,
+    page: query.page,
+    pageSize: HOME_PAGE_SIZE,
+    attributeValueIds: query.attrs,
+  });
+  if (query.page > result.pageCount && result.total > 0) notFound();
 
+  const landing = readLandingSections();
+  const taxonomy = landingTaxonomy(
+    catalog,
+    {
+      categories: landing.categories.banners,
+      features: landing.features.banners,
+      collections: landing.collections.banners,
+    },
+    { publicOnly: true },
+  );
+  const categoryItems = landing.categories.visible
+    ? selectLandingItems(taxonomy.categories, landing.categories.itemIds)
+    : [];
+  const collectionItems = landing.collections.visible
+    ? selectLandingItems(taxonomy.collections, landing.collections.itemIds)
+    : [];
   const picks = publicPickCards(catalog);
+  const categoryNames = Object.fromEntries(catalog.categories.map((category) => [category.id, category.name]));
+  const priceLabel = printablePrice();
+  const featured = queryPublicDesigns(catalog, { sort: "featured", page: 1, pageSize: 1 }).items[0];
+  const template = featured ? (getCaseTemplateBySlug(featured.templateSlug) ?? null) : null;
+  const models = POPULAR_MODELS.flatMap(({ brandSlug, modelSlug }) => {
+    const model = getModelBySlug(brandSlug, modelSlug);
+    if (!model) return [];
+    return [{ name: model.name, href: `/phones/${model.brandSlug}/${model.slug}` }];
+  });
+
+  const storyCards: TaxonomyCard[] = [];
+  const seen = new Set<string>();
+  for (const card of collectionItems) {
+    if (seen.has(card.href)) continue;
+    seen.add(card.href);
+    storyCards.push(card);
+  }
+  for (const pick of picks) {
+    if (seen.has(pick.href)) continue;
+    seen.add(pick.href);
+    storyCards.push({
+      id: pick.slug,
+      title: pick.title,
+      description: "",
+      href: pick.href,
+      image: pick.image,
+      count: 0,
+      chips: [],
+    });
+  }
 
   return (
-    <main id="main" tabIndex={-1} className="min-h-screen bg-background outline-none">
-      <HomeHero />
-
-      {picks.length > 0 ? (
-        <section className="px-4 pt-10 sm:px-6">
-          <div className="mx-auto max-w-6xl">
-            <CatalogPickCards cards={picks} />
-          </div>
-        </section>
-      ) : null}
-
-      <section className="border-y border-border bg-background/50 px-4 py-8 sm:px-6">
-        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-3">
-          {[
-            { icon: Palette, title: "طراحی زنده", desc: "متن و استیکر را لحظه‌ای ببین" },
-            { icon: Truck, title: "ارسال سریع", desc: "چاپ با کیفیت و ارسال به سراسر ایران" },
-            { icon: Shield, title: "گارانتی", desc: "۷ روز ضمانت بازگشت" },
-          ].map(({ icon: Icon, title, desc }) => (
-            <div key={title} className="flex items-start gap-3 rounded-xl p-4">
-              <Icon size={20} className="mt-0.5 shrink-0 text-cyan-400" />
-              <div>
-                <p className="font-bold text-foreground">{title}</p>
-                <p className="text-sm text-muted">{desc}</p>
-              </div>
-            </div>
-          ))}
+    <main id="main" tabIndex={-1} className="home-storefront min-h-screen px-4 pb-16 pt-24 outline-none sm:px-6">
+      <div className="mx-auto flex max-w-7xl flex-col gap-4">
+        <div className="flex flex-col gap-4 xl:flex-row xl:items-stretch">
+          <HomeHero className="xl:order-3 xl:min-w-0 xl:flex-[1.45]" />
+          {categoryItems.length > 0 ? (
+            <HomeCategoryMosaic
+              items={categoryItems.slice(0, MOSAIC_LIMIT)}
+              hasMore={categoryItems.length > MOSAIC_LIMIT}
+              className="xl:order-2 xl:w-[22rem] xl:shrink-0"
+            />
+          ) : null}
+          {featured ? (
+            <HomeSpotlight
+              className="xl:order-1 xl:w-[17.5rem] xl:shrink-0"
+              slug={featured.slug}
+              title={featured.title}
+              image={featured.imagePath || featured.thumbnailPath}
+              alt={featured.alt}
+              categoryName={primaryCategory(featured.categoryIds, categoryNames)}
+              colors={featured.colors}
+              priceLabel={priceLabel}
+              template={template}
+            />
+          ) : null}
         </div>
-      </section>
 
-      {HOME_SECTIONS.map((key) =>
-        landing[key].visible ? (
-          <TaxonomySection
-            key={key}
-            title={LANDING_SECTION_COPY[key].title}
-            description={LANDING_SECTION_COPY[key].description}
-            items={selectLandingItems(taxonomy[key], landing[key].itemIds)}
-            style={landing[key].style}
-            seeAllHref="/designs"
-          />
-        ) : null,
-      )}
+        <HomeBenefits />
 
-      <section className="px-4 py-16 sm:px-6">
-        <div className="mx-auto max-w-6xl">
-          <div className="mb-8 flex items-end justify-between">
-            <div>
-              <h2 className="flex items-center gap-2 text-2xl font-black text-foreground">
-                <Smartphone size={24} className="text-cyan-400" />
-                محبوب‌ترین مدل‌ها
-              </h2>
-              <p className="mt-1 text-sm text-muted">طراحی اختصاصی برای مدل گوشی تو</p>
-            </div>
-            <Link href="/create" className="text-sm text-cyan-400 hover:underline">
-              همه برندها
-            </Link>
-          </div>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-            {popularModels.map((model) => (
-              <Link
-                key={`${model.brandSlug}-${model.slug}`}
-                href={`/phones/${model.brandSlug}/${model.slug}`}
-                className="group rounded-2xl border border-border bg-card/60 p-4 transition hover:border-cyan-500/50 hover:bg-card"
-              >
-                <div className="relative mx-auto flex h-32 w-16 items-center justify-center">
-                  <PhoneBackSvg
-                    model={model}
-                    className="h-full w-auto max-w-full drop-shadow-lg transition group-hover:scale-105"
-                  />
-                </div>
-                <div className="mt-3 text-center">
-                  <p className="text-sm font-bold text-foreground">{model.name}</p>
-                  <p className="text-xs text-muted">{model.nameEn}</p>
-                </div>
+        <HomeDiscovery
+          shell={publicBrowseShell(catalog)}
+          query={{ q: query.q, sort: query.sort, attrs: query.attrs, page: query.page }}
+          designs={result.items}
+          categoryNames={categoryNames}
+          priceLabel={priceLabel}
+          total={result.total}
+          pageSize={result.pageSize}
+          pageCount={result.pageCount}
+          models={models}
+          rail={collectionRail(catalog)}
+        />
+
+        {storyCards.length > 0 ? (
+          <section aria-label="کالکشن‌ها" className="pt-4">
+            <div className="mb-3 flex items-center justify-between">
+              <h2 className="text-lg font-black text-foreground">کالکشن‌ها</h2>
+              <Link href="/designs" className="text-sm font-bold text-[#C4C0FF] hover:underline">
+                مشاهده همه
               </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="px-4 py-16 sm:px-6">
-        <div className="mx-auto max-w-6xl">
-          <DesignSamplesSection templates={heroTemplates.slice(0, 4)} limit={4} />
-        </div>
-      </section>
+            </div>
+            <div className="flex gap-3 overflow-x-auto pb-1">
+              {storyCards.map((card) => (
+                <Link
+                  key={card.id}
+                  href={card.href}
+                  className="flex min-w-[15rem] items-center gap-3 rounded-2xl border border-border bg-card p-2 transition hover:border-[#5145FF]/45"
+                >
+                  <span className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-surface">
+                    {card.image ? (
+                      <Image src={designedAssetUrl(card.image)} alt="" fill sizes="64px" className="object-cover" />
+                    ) : null}
+                  </span>
+                  <span className="min-w-0">
+                    <span className="line-clamp-2 block text-sm font-bold text-foreground">{card.title}</span>
+                    {card.count > 0 ? (
+                      <span className="mt-1 block text-xs text-muted">
+                        {card.count.toLocaleString("fa-IR")} طرح
+                      </span>
+                    ) : null}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </section>
+        ) : null}
+      </div>
     </main>
   );
 }
