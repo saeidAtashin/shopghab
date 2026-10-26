@@ -33,19 +33,19 @@ export default function HomeCategoryMosaic({ items, className }: Props) {
   return (
     <section aria-label="دسته‌ها" className={cn("min-w-0", className)}>
       <div className="xl:hidden">
-        <ul className="grid grid-cols-4 gap-2">
+        <ul className="grid grid-cols-4 gap-1.5">
           {circles.map((item, index) => (
-            <li key={item.id}>
-              <Link href={item.href} className="flex flex-col items-center gap-2">
+            <li key={item.id} className="min-w-0">
+              <Link href={item.href} className="flex min-w-0 flex-col items-center gap-2">
                 <span
                   className={cn(
-                    "relative block h-16 w-16 overflow-hidden rounded-full bg-surface ring-2 ring-offset-2 ring-offset-[#080D18]",
+                    "relative block h-14 w-14 overflow-hidden rounded-full bg-surface ring-2",
                     RINGS[index % RINGS.length],
                   )}
                 >
-                  <CategoryImage src={item.image} sizes="64px" />
+                  <CategoryImage src={item.image} sizes="56px" />
                 </span>
-                <span className="line-clamp-2 text-center text-[11px] font-bold leading-4 text-foreground">
+                <span className="line-clamp-2 w-full text-center text-[10px] font-bold leading-4 text-foreground">
                   {item.title}
                 </span>
               </Link>
@@ -55,7 +55,7 @@ export default function HomeCategoryMosaic({ items, className }: Props) {
         {tiles.length > 0 ? (
           <ul className="mt-4 grid grid-cols-2 gap-3">
             {tiles.map((item) => (
-              <li key={item.id}>
+              <li key={item.id} className="min-w-0">
                 <Link
                   href={item.href}
                   className="group relative block aspect-[5/4] overflow-hidden rounded-2xl border border-border bg-card"

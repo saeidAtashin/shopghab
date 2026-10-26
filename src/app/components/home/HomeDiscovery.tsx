@@ -361,9 +361,9 @@ export default function HomeDiscovery({
       >
         <div className="min-w-0 xl:order-2">
           <div className="mb-4 rounded-2xl border border-border bg-card p-2">
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex items-center gap-2 overflow-x-auto">
               {colorGroup && colorGroup.options.length > 0 ? (
-                <div className="flex items-center gap-2 pe-1">
+                <div className="flex shrink-0 items-center gap-2 pe-1">
                   <span className="text-xs font-bold text-muted">رنگ قاب/بدنه</span>
                   <ul className="flex gap-1.5" aria-label={colorGroup.label}>
                     {colorGroup.options.map((option) => {
@@ -400,13 +400,13 @@ export default function HomeDiscovery({
                 id={sortId}
                 value={query.sort}
                 onChange={(event) => changeSort(event.target.value as BrowseSort)}
-                className={`${fieldClass} w-auto min-w-[8.5rem]`}
+                className={`${toolbarField} min-w-[8.5rem]`}
               >
                 <option value="featured">مرتب‌سازی</option>
                 <option value="newest">جدیدترین</option>
                 <option value="title">عنوان</option>
               </select>
-              <form role="search" onSubmit={submitSearch} className="min-w-[10rem] flex-1">
+              <form role="search" onSubmit={submitSearch} className="min-w-[9rem] flex-1">
                 <label htmlFor={searchId} className="sr-only">
                   جستجوی طرح
                 </label>
@@ -419,7 +419,7 @@ export default function HomeDiscovery({
                     key={query.q}
                     defaultValue={query.q}
                     placeholder="جستجوی طرح..."
-                    className={`${fieldClass} ps-10`}
+                    className={`${toolbarField} w-full ps-10`}
                   />
                 </div>
               </form>
@@ -432,7 +432,7 @@ export default function HomeDiscovery({
                 onChange={(event) => {
                   if (event.target.value) router.push(event.target.value);
                 }}
-                className={`${fieldClass} w-auto min-w-[10rem]`}
+                className={`${toolbarField} min-w-[10rem]`}
               >
                 <option value="">انتخاب مدل گوشی</option>
                 {models.map((model) => (

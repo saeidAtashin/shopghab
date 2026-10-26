@@ -51,12 +51,12 @@ export default function Navbar() {
         )}
       >
         {home ? (
-          <div className="grid h-full grid-cols-3 items-center px-4 xl:hidden">
+          <div className="grid h-full grid-cols-[2.75rem_minmax(0,1fr)_2.75rem] items-center gap-2 px-3 xl:hidden">
             <div className="justify-self-start">
               <CartNavLink itemCount={itemCount} receiving={cartBounce} className={iconButtonClass} />
             </div>
-            <div className="justify-self-center">
-              <SiteLogo onMedia />
+            <div className="flex min-w-0 justify-center overflow-hidden">
+              <SiteLogo onMedia className="origin-center scale-90" />
             </div>
             <div className="justify-self-end">
               <button

@@ -36,7 +36,7 @@ export default function HomeMobileDock() {
                 href={tab.href}
                 aria-current={tab.active ? "page" : undefined}
                 className={cn(
-                  "flex h-full flex-col items-center justify-center gap-1 text-[11px] font-bold",
+                  "flex h-full min-w-0 flex-col items-center justify-center gap-1 px-1 text-[11px] font-bold",
                   tab.active ? "text-[#C4C0FF]" : "text-[#9AA3B8]",
                 )}
               >

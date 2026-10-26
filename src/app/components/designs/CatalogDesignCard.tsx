@@ -69,7 +69,7 @@ function StorefrontHeart() {
       aria-pressed={saved}
       aria-label={saved ? "حذف نشان" : "نشان کردن"}
       onClick={() => setSaved((value) => !value)}
-      className="absolute end-2.5 top-2.5 z-10 inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/45 text-white transition hover:bg-black/65"
+      className="absolute left-2.5 top-2.5 z-10 inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/45 text-white transition hover:bg-black/65"
     >
       <Heart className={cnHeart(saved)} aria-hidden />
     </button>
