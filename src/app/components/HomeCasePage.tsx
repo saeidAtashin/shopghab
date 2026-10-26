@@ -28,6 +28,7 @@ const BRAND_LABELS: Record<string, string> = {
 };
 
 const HOME_PAGE_SIZE = 24;
+const MOSAIC_LIMIT = 6;
 
 type SearchParams = {
   q?: string;
@@ -129,11 +130,11 @@ export default function HomeCasePage({ searchParams }: { searchParams: SearchPar
       <div className="mx-auto flex max-w-[90rem] flex-col gap-4">
         <NavSearch placeholder="جستجو در طرح‌ها..." className="xl:hidden" />
 
-        <div className="flex flex-col gap-4 xl:flex-row xl:items-start">
+        <div className="flex flex-col gap-4 xl:flex-row xl:items-stretch">
           <HomeHero className="xl:order-2 xl:min-w-0 xl:flex-1" />
           {categoryItems.length > 0 ? (
             <HomeCategoryMosaic
-              items={categoryItems}
+              items={categoryItems.slice(0, MOSAIC_LIMIT)}
               className="xl:order-1 xl:w-[28rem] xl:shrink-0"
             />
           ) : null}
