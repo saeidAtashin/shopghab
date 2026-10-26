@@ -49,7 +49,7 @@ export default async function BrandModelsPage({ params, searchParams }: Props) {
 
   return (
     <main id="main" tabIndex={-1} className="min-h-screen bg-background px-4 pt-24 pb-16 text-foreground outline-none sm:px-6">
-      <div className="mx-auto max-w-5xl">
+      <div className="mx-auto max-w-[90rem]">
         <WizardBreadcrumb
           crumbs={[
             { label: "برند", href: "/create" },

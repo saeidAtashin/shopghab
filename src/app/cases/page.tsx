@@ -30,7 +30,7 @@ export default function CasesCatalogPage() {
         ]}
       />
       <main id="main" tabIndex={-1} className="min-h-screen bg-background pt-24 pb-16 px-4 text-foreground outline-none sm:px-6">
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-[90rem]">
           <h1 className="text-2xl font-black text-foreground sm:text-3xl">فروش قاب آماده</h1>
           <p className="mt-2 text-muted">طرح‌های چاپ‌شده شاپ قاب — آماده سفارش و ارسال</p>
           <div className="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-3">

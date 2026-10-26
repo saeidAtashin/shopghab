@@ -16,7 +16,7 @@ export const metadata = createPageMetadata({
 export default function CreatePage() {
   return (
     <main id="main" tabIndex={-1} className="min-h-screen bg-background pt-24 pb-16 px-4 text-foreground outline-none sm:px-6">
-      <div className="mx-auto max-w-5xl">
+      <div className="mx-auto max-w-[90rem]">
         <WizardBreadcrumb crumbs={[{ label: "برند" }]} />
         <h1 className="mt-6 text-2xl font-black text-foreground sm:text-3xl">برند گوشی خود را انتخاب کنید</h1>
         <p className="mt-2 text-muted">مرحله ۱ از ۲ — برند</p>

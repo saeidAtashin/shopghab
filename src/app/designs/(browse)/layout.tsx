@@ -13,7 +13,7 @@ export default function DesignsBrowseLayout({ children }: { children: React.Reac
       tabIndex={-1}
       className="min-h-screen bg-background px-4 pb-16 pt-24 text-foreground outline-none sm:px-6"
     >
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-[90rem]">
         <Suspense fallback={null}>
           <CatalogBrowseChrome shell={shell}>{children}</CatalogBrowseChrome>
         </Suspense>

@@ -1,10 +1,11 @@
 "use client";
 
-import { ArrowUpDown, ChevronDown, Search, SlidersHorizontal, X, type LucideIcon } from "lucide-react";
+import { ChevronDown, SlidersHorizontal, X, type LucideIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useId, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 
 import BrowseLink from "@/app/components/designs/BrowseLink";
+import StorefrontToolbar from "@/app/components/designs/StorefrontToolbar";
 import {
   allDesignsVisual,
   categoryVisual,
@@ -30,9 +31,6 @@ type Props = {
   children: ReactNode;
 };
 
-const fieldClass =
-  "min-h-11 w-full rounded-xl border border-border bg-input-bg px-3 text-sm text-foreground outline-none focus:border-cyan-500";
-
 export default function CatalogBrowseChrome({ shell, children }: Props) {
   const router = useRouter();
   const pathname = usePathname();
@@ -41,7 +39,6 @@ export default function CatalogBrowseChrome({ shell, children }: Props) {
   const [draft, setDraft] = useState(query.q);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [opened, setOpened] = useState<Record<string, boolean>>({});
-  const searchId = useId();
 
   useEffect(() => {
     setDraft(query.q);
@@ -93,79 +90,56 @@ export default function CatalogBrowseChrome({ shell, children }: Props) {
   const sharedControls = {
     shell,
     query,
-    draft,
     activeSlug,
     activeRootSlug: activeRoot?.slug,
     allActive,
     filtered,
     opened,
-    onDraft: setDraft,
-    onSearch: submitSearch,
-    onSort: changeSort,
     onToggleGroup: (id: string, open: boolean) => setOpened((current) => ({ ...current, [id]: open })),
     stay,
     clearHref: browseHref(pathname, { q: query.q, sort: query.sort, viewAll: query.viewAll }),
   };
 
+  const colorGroup = shell.groups.find((group) => group.slug === "colors");
+
   return (
     <div>
-      <div
-        data-route-loader-ignore="true"
-        className="sticky top-[4.5rem] z-30 -mx-4 mb-4 space-y-2 border-b border-border bg-background/95 px-4 py-3 backdrop-blur-md sm:-mx-6 sm:px-6 lg:hidden"
-      >
-        <div className="flex items-center gap-2">
-          <SearchForm
-            id={`${searchId}-mobile`}
-            draft={draft}
-            onDraft={setDraft}
-            onSubmit={submitSearch}
-            className="min-w-0 flex-1"
+      <div className="mb-4 flex items-start gap-2">
+        <div className="min-w-0 flex-1">
+          <StorefrontToolbar
+            colors={(colorGroup?.options ?? []).map((option) => ({
+              id: option.id,
+              label: option.label,
+              active: query.attrs.includes(option.id),
+              href: stay({ attrs: toggleBrowseToken(query.attrs, option.id) }),
+            }))}
+            sort={query.sort}
+            onSort={changeSort}
+            searchValue={draft}
+            onSearchValue={setDraft}
+            onSearch={submitSearch}
           />
-          <button
-            type="button"
-            onClick={() => setDrawerOpen(true)}
-            aria-expanded={drawerOpen}
-            aria-controls="browse-filters"
-            className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-xl border border-border px-3 text-sm font-bold"
-          >
-            <SlidersHorizontal className="h-4 w-4" aria-hidden />
-            فیلتر
-            {query.attrs.length > 0 ? (
-              <span className="rounded-full bg-cyan-500/20 px-1.5 text-xs text-cyan-300">
-                {query.attrs.length.toLocaleString("fa-IR")}
-              </span>
-            ) : null}
-          </button>
         </div>
-        <div className="flex gap-2 overflow-x-auto pb-1">
-          <CategoryChip
-            href={browseHref("/designs", { viewAll: true })}
-            active={allActive}
-            icon={allDesignsVisual.icon}
-            accent={allDesignsVisual.accent}
-            label="همه"
-          />
-          {shell.categories.map((category) => {
-            const visual = categoryVisual(category.slug);
-            return (
-              <CategoryChip
-                key={category.slug}
-                href={category.href}
-                active={activeRoot?.slug === category.slug}
-                icon={visual.icon}
-                accent={visual.accent}
-                label={category.name}
-              />
-            );
-          })}
-        </div>
+        <button
+          type="button"
+          onClick={() => setDrawerOpen(true)}
+          aria-expanded={drawerOpen}
+          aria-controls="browse-filters"
+          className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-xl border border-border bg-card px-3 text-sm font-bold lg:hidden"
+        >
+          <SlidersHorizontal className="h-4 w-4" aria-hidden />
+          فیلتر
+          {query.attrs.length > 0 ? (
+            <span className="rounded-full bg-[#5145FF]/20 px-1.5 text-xs text-[#C4C0FF]">
+              {query.attrs.length.toLocaleString("fa-IR")}
+            </span>
+          ) : null}
+        </button>
       </div>
 
       <div className="lg:grid lg:grid-cols-[18rem_minmax(0,1fr)] lg:items-start lg:gap-8">
         <aside data-route-loader-ignore="true" className="hidden lg:block">
-          <div className="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto pe-1">
-            <BrowseControls {...sharedControls} instance="sidebar" searchId={searchId} />
-          </div>
+          <BrowseControls {...sharedControls} />
         </aside>
         <div className="min-w-0">{children}</div>
       </div>
@@ -206,7 +180,7 @@ export default function CatalogBrowseChrome({ shell, children }: Props) {
             </button>
           </div>
           <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4">
-            <BrowseControls {...sharedControls} instance="drawer" searchId={searchId} />
+            <BrowseControls {...sharedControls} />
           </div>
         </div>
       </div>
@@ -214,150 +188,31 @@ export default function CatalogBrowseChrome({ shell, children }: Props) {
   );
 }
 
-function chipClass(active: boolean, accent: Accent): string {
-  return cn(
-    "inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full border px-3 text-xs font-semibold",
-    active ? accent.chip : "border-border text-muted",
-  );
-}
-
-function CategoryChip({
-  href,
-  active,
-  icon: Icon,
-  accent,
-  label,
-}: {
-  href: string;
-  active: boolean;
-  icon: LucideIcon;
-  accent: Accent;
-  label: string;
-}) {
-  return (
-    <BrowseLink href={href} aria-current={active ? "page" : undefined} className={chipClass(active, accent)}>
-      <Icon className={cn("h-3.5 w-3.5", accent.text)} aria-hidden />
-      {label}
-    </BrowseLink>
-  );
-}
-
-function SearchForm({
-  id,
-  draft,
-  onDraft,
-  onSubmit,
-  className,
-  labelled = false,
-}: {
-  id: string;
-  draft: string;
-  onDraft: (value: string) => void;
-  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
-  className?: string;
-  labelled?: boolean;
-}) {
-  return (
-    <form onSubmit={onSubmit} role="search" className={className}>
-      <label htmlFor={id} className={labelled ? "mb-1 flex items-center gap-1.5 text-xs font-bold text-cyan-300" : "sr-only"}>
-        <Search className="h-3.5 w-3.5" aria-hidden />
-        جستجو
-      </label>
-      <div className="relative">
-        <Search className="pointer-events-none absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-cyan-300" aria-hidden />
-        <input
-          id={id}
-          type="search"
-          value={draft}
-          placeholder="نام طرح"
-          onChange={(event) => onDraft(event.target.value)}
-          className={`${fieldClass} ps-10`}
-        />
-      </div>
-    </form>
-  );
-}
-
-function SortField({
-  id,
-  sort,
-  onSort,
-}: {
-  id: string;
-  sort: BrowseSort;
-  onSort: (sort: BrowseSort) => void;
-}) {
-  return (
-    <label htmlFor={id} className="block">
-      <span className="mb-1 flex items-center gap-1.5 text-xs font-bold text-amber-300">
-        <ArrowUpDown className="h-3.5 w-3.5" aria-hidden />
-        مرتب‌سازی
-      </span>
-      <select
-        id={id}
-        value={sort}
-        onChange={(event) => onSort(event.target.value as BrowseSort)}
-        className={`${fieldClass} mt-1`}
-      >
-        <option value="featured">پیشنهادی</option>
-        <option value="newest">جدیدترین</option>
-        <option value="title">عنوان</option>
-      </select>
-    </label>
-  );
-}
-
 function BrowseControls({
   shell,
   query,
-  draft,
-  searchId,
-  instance,
   activeSlug,
   activeRootSlug,
   allActive,
   filtered,
   opened,
-  onDraft,
-  onSearch,
-  onSort,
   onToggleGroup,
   stay,
   clearHref,
 }: {
   shell: BrowseShell;
   query: BrowseQueryState;
-  draft: string;
-  searchId: string;
-  instance: "sidebar" | "drawer";
   activeSlug: string;
   activeRootSlug?: string;
   allActive: boolean;
   filtered: boolean;
   opened: Record<string, boolean>;
-  onDraft: (value: string) => void;
-  onSearch: (event: FormEvent<HTMLFormElement>) => void;
-  onSort: (sort: BrowseSort) => void;
   onToggleGroup: (id: string, open: boolean) => void;
   stay: (patch?: Partial<BrowseQueryState>) => string;
   clearHref: string;
 }) {
   return (
     <div className="space-y-5">
-      <div className="hidden space-y-3 lg:block">
-        <SearchForm
-          id={`${searchId}-${instance}-search`}
-          draft={draft}
-          onDraft={onDraft}
-          onSubmit={onSearch}
-          labelled
-        />
-        <SortField id={`${searchId}-${instance}-sort`} sort={query.sort} onSort={onSort} />
-      </div>
-      <div className="lg:hidden">
-        <SortField id={`${searchId}-${instance}-sort-drawer`} sort={query.sort} onSort={onSort} />
-      </div>
-
       <nav aria-label="دسته‌ها" className="space-y-1">
         <h2 className="flex items-center gap-2 px-2 text-xs font-bold text-cyan-300">
           <LayoutMark />
@@ -388,9 +243,7 @@ function BrowseControls({
           </BrowseLink>
         ) : null}
         {shell.groups.map((group) => {
-          const open = group.id in opened
-            ? opened[group.id]
-            : group.options.some((option) => query.attrs.includes(option.id));
+          const open = group.id in opened ? opened[group.id] : true;
           return (
             <FilterGroup
               key={group.id}

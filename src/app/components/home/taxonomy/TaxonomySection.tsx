@@ -17,7 +17,7 @@ export default function TaxonomySection({ title, description, items, style, seeA
 
   return (
     <section className="px-4 py-16 sm:px-6">
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-[90rem]">
         <div className="mb-8 flex items-end justify-between gap-4">
           <div>
             <h2 className="text-2xl font-black text-foreground">{title}</h2>

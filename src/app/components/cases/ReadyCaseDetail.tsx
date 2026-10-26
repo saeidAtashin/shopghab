@@ -24,7 +24,7 @@ export default function ReadyCaseDetail({ product }: Props) {
   const caseType = getCaseTypeBySlug(product.caseTypeSlug);
 
   return (
-    <div className="mx-auto max-w-5xl px-4 pt-24 pb-16 sm:px-6">
+    <div className="mx-auto max-w-[90rem] px-4 pt-24 pb-16 sm:px-6">
       <WizardBreadcrumb
         crumbs={[
           { label: "قاب‌های آماده", href: "/cases" },

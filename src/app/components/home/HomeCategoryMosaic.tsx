@@ -28,7 +28,7 @@ function CategoryImage({ src, sizes, className }: { src: string; sizes: string; 
 export default function HomeCategoryMosaic({ items, className }: Props) {
   if (items.length === 0) return null;
   const circles = items.slice(0, 4);
-  const tiles = items.slice(4, 6);
+  const tiles = items.slice(4);
 
   return (
     <section aria-label="دسته‌ها" className={cn("min-w-0", className)}>
@@ -75,8 +75,8 @@ export default function HomeCategoryMosaic({ items, className }: Props) {
         ) : null}
       </div>
 
-      <div className="hidden h-full gap-3 xl:grid xl:grid-cols-2 xl:grid-rows-3">
-        {items.slice(0, 6).map((item) => (
+      <div className="hidden content-start gap-3 xl:grid xl:grid-cols-2">
+        {items.map((item) => (
           <Link
             key={item.id}
             href={item.href}

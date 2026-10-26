@@ -1,5 +1,3 @@
-import { notFound } from "next/navigation";
-
 import HomeBenefits from "@/app/components/home/HomeBenefits";
 import HomeCategoryMosaic from "@/app/components/home/HomeCategoryMosaic";
 import HomeCollections from "@/app/components/home/HomeCollections";
@@ -7,7 +5,7 @@ import HomeDiscovery from "@/app/components/home/HomeDiscovery";
 import HomeMobileDock from "@/app/components/home/HomeMobileDock";
 import HomeHero from "@/app/components/home/hero/HomeHero";
 import NavSearch from "@/app/components/layout/nav/NavSearch";
-import { PHONE_BRANDS, getCaseTotalPrice, getCaseTypeBySlug, getModelBySlug, SELECTABLE_CASE_TYPE_SLUG } from "@/lib/cases/brands.static";
+import { PHONE_BRANDS, getCaseTotalPrice, getCaseTypeBySlug, SELECTABLE_CASE_TYPE_SLUG } from "@/lib/cases/brands.static";
 import {
   parsePublicListingQuery,
   publicBrowseShell,
@@ -21,15 +19,6 @@ import { readLandingSections } from "@/lib/landing/store";
 import { landingTaxonomy, type TaxonomyCard } from "@/lib/landing/taxonomy";
 import { formatToman } from "@/lib/shop/format";
 
-const POPULAR_MODELS = [
-  { brandSlug: "apple", modelSlug: "iphone-16-pro" },
-  { brandSlug: "apple", modelSlug: "iphone-14-pro" },
-  { brandSlug: "samsung", modelSlug: "galaxy-s25-ultra" },
-  { brandSlug: "samsung", modelSlug: "galaxy-a55" },
-  { brandSlug: "xiaomi", modelSlug: "redmi-note-14-pro" },
-  { brandSlug: "huawei", modelSlug: "pura-70-pro" },
-] as const;
-
 const BRAND_LABELS: Record<string, string> = {
   apple: "iPhone",
   samsung: "Samsung",
@@ -38,8 +27,7 @@ const BRAND_LABELS: Record<string, string> = {
   other: "Other",
 };
 
-const HOME_PAGE_SIZE = 8;
-const MOSAIC_LIMIT = 6;
+const HOME_PAGE_SIZE = 24;
 
 type SearchParams = {
   q?: string;
@@ -63,7 +51,7 @@ function collectionRail(catalog: DesignCatalog) {
       collectionId: collection.id,
       sort: "featured",
       page: 1,
-      pageSize: 4,
+      pageSize: 8,
     });
     if (result.items.length === 0) continue;
     return {
@@ -81,11 +69,10 @@ export default function HomeCasePage({ searchParams }: { searchParams: SearchPar
   const result = queryPublicDesigns(catalog, {
     q: query.q,
     sort: query.sort,
-    page: query.page,
+    page: 1,
     pageSize: HOME_PAGE_SIZE,
     attributeValueIds: query.attrs,
   });
-  if (query.page > result.pageCount && result.total > 0) notFound();
 
   const landing = readLandingSections();
   const taxonomy = landingTaxonomy(
@@ -106,11 +93,6 @@ export default function HomeCasePage({ searchParams }: { searchParams: SearchPar
   const picks = publicPickCards(catalog);
   const categoryNames = Object.fromEntries(catalog.categories.map((category) => [category.id, category.name]));
   const priceLabel = printablePrice();
-  const models = POPULAR_MODELS.flatMap(({ brandSlug, modelSlug }) => {
-    const model = getModelBySlug(brandSlug, modelSlug);
-    if (!model) return [];
-    return [{ name: model.name, href: `/phones/${model.brandSlug}/${model.slug}` }];
-  });
   const brands = PHONE_BRANDS.map((brand) => ({
     name: BRAND_LABELS[brand.slug] ?? brand.nameEn,
     href: `/create/${brand.slug}`,
@@ -147,11 +129,11 @@ export default function HomeCasePage({ searchParams }: { searchParams: SearchPar
       <div className="mx-auto flex max-w-[90rem] flex-col gap-4">
         <NavSearch placeholder="جستجو در طرح‌ها..." className="xl:hidden" />
 
-        <div className="flex flex-col gap-4 xl:flex-row xl:items-stretch">
+        <div className="flex flex-col gap-4 xl:flex-row xl:items-start">
           <HomeHero className="xl:order-2 xl:min-w-0 xl:flex-1" />
           {categoryItems.length > 0 ? (
             <HomeCategoryMosaic
-              items={categoryItems.slice(0, MOSAIC_LIMIT)}
+              items={categoryItems}
               className="xl:order-1 xl:w-[28rem] xl:shrink-0"
             />
           ) : null}
@@ -166,9 +148,7 @@ export default function HomeCasePage({ searchParams }: { searchParams: SearchPar
           categoryNames={categoryNames}
           priceLabel={priceLabel}
           total={result.total}
-          pageSize={result.pageSize}
           pageCount={result.pageCount}
-          models={models}
           brands={brands}
           featured={
             featured
