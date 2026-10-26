@@ -11,16 +11,20 @@ import {
 } from "@/lib/cases/brands.static";
 import type { CaseType, PhoneBrand, PhoneModel } from "@/lib/cases/types";
 
+type FaqItem = { question: string; answer: string };
+
 type Props = {
   brand: PhoneBrand;
   model: PhoneModel;
   caseTypes: CaseType[];
+  faq: FaqItem[];
 };
 
 export default function ModelCaseHubClient({
   brand,
   model,
   caseTypes,
+  faq,
 }: Props) {
   const [selectedCase, setSelectedCase] = useState(SELECTABLE_CASE_TYPE_SLUG);
 
@@ -37,9 +41,12 @@ export default function ModelCaseHubClient({
 
         <header className="mt-6">
           <h1 className="text-2xl font-black text-foreground sm:text-3xl">
-            فروش قاب {model.name}
+            خرید قاب {model.name}
           </h1>
-          <p className="mt-2 text-muted">فروش قاب موبایل در شاپ قاب — طراحی اختصاصی یا طرح آماده</p>
+          <p className="mt-2 max-w-2xl leading-8 text-muted">
+            خرید قاب گوشی و قاب موبایل {brand.name} {model.name}. قاب اختصاصی یا قاب تلفن همراه را
+            همین‌جا طراحی و سفارش دهید.
+          </p>
         </header>
 
         <section className="mt-10" aria-labelledby="custom-design-heading">
@@ -74,6 +81,20 @@ export default function ModelCaseHubClient({
             >
               ارسال درخواست طراحی
             </Link>
+          </div>
+        </section>
+
+        <section className="mt-12" aria-labelledby="model-faq-heading">
+          <h2 id="model-faq-heading" className="text-xl font-black text-foreground">
+            سوالات خرید قاب {model.name}
+          </h2>
+          <div className="mt-4 space-y-4">
+            {faq.map((item) => (
+              <article key={item.question} className="rounded-2xl border border-border bg-card/60 p-4">
+                <h3 className="font-bold text-foreground">{item.question}</h3>
+                <p className="mt-2 text-sm leading-7 text-muted">{item.answer}</p>
+              </article>
+            ))}
           </div>
         </section>
       </div>

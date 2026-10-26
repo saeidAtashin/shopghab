@@ -16,6 +16,7 @@ import {
 import {
   browseHref,
   browseQueryFromParams,
+  filterLinksFromGroups,
   toggleBrowseToken,
   type BrowseCategoryNode,
   type BrowseFilterGroup,
@@ -35,7 +36,16 @@ export default function CatalogBrowseChrome({ shell, children }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const params = useSearchParams();
-  const query = browseQueryFromParams(params);
+  const filters = filterLinksFromGroups(shell.groups);
+  const pathFilter = filters.find((item) => pathname === `/designs/filter/${item.groupSlug}/${item.slug}`);
+  const queryFromUrl = browseQueryFromParams(params);
+  const query = {
+    ...queryFromUrl,
+    attrs:
+      pathFilter && !queryFromUrl.attrs.includes(pathFilter.id)
+        ? [pathFilter.id, ...queryFromUrl.attrs]
+        : queryFromUrl.attrs,
+  };
   const [draft, setDraft] = useState(query.q);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [opened, setOpened] = useState<Record<string, boolean>>({});
@@ -67,7 +77,7 @@ export default function CatalogBrowseChrome({ shell, children }: Props) {
   const filtered = query.attrs.length > 0 || query.subs.length > 0;
 
   function stay(patch: Partial<BrowseQueryState> = {}): string {
-    return browseHref(pathname, {
+    const next = {
       q: query.q,
       sort: query.sort,
       attrs: query.attrs,
@@ -75,7 +85,9 @@ export default function CatalogBrowseChrome({ shell, children }: Props) {
       viewAll: query.viewAll,
       page: 1,
       ...patch,
-    });
+    };
+    const base = pathFilter && !next.attrs.includes(pathFilter.id) ? "/designs" : pathname;
+    return browseHref(base, next, filters);
   }
 
   function submitSearch(event: FormEvent<HTMLFormElement>): void {
@@ -97,7 +109,11 @@ export default function CatalogBrowseChrome({ shell, children }: Props) {
     opened,
     onToggleGroup: (id: string, open: boolean) => setOpened((current) => ({ ...current, [id]: open })),
     stay,
-    clearHref: browseHref(pathname, { q: query.q, sort: query.sort, viewAll: query.viewAll }),
+    clearHref: browseHref(pathname.startsWith("/designs/filter/") ? "/designs" : pathname, {
+      q: query.q,
+      sort: query.sort,
+      viewAll: query.viewAll,
+    }, filters),
   };
 
   const colorGroup = shell.groups.find((group) => group.slug === "colors");

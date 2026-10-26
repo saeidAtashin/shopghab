@@ -114,7 +114,7 @@ function categoryLabel(name: string): string {
 }
 
 export function suggestedCategorySeoTitle(name: string): string {
-  return clip(`قاب موبایل ${categoryLabel(name)}`, TITLE_MAX);
+  return clip(`خرید قاب موبایل ${categoryLabel(name)}`, TITLE_MAX);
 }
 
 export function suggestedCategorySeoDescription(name: string, slug: string, parentName?: string): string {
@@ -123,21 +123,60 @@ export function suggestedCategorySeoDescription(name: string, slug: string, pare
   const parent = parentName?.trim();
   const place = parent ? `زیرمجموعه ${parent}` : "بخش طرح‌های آماده";
   const leads = [
-    `فروش قاب موبایل با ${titled} (${place}). چاپ اختصاصی در ${SITE_BRAND} و ارسال به سراسر ایران.`,
-    `قاب موبایل ${titled} در ${place}. ${SITE_BRAND} این دسته را برای فروش قاب موبایل با چاپ آماده کرده است.`,
-    `در ${SITE_BRAND} دسته ${label} برای فروش قاب موبایل است و ${place} را پوشش می‌دهد.`,
+    `خرید قاب موبایل با ${titled} (${place}). چاپ روی قاب گوشی در ${SITE_BRAND}، با پیش‌نمایش و ارسال به سراسر ایران.`,
+    `در ${SITE_BRAND} خرید قاب موبایل با ${titled} فراهم است. این ${place} روی قاب گوشی چاپ و ارسال می‌شود.`,
+    `${place}: خرید قاب موبایل با ${titled}. ${SITE_BRAND} این طرح را برای قاب گوشی آماده کرده و به ایران می‌فرستد.`,
   ];
   const extras = [
     "انتخاب مدل گوشی، پیش‌نمایش طرح و ثبت سفارش آنلاین.",
     "مناسب آیفون، سامسونگ، شیائومی و هواوی.",
-    parent ? `بخشی از مجموعه ${parent} در فروشگاه.` : "شامل طرح‌های آماده قابل چاپ روی قاب.",
+    "طرح آماده با امکان سفارش در همان صفحه.",
   ];
   const index = variantIndex(slug || label, leads.length);
   const orderedExtras = extras.slice(index).concat(extras.slice(0, index));
   return fitSeoDescription(leads[index] ?? leads[0], orderedExtras);
 }
 
-export function suggestedCollectionSeoTitle(name: string): string {
+export function suggestedFilterSeoTitle(groupSlug: string, name: string): string {
+  const label = name.replace(/\s+/g, " ").trim() || "طرح";
+  if (groupSlug === "colors") return clip(`خرید قاب موبایل ${label}`, TITLE_MAX);
+  if (groupSlug === "visual-styles") return clip(`خرید قاب گوشی طرح ${label}`, TITLE_MAX);
+  return clip(`قاب موبایل ${label}`, TITLE_MAX);
+}
+
+export function suggestedFilterSeoDescription(groupSlug: string, name: string, slug: string): string {
+  const label = compactLabel(name.trim() || "طرح", 24);
+  const leads =
+    groupSlug === "colors"
+      ? [
+          `خرید قاب موبایل ${label} در ${SITE_BRAND}. این رنگ برای قاب گوشی با چاپ آماده و ارسال به سراسر ایران در دسترس است.`,
+          `${SITE_BRAND} خرید قاب موبایل ${label} را با چاپ روی قاب گوشی و ارسال به سراسر ایران انجام می‌دهد.`,
+          `قاب گوشی ${label} برای خرید قاب موبایل در ${SITE_BRAND}، با پیش‌نمایش چاپ و ارسال سراسری.`,
+        ]
+      : groupSlug === "visual-styles"
+        ? [
+            `خرید قاب موبایل با طرح ${label} در ${SITE_BRAND}. این سبک روی قاب گوشی چاپ می‌شود و به سراسر ایران ارسال می‌گردد.`,
+            `${SITE_BRAND} خرید قاب موبایل طرح ${label} را برای قاب گوشی با چاپ آماده و ارسال سراسری عرضه می‌کند.`,
+            `قاب گوشی طرح ${label} در ${SITE_BRAND}. خرید قاب موبایل با این سبک، پیش‌نمایش و ارسال به ایران.`,
+          ]
+        : [
+            `قاب موبایل ${label} برای خرید قاب موبایل در ${SITE_BRAND}. این ویژگی روی قاب گوشی چاپ می‌شود و به سراسر ایران می‌رسد.`,
+            `خرید قاب موبایل با ویژگی ${label} در ${SITE_BRAND}. چاپ آن روی قاب گوشی و ارسال سراسری ممکن است.`,
+            `${SITE_BRAND} خرید قاب موبایل ${label} را برای قاب گوشی آماده کرده و به سراسر ایران می‌فرستد.`,
+          ];
+  const extras = [
+    "انتخاب مدل گوشی و ثبت سفارش آنلاین.",
+    "مناسب آیفون، سامسونگ و شیائومی.",
+    "پیش‌نمایش طرح قبل از چاپ.",
+  ];
+  const index = variantIndex(`filter:${groupSlug}:${slug || label}`, leads.length);
+  const orderedExtras = extras.slice(index).concat(extras.slice(0, index));
+  return fitSeoDescription(leads[index] ?? leads[0], orderedExtras);
+}
+
+export function suggestedCollectionSeoTitle(name: string, slug = ""): string {
+  if (slug === "rare") return "خرید قاب خاص";
+  if (slug === "shopghab-exclusive") return "طرح اختصاصی قاب موبایل";
   return suggestedCategorySeoTitle(name);
 }
 

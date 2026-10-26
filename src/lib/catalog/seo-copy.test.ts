@@ -5,9 +5,12 @@ import {
   suggestedCategorySeoDescription,
   suggestedCategorySeoTitle,
   suggestedCollectionSeoDescription,
+  suggestedCollectionSeoTitle,
   suggestedDesignAlt,
   suggestedDesignSeoDescription,
   suggestedDesignSeoTitle,
+  suggestedFilterSeoDescription,
+  suggestedFilterSeoTitle,
 } from "./seo-copy";
 
 test("design SEO title stays within the snippet length and names the product", () => {
@@ -33,7 +36,6 @@ test("generated descriptions mention the shop and the query once each", () => {
       categoryName: "انتزاعی",
       tags: ["انتزاعی", "سایر"],
     }),
-    suggestedCategorySeoDescription("مینیمال", "minimal", "انتزاعی و مینیمال"),
     suggestedCollectionSeoDescription("یلدا", "yalda"),
   ];
   for (const description of samples) {
@@ -45,8 +47,30 @@ test("generated descriptions mention the shop and the query once each", () => {
   }
 });
 
-test("category titles use the قاب موبایل طرح pattern", () => {
-  assert.equal(suggestedCategorySeoTitle("انتزاعی"), "قاب موبایل طرح انتزاعی");
+test("category and filter copy targets خرید قاب searches", () => {
+  assert.equal(suggestedCategorySeoTitle("انتزاعی"), "خرید قاب موبایل طرح انتزاعی");
+  assert.equal(suggestedCollectionSeoTitle("طرح‌های خاص و کمیاب", "rare"), "خرید قاب خاص");
+  assert.equal(
+    suggestedCollectionSeoTitle("طرح‌های اختصاصی ShopGhab", "shopghab-exclusive"),
+    "طرح اختصاصی قاب موبایل",
+  );
+  assert.equal(suggestedFilterSeoTitle("colors", "مشکی"), "خرید قاب موبایل مشکی");
+  assert.equal(suggestedFilterSeoTitle("visual-styles", "مینیمال"), "خرید قاب گوشی طرح مینیمال");
+  assert.equal(suggestedFilterSeoTitle("mood", "شاد"), "قاب موبایل شاد");
+
+  const descriptions = [
+    suggestedCategorySeoDescription("مینیمال", "minimal", "انتزاعی و مینیمال"),
+    suggestedFilterSeoDescription("colors", "مشکی", "black"),
+    suggestedFilterSeoDescription("visual-styles", "مینیمال", "minimal"),
+    suggestedFilterSeoDescription("mood", "شاد", "happy"),
+  ];
+  for (const description of descriptions) {
+    assert.ok(description.length >= 140 && description.length <= 160, description);
+    assert.equal(description.split("خرید قاب موبایل").length - 1, 1, description);
+    assert.equal(description.split("قاب گوشی").length - 1, 1, description);
+    assert.equal(description.split("شاپ قاب").length - 1, 1, description);
+    assert.equal(description.includes("طرح طرح"), false, description);
+  }
 });
 
 test("alt text names the design and the shop", () => {

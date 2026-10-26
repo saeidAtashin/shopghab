@@ -6,6 +6,7 @@ import { stableDesignId } from "./ids";
 import {
   CatalogError,
   categoryCreatesCycle,
+  cleanAttributeRedirect,
   changeDesignSlug,
   createAttribute,
   createCategory,
@@ -384,6 +385,19 @@ test("browse href omits the default page and sort", () => {
   assert.equal(url.searchParams.get("sort"), "newest");
   assert.equal(url.searchParams.get("attr"), "black,blue");
   assert.equal(url.searchParams.get("page"), null);
+  assert.equal(browseHref("/designs/category/animals", { subs: ["cats"] }), "/designs/category/cats");
+  assert.equal(
+    browseHref("/designs", { attrs: ["black"] }, [{ id: "black", groupSlug: "colors", slug: "black" }]),
+    "/designs/filter/colors/black",
+  );
+  assert.equal(
+    browseHref(
+      "/designs",
+      { attrs: ["black"], sort: "newest" },
+      [{ id: "black", groupSlug: "colors", slug: "black" }],
+    ),
+    "/designs/filter/colors/black?sort=newest",
+  );
 });
 
 test("public design filters combine inner categories and attribute groups", () => {
@@ -688,6 +702,30 @@ test("sitemap includes published designs with a product mockup and skips drafts 
   assert.ok(paths.includes("/designs/space-cat"));
   assert.ok(paths.includes("/designs/category/abstract"));
   assert.equal(paths.includes("/designs/draft-cat"), false);
+});
+
+test("an indexable color filter gets a clean path and a sitemap entry", () => {
+  let catalog = createAttribute(emptyCatalog(), { kind: "group", name: "رنگ", slug: "colors" }, NOW);
+  const group = catalog.attributeGroups[0];
+  assert.ok(group);
+  catalog = createAttribute(catalog, { kind: "value", groupId: group.id, name: "مشکی" }, NOW);
+  const black = catalog.attributeValues[0];
+  assert.ok(black);
+  const made = createDesign(
+    catalog,
+    writeInput({
+      slug: "black-case",
+      attributeValueIds: [black.id],
+      imagePath: "/designed/black-case.webp",
+      thumbnailPath: "/designed/thumbs/black-case.webp",
+    }),
+    NOW,
+  );
+  made.design.mockups = [readyMockup(made.design.imagePath, made.design.thumbnailPath)];
+  const path = `/designs/filter/colors/${black.slug}`;
+  assert.ok(indexableCatalogPaths(made.catalog).some((item) => item.path === path));
+  assert.equal(cleanAttributeRedirect(made.catalog, parsePublicListingQuery({ attr: black.id })), path);
+  assert.equal(cleanAttributeRedirect(made.catalog, parsePublicListingQuery({ attr: black.id, q: "گربه" })), null);
 });
 
 test("attribute update renames a group and rejects a duplicate slug", () => {

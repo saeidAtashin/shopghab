@@ -1,10 +1,15 @@
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 
 import CatalogBreadcrumbs from "@/app/components/designs/CatalogBreadcrumbs";
 import CatalogListing from "@/app/components/designs/CatalogListing";
 import CatalogSectionPreview from "@/app/components/designs/CatalogSectionPreview";
 import JsonLd from "@/app/components/seo/JsonLd";
-import { parsePublicListingQuery, publicBrowseSections, queryPublicDesigns } from "@/lib/catalog/logic";
+import {
+  cleanAttributeRedirect,
+  parsePublicListingQuery,
+  publicBrowseSections,
+  queryPublicDesigns,
+} from "@/lib/catalog/logic";
 import { readCatalog } from "@/lib/catalog/store";
 import { breadcrumbJsonLd, breadcrumbTrail } from "@/lib/seo/breadcrumbs";
 import { collectionPageJsonLd, itemListJsonLd, webPageJsonLd } from "@/lib/seo/jsonld";
@@ -23,6 +28,10 @@ type Props = {
 export async function generateMetadata({ searchParams }: Props) {
   const params = await searchParams;
   const query = parsePublicListingQuery(params);
+  if (params.view !== "all") {
+    const target = cleanAttributeRedirect(readCatalog(), query);
+    if (target) permanentRedirect(target);
+  }
   return createPageMetadata({
     title: TITLE,
     description: DESCRIPTION,
@@ -35,6 +44,10 @@ export default async function DesignsGalleryPage({ searchParams }: Props) {
   const params = await searchParams;
   const query = parsePublicListingQuery(params);
   const catalog = readCatalog();
+  if (params.view !== "all") {
+    const target = cleanAttributeRedirect(catalog, query);
+    if (target) permanentRedirect(target);
+  }
   const showResults =
     params.view === "all" ||
     query.q.length > 0 ||

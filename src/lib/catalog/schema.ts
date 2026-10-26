@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { selectProductImages } from "@/lib/mockups/display";
+import { seededAttributeValueSlug } from "./taxonomy";
 
 export const designStatusSchema = z.enum(["draft", "published", "archived"]);
 export const categoryStatusSchema = z.enum(["active", "inactive", "archived"]);
@@ -109,6 +110,7 @@ export const attributeValueSchema = z.object({
   id: z.string().min(1),
   groupId: z.string(),
   name: z.string(),
+  slug: slugSchema,
   sortOrder: z.number(),
   createdAt: z.string(),
   updatedAt: z.string(),
@@ -338,6 +340,17 @@ function asRecord(value: unknown): Record<string, unknown> | null {
   return value as Record<string, unknown>;
 }
 
+function attributeValueSlug(value: Record<string, unknown>): string {
+  const current = typeof value.slug === "string" ? value.slug.trim() : "";
+  if (slugSchema.safeParse(current).success) return current;
+  const id = typeof value.id === "string" ? value.id : "";
+  const seeded = seededAttributeValueSlug(id);
+  if (seeded && slugSchema.safeParse(seeded).success) return seeded;
+  const hex = id.replace(/^val_/, "").toLowerCase();
+  if (/^[a-z0-9]+$/.test(hex) && hex.length > 0) return `v-${hex}`;
+  return "value";
+}
+
 /** Fills fields added after the first catalog file so older JSON still loads. */
 export function parseCatalogDocument(raw: unknown): DesignCatalog {
   const doc = asRecord(raw) ?? {};
@@ -370,7 +383,12 @@ export function parseCatalogDocument(raw: unknown): DesignCatalog {
     redirects: Array.isArray(doc.redirects) ? doc.redirects : [],
     categoryRedirects: Array.isArray(doc.categoryRedirects) ? doc.categoryRedirects : [],
     attributeGroups: Array.isArray(doc.attributeGroups) ? doc.attributeGroups : [],
-    attributeValues: Array.isArray(doc.attributeValues) ? doc.attributeValues : [],
+    attributeValues: Array.isArray(doc.attributeValues)
+      ? doc.attributeValues.map((item) => {
+          const value = asRecord(item) ?? {};
+          return { ...value, slug: attributeValueSlug(value) };
+        })
+      : [],
     collections: Array.isArray(doc.collections) ? doc.collections : [],
   });
 }

@@ -424,6 +424,16 @@ const ATTRIBUTE_GROUPS: SeedGroup[] = [
   },
 ];
 
+const SEEDED_ATTRIBUTE_SLUGS = new Map<string, string>(
+  ATTRIBUTE_GROUPS.flatMap((group) =>
+    group.values.map((value) => [seedRecordId("val", `${group.slug}:${value.key}`), value.key] as const),
+  ),
+);
+
+export function seededAttributeValueSlug(id: string): string | undefined {
+  return SEEDED_ATTRIBUTE_SLUGS.get(id);
+}
+
 const CURATED =
   "فهرست منتخب فروشگاه. عضویت طرح‌ها دستی است و آمار فروش ساخته نمی‌شود.";
 
@@ -537,6 +547,7 @@ export function seedCatalogTaxonomy(
         id: valueId,
         groupId: resolvedGroupId,
         name: value.name,
+        slug: value.key,
         sortOrder: valueIndex + 1,
         createdAt: now,
         updatedAt: now,

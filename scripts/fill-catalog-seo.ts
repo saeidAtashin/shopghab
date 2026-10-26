@@ -44,7 +44,7 @@ async function main(): Promise<void> {
     for (const collection of catalog.collections) {
       let changed = false;
       if (canReplace(collection.seoTitle, collection.updatedAt)) {
-        collection.seoTitle = suggestedCollectionSeoTitle(collection.name);
+        collection.seoTitle = suggestedCollectionSeoTitle(collection.name, collection.slug);
         changed = true;
       }
       if (canReplace(collection.seoDescription, collection.updatedAt)) {

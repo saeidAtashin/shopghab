@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { browseHref, type FilterLink } from "@/lib/catalog/browse";
 import type { CatalogSort, PublicFilterGroup } from "@/lib/catalog/logic";
 
 type Props = {
@@ -16,22 +17,28 @@ function toggle(values: string[], id: string): string[] {
   return values.includes(id) ? values.filter((value) => value !== id) : [...values, id];
 }
 
+function filterLinks(groups: PublicFilterGroup[]): FilterLink[] {
+  return groups
+    .filter((group) => group.param === "attr")
+    .flatMap((group) =>
+      group.options.map((option) => ({
+        id: option.id,
+        groupSlug: group.slug,
+        slug: option.slug,
+      })),
+    );
+}
+
 function filterHref(
   basePath: string,
+  groups: PublicFilterGroup[],
   q: string,
   sort: CatalogSort,
   viewAll: boolean,
   subs: string[],
   attrs: string[],
 ): string {
-  const params = new URLSearchParams();
-  if (q) params.set("q", q);
-  if (subs.length > 0) params.set("sub", subs.join(","));
-  if (attrs.length > 0) params.set("attr", attrs.join(","));
-  if (viewAll) params.set("view", "all");
-  if (sort !== "featured") params.set("sort", sort);
-  const query = params.toString();
-  return query ? `${basePath}?${query}` : basePath;
+  return browseHref(basePath, { q, sort, viewAll, subs, attrs }, filterLinks(groups));
 }
 
 export default function CatalogFilters({
@@ -51,7 +58,7 @@ export default function CatalogFilters({
     <div className="space-y-4">
       {filtered ? (
         <Link
-          href={filterHref(basePath, q, sort, viewAll, [], [])}
+          href={filterHref(basePath, groups, q, sort, viewAll, [], [])}
           className="text-sm font-semibold text-cyan-300 hover:underline"
         >
           پاک کردن فیلترها
@@ -69,7 +76,7 @@ export default function CatalogFilters({
               return (
                 <Link
                   key={option.id}
-                  href={filterHref(basePath, q, sort, viewAll, subs, attrs)}
+                  href={filterHref(basePath, groups, q, sort, viewAll, subs, attrs)}
                   aria-current={selected ? "true" : undefined}
                   className={`rounded-full border px-3 py-1.5 text-xs font-semibold ${
                     selected

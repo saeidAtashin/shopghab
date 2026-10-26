@@ -7,10 +7,10 @@ import WizardBreadcrumb from "@/app/components/case-wizard/WizardBreadcrumb";
 import { PHONE_BRANDS } from "@/lib/cases/brands.static";
 
 export const metadata = createPageMetadata({
-  title: "فروش قاب موبایل — انتخاب برند",
-  description: `برند گوشی را در ${SITE_BRAND} (shopghab) انتخاب کنید و سفارش فروش قاب موبایل یا طراحی اختصاصی را شروع کنید.`,
+  title: "خرید قاب اختصاصی",
+  description: `خرید قاب اختصاصی و قاب تلفن همراه در ${SITE_BRAND}. برند گوشی را انتخاب کنید و قاب موبایل یا قاب گوشی را با طرح خودتان سفارش دهید.`,
   path: "/create",
-  keywords: ["فروش قاب موبایل", SITE_BRAND, "shopghab", "قاب آیفون", "قاب سامسونگ"],
+  keywords: ["خرید قاب اختصاصی", "خرید قاب موبایل", "قاب گوشی", "قاب تلفن همراه", SITE_BRAND, "shopghab"],
 });
 
 export default function CreatePage() {
@@ -18,8 +18,11 @@ export default function CreatePage() {
     <main id="main" tabIndex={-1} className="min-h-screen bg-background pt-24 pb-16 px-4 text-foreground outline-none sm:px-6">
       <div className="mx-auto max-w-[90rem]">
         <WizardBreadcrumb crumbs={[{ label: "برند" }]} />
-        <h1 className="mt-6 text-2xl font-black text-foreground sm:text-3xl">برند گوشی خود را انتخاب کنید</h1>
-        <p className="mt-2 text-muted">مرحله ۱ از ۲ — برند</p>
+        <h1 className="mt-6 text-2xl font-black text-foreground sm:text-3xl">خرید قاب اختصاصی</h1>
+        <p className="mt-2 text-muted">
+          برند گوشی را انتخاب کنید — قاب موبایل، قاب گوشی یا قاب تلفن همراه با طرح خودتان.
+        </p>
+        <p className="mt-1 text-sm text-muted">مرحله ۱ از ۲ — برند</p>
         <SuggestedPhoneCard className="mt-6" />
 
         <div className="mt-10">

@@ -1135,11 +1135,13 @@ export function publicCategoryCards(
 export type PublicFilterOption = {
   id: string;
   label: string;
+  slug: string;
 };
 
 export type PublicFilterGroup = {
   id: string;
   label: string;
+  slug: string;
   param: "sub" | "attr";
   options: PublicFilterOption[];
 };
@@ -1161,9 +1163,10 @@ export function publicListingFilters(
     const options = publicCategoryCards(catalog, scope.parentCategoryId).map((card) => ({
       id: card.slug,
       label: card.name,
+      slug: card.slug,
     }));
     if (options.length > 0) {
-      groups.push({ id: "sub", label: "زیردسته", param: "sub", options });
+      groups.push({ id: "sub", label: "زیردسته", slug: "sub", param: "sub", options });
     }
   }
 
@@ -1178,9 +1181,9 @@ export function publicListingFilters(
     const options = catalog.attributeValues
       .filter((value) => value.groupId === group.id && used.has(value.id))
       .sort((a, b) => a.sortOrder - b.sortOrder || a.name.localeCompare(b.name, "fa"))
-      .map((value) => ({ id: value.id, label: value.name }));
+      .map((value) => ({ id: value.id, label: value.name, slug: value.slug }));
     if (options.length === 0) continue;
-    groups.push({ id: group.id, label: group.name, param: "attr", options });
+    groups.push({ id: group.id, label: group.name, slug: group.slug, param: "attr", options });
   }
   return groups;
 }
@@ -1422,6 +1425,57 @@ export type CatalogSitemapEntry = {
   priority: number;
 };
 
+export function attributeFilterPath(groupSlug: string, valueSlug: string): string {
+  return `/designs/filter/${groupSlug}/${valueSlug}`;
+}
+
+export function isAttributeValueIndexable(catalog: DesignCatalog, valueId: string): boolean {
+  return catalog.designs.some(
+    (design) => isPublicCatalogDesign(design) && design.attributeValueIds.includes(valueId),
+  );
+}
+
+export function indexableAttributeFilterPath(catalog: DesignCatalog, valueId: string): string | null {
+  if (!isAttributeValueIndexable(catalog, valueId)) return null;
+  const value = catalog.attributeValues.find((item) => item.id === valueId);
+  const group = value ? catalog.attributeGroups.find((item) => item.id === value.groupId) : undefined;
+  if (!value?.slug || !group?.slug) return null;
+  return attributeFilterPath(group.slug, value.slug);
+}
+
+export function resolvePublicFilter(catalog: DesignCatalog, groupSlug: string, valueSlug: string) {
+  const group = catalog.attributeGroups.find((item) => item.slug === groupSlug);
+  if (!group) return null;
+  const value = catalog.attributeValues.find((item) => item.groupId === group.id && item.slug === valueSlug);
+  if (!value || !isAttributeValueIndexable(catalog, value.id)) return null;
+  return { group, value };
+}
+
+export function cleanAttributeRedirect(
+  catalog: DesignCatalog,
+  query: ReturnType<typeof parsePublicListingQuery>,
+): string | null {
+  if (query.q || query.subs.length > 0 || query.attrs.length !== 1 || query.sort !== "featured" || query.page > 1) {
+    return null;
+  }
+  return indexableAttributeFilterPath(catalog, query.attrs[0] ?? "");
+}
+
+export function cleanSubcategoryRedirect(
+  query: ReturnType<typeof parsePublicListingQuery>,
+  allowed: ReadonlySet<string>,
+  currentPath: string,
+): string | null {
+  if (query.q || query.attrs.length > 0 || query.subs.length !== 1 || query.sort !== "featured" || query.page > 1) {
+    return null;
+  }
+  const slug = query.subs[0];
+  if (!slug || !allowed.has(slug)) return null;
+  const path = `/designs/category/${slug}`;
+  if (path === currentPath) return null;
+  return path;
+}
+
 export function indexableCatalogPaths(catalog: DesignCatalog): CatalogSitemapEntry[] {
   const paths: CatalogSitemapEntry[] = [];
   for (const category of catalog.categories) {
@@ -1447,6 +1501,11 @@ export function indexableCatalogPaths(catalog: DesignCatalog): CatalogSitemapEnt
       changeFrequency: "weekly",
       priority: 0.5,
     });
+  }
+  for (const value of catalog.attributeValues) {
+    const path = indexableAttributeFilterPath(catalog, value.id);
+    if (!path) continue;
+    paths.push({ path, changeFrequency: "weekly", priority: 0.65 });
   }
   return paths;
 }
@@ -1496,8 +1555,10 @@ export function categorySeoDescription(
   return suggestedCategorySeoDescription(category.name, category.slug, parentName);
 }
 
-export function collectionSeoTitle(collection: Pick<CollectionRecord, "seoTitle" | "name">): string {
-  return collection.seoTitle.trim() || suggestedCollectionSeoTitle(collection.name);
+export function collectionSeoTitle(
+  collection: Pick<CollectionRecord, "seoTitle" | "name" | "slug">,
+): string {
+  return collection.seoTitle.trim() || suggestedCollectionSeoTitle(collection.name, collection.slug);
 }
 
 export function collectionSeoDescription(
@@ -1517,6 +1578,18 @@ export function primaryCategory(
     if (category) return category;
   }
   return undefined;
+}
+
+function uniqueAttributeSlug(siblings: { slug: string }[], base: string): string {
+  const normalized = /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(base) ? base : "value";
+  let slug = normalized;
+  let n = 2;
+  const taken = new Set(siblings.map((item) => item.slug));
+  while (taken.has(slug)) {
+    slug = `${normalized}-${n}`;
+    n += 1;
+  }
+  return slug;
 }
 
 function assertCollectionSlug(catalog: DesignCatalog, slug: string, ignoreId?: string): void {
@@ -1553,10 +1626,12 @@ export function createAttribute(
     throw new CatalogError("گروه ویژگی پیدا نشد", 404);
   }
   const siblings = next.attributeValues.filter((value) => value.groupId === input.groupId);
+  const id = randomPrefixedId("val");
   next.attributeValues.push({
-    id: randomPrefixedId("val"),
+    id,
     groupId: input.groupId,
     name: input.name,
+    slug: uniqueAttributeSlug(siblings, `v-${id.slice(4)}`),
     sortOrder: input.sortOrder ?? siblings.reduce((max, value) => Math.max(max, value.sortOrder), 0) + 10,
     createdAt: now,
     updatedAt: now,

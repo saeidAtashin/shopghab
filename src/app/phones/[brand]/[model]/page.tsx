@@ -4,6 +4,7 @@ import JsonLd from "@/app/components/seo/JsonLd";
 import { createPageMetadata } from "@/lib/seo/metadata";
 import {
   modelPageJsonLd,
+  modelPurchaseFaq,
   resolveModelSeo,
 } from "@/lib/seo/case-model-seo";
 import {
@@ -46,6 +47,7 @@ export default async function ModelCaseHubPage({ params }: Props) {
   if (!brand || !model) notFound();
 
   const seo = resolveModelSeo(brandSlug, modelSlug)!;
+  const faq = modelPurchaseFaq(brand.name, model.name);
   const templates = readCatalog()
     .designs.filter((design) => isPublicCatalogDesign(design))
     .map((design) => ({ title: design.title, slug: design.slug }));
@@ -58,6 +60,7 @@ export default async function ModelCaseHubPage({ params }: Props) {
           brand={brand}
           model={model}
           caseTypes={CASE_TYPES}
+          faq={faq}
         />
       </Suspense>
     </>

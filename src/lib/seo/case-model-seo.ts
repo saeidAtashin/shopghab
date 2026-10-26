@@ -1,7 +1,6 @@
 import {
   getBrandBySlug,
   getModelBySlug,
-  CASE_TYPES,
 } from "@/lib/cases/brands.static";
 import type { PhoneBrand, PhoneModel } from "@/lib/cases/types";
 import { breadcrumbJsonLd } from "./breadcrumbs";
@@ -31,23 +30,23 @@ export function resolveModelSeo(
   if (!brand || !model) return null;
 
   const canonicalPath = buildModelCanonicalPath(brandSlug, modelSlug);
-  const title = `فروش قاب ${model.name}`;
-  const caseTypeNames = CASE_TYPES.map((item) => item.name).join("، ");
-  const description = `فروش قاب موبایل ${model.name} (${brand.name}) در ${SITE_BRAND} (shopghab). قاب آماده یا طراحی اختصاصی با متن و استیکر، ${CASE_TYPES.length} نوع قاب (${caseTypeNames}). چاپ با کیفیت و ارسال سریع به سراسر ایران.`;
+  const title = `خرید قاب ${model.name}`;
+  const description = `خرید قاب ${model.name} (${brand.name}) در ${SITE_BRAND}. قاب گوشی و قاب موبایل ${model.name}، قاب اختصاصی یا قاب تلفن همراه، با چاپ باکیفیت و ارسال به سراسر ایران.`;
 
   return {
     title,
     description,
     keywords: [
-      `فروش قاب ${model.name}`,
-      `فروش قاب ${brand.name}`,
-      "shopghab",
-      SITE_BRAND,
-      "فروش قاب موبایل",
-      `قاب ${model.name}`,
-      `قاب ${brand.name}`,
-      `طراحی قاب ${model.name}`,
+      `خرید قاب ${model.name}`,
+      `قاب گوشی ${model.name}`,
+      `قاب موبایل ${brand.name} ${model.name}`,
+      `قاب اختصاصی ${model.name}`,
+      `قاب تلفن همراه ${model.name}`,
+      `خرید قاب ${brand.name}`,
       `قاب ${model.nameEn}`,
+      "خرید قاب موبایل",
+      SITE_BRAND,
+      "shopghab",
     ],
     canonicalPath,
     ogImage: model.image || DEFAULT_OG_IMAGE,
@@ -56,27 +55,28 @@ export function resolveModelSeo(
   };
 }
 
-const MODEL_FAQ = [
-  {
-    question: "چه نوع قاب‌هایی برای این مدل موجود است؟",
-    answer:
-      "شاپ قاب برای فروش قاب موبایل این مدل قاب شفاف، مات، شیشه‌ای، سیلیکونی و چرمی دارد و روی هر نوع چاپ اختصاصی ممکن است.",
-  },
-  {
-    question: "آیا می‌توانم قاب را خودم طراحی کنم؟",
-    answer:
-      "بله. در شاپ قاب نوع قاب را انتخاب کنید، سپس متن، استیکر و تصویر اضافه کنید و پیش‌نمایش ببینید.",
-  },
-  {
-    question: "زمان ارسال چقدر است؟",
-    answer:
-      "پس از تأیید طراحی و چاپ، فروش قاب موبایل در کوتاه‌ترین زمان به سراسر ایران ارسال می‌شود.",
-  },
-  {
-    question: "آیا ضمانت بازگشت دارید؟",
-    answer: "بله. شاپ قاب ۷ روز ضمانت بازگشت برای قاب‌های سفارشی و آماده دارد.",
-  },
-];
+export type ModelFaqItem = { question: string; answer: string };
+
+export function modelPurchaseFaq(brandName: string, modelName: string): ModelFaqItem[] {
+  return [
+    {
+      question: `خرید قاب اختصاصی ${modelName} چطور انجام می‌شود؟`,
+      answer: `در ${SITE_BRAND} مدل ${modelName} از ${brandName} را انتخاب کنید، متن یا تصویر را اضافه کنید و قاب اختصاصی را برای چاپ سفارش دهید.`,
+    },
+    {
+      question: `آیا قاب گوشی ${modelName} آماده هم دارید؟`,
+      answer: `بله. کنار طراحی اختصاصی، قاب موبایل و قاب تلفن همراه ${modelName} با طرح آماده هم قابل سفارش است.`,
+    },
+    {
+      question: "زمان ارسال چقدر است؟",
+      answer: `پس از تأیید طرح، خرید قاب ${modelName} چاپ و به سراسر ایران ارسال می‌شود.`,
+    },
+    {
+      question: "آیا ضمانت بازگشت دارید؟",
+      answer: `بله. ${SITE_BRAND} ۷ روز ضمانت بازگشت برای قاب اختصاصی و قاب آماده دارد.`,
+    },
+  ];
+}
 
 export function modelPageJsonLd(
   ctx: ModelSeoContext,
@@ -97,7 +97,7 @@ export function modelPageJsonLd(
       ],
       ctx.canonicalPath,
     ),
-    faqPageJsonLd(MODEL_FAQ),
+    faqPageJsonLd(modelPurchaseFaq(ctx.brand.name, ctx.model.name)),
   ];
 
   if (templates.length > 0) {

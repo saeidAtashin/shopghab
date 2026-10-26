@@ -12,10 +12,12 @@ import StorefrontToolbar from "@/app/components/designs/StorefrontToolbar";
 import { colorSwatch } from "@/app/components/designs/browse-visuals";
 import {
   browseHref,
+  filterLinksFromGroups,
   toggleBrowseToken,
   type BrowseFilterGroup,
   type BrowseShell,
   type BrowseSort,
+  type FilterLink,
 } from "@/lib/catalog/browse";
 import type { PublicDesign } from "@/lib/catalog/schema";
 import { designedAssetUrl } from "@/lib/designed-assets";
@@ -63,13 +65,21 @@ type Props = {
 const fieldClass =
   "min-h-11 w-full rounded-xl border border-border bg-input-bg px-3 text-sm text-foreground outline-none focus:border-[#5145FF]";
 
-function listingHref(query: QueryState, patch: Partial<QueryState> = {}): string {
-  return browseHref("/", {
-    q: patch.q ?? query.q,
-    sort: patch.sort ?? query.sort,
-    attrs: patch.attrs ?? query.attrs,
-    page: patch.page ?? 1,
-  });
+function listingHref(
+  query: QueryState,
+  patch: Partial<QueryState> = {},
+  filters: FilterLink[] = [],
+): string {
+  return browseHref(
+    "/",
+    {
+      q: patch.q ?? query.q,
+      sort: patch.sort ?? query.sort,
+      attrs: patch.attrs ?? query.attrs,
+      page: 1,
+    },
+    filters,
+  );
 }
 
 function categoryName(design: PublicDesign, names: Record<string, string>): string | undefined {
@@ -94,12 +104,14 @@ function FilterGroups({
   brands,
   opened,
   onToggle,
+  filters,
 }: {
   shell: BrowseShell;
   query: QueryState;
   brands: HomeBrandLink[];
   opened: Record<string, boolean | undefined>;
   onToggle: (id: string, open: boolean) => void;
+  filters: FilterLink[];
 }) {
   const [categoriesOpen, setCategoriesOpen] = useState(true);
 
@@ -147,6 +159,7 @@ function FilterGroups({
           query={query}
           open={opened[group.id] ?? true}
           onToggle={onToggle}
+          filters={filters}
         />
       ))}
 
@@ -177,11 +190,13 @@ function AttributeGroup({
   query,
   open,
   onToggle,
+  filters,
 }: {
   group: BrowseFilterGroup;
   query: QueryState;
   open: boolean;
   onToggle: (id: string, open: boolean) => void;
+  filters: FilterLink[];
 }) {
   const isColors = group.slug === "colors";
   return (
@@ -199,7 +214,7 @@ function AttributeGroup({
         <ul className={cn("px-3 pb-3", isColors ? "flex flex-wrap gap-2" : "space-y-1")}>
           {group.options.map((option) => {
             const active = query.attrs.includes(option.id);
-            const href = listingHref(query, { attrs: toggleBrowseToken(query.attrs, option.id) });
+            const href = listingHref(query, { attrs: toggleBrowseToken(query.attrs, option.id) }, filters);
             const swatch = isColors ? colorSwatch(option.label) : null;
             if (isColors) {
               return (
@@ -271,6 +286,7 @@ export default function HomeDiscovery({
   const hasMoreRef = useRef(pageCount > 1);
   const nextPageRef = useRef(2);
   const colorGroup = shell.groups.find((group) => group.slug === "colors");
+  const filters = filterLinksFromGroups(shell.groups);
   const queryKey = `${query.q}|${query.sort}|${query.attrs.join(",")}`;
 
   useEffect(() => {
@@ -336,11 +352,11 @@ export default function HomeDiscovery({
     const data = new FormData(event.currentTarget);
     const fromForm = data.get("q");
     const q = String(fromForm ?? searchValue).trim();
-    router.push(listingHref(query, { q }), { scroll: false });
+    router.push(listingHref(query, { q }, filters), { scroll: false });
   }
 
   function changeSort(sort: BrowseSort) {
-    router.push(listingHref(query, { sort }), { scroll: false });
+    router.push(listingHref(query, { sort }, filters), { scroll: false });
   }
 
   function renderFilters() {
@@ -351,6 +367,7 @@ export default function HomeDiscovery({
         brands={brands}
         opened={opened}
         onToggle={(id, open) => setOpened((current) => ({ ...current, [id]: open }))}
+        filters={filters}
       />
     );
   }
@@ -407,7 +424,7 @@ export default function HomeDiscovery({
                 id: option.id,
                 label: option.label,
                 active: query.attrs.includes(option.id),
-                href: listingHref(query, { attrs: toggleBrowseToken(query.attrs, option.id) }),
+                href: listingHref(query, { attrs: toggleBrowseToken(query.attrs, option.id) }, filters),
               }))}
               sort={query.sort}
               onSort={changeSort}
@@ -420,7 +437,7 @@ export default function HomeDiscovery({
                 <p className="text-xs text-muted">{total.toLocaleString("fa-IR")} طرح</p>
                 {query.q ? (
                   <BrowseLink
-                    href={listingHref(query, { q: "" })}
+                    href={listingHref(query, { q: "" }, filters)}
                     className="inline-flex items-center gap-1 rounded-full border border-border px-2 py-1 text-xs"
                   >
                     {query.q}
@@ -431,7 +448,7 @@ export default function HomeDiscovery({
                 {query.attrs.map((id) => (
                   <BrowseLink
                     key={id}
-                    href={listingHref(query, { attrs: query.attrs.filter((value) => value !== id) })}
+                    href={listingHref(query, { attrs: query.attrs.filter((value) => value !== id) }, filters)}
                     className="inline-flex items-center gap-1 rounded-full border border-border px-2 py-1 text-xs"
                   >
                     {optionLabel(shell, id)}

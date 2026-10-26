@@ -7,6 +7,8 @@ import {
   categoryChain,
   categorySeoDescription,
   categorySeoTitle,
+  cleanAttributeRedirect,
+  cleanSubcategoryRedirect,
   findCategoryRedirect,
   isCategoryIndexable,
   parsePublicListingQuery,
@@ -33,6 +35,12 @@ export async function generateMetadata({ params, searchParams }: Props) {
   if (redirected) permanentRedirect(`/designs/category/${redirected.slug}`);
   const category = catalog.categories.find((item) => item.slug === slug);
   if (!category || !isCategoryIndexable(catalog, category)) return {};
+  const root = categoryChain(catalog, category)[0] ?? category;
+  const allowedSubs = new Set(publicCategoryCards(catalog, root.id).map((card) => card.slug));
+  const subTarget = cleanSubcategoryRedirect(query, allowedSubs, `/designs/category/${category.slug}`);
+  if (subTarget) permanentRedirect(subTarget);
+  const attrTarget = cleanAttributeRedirect(catalog, query);
+  if (attrTarget) permanentRedirect(attrTarget);
 
   const parentName = category.parentId
     ? catalog.categories.find((item) => item.id === category.parentId)?.name
@@ -59,6 +67,10 @@ export default async function DesignCategoryPage({ params, searchParams }: Props
   const root = ancestry[0] ?? category;
   const innerCards = publicCategoryCards(catalog, root.id);
   const allowedSubs = new Set(innerCards.map((card) => card.slug));
+  const subTarget = cleanSubcategoryRedirect(query, allowedSubs, `/designs/category/${category.slug}`);
+  if (subTarget) permanentRedirect(subTarget);
+  const attrTarget = cleanAttributeRedirect(catalog, query);
+  if (attrTarget) permanentRedirect(attrTarget);
   const querySubs = query.subs.filter((item) => allowedSubs.has(item));
   const selectedChildIds = querySubs.flatMap((item) => {
     const match = catalog.categories.find((categoryItem) => categoryItem.slug === item);
@@ -111,7 +123,7 @@ export default async function DesignCategoryPage({ params, searchParams }: Props
         ]}
       />
       <CatalogBreadcrumbs items={chain} soft />
-      <h1 className="mt-4 text-2xl font-black sm:text-3xl">{category.name}</h1>
+      <h1 className="mt-4 text-2xl font-black sm:text-3xl">{title}</h1>
       {category.description ? (
         <p className="mt-2 max-w-2xl leading-8 text-muted">{category.description}</p>
       ) : null}

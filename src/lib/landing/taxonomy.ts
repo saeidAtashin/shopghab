@@ -203,7 +203,7 @@ export function landingTaxonomy(
           id: value.id,
           title: value.name,
           description: group.name,
-          href: `/designs?attr=${encodeURIComponent(value.id)}`,
+          href: `/designs/filter/${group.slug}/${value.slug}`,
           image:
             pinnedThumb(catalog, banners.features?.[value.id], (design) =>
               design.attributeValueIds.includes(value.id),
@@ -227,7 +227,7 @@ export function landingTaxonomy(
         chips: visibleValues.map((value) => ({
           id: value.id,
           label: value.name,
-          href: `/designs?attr=${encodeURIComponent(value.id)}`,
+          href: `/designs/filter/${group.slug}/${value.slug}`,
         })),
       };
     })

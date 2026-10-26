@@ -178,9 +178,9 @@ test("attribute query filters published designs and stays out of the index", () 
   assert.equal(cards.features[0]?.title, "قرمز");
   assert.equal(cards.features[0]?.description, "رنگ");
   assert.equal(cards.features[0]?.group, "رنگ");
-  assert.equal(cards.features[0]?.href, `/designs?attr=${encodeURIComponent(value.id)}`);
+  assert.equal(cards.features[0]?.href, `/designs/filter/colors/${value.slug}`);
   assert.equal(cards.featureGroups.length, 1);
-  assert.equal(cards.featureGroups[0]?.chips[0]?.href, `/designs?attr=${encodeURIComponent(value.id)}`);
+  assert.equal(cards.featureGroups[0]?.chips[0]?.href, `/designs/filter/colors/${value.slug}`);
 
   const publicCards = landingTaxonomy(emptyCollection.catalog, {}, { publicOnly: true });
   assert.equal(publicCards.categories.length, 1);

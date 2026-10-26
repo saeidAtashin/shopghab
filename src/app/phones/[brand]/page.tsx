@@ -27,18 +27,20 @@ export async function generateMetadata({ params }: Props) {
   if (!brand) return {};
 
   const path = `/phones/${brandSlug}`;
-  const title = `فروش قاب ${brand.name}`;
-  const description = `فروش قاب موبایل ${brand.name} در ${SITE_BRAND} (shopghab). انتخاب مدل گوشی، قاب آماده یا طراحی اختصاصی، چاپ با کیفیت و ارسال سریع.`;
+  const title = `خرید قاب گوشی ${brand.name}`;
+  const description = `خرید قاب گوشی ${brand.name} در ${SITE_BRAND}. قاب موبایل، قاب اختصاصی و قاب تلفن همراه ${brand.name} با انتخاب مدل، چاپ با کیفیت و ارسال سریع.`;
 
   return createPageMetadata({
     title,
     description,
     path,
     keywords: [
-      `فروش قاب ${brand.name}`,
-      `قاب ${brand.name}`,
+      `خرید قاب گوشی ${brand.name}`,
+      `قاب موبایل ${brand.name}`,
+      `قاب اختصاصی ${brand.name}`,
+      `قاب تلفن همراه ${brand.name}`,
       `قاب ${brand.nameEn}`,
-      "فروش قاب موبایل",
+      "خرید قاب موبایل",
       "shopghab",
       SITE_BRAND,
     ],
@@ -53,8 +55,8 @@ export default async function BrandPhonesPage({ params }: Props) {
   const models = getModelsByBrand(brandSlug);
   const groups = groupModelsBySeries(models, brandSlug);
   const path = `/phones/${brandSlug}`;
-  const title = `فروش قاب ${brand.name}`;
-  const description = `فروش قاب موبایل ${brand.name} در ${SITE_BRAND}. انتخاب مدل گوشی، قاب آماده یا طراحی اختصاصی.`;
+  const title = `خرید قاب گوشی ${brand.name}`;
+  const description = `خرید قاب گوشی ${brand.name} در ${SITE_BRAND}. قاب موبایل، قاب اختصاصی و قاب تلفن همراه با انتخاب مدل.`;
 
   return (
     <>
@@ -73,10 +75,10 @@ export default async function BrandPhonesPage({ params }: Props) {
             ]}
           />
           <h1 className="mt-6 text-2xl font-black text-foreground sm:text-3xl">
-            فروش قاب {brand.name}
+            خرید قاب گوشی {brand.name}
           </h1>
-          <p className="mt-2 text-muted">
-            مدل گوشی خود را انتخاب کنید — قاب آماده یا طراحی اختصاصی
+          <p className="mt-2 max-w-2xl leading-8 text-muted">
+            قاب موبایل، قاب اختصاصی و قاب تلفن همراه {brand.name}. مدل گوشی را انتخاب کنید.
           </p>
 
           <div className="mt-10 space-y-12">
@@ -100,7 +102,7 @@ export default async function BrandPhonesPage({ params }: Props) {
                       </div>
                       <div className="mt-3 text-center">
                         <p className="text-sm font-bold text-foreground">
-                          {model.name}
+                          قاب {model.name}
                         </p>
                         <p className="text-xs text-muted">{model.nameEn}</p>
                       </div>

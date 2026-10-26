@@ -240,3 +240,15 @@ test("older catalog files gain the new fields on read", () => {
   assert.equal(parsed.designs[0]?.unedited, true);
   assert.deepEqual(parsed.collections, []);
 });
+
+test("missing attribute slugs recover the seed key", () => {
+  const seeded = seedCatalogTaxonomy(emptyCatalog(), NOW);
+  const black = seeded.catalog.attributeValues.find((value) => value.slug === "black");
+  assert.ok(black);
+  const raw = structuredClone(seeded.catalog);
+  const value = raw.attributeValues.find((item) => item.id === black.id);
+  assert.ok(value);
+  delete (value as { slug?: string }).slug;
+  const parsed = parseCatalogDocument(raw);
+  assert.equal(parsed.attributeValues.find((item) => item.id === black.id)?.slug, "black");
+});

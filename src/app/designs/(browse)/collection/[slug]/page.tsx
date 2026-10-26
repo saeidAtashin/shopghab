@@ -4,6 +4,7 @@ import CatalogBreadcrumbs from "@/app/components/designs/CatalogBreadcrumbs";
 import CatalogListing from "@/app/components/designs/CatalogListing";
 import JsonLd from "@/app/components/seo/JsonLd";
 import {
+  cleanAttributeRedirect,
   collectionSeoDescription,
   collectionSeoTitle,
   isCollectionIndexable,
@@ -36,6 +37,8 @@ export async function generateMetadata({ params, searchParams }: Props) {
   const catalog = readCatalog();
   const collection = catalog.collections.find((item) => item.slug === slug);
   if (!collection || !isCollectionIndexable(catalog, collection)) return {};
+  const attrTarget = cleanAttributeRedirect(catalog, query);
+  if (attrTarget) permanentRedirect(attrTarget);
 
   return createPageMetadata({
     title: collectionSeoTitle(collection),
@@ -53,6 +56,8 @@ export default async function DesignCollectionPage({ params, searchParams }: Pro
   const catalog = readCatalog();
   const collection = catalog.collections.find((item) => item.slug === slug);
   if (!collection || !isCollectionIndexable(catalog, collection)) notFound();
+  const attrTarget = cleanAttributeRedirect(catalog, query);
+  if (attrTarget) permanentRedirect(attrTarget);
 
   const result = queryPublicDesigns(catalog, {
     q: query.q,
@@ -90,7 +95,7 @@ export default async function DesignCollectionPage({ params, searchParams }: Pro
         ]}
       />
       <CatalogBreadcrumbs items={crumbs} soft />
-      <h1 className="mt-4 text-2xl font-black sm:text-3xl">{collection.name}</h1>
+      <h1 className="mt-4 text-2xl font-black sm:text-3xl">{title}</h1>
       {collection.description ? (
         <p className="mt-2 max-w-2xl leading-8 text-muted">{collection.description}</p>
       ) : null}

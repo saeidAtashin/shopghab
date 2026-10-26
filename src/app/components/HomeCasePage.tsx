@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import HomeBenefits from "@/app/components/home/HomeBenefits";
 import HomeCategoryMosaic from "@/app/components/home/HomeCategoryMosaic";
 import HomeCollections from "@/app/components/home/HomeCollections";
@@ -139,6 +141,29 @@ export default function HomeCasePage({ searchParams }: { searchParams: SearchPar
             />
           ) : null}
         </div>
+
+        <p className="text-sm leading-7 text-muted">
+          <Link href="/create" className="font-bold text-foreground underline-offset-4 hover:underline">
+            خرید قاب اختصاصی
+          </Link>
+          {" و "}
+          <Link href="/designs" className="font-bold text-foreground underline-offset-4 hover:underline">
+            خرید قاب موبایل
+          </Link>
+          {"، قاب گوشی و قاب تلفن همراه در شاپ قاب. "}
+          <Link href="/phones/apple" className="font-bold text-foreground underline-offset-4 hover:underline">
+            قاب آیفون
+          </Link>
+          {"، "}
+          <Link href="/phones/samsung" className="font-bold text-foreground underline-offset-4 hover:underline">
+            قاب سامسونگ
+          </Link>
+          {" و "}
+          <Link href="/phones/xiaomi" className="font-bold text-foreground underline-offset-4 hover:underline">
+            قاب شیائومی
+          </Link>
+          {" را با برند و مدل سفارش دهید، یا خرید قاب خاص را با طرح خودتان شروع کنید."}
+        </p>
 
         <HomeBenefits />
 
