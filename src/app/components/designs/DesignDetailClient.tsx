@@ -140,7 +140,7 @@ export default function DesignDetailClient({
                     fill
                     sizes="64px"
                     loading="lazy"
-                    className="object-cover"
+                    className="object-contain"
                   />
                 </button>
               ))}
@@ -279,7 +279,7 @@ export default function DesignDetailClient({
                 href={`/designs/${item.slug}`}
                 className="overflow-hidden rounded-2xl border border-border"
               >
-                <div className="relative h-32 bg-card/40">
+                <div className="relative h-32 overflow-hidden bg-card/40">
                   {item.image ? (
                     <Image
                       src={designedAssetUrl(item.image)}
@@ -287,7 +287,7 @@ export default function DesignDetailClient({
                       fill
                       sizes="(max-width: 1024px) 50vw, 25vw"
                       loading="lazy"
-                      className="object-contain p-2"
+                      className="origin-center scale-200 object-contain"
                     />
                   ) : null}
                 </div>

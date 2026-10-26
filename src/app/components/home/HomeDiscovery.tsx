@@ -545,7 +545,7 @@ export default function HomeDiscovery({
                                 alt=""
                                 fill
                                 sizes="56px"
-                                className="object-contain p-1"
+                                className="origin-center scale-200 object-contain"
                               />
                             ) : null}
                           </span>

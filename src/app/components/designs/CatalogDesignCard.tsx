@@ -104,7 +104,7 @@ export default function CatalogDesignCard({
           href={href}
           className="flex h-full flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#5145FF]/70"
         >
-          <div className="relative aspect-[4/5] bg-surface">
+          <div className="relative aspect-[4/5] overflow-hidden bg-surface">
             {art ? (
               <Image
                 src={designedAssetUrl(art)}
@@ -112,7 +112,7 @@ export default function CatalogDesignCard({
                 fill
                 priority={priority}
                 sizes="(max-width: 640px) 50vw, 240px"
-                className="object-contain p-3"
+                className="origin-center scale-200 object-contain"
               />
             ) : (
               <span className="flex h-full items-center justify-center text-xs text-muted">بدون تصویر</span>
@@ -149,7 +149,7 @@ export default function CatalogDesignCard({
                 fill
                 priority={priority}
                 sizes="(max-width: 640px) 70vw, 360px"
-                className="object-contain p-1.5"
+                className="origin-center scale-200 object-contain"
               />
             ) : (
               <span className="flex h-full items-center justify-center text-xs text-muted">بدون تصویر</span>
@@ -200,7 +200,7 @@ export default function CatalogDesignCard({
                   fill
                   priority={priority && index === 0}
                   sizes="(max-width: 640px) 50vw, 25vw"
-                  className="object-contain p-3"
+                  className="origin-center scale-200 object-contain"
                 />
               )}
             </Link>

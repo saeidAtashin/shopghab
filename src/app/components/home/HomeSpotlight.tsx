@@ -46,7 +46,7 @@ export default function HomeSpotlight({
               fill
               priority
               sizes="280px"
-              className="object-contain p-3"
+              className="origin-center scale-200 object-contain"
             />
           ) : (
             <span className="flex h-full items-center justify-center text-xs text-muted">بدون تصویر</span>
