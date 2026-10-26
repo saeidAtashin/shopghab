@@ -6,11 +6,10 @@ export const HERO_BADGE = "ارسال رایگان به سراسر ایران";
 
 export const HERO_HEADING = "قاب گوشی، به سبک خودت";
 
-export const HERO_DESCRIPTION =
-  "طرح آماده را برای مدل گوشی‌ات انتخاب کن، یا قاب اختصاصی خودت را در شاپ قاب طراحی کن.";
+export const HERO_DESCRIPTION = "هزاران طرح خاص برای همه سلیقه‌ها";
 
 export const HERO_CTAS = {
-  primary: { label: "مشاهده طرح‌ها", href: "/designs" },
+  primary: { label: "مشاهده همه طرح‌ها", href: "/designs" },
   secondary: { label: "شروع طراحی", href: "/create" },
 } as const;
 

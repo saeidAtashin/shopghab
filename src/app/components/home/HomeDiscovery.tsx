@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown, Search, SlidersHorizontal, X } from "lucide-react";
+import { ChevronDown, LayoutGrid, Search, SlidersHorizontal, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -33,6 +33,18 @@ export type HomeRail = {
   items: PublicDesign[];
 };
 
+export type HomeBrandLink = {
+  name: string;
+  href: string;
+};
+
+export type HomeFeaturedCollection = {
+  title: string;
+  href: string;
+  image: string;
+  description: string;
+};
+
 type QueryState = {
   q: string;
   sort: BrowseSort;
@@ -50,11 +62,16 @@ type Props = {
   pageSize: number;
   pageCount: number;
   models: HomePhoneOption[];
+  brands: HomeBrandLink[];
+  featured: HomeFeaturedCollection | null;
   rail: HomeRail | null;
 };
 
 const fieldClass =
   "min-h-11 w-full rounded-xl border border-border bg-input-bg px-3 text-sm text-foreground outline-none focus:border-[#5145FF]";
+
+const toolbarField =
+  "min-h-11 shrink-0 rounded-xl border border-border bg-input-bg px-3 text-sm text-foreground outline-none focus:border-[#5145FF]";
 
 function listingHref(query: QueryState, patch: Partial<QueryState> = {}): string {
   return browseHref("/", {
@@ -84,11 +101,13 @@ function optionLabel(shell: BrowseShell, id: string): string {
 function FilterGroups({
   shell,
   query,
+  brands,
   opened,
   onToggle,
 }: {
   shell: BrowseShell;
   query: QueryState;
+  brands: HomeBrandLink[];
   opened: Record<string, boolean | undefined>;
   onToggle: (id: string, open: boolean) => void;
 }) {
@@ -108,14 +127,22 @@ function FilterGroups({
         </button>
         {categoriesOpen ? (
           <ul className="space-y-1 px-2 pb-3">
+            <li>
+              <Link
+                href="/designs"
+                className="flex items-center gap-2 rounded-xl bg-surface px-3 py-2 text-sm font-bold text-foreground"
+              >
+                <LayoutGrid className="h-4 w-4 text-[#C4C0FF]" aria-hidden />
+                همه دسته‌بندی‌ها
+              </Link>
+            </li>
             {shell.categories.map((category) => (
               <li key={category.slug}>
                 <Link
                   href={category.href}
-                  className="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-foreground transition hover:bg-surface"
+                  className="block rounded-xl px-3 py-2 text-sm text-foreground transition hover:bg-surface"
                 >
-                  <span>{category.name}</span>
-                  <span className="text-xs text-muted">{category.count.toLocaleString("fa-IR")}</span>
+                  {category.name}
                 </Link>
               </li>
             ))}
@@ -132,6 +159,25 @@ function FilterGroups({
           onToggle={onToggle}
         />
       ))}
+
+      {brands.length > 0 ? (
+        <section className="rounded-2xl border border-border bg-card px-4 py-3">
+          <h2 className="mb-2 text-sm font-black text-foreground">مناسب برای</h2>
+          <ul className="space-y-1">
+            {brands.map((brand) => (
+              <li key={brand.href}>
+                <Link
+                  href={brand.href}
+                  className="flex items-center gap-2 rounded-xl px-1 py-1.5 text-sm text-foreground transition hover:bg-surface"
+                >
+                  <span className="h-4 w-4 rounded border border-white/25" aria-hidden />
+                  {brand.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
     </div>
   );
 }
@@ -156,7 +202,7 @@ function AttributeGroup({
         aria-expanded={open}
         onClick={() => onToggle(group.id, !open)}
       >
-        {group.label}
+        {isColors ? "فیلتر رنگ" : group.label}
         <ChevronDown className={cn("h-4 w-4 transition", open && "rotate-180")} aria-hidden />
       </button>
       {open ? (
@@ -165,29 +211,41 @@ function AttributeGroup({
             const active = query.attrs.includes(option.id);
             const href = listingHref(query, { attrs: toggleBrowseToken(query.attrs, option.id) });
             const swatch = isColors ? colorSwatch(option.label) : null;
+            if (isColors) {
+              return (
+                <li key={option.id}>
+                  <BrowseLink
+                    href={href}
+                    aria-label={option.label}
+                    title={option.label}
+                    aria-current={active ? "true" : undefined}
+                    className={cn(
+                      "inline-flex h-7 w-7 items-center justify-center rounded-full border",
+                      active ? "border-[#5145FF] ring-2 ring-[#5145FF]/40" : "border-white/15",
+                    )}
+                  >
+                    {typeof swatch === "string" ? (
+                      <span className="h-5 w-5 rounded-full" style={{ backgroundColor: swatch }} />
+                    ) : (
+                      <span className="text-[10px] text-muted">{option.label.slice(0, 1)}</span>
+                    )}
+                  </BrowseLink>
+                </li>
+              );
+            }
             return (
               <li key={option.id}>
                 <BrowseLink
                   href={href}
                   aria-current={active ? "true" : undefined}
                   className={cn(
-                    "inline-flex items-center gap-2 rounded-full border px-2.5 py-1.5 text-xs transition",
+                    "inline-flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm transition",
                     active
-                      ? "border-[#5145FF] bg-[#5145FF]/15 text-foreground"
-                      : "border-border text-muted hover:border-[#5145FF]/40 hover:text-foreground",
-                    !isColors && "w-full justify-between rounded-xl px-3 py-2 text-sm",
+                      ? "bg-[#5145FF]/15 text-foreground"
+                      : "text-muted hover:bg-surface hover:text-foreground",
                   )}
                 >
-                  <span className="inline-flex items-center gap-2">
-                    {typeof swatch === "string" ? (
-                      <span
-                        className="h-3.5 w-3.5 rounded-full border border-white/20"
-                        style={{ backgroundColor: swatch }}
-                        aria-hidden
-                      />
-                    ) : null}
-                    {option.label}
-                  </span>
+                  {option.label}
                 </BrowseLink>
               </li>
             );
@@ -208,6 +266,8 @@ export default function HomeDiscovery({
   pageSize,
   pageCount,
   models,
+  brands,
+  featured,
   rail,
 }: Props) {
   const router = useRouter();
@@ -247,6 +307,7 @@ export default function HomeDiscovery({
       <FilterGroups
         shell={shell}
         query={query}
+        brands={brands}
         opened={opened}
         onToggle={(id, open) => setOpened((current) => ({ ...current, [id]: open }))}
       />
@@ -254,7 +315,7 @@ export default function HomeDiscovery({
   }
 
   return (
-    <section aria-label="طرح‌ها" className="space-y-4">
+    <section aria-label="طرح‌ها" className="hidden space-y-4 xl:block">
       <div className="sticky top-[4.5rem] z-30 -mx-4 border-b border-border bg-[#080D18]/95 px-4 py-3 backdrop-blur-md xl:hidden">
         <div className="flex items-center gap-2">
           <form role="search" onSubmit={submitSearch} className="relative min-w-0 flex-1">
@@ -293,32 +354,60 @@ export default function HomeDiscovery({
       <div
         className={cn(
           "xl:grid xl:items-start xl:gap-4",
-          rail ? "xl:grid-cols-[16rem_minmax(0,1fr)_15.5rem]" : "xl:grid-cols-[16rem_minmax(0,1fr)]",
+          rail || featured
+            ? "xl:grid-cols-[16rem_minmax(0,1fr)_17rem]"
+            : "xl:grid-cols-[16rem_minmax(0,1fr)]",
         )}
       >
         <div className="min-w-0 xl:order-2">
-          <div className="mb-4 space-y-3 rounded-2xl border border-border bg-card p-3">
-            <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_12rem]">
-              <label className="block text-xs font-bold text-muted" htmlFor={modelId}>
-                مدل گوشی
-                <select
-                  id={modelId}
-                  defaultValue=""
-                  onChange={(event) => {
-                    if (event.target.value) router.push(event.target.value);
-                  }}
-                  className={`${fieldClass} mt-1`}
-                >
-                  <option value="">انتخاب مدل گوشی</option>
-                  {models.map((model) => (
-                    <option key={model.href} value={model.href}>
-                      {model.name}
-                    </option>
-                  ))}
-                </select>
+          <div className="mb-4 rounded-2xl border border-border bg-card p-2">
+            <div className="flex flex-wrap items-center gap-2">
+              {colorGroup && colorGroup.options.length > 0 ? (
+                <div className="flex items-center gap-2 pe-1">
+                  <span className="text-xs font-bold text-muted">رنگ قاب/بدنه</span>
+                  <ul className="flex gap-1.5" aria-label={colorGroup.label}>
+                    {colorGroup.options.map((option) => {
+                      const active = query.attrs.includes(option.id);
+                      const swatch = colorSwatch(option.label);
+                      return (
+                        <li key={option.id} className="shrink-0">
+                          <BrowseLink
+                            href={listingHref(query, { attrs: toggleBrowseToken(query.attrs, option.id) })}
+                            aria-label={option.label}
+                            aria-current={active ? "true" : undefined}
+                            title={option.label}
+                            className={cn(
+                              "inline-flex h-7 w-7 items-center justify-center rounded-full border",
+                              active ? "border-[#5145FF] ring-2 ring-[#5145FF]/50" : "border-white/15",
+                            )}
+                          >
+                            {typeof swatch === "string" ? (
+                              <span className="h-4 w-4 rounded-full" style={{ backgroundColor: swatch }} />
+                            ) : (
+                              <span className="text-[10px] text-muted">{option.label.slice(0, 1)}</span>
+                            )}
+                          </BrowseLink>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              ) : null}
+              <label className="sr-only" htmlFor={sortId}>
+                مرتب‌سازی
               </label>
-              <form role="search" onSubmit={submitSearch} className="hidden xl:block">
-                <label htmlFor={searchId} className="mb-1 block text-xs font-bold text-muted">
+              <select
+                id={sortId}
+                value={query.sort}
+                onChange={(event) => changeSort(event.target.value as BrowseSort)}
+                className={`${fieldClass} w-auto min-w-[8.5rem]`}
+              >
+                <option value="featured">مرتب‌سازی</option>
+                <option value="newest">جدیدترین</option>
+                <option value="title">عنوان</option>
+              </select>
+              <form role="search" onSubmit={submitSearch} className="min-w-[10rem] flex-1">
+                <label htmlFor={searchId} className="sr-only">
                   جستجوی طرح
                 </label>
                 <div className="relative">
@@ -329,94 +418,59 @@ export default function HomeDiscovery({
                     name="q"
                     key={query.q}
                     defaultValue={query.q}
-                    placeholder="نام طرح"
+                    placeholder="جستجوی طرح..."
                     className={`${fieldClass} ps-10`}
                   />
                 </div>
               </form>
-              <label className="block text-xs font-bold text-muted" htmlFor={sortId}>
-                مرتب‌سازی
-                <select
-                  id={sortId}
-                  value={query.sort}
-                  onChange={(event) => changeSort(event.target.value as BrowseSort)}
-                  className={`${fieldClass} mt-1`}
-                >
-                  <option value="featured">پیشنهادی</option>
-                  <option value="newest">جدیدترین</option>
-                  <option value="title">عنوان</option>
-                </select>
+              <label className="sr-only" htmlFor={modelId}>
+                انتخاب مدل گوشی
               </label>
+              <select
+                id={modelId}
+                defaultValue=""
+                onChange={(event) => {
+                  if (event.target.value) router.push(event.target.value);
+                }}
+                className={`${fieldClass} w-auto min-w-[10rem]`}
+              >
+                <option value="">انتخاب مدل گوشی</option>
+                {models.map((model) => (
+                  <option key={model.href} value={model.href}>
+                    {model.name}
+                  </option>
+                ))}
+              </select>
             </div>
-            <p className="text-xs leading-6 text-muted">
-              طرح‌های منتشرشده روی همه مدل‌ها قابل چاپ است.{" "}
-              <Link href="/create" className="font-bold text-[#C4C0FF] hover:underline">
-                همه برندها
-              </Link>
-            </p>
-            {colorGroup && colorGroup.options.length > 0 ? (
-              <ul className="flex gap-2 overflow-x-auto pb-1" aria-label={colorGroup.label}>
-                {colorGroup.options.map((option) => {
-                  const active = query.attrs.includes(option.id);
-                  const swatch = colorSwatch(option.label);
-                  return (
-                    <li key={option.id} className="shrink-0">
-                      <BrowseLink
-                        href={listingHref(query, { attrs: toggleBrowseToken(query.attrs, option.id) })}
-                        aria-label={option.label}
-                        aria-current={active ? "true" : undefined}
-                        title={option.label}
-                        className={cn(
-                          "inline-flex h-8 w-8 items-center justify-center rounded-full border",
-                          active ? "border-[#5145FF] ring-2 ring-[#5145FF]/50" : "border-white/15",
-                        )}
-                      >
-                        {typeof swatch === "string" ? (
-                          <span className="h-5 w-5 rounded-full" style={{ backgroundColor: swatch }} />
-                        ) : (
-                          <span className="text-[10px] text-muted">{option.label.slice(0, 1)}</span>
-                        )}
-                      </BrowseLink>
-                    </li>
-                  );
-                })}
-              </ul>
-            ) : null}
-            <div className="flex flex-wrap items-center gap-2">
-              <p className="text-sm text-muted">{total.toLocaleString("fa-IR")} طرح</p>
-              {query.q ? (
-                <BrowseLink
-                  href={listingHref(query, { q: "" })}
-                  className="inline-flex items-center gap-1 rounded-full border border-border px-2 py-1 text-xs"
-                >
-                  {query.q}
-                  <X className="h-3 w-3" aria-hidden />
-                  <span className="sr-only">حذف جستجو</span>
-                </BrowseLink>
-              ) : null}
-              {query.attrs.map((id) => (
-                <BrowseLink
-                  key={id}
-                  href={listingHref(query, { attrs: query.attrs.filter((value) => value !== id) })}
-                  className="inline-flex items-center gap-1 rounded-full border border-border px-2 py-1 text-xs"
-                >
-                  {optionLabel(shell, id)}
-                  <X className="h-3 w-3" aria-hidden />
-                  <span className="sr-only">حذف فیلتر</span>
-                </BrowseLink>
-              ))}
-              {query.q || query.attrs.length > 0 || query.sort !== "featured" ? (
+            {query.q || query.attrs.length > 0 || query.sort !== "featured" ? (
+              <div className="mt-2 flex flex-wrap items-center gap-2 border-t border-border px-1 pt-2">
+                <p className="text-xs text-muted">{total.toLocaleString("fa-IR")} طرح</p>
+                {query.q ? (
+                  <BrowseLink
+                    href={listingHref(query, { q: "" })}
+                    className="inline-flex items-center gap-1 rounded-full border border-border px-2 py-1 text-xs"
+                  >
+                    {query.q}
+                    <X className="h-3 w-3" aria-hidden />
+                    <span className="sr-only">حذف جستجو</span>
+                  </BrowseLink>
+                ) : null}
+                {query.attrs.map((id) => (
+                  <BrowseLink
+                    key={id}
+                    href={listingHref(query, { attrs: query.attrs.filter((value) => value !== id) })}
+                    className="inline-flex items-center gap-1 rounded-full border border-border px-2 py-1 text-xs"
+                  >
+                    {optionLabel(shell, id)}
+                    <X className="h-3 w-3" aria-hidden />
+                    <span className="sr-only">حذف فیلتر</span>
+                  </BrowseLink>
+                ))}
                 <BrowseLink href="/" className="text-xs font-bold text-[#C4C0FF] hover:underline">
                   پاک کردن همه
                 </BrowseLink>
-              ) : null}
-              <BrowseLink
-                href={browseHref("/designs", { q: query.q, sort: query.sort, attrs: query.attrs })}
-                className="ms-auto text-xs font-bold text-[#C4C0FF] hover:underline"
-              >
-                مشاهده همه در کاتالوگ
-              </BrowseLink>
-            </div>
+              </div>
+            ) : null}
           </div>
 
           {designs.length === 0 ? (
@@ -424,7 +478,7 @@ export default function HomeDiscovery({
               طرحی با این فیلتر پیدا نشد.
             </p>
           ) : (
-            <div className="grid grid-cols-2 gap-3 md:grid-cols-3 2xl:grid-cols-4">
+            <div className="grid grid-cols-4 gap-3">
               {designs.map((design, index) => (
                 <CatalogDesignCard
                   key={design.id}
@@ -452,43 +506,74 @@ export default function HomeDiscovery({
           </div>
         </div>
 
-        {rail ? (
-          <aside className="mt-6 xl:order-3 xl:mt-0">
-            <div className="mb-3 flex items-center justify-between gap-3">
-              <h2 className="text-base font-black text-foreground">{rail.title}</h2>
-              <Link href={rail.href} className="text-xs font-bold text-[#C4C0FF] hover:underline">
-                مشاهده همه
-              </Link>
-            </div>
-            <ul className="flex gap-3 overflow-x-auto pb-1 xl:flex-col xl:overflow-visible">
-              {rail.items.map((design) => {
-                const image = design.thumbnailPath || design.imagePath;
-                return (
-                  <li key={design.id} className="min-w-[16rem] shrink-0 xl:min-w-0">
-                    <Link
-                      href={`/designs/${design.slug}`}
-                      className="flex items-center gap-3 rounded-2xl border border-border bg-card p-2 transition hover:border-[#5145FF]/45"
-                    >
-                      <span className="relative h-16 w-14 shrink-0 overflow-hidden rounded-xl bg-surface">
-                        {image ? (
-                          <Image
-                            src={designedAssetUrl(image)}
-                            alt=""
-                            fill
-                            sizes="56px"
-                            className="object-contain p-1"
-                          />
-                        ) : null}
-                      </span>
-                      <span className="min-w-0">
-                        <span className="line-clamp-2 block text-sm font-bold text-foreground">{design.title}</span>
-                        {priceLabel ? <span className="mt-1 block text-xs text-muted">{priceLabel}</span> : null}
-                      </span>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
+        {rail || featured ? (
+          <aside className="mt-6 space-y-4 xl:order-3 xl:mt-0">
+            {featured ? (
+              <article className="overflow-hidden rounded-2xl border border-border bg-card">
+                <Link href={featured.href} className="relative block aspect-[4/3] bg-surface">
+                  {featured.image ? (
+                    <Image
+                      src={designedAssetUrl(featured.image)}
+                      alt=""
+                      fill
+                      sizes="280px"
+                      className="object-cover"
+                    />
+                  ) : null}
+                </Link>
+                <div className="space-y-2 p-3">
+                  <h2 className="text-sm font-black text-foreground">کالکشن‌های منتخب</h2>
+                  <p className="line-clamp-2 text-xs leading-5 text-muted">
+                    {featured.description || featured.title}
+                  </p>
+                  <Link
+                    href={featured.href}
+                    className="inline-flex min-h-10 items-center justify-center rounded-full bg-gradient-to-l from-[#5145FF] to-[#6A5CFF] px-4 text-xs font-bold text-white"
+                  >
+                    مشاهده کالکشن
+                  </Link>
+                </div>
+              </article>
+            ) : null}
+            {rail ? (
+              <div>
+                <div className="mb-3 flex items-center justify-between gap-3">
+                  <h2 className="text-base font-black text-foreground">پرفروش‌ترین‌ها</h2>
+                  <Link href={rail.href} className="text-xs font-bold text-[#C4C0FF] hover:underline">
+                    مشاهده همه
+                  </Link>
+                </div>
+                <ul className="space-y-2">
+                  {rail.items.map((design) => {
+                    const image = design.thumbnailPath || design.imagePath;
+                    return (
+                      <li key={design.id}>
+                        <Link
+                          href={`/designs/${design.slug}`}
+                          className="flex items-center gap-3 rounded-2xl border border-border bg-card p-2 transition hover:border-[#5145FF]/45"
+                        >
+                          <span className="relative h-16 w-14 shrink-0 overflow-hidden rounded-xl bg-surface">
+                            {image ? (
+                              <Image
+                                src={designedAssetUrl(image)}
+                                alt=""
+                                fill
+                                sizes="56px"
+                                className="object-contain p-1"
+                              />
+                            ) : null}
+                          </span>
+                          <span className="min-w-0">
+                            <span className="line-clamp-2 block text-sm font-bold text-foreground">{design.title}</span>
+                            {priceLabel ? <span className="mt-1 block text-xs text-muted">{priceLabel}</span> : null}
+                          </span>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ) : null}
           </aside>
         ) : null}
 

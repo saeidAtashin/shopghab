@@ -36,12 +36,16 @@ function buildCaseDesignNavChildren(): SiteNavBranch[] {
   });
 }
 
+export const desktopNavItems: SiteNavItem[] = [
+  { title: "صفحه اصلی", href: "/" },
+  { title: "طرح‌ها", href: "/designs" },
+  { title: "دسته‌بندی‌ها", href: "/designs" },
+  { title: "درباره ما", href: "/about-us" },
+  { title: "تماس با ما", href: "/contact" },
+];
+
 export const navbarNavItems: SiteNavItem[] = [
-  { title: "خانه", href: "/" },
-  {
-    title: "طراحی‌های آماده",
-    href: "/designs",
-  },
+  ...desktopNavItems,
   {
     title: "طراحی قاب",
     href: "/create",
@@ -54,6 +58,7 @@ export const footerQuickLinks: SiteNavLeaf[] = [
   { title: "خانه", href: "/" },
   { title: "طراحی‌های آماده", href: "/designs" },
   { title: "طراحی قاب", href: "/create" },
+  { title: "پیگیری سفارش", href: "/tracking" },
   { title: "سبد خرید", href: "/cart" },
 ];
 

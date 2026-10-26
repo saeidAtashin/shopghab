@@ -9,9 +9,10 @@ import { cn } from "@/lib/utils";
 type Props = {
   className?: string;
   onNavigate?: () => void;
+  placeholder?: string;
 };
 
-export default function NavSearch({ className, onNavigate }: Props) {
+export default function NavSearch({ className, onNavigate, placeholder = "جستجوی طرح‌ها" }: Props) {
   const router = useRouter();
   const inputId = useId();
   const [value, setValue] = useState("");
@@ -38,7 +39,7 @@ export default function NavSearch({ className, onNavigate }: Props) {
           type="search"
           value={value}
           onChange={(event) => setValue(event.target.value)}
-          placeholder="جستجوی طرح‌ها"
+          placeholder={placeholder}
           className="h-10 w-full rounded-xl border border-white/10 bg-[#10192B] ps-10 pe-3 text-sm text-[#F4F5FA] outline-none placeholder:text-[#9AA3B8] focus:border-[#5145FF]"
         />
       </div>

@@ -73,7 +73,7 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
                 const Icon = navItemIcon(item.href);
 
                 return (
-                  <div key={item.href}>
+                  <div key={`${item.title}-${item.href}`}>
                     {item.children ? (
                       <>
                         <div className="flex w-full flex-row-reverse items-center justify-between rounded-xl px-2 py-2">

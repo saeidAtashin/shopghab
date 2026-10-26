@@ -1,19 +1,13 @@
-import Link from "next/link";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 
 import HomeBenefits from "@/app/components/home/HomeBenefits";
 import HomeCategoryMosaic from "@/app/components/home/HomeCategoryMosaic";
+import HomeCollections from "@/app/components/home/HomeCollections";
 import HomeDiscovery from "@/app/components/home/HomeDiscovery";
-import HomeSpotlight from "@/app/components/home/HomeSpotlight";
+import HomeMobileDock from "@/app/components/home/HomeMobileDock";
 import HomeHero from "@/app/components/home/hero/HomeHero";
-import {
-  getCaseTotalPrice,
-  getCaseTypeBySlug,
-  getModelBySlug,
-  SELECTABLE_CASE_TYPE_SLUG,
-} from "@/lib/cases/brands.static";
-import { getCaseTemplateBySlug } from "@/lib/cases/templates.static";
+import NavSearch from "@/app/components/layout/nav/NavSearch";
+import { PHONE_BRANDS, getCaseTotalPrice, getCaseTypeBySlug, getModelBySlug, SELECTABLE_CASE_TYPE_SLUG } from "@/lib/cases/brands.static";
 import {
   parsePublicListingQuery,
   publicBrowseShell,
@@ -22,7 +16,6 @@ import {
 } from "@/lib/catalog/logic";
 import type { DesignCatalog } from "@/lib/catalog/schema";
 import { readCatalog } from "@/lib/catalog/store";
-import { designedAssetUrl } from "@/lib/designed-assets";
 import { selectLandingItems } from "@/lib/landing/sections";
 import { readLandingSections } from "@/lib/landing/store";
 import { landingTaxonomy, type TaxonomyCard } from "@/lib/landing/taxonomy";
@@ -36,6 +29,14 @@ const POPULAR_MODELS = [
   { brandSlug: "xiaomi", modelSlug: "redmi-note-14-pro" },
   { brandSlug: "huawei", modelSlug: "pura-70-pro" },
 ] as const;
+
+const BRAND_LABELS: Record<string, string> = {
+  apple: "iPhone",
+  samsung: "Samsung",
+  xiaomi: "Xiaomi",
+  huawei: "Huawei",
+  other: "Other",
+};
 
 const HOME_PAGE_SIZE = 8;
 const MOSAIC_LIMIT = 6;
@@ -74,14 +75,6 @@ function collectionRail(catalog: DesignCatalog) {
   return null;
 }
 
-function primaryCategory(categoryIds: string[], names: Record<string, string>): string | undefined {
-  for (const id of categoryIds) {
-    const name = names[id];
-    if (name) return name;
-  }
-  return undefined;
-}
-
 export default function HomeCasePage({ searchParams }: { searchParams: SearchParams }) {
   const query = parsePublicListingQuery(searchParams);
   const catalog = readCatalog();
@@ -113,13 +106,15 @@ export default function HomeCasePage({ searchParams }: { searchParams: SearchPar
   const picks = publicPickCards(catalog);
   const categoryNames = Object.fromEntries(catalog.categories.map((category) => [category.id, category.name]));
   const priceLabel = printablePrice();
-  const featured = queryPublicDesigns(catalog, { sort: "featured", page: 1, pageSize: 1 }).items[0];
-  const template = featured ? (getCaseTemplateBySlug(featured.templateSlug) ?? null) : null;
   const models = POPULAR_MODELS.flatMap(({ brandSlug, modelSlug }) => {
     const model = getModelBySlug(brandSlug, modelSlug);
     if (!model) return [];
     return [{ name: model.name, href: `/phones/${model.brandSlug}/${model.slug}` }];
   });
+  const brands = PHONE_BRANDS.map((brand) => ({
+    name: BRAND_LABELS[brand.slug] ?? brand.nameEn,
+    href: `/create/${brand.slug}`,
+  }));
 
   const storyCards: TaxonomyCard[] = [];
   const seen = new Set<string>();
@@ -141,30 +136,23 @@ export default function HomeCasePage({ searchParams }: { searchParams: SearchPar
       chips: [],
     });
   }
+  const featured = storyCards[0];
 
   return (
-    <main id="main" tabIndex={-1} className="home-storefront min-h-screen px-4 pb-16 pt-24 outline-none sm:px-6">
-      <div className="mx-auto flex max-w-7xl flex-col gap-4">
+    <main
+      id="main"
+      tabIndex={-1}
+      className="home-storefront min-h-screen px-4 pb-28 pt-16 outline-none sm:px-6 xl:pb-16 xl:pt-24"
+    >
+      <div className="mx-auto flex max-w-[90rem] flex-col gap-4">
+        <NavSearch placeholder="جستجو در طرح‌ها..." className="xl:hidden" />
+
         <div className="flex flex-col gap-4 xl:flex-row xl:items-stretch">
-          <HomeHero className="xl:order-3 xl:min-w-0 xl:flex-[1.45]" />
+          <HomeHero className="xl:order-2 xl:min-w-0 xl:flex-1" />
           {categoryItems.length > 0 ? (
             <HomeCategoryMosaic
               items={categoryItems.slice(0, MOSAIC_LIMIT)}
-              hasMore={categoryItems.length > MOSAIC_LIMIT}
-              className="xl:order-2 xl:w-[22rem] xl:shrink-0"
-            />
-          ) : null}
-          {featured ? (
-            <HomeSpotlight
-              className="xl:order-1 xl:w-[17.5rem] xl:shrink-0"
-              slug={featured.slug}
-              title={featured.title}
-              image={featured.imagePath || featured.thumbnailPath}
-              alt={featured.alt}
-              categoryName={primaryCategory(featured.categoryIds, categoryNames)}
-              colors={featured.colors}
-              priceLabel={priceLabel}
-              template={template}
+              className="xl:order-1 xl:w-[28rem] xl:shrink-0"
             />
           ) : null}
         </div>
@@ -181,43 +169,23 @@ export default function HomeCasePage({ searchParams }: { searchParams: SearchPar
           pageSize={result.pageSize}
           pageCount={result.pageCount}
           models={models}
+          brands={brands}
+          featured={
+            featured
+              ? {
+                  title: featured.title,
+                  href: featured.href,
+                  image: featured.image,
+                  description: featured.description || featured.title,
+                }
+              : null
+          }
           rail={collectionRail(catalog)}
         />
 
-        {storyCards.length > 0 ? (
-          <section aria-label="کالکشن‌ها" className="pt-4">
-            <div className="mb-3 flex items-center justify-between">
-              <h2 className="text-lg font-black text-foreground">کالکشن‌ها</h2>
-              <Link href="/designs" className="text-sm font-bold text-[#C4C0FF] hover:underline">
-                مشاهده همه
-              </Link>
-            </div>
-            <div className="flex gap-3 overflow-x-auto pb-1">
-              {storyCards.map((card) => (
-                <Link
-                  key={card.id}
-                  href={card.href}
-                  className="flex min-w-[15rem] items-center gap-3 rounded-2xl border border-border bg-card p-2 transition hover:border-[#5145FF]/45"
-                >
-                  <span className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-surface">
-                    {card.image ? (
-                      <Image src={designedAssetUrl(card.image)} alt="" fill sizes="64px" className="object-cover" />
-                    ) : null}
-                  </span>
-                  <span className="min-w-0">
-                    <span className="line-clamp-2 block text-sm font-bold text-foreground">{card.title}</span>
-                    {card.count > 0 ? (
-                      <span className="mt-1 block text-xs text-muted">
-                        {card.count.toLocaleString("fa-IR")} طرح
-                      </span>
-                    ) : null}
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </section>
-        ) : null}
+        <HomeCollections cards={storyCards} />
       </div>
+      <HomeMobileDock />
     </main>
   );
 }

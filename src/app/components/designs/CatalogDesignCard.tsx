@@ -3,7 +3,7 @@
 import { useState, type MouseEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Heart } from "lucide-react";
 
 import DesignArtworkStage from "@/app/components/designs/DesignArtworkStage";
 import { colorSwatch } from "@/app/components/designs/browse-visuals";
@@ -41,23 +41,43 @@ function StorefrontColors({ colors }: { colors: string[] }) {
   if (colors.length === 0) return null;
   return (
     <ul className="flex flex-wrap gap-1" aria-label="رنگ‌ها">
-      {colors.slice(0, 4).map((color) => {
+      {colors.slice(0, 5).map((color) => {
         const swatch = colorSwatch(color);
         return (
-          <li key={color} className="inline-flex items-center gap-1 text-[11px] text-muted">
+          <li key={color}>
             {typeof swatch === "string" ? (
               <span
-                className="h-2.5 w-2.5 rounded-full border border-white/20"
+                className="block h-3 w-3 rounded-full border border-white/20"
                 style={{ backgroundColor: swatch }}
-                aria-hidden
+                title={color}
               />
-            ) : null}
-            <span>{color}</span>
+            ) : (
+              <span className="text-[10px] text-muted">{color.slice(0, 1)}</span>
+            )}
           </li>
         );
       })}
     </ul>
   );
+}
+
+function StorefrontHeart() {
+  const [saved, setSaved] = useState(false);
+  return (
+    <button
+      type="button"
+      aria-pressed={saved}
+      aria-label={saved ? "حذف نشان" : "نشان کردن"}
+      onClick={() => setSaved((value) => !value)}
+      className="absolute end-2.5 top-2.5 z-10 inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/45 text-white transition hover:bg-black/65"
+    >
+      <Heart className={cnHeart(saved)} aria-hidden />
+    </button>
+  );
+}
+
+function cnHeart(saved: boolean) {
+  return saved ? "h-4 w-4 fill-[#C4C0FF] text-[#C4C0FF]" : "h-4 w-4";
 }
 
 export default function CatalogDesignCard({
@@ -78,7 +98,8 @@ export default function CatalogDesignCard({
 
   if (variant === "storefront") {
     return (
-      <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition hover:border-[#5145FF]/45">
+      <article className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition hover:border-[#5145FF]/45">
+        <StorefrontHeart />
         <Link
           href={href}
           className="flex h-full flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#5145FF]/70"
