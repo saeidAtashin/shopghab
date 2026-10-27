@@ -14,11 +14,15 @@ import {
 } from "@/lib/phone";
 import { lockPageScroll } from "@/lib/scroll-lock";
 
+const DEFAULT_DESCRIPTION =
+  "برای ثبت درخواست، شماره موبایل خود را با کد تأیید وارد کنید.";
+
 type Props = {
   open: boolean;
   phone: string;
   onClose: () => void;
   onVerified: (phone: string) => void;
+  description?: string;
 };
 
 const AUTO_SEND_DELAY_MS = 200;
@@ -34,6 +38,7 @@ export default function PhoneVerificationModal({
   phone: initialPhone,
   onClose,
   onVerified,
+  description = DEFAULT_DESCRIPTION,
 }: Props) {
   const { sendOtp, loginWithOtp } = useAuth();
 
@@ -290,9 +295,7 @@ export default function PhoneVerificationModal({
         >
           تأیید شماره موبایل
         </h2>
-        <p className="mt-2 text-center text-sm text-muted">
-          برای ثبت درخواست، شماره موبایل خود را با کد تأیید وارد کنید.
-        </p>
+        <p className="mt-2 text-center text-sm text-muted">{description}</p>
 
         <div className="mt-8 space-y-4">
           {!codeSent ? (
