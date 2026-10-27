@@ -126,8 +126,7 @@ export default function HomeCasePage({ searchParams }: { searchParams: SearchPar
     <main
       id="main"
       tabIndex={-1}
-      className="home-storefront min-h-screen overflow-x-clip px-4 pb-28 pt-16 outline-none sm:px-6 xl:pb-16 xl:pt-24"
-    >
+      className="home-storefront min-h-screen overflow-x-clip px-4 pb-28 pt-16 outline-none sm:px-6 xl:pb-16 xl:pt-24">
       <div className="mx-auto flex max-w-[90rem] flex-col gap-4">
         <NavSearch placeholder="جستجو در طرح‌ها..." className="xl:hidden" />
 

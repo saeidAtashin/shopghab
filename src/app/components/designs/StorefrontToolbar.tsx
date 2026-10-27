@@ -4,7 +4,7 @@ import { Search } from "lucide-react";
 import { useId, type FormEvent } from "react";
 
 import BrowseLink from "@/app/components/designs/BrowseLink";
-import { colorSwatch } from "@/app/components/designs/browse-visuals";
+import { colorSwatch, swatchLoaderAccent } from "@/app/components/designs/browse-visuals";
 import type { BrowseSort } from "@/lib/catalog/browse";
 import { cn } from "@/lib/utils";
 
@@ -51,6 +51,8 @@ export default function StorefrontToolbar({
                   <li key={option.id}>
                     <BrowseLink
                       href={option.href}
+                      showLoader
+                      loaderAccent={swatchLoaderAccent(option.label)}
                       aria-label={option.label}
                       aria-current={option.active ? "true" : undefined}
                       title={option.label}

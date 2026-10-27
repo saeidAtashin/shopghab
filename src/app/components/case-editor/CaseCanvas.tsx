@@ -34,6 +34,7 @@ type Props = {
   caseColor: string;
   caseMaterial: string;
   onStageRef?: (stage: Konva.Stage | null) => void;
+  onReady?: () => void;
   readOnly?: boolean;
   displayMaxWidth?: number;
   displayMaxHeight?: number;
@@ -115,6 +116,7 @@ function CaseCanvas({
   caseColor,
   caseMaterial,
   onStageRef,
+  onReady,
   readOnly = false,
   displayMaxWidth,
   displayMaxHeight,
@@ -122,6 +124,7 @@ function CaseCanvas({
 }: Props) {
   const stageRef = useRef<Konva.Stage>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const readyNotifiedRef = useRef(false);
   const touchGestureRef = useRef<TouchGesture | null>(null);
   const chromeGestureRef = useRef<ChromeGesture | null>(null);
   const chromeMovedRef = useRef(false);
@@ -174,6 +177,16 @@ function CaseCanvas({
   useEffect(() => {
     if (stageRef.current) onStageRef?.(stageRef.current);
   }, [onStageRef]);
+
+  useEffect(() => {
+    if (readyNotifiedRef.current || !onReady) return;
+    const stage = stageRef.current;
+    if (!stage) return;
+    if (stage.width() > 0 && stage.height() > 0) {
+      readyNotifiedRef.current = true;
+      onReady();
+    }
+  }, [layoutWidth, layoutHeight, onReady]);
 
   const selectedLayerRef = useRef(selectedLayer);
   const canvasWidthRef = useRef(width);

@@ -115,6 +115,18 @@ const ACCENTS = {
 
 type Tone = keyof typeof ACCENTS;
 
+export const TONE_HEX: Record<Tone, string> = {
+  cyan: "#22d3ee",
+  amber: "#fbbf24",
+  emerald: "#34d399",
+  rose: "#fb7185",
+  violet: "#a78bfa",
+  sky: "#38bdf8",
+  gold: "#facc15",
+  orange: "#fb923c",
+  fuchsia: "#e879f9",
+};
+
 const CATEGORIES: Record<string, { icon: LucideIcon; tone: Tone }> = {
   abstract: { icon: Shapes, tone: "cyan" },
   "abstract-minimal": { icon: Sparkles, tone: "cyan" },
@@ -186,9 +198,19 @@ export function categoryVisual(slug: string): { icon: LucideIcon; accent: Accent
   return { icon: match.icon, accent: ACCENTS[match.tone] };
 }
 
+export function categoryToneHex(slug: string): string {
+  const match = CATEGORIES[slug] ?? FALLBACK;
+  return TONE_HEX[match.tone];
+}
+
 export function filterVisual(slug: string): { icon: LucideIcon; accent: Accent } {
   const match = FILTERS[slug] ?? { icon: Layers, tone: "cyan" as Tone };
   return { icon: match.icon, accent: ACCENTS[match.tone] };
+}
+
+export function filterToneHex(slug: string): string {
+  const match = FILTERS[slug] ?? { icon: Layers, tone: "cyan" as Tone };
+  return TONE_HEX[match.tone];
 }
 
 export function sectionLayout(slug: string, index: number): SectionLayout {
@@ -198,6 +220,12 @@ export function sectionLayout(slug: string, index: number): SectionLayout {
 export function colorSwatch(label: string): string | "split" | null {
   if (label === "چندرنگ") return "split";
   return SWATCHES[label] ?? null;
+}
+
+export function swatchLoaderAccent(label: string): string | undefined {
+  const swatch = colorSwatch(label);
+  if (swatch === "split") return "split";
+  return swatch ?? undefined;
 }
 
 export const allDesignsVisual = { icon: LayoutGrid, accent: ACCENTS.cyan };

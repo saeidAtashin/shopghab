@@ -10,7 +10,9 @@ import {
   allDesignsVisual,
   categoryVisual,
   colorSwatch,
+  filterToneHex,
   filterVisual,
+  swatchLoaderAccent,
   type Accent,
 } from "@/app/components/designs/browse-visuals";
 import {
@@ -304,7 +306,12 @@ function CategoryRow({
   count?: number;
 }) {
   return (
-    <BrowseLink href={href} aria-current={active ? "page" : undefined} className={categoryClass(active, accent)}>
+    <BrowseLink
+      href={href}
+      showLoader
+      aria-current={active ? "page" : undefined}
+      className={categoryClass(active, accent)}
+    >
       <span className={cn("flex h-8 w-8 shrink-0 items-center justify-center rounded-lg", accent.soft, accent.text)}>
         <Icon className="h-4 w-4" aria-hidden />
       </span>
@@ -402,6 +409,8 @@ function FilterGroup({
               <BrowseLink
                 key={option.id}
                 href={hrefFor(option.id)}
+                showLoader
+                loaderAccent={swatches ? swatchLoaderAccent(option.label) : filterToneHex(group.slug)}
                 aria-current={active ? "true" : undefined}
                 className={cn(
                   "inline-flex min-h-11 items-center gap-2 rounded-full border px-2.5 text-xs font-semibold",

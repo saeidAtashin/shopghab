@@ -35,6 +35,7 @@ import LayersPanel from "@/app/components/case-editor/LayersPanel";
 import PreviewModal from "@/app/components/case-editor/PreviewModal";
 import SaveImageModal from "@/app/components/case-editor/SaveImageModal";
 import EditorGuideOverlay from "@/app/components/case-editor/EditorGuideOverlay";
+import CaseDesignerLoader from "@/app/components/case-loading/CaseDesignerLoader";
 import { useAuth } from "@/app/context/AuthContext";
 import { useShopCart } from "@/app/context/ShopCartContext";
 import {
@@ -194,6 +195,7 @@ export default function EditorPageClient({
   const [shareUrl, setShareUrl] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [editorReady, setEditorReady] = useState(false);
+  const [canvasReady, setCanvasReady] = useState(false);
   const [showEditorGuide, setShowEditorGuide] = useState(false);
   const [showExitConfirm, setShowExitConfirm] = useState(false);
 
@@ -206,8 +208,14 @@ export default function EditorPageClient({
     });
   }, [activeTab]);
 
+  const handleCanvasReady = useCallback(() => {
+    setCanvasReady(true);
+  }, []);
+
+  const previewReady = editorReady && canvasReady;
+
   useEffect(() => {
-    if (!editorReady || guideCheckedRef.current) return;
+    if (!previewReady || guideCheckedRef.current) return;
     guideCheckedRef.current = true;
 
     const timer = window.setTimeout(() => {
@@ -217,7 +225,7 @@ export default function EditorPageClient({
     }, 300);
 
     return () => window.clearTimeout(timer);
-  }, [editorReady]);
+  }, [previewReady]);
 
   useEffect(() => {
     if (authLoading || !user || loadedRef.current) return;
@@ -467,6 +475,7 @@ export default function EditorPageClient({
         onStageRef={(stage) => {
           stageRef.current = stage;
         }}
+        onReady={handleCanvasReady}
         displayMaxWidth={canvasDisplaySize.width}
         displayMaxHeight={canvasDisplaySize.height}
         mobileTouchMode={isMobileViewport}
@@ -583,8 +592,12 @@ export default function EditorPageClient({
     );
   }
 
+  const designerLoader = <CaseDesignerLoader previewReady={previewReady} />;
+
   if (isMobileViewport) {
     return (
+      <>
+      {designerLoader}
       <div className="fixed inset-x-0 bottom-0 top-[4.5rem] z-40 flex flex-col overflow-hidden overscroll-none bg-background">
         <div
           data-editor-guide="toolbar"
@@ -731,10 +744,13 @@ export default function EditorPageClient({
 
         {editorModals}
       </div>
+      </>
     );
   }
 
   return (
+    <>
+    {designerLoader}
     <div className="min-h-screen bg-background pt-20 md:pb-8">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <WizardBreadcrumb
@@ -842,6 +858,7 @@ export default function EditorPageClient({
 
       {editorModals}
     </div>
+    </>
   );
 }
 
