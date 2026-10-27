@@ -4,14 +4,12 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import PhoneVerificationModal from "@/app/components/auth/PhoneVerificationModal";
 import ApplyTemplateWizard, {
   type TemplatePurchaseIntent,
 } from "@/app/components/designs/ApplyTemplateWizard";
 import DockableAction from "@/app/components/ui/DockableAction";
 import DesignArtworkStage from "@/app/components/designs/DesignArtworkStage";
 import DesignImageZoom from "@/app/components/designs/DesignImageZoom";
-import { useAuth } from "@/app/context/AuthContext";
 import {
   CASE_TYPES,
   getCaseTotalPrice,
@@ -51,10 +49,8 @@ export default function DesignDetailClient({
   tags,
   related,
 }: Props) {
-  const { user, loading: authLoading } = useAuth();
   const [wizardOpen, setWizardOpen] = useState(false);
   const [wizardIntent, setWizardIntent] = useState<TemplatePurchaseIntent>("premade");
-  const [loginOpen, setLoginOpen] = useState(false);
   const [caseTypeSlug, setCaseTypeSlug] = useState(SELECTABLE_CASE_TYPE_SLUG);
   const [activeIndex, setActiveIndex] = useState(0);
   const [zoomOpen, setZoomOpen] = useState(false);
@@ -69,11 +65,6 @@ export default function DesignDetailClient({
   }
 
   function startCustomDesign() {
-    if (authLoading) return;
-    if (!user) {
-      setLoginOpen(true);
-      return;
-    }
     openWizard("custom");
   }
 
@@ -306,15 +297,6 @@ export default function DesignDetailClient({
           onClose={() => setWizardOpen(false)}
         />
       ) : null}
-      <PhoneVerificationModal
-        open={loginOpen}
-        phone=""
-        onClose={() => setLoginOpen(false)}
-        onVerified={() => {
-          setLoginOpen(false);
-          openWizard("custom");
-        }}
-      />
     </>
   );
 }

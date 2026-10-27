@@ -25,15 +25,22 @@ function CategoryImage({ src, sizes, className }: { src: string; sizes: string; 
   );
 }
 
+const SCROLL_GUTTER = "pe-1 [scrollbar-width:thin]";
+
 export default function HomeCategoryMosaic({ items, className }: Props) {
   if (items.length === 0) return null;
-  const circles = items.slice(0, 4);
+  const circles = [...items.slice(0, 4), ...items.slice(6)];
   const tiles = items.slice(4, 6);
 
   return (
-    <section aria-label="دسته‌ها" className={cn("min-w-0", className)}>
+    <section aria-label="دسته‌ها" className={cn("flex min-h-0 min-w-0 flex-col xl:h-full", className)}>
       <div className="xl:hidden">
-        <ul className="grid grid-cols-4 gap-1.5">
+        <ul
+          className={cn(
+            "grid auto-cols-[calc((100%-1.125rem)/4)] grid-flow-col gap-1.5 overflow-x-auto overscroll-x-contain pb-1",
+            SCROLL_GUTTER,
+          )}
+        >
           {circles.map((item, index) => (
             <li key={item.id} className="min-w-0">
               <Link href={item.href} className="flex min-w-0 flex-col items-center gap-2">
@@ -75,8 +82,13 @@ export default function HomeCategoryMosaic({ items, className }: Props) {
         ) : null}
       </div>
 
-      <div className="hidden h-full gap-3 xl:grid xl:grid-cols-2 xl:grid-rows-3">
-        {items.slice(0, 6).map((item) => (
+      <div
+        className={cn(
+          "hidden h-full min-h-0 gap-3 overflow-y-auto overscroll-contain xl:grid xl:grid-cols-2 xl:auto-rows-[calc((100%-1.5rem)/3)]",
+          SCROLL_GUTTER,
+        )}
+      >
+        {items.map((item) => (
           <Link
             key={item.id}
             href={item.href}

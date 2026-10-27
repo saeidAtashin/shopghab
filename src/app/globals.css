@@ -330,117 +330,169 @@ textarea.input-neon:autofill {
   pointer-events: none;
 }
 
-.route-loader-svg {
-  width: clamp(120px, 16vw, 210px);
-  color: #22d3ee;
-  filter: drop-shadow(0 0 16px rgba(34, 211, 238, 0.4));
+.route-loader-svg,
+.shopghab-loader-svg {
+  width: clamp(140px, 22vw, 260px);
+  color: #543ee8;
+  filter: drop-shadow(0 0 18px rgba(84, 62, 232, 0.45));
 }
 
-.route-loader-path {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2;
+.shopghab-loader-path {
+  fill-opacity: 0;
+  stroke-width: 18;
   stroke-linejoin: round;
   stroke-linecap: round;
   stroke-dasharray: 100;
   stroke-dashoffset: 100;
-  animation-duration: 1.17s;
+  animation-duration: 1.6s;
   animation-timing-function: ease;
   animation-iteration-count: infinite;
 }
 
-.route-loader-path-1 {
-  animation-name: route-loader-path-1;
+.shopghab-loader-path-1 {
+  animation-name: shopghab-loader-path-1;
 }
 
-.route-loader-path-2 {
-  animation-name: route-loader-path-2;
+.shopghab-loader-path-2 {
+  animation-name: shopghab-loader-path-2;
 }
 
-.route-loader-path-3 {
-  animation-name: route-loader-path-3;
+.shopghab-loader-path-3 {
+  animation-name: shopghab-loader-path-3;
 }
 
-.route-loader-path-4 {
-  animation-name: route-loader-path-4;
+.shopghab-loader-path-4 {
+  animation-name: shopghab-loader-path-4;
 }
 
-/* 580ms draw + 390ms stagger + 200ms pause = 1170ms cycle */
-@keyframes route-loader-path-1 {
+.shopghab-loader-path-5 {
+  animation-name: shopghab-loader-path-5;
+}
+
+@keyframes shopghab-loader-path-1 {
   0% {
     stroke-dashoffset: 100;
+    fill-opacity: 0;
   }
 
-  49.57% {
+  38% {
     stroke-dashoffset: 0;
+    fill-opacity: 0;
   }
 
-  82.91% {
+  52%,
+  82% {
     stroke-dashoffset: 0;
+    fill-opacity: 1;
   }
 
   100% {
     stroke-dashoffset: 100;
+    fill-opacity: 0;
   }
 }
 
-@keyframes route-loader-path-2 {
+@keyframes shopghab-loader-path-2 {
   0%,
-  11.11% {
+  8% {
     stroke-dashoffset: 100;
+    fill-opacity: 0;
   }
 
-  60.68% {
+  46% {
     stroke-dashoffset: 0;
+    fill-opacity: 0;
   }
 
-  82.91% {
+  60%,
+  82% {
     stroke-dashoffset: 0;
+    fill-opacity: 1;
   }
 
   100% {
     stroke-dashoffset: 100;
+    fill-opacity: 0;
   }
 }
 
-@keyframes route-loader-path-3 {
+@keyframes shopghab-loader-path-3 {
   0%,
-  22.22% {
+  16% {
     stroke-dashoffset: 100;
+    fill-opacity: 0;
   }
 
-  71.79% {
+  54% {
     stroke-dashoffset: 0;
+    fill-opacity: 0;
   }
 
-  82.91% {
+  68%,
+  82% {
     stroke-dashoffset: 0;
+    fill-opacity: 1;
   }
 
   100% {
     stroke-dashoffset: 100;
+    fill-opacity: 0;
   }
 }
 
-@keyframes route-loader-path-4 {
+@keyframes shopghab-loader-path-4 {
   0%,
-  33.33% {
+  24% {
     stroke-dashoffset: 100;
+    fill-opacity: 0;
   }
 
-  82.91% {
+  62% {
     stroke-dashoffset: 0;
+    fill-opacity: 0;
+  }
+
+  76%,
+  82% {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
   }
 
   100% {
     stroke-dashoffset: 100;
+    fill-opacity: 0;
+  }
+}
+
+@keyframes shopghab-loader-path-5 {
+  0%,
+  32% {
+    stroke-dashoffset: 100;
+    fill-opacity: 0;
+  }
+
+  70% {
+    stroke-dashoffset: 0;
+    fill-opacity: 0;
+  }
+
+  82% {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+  }
+
+  100% {
+    stroke-dashoffset: 100;
+    fill-opacity: 0;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .route-loader-path {
+  .shopghab-loader-path {
     animation: none;
     stroke-dashoffset: 0;
+    stroke-width: 0;
+    fill-opacity: 1;
   }
 }
 

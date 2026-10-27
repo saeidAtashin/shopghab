@@ -26,6 +26,11 @@ import { AnimatePresence } from "framer-motion";
 import type Konva from "konva";
 
 import PhoneVerificationModal from "@/app/components/auth/PhoneVerificationModal";
+import {
+  EditorGuestGateProvider,
+  GUEST_EDIT_MESSAGE,
+  GuestEditNotice,
+} from "@/app/components/case-editor/EditorGuestGate";
 import WizardBreadcrumb from "@/app/components/case-wizard/WizardBreadcrumb";
 import DockableAction from "@/app/components/ui/DockableAction";
 import TextPanel from "@/app/components/case-editor/TextPanel";
@@ -35,6 +40,7 @@ import LayersPanel from "@/app/components/case-editor/LayersPanel";
 import PreviewModal from "@/app/components/case-editor/PreviewModal";
 import SaveImageModal from "@/app/components/case-editor/SaveImageModal";
 import EditorGuideOverlay from "@/app/components/case-editor/EditorGuideOverlay";
+import CaseDesignerLoader from "@/app/components/case-loading/CaseDesignerLoader";
 import { useAuth } from "@/app/context/AuthContext";
 import { useShopCart } from "@/app/context/ShopCartContext";
 import {
@@ -138,6 +144,12 @@ export default function EditorPageClient({
   const loadedRef = useRef(false);
   const guideCheckedRef = useRef(false);
   const canvasContainerRef = useRef<HTMLDivElement>(null);
+  const requireAccountRef = useRef<(action: () => void) => void>((action) => {
+    action();
+  });
+  const guardEdit = useCallback((action: () => void) => {
+    requireAccountRef.current(action);
+  }, []);
 
   const isSplitLayout = useMediaQuery("(min-width: 768px)");
   const isMobileViewport = isSplitLayout !== true;
@@ -160,7 +172,7 @@ export default function EditorPageClient({
   const selectLayer = useEditorStore((s) => s.selectLayer);
   const [, setFontsTick] = useState(0);
 
-  useEditorShortcuts();
+  useEditorShortcuts(guardEdit);
 
   useEffect(() => {
     const families = new Set<string>([DEFAULT_EDITOR_FONT]);
@@ -175,9 +187,9 @@ export default function EditorPageClient({
   }, [document.layers]);
 
   useEffect(() => {
-    if (!user || !isMobileViewport) return;
+    if (!isMobileViewport) return;
     return lockPageScroll();
-  }, [user, isMobileViewport]);
+  }, [isMobileViewport]);
 
   const [activeTab, setActiveTab] = useState<EditorTab>(initialTab ?? "text");
   const [loadedTabs, setLoadedTabs] = useState<Set<EditorTab>>(
@@ -193,7 +205,10 @@ export default function EditorPageClient({
   const [analyzing, setAnalyzing] = useState(false);
   const [shareUrl, setShareUrl] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const [guestNotice, setGuestNotice] = useState<string | null>(null);
+  const [loginOpen, setLoginOpen] = useState(false);
   const [editorReady, setEditorReady] = useState(false);
+  const [canvasReady, setCanvasReady] = useState(false);
   const [showEditorGuide, setShowEditorGuide] = useState(false);
   const [showExitConfirm, setShowExitConfirm] = useState(false);
 
@@ -206,8 +221,14 @@ export default function EditorPageClient({
     });
   }, [activeTab]);
 
+  const handleCanvasReady = useCallback(() => {
+    setCanvasReady(true);
+  }, []);
+
+  const previewReady = editorReady && canvasReady;
+
   useEffect(() => {
-    if (!editorReady || guideCheckedRef.current) return;
+    if (!previewReady || guideCheckedRef.current) return;
     guideCheckedRef.current = true;
 
     const timer = window.setTimeout(() => {
@@ -217,10 +238,37 @@ export default function EditorPageClient({
     }, 300);
 
     return () => window.clearTimeout(timer);
-  }, [editorReady]);
+  }, [previewReady]);
 
   useEffect(() => {
-    if (authLoading || !user || loadedRef.current) return;
+    if (!showEditorGuide) return;
+    setGuestNotice(null);
+  }, [showEditorGuide]);
+
+  const requireAccount = useCallback(
+    (action: () => void) => {
+      if (authLoading || !previewReady || showEditorGuide) return;
+      if (!user) {
+        setGuestNotice(GUEST_EDIT_MESSAGE);
+        return;
+      }
+      action();
+    },
+    [authLoading, previewReady, showEditorGuide, user],
+  );
+  requireAccountRef.current = requireAccount;
+
+  const promptPhoneLogin = useCallback(
+    (text: string) => {
+      if (authLoading || !previewReady || showEditorGuide) return;
+      setGuestNotice(text);
+    },
+    [authLoading, previewReady, showEditorGuide],
+  );
+
+  useEffect(() => {
+    if (loadedRef.current) return;
+    if (initialDesignId && authLoading) return;
 
     async function bootstrap() {
       const meta = {
@@ -297,12 +345,11 @@ export default function EditorPageClient({
     caseType,
     model,
     authLoading,
-    user,
   ]);
 
   const handleSaveToAccount = useCallback(async () => {
     if (!user) {
-      setMessage("برای ذخیره طراحی ابتدا وارد شوید.");
+      promptPhoneLogin("برای ذخیره طراحی ابتدا وارد شوید.");
       throw new Error("auth");
     }
     setSaving(true);
@@ -317,7 +364,7 @@ export default function EditorPageClient({
     } finally {
       setSaving(false);
     }
-  }, [user, document]);
+  }, [user, document, promptPhoneLogin]);
 
   const requestExit = useCallback(() => {
     setShowExitConfirm(true);
@@ -327,14 +374,6 @@ export default function EditorPageClient({
     setShowExitConfirm(false);
     router.push(`/phones/${brandSlug}/${modelSlug}`);
   }, [brandSlug, modelSlug, router]);
-
-  const leaveEditor = useCallback(() => {
-    if (typeof window !== "undefined" && window.history.length > 1) {
-      router.back();
-      return;
-    }
-    router.push("/create");
-  }, [router]);
 
   const handleCanvasBackdropPointerDown = useCallback(
     (event: React.PointerEvent<HTMLDivElement>) => {
@@ -346,7 +385,7 @@ export default function EditorPageClient({
   const handleBuy = useCallback(async () => {
     if (buyBusy) return;
     if (!user) {
-      setMessage("برای خرید ابتدا وارد شوید.");
+      promptPhoneLogin("برای خرید ابتدا وارد شوید.");
       return;
     }
     setBuyBusy(true);
@@ -407,6 +446,7 @@ export default function EditorPageClient({
     modelSlug,
     caseTypeSlug,
     user,
+    promptPhoneLogin,
   ]);
 
   const tabs: { id: EditorTab; label: string; icon: React.ReactNode }[] = [
@@ -467,6 +507,7 @@ export default function EditorPageClient({
         onStageRef={(stage) => {
           stageRef.current = stage;
         }}
+        onReady={handleCanvasReady}
         displayMaxWidth={canvasDisplaySize.width}
         displayMaxHeight={canvasDisplaySize.height}
         mobileTouchMode={isMobileViewport}
@@ -567,24 +608,36 @@ export default function EditorPageClient({
     </AnimatePresence>
   );
 
-  if (authLoading || !user) {
-    return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4 pt-24 text-center">
-        <p className="text-sm text-muted">
-          {authLoading ? "در حال بررسی ورود…" : "برای استفاده از ادیتور ابتدا وارد شوید."}
-        </p>
-        <PhoneVerificationModal
-          open={!authLoading && !user}
-          phone=""
-          onClose={leaveEditor}
-          onVerified={() => {}}
-        />
-      </div>
-    );
-  }
+  const accountPrompt = (
+    <>
+      <GuestEditNotice
+        message={previewReady && !showEditorGuide ? guestNotice : null}
+        onDismiss={() => setGuestNotice(null)}
+        onLogin={() => {
+          setGuestNotice(null);
+          setLoginOpen(true);
+        }}
+      />
+      <PhoneVerificationModal
+        open={loginOpen}
+        phone=""
+        description={GUEST_EDIT_MESSAGE}
+        onClose={() => setLoginOpen(false)}
+        onVerified={() => {
+          setLoginOpen(false);
+          setGuestNotice(null);
+        }}
+      />
+    </>
+  );
+
+  const designerLoader = <CaseDesignerLoader previewReady={previewReady} />;
 
   if (isMobileViewport) {
     return (
+      <EditorGuestGateProvider requireAccount={requireAccount}>
+      <>
+      {designerLoader}
       <div className="fixed inset-x-0 bottom-0 top-[4.5rem] z-40 flex flex-col overflow-hidden overscroll-none bg-background">
         <div
           data-editor-guide="toolbar"
@@ -730,11 +783,17 @@ export default function EditorPageClient({
         </div>
 
         {editorModals}
+        {accountPrompt}
       </div>
+      </>
+      </EditorGuestGateProvider>
     );
   }
 
   return (
+    <EditorGuestGateProvider requireAccount={requireAccount}>
+    <>
+    {designerLoader}
     <div className="min-h-screen bg-background pt-20 md:pb-8">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <WizardBreadcrumb
@@ -841,7 +900,10 @@ export default function EditorPageClient({
       </div>
 
       {editorModals}
+      {accountPrompt}
     </div>
+    </>
+    </EditorGuestGateProvider>
   );
 }
 

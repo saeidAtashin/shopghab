@@ -66,6 +66,7 @@ function SectionHeading({
       </div>
       <BrowseLink
         href={section.href}
+        showLoader
         className={cn("relative shrink-0 rounded-full px-3 py-2 text-sm font-bold", accent.soft, accent.text)}
       >
         مشاهده همه

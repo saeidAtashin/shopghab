@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AlignCenter, AlignLeft, AlignRight } from "lucide-react";
+import { useGuestEditGate } from "@/app/components/case-editor/EditorGuestGate";
 import { useEditorStore } from "@/lib/design/editor-store";
 import {
   EDITOR_FONT_OPTIONS,
@@ -35,6 +36,7 @@ export default function TextPanel({ compact = false }: { compact?: boolean }) {
   const updateLayer = useEditorStore((s) => s.updateLayer);
   const commitHistory = useEditorStore((s) => s.commitHistory);
   const addTextLayer = useEditorStore((s) => s.addTextLayer);
+  const { requireAccount } = useGuestEditGate();
   const meta = useEditorStore((s) => s.meta);
   const canvasW = meta?.canvasWidth ?? 280;
   const canvasH = meta?.canvasHeight ?? 560;
@@ -79,8 +81,10 @@ export default function TextPanel({ compact = false }: { compact?: boolean }) {
       <button
         type="button"
         onClick={() => {
-          focusNextText.current = true;
-          addTextLayer();
+          requireAccount(() => {
+            focusNextText.current = true;
+            addTextLayer();
+          });
         }}
         className={`min-h-11 w-full rounded-xl bg-cyan-500 text-sm font-bold text-black transition hover:bg-cyan-400 ${
           compact ? "py-2.5" : "py-2.5"

@@ -9,7 +9,7 @@ import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import BrowseLink from "@/app/components/designs/BrowseLink";
 import CatalogDesignCard from "@/app/components/designs/CatalogDesignCard";
 import StorefrontToolbar from "@/app/components/designs/StorefrontToolbar";
-import { colorSwatch } from "@/app/components/designs/browse-visuals";
+import { colorSwatch, filterToneHex, swatchLoaderAccent } from "@/app/components/designs/browse-visuals";
 import {
   browseHref,
   filterLinksFromGroups,
@@ -130,22 +130,24 @@ function FilterGroups({
         {categoriesOpen ? (
           <ul className="space-y-1 px-2 pb-3">
             <li>
-              <Link
+              <BrowseLink
                 href="/designs"
+                showLoader
                 className="flex items-center gap-2 rounded-xl bg-surface px-3 py-2 text-sm font-bold text-foreground"
               >
                 <LayoutGrid className="h-4 w-4 text-[#C4C0FF]" aria-hidden />
                 همه دسته‌بندی‌ها
-              </Link>
+              </BrowseLink>
             </li>
             {shell.categories.map((category) => (
               <li key={category.slug}>
-                <Link
+                <BrowseLink
                   href={category.href}
+                  showLoader
                   className="block rounded-xl px-3 py-2 text-sm text-foreground transition hover:bg-surface"
                 >
                   {category.name}
-                </Link>
+                </BrowseLink>
               </li>
             ))}
           </ul>
@@ -221,6 +223,8 @@ function AttributeGroup({
                 <li key={option.id}>
                   <BrowseLink
                     href={href}
+                    showLoader
+                    loaderAccent={swatchLoaderAccent(option.label)}
                     aria-label={option.label}
                     title={option.label}
                     aria-current={active ? "true" : undefined}
@@ -242,6 +246,8 @@ function AttributeGroup({
               <li key={option.id}>
                 <BrowseLink
                   href={href}
+                  showLoader
+                  loaderAccent={filterToneHex(group.slug)}
                   aria-current={active ? "true" : undefined}
                   className={cn(
                     "inline-flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm transition",

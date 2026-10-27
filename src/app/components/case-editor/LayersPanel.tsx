@@ -18,6 +18,7 @@ import {
   X,
 } from "lucide-react";
 
+import { useGuestEditGate } from "@/app/components/case-editor/EditorGuestGate";
 import { useEditorStore } from "@/lib/design/editor-store";
 import {
   BLEND_MODE_OPTIONS,
@@ -81,6 +82,17 @@ export default function LayersPanel({ compact = false }: { compact?: boolean }) 
   const duplicateLayer = useEditorStore((s) => s.duplicateLayer);
   const updateLayer = useEditorStore((s) => s.updateLayer);
   const pendingEffectPreview = useEditorStore((s) => s.pendingEffectPreview);
+  const { requireAccount } = useGuestEditGate();
+
+  function toggleLock(layer: DesignLayer) {
+    const locked = isLayerLocked(layer);
+    const apply = () => updateLayer(layer.id, { locked: !locked });
+    if (locked) {
+      requireAccount(apply);
+      return;
+    }
+    apply();
+  }
 
   const layersReversed = [...layers].reverse();
   const selected = selectedLayerId
@@ -141,7 +153,7 @@ export default function LayersPanel({ compact = false }: { compact?: boolean }) 
                   aria-pressed={isLayerLocked(layer)}
                   onClick={(event) => {
                     event.stopPropagation();
-                    updateLayer(layer.id, { locked: !isLayerLocked(layer) });
+                    toggleLock(layer);
                   }}
                   className={`shrink-0 p-1 ${
                     isLayerLocked(layer) ? "text-amber-300" : "text-muted hover:text-foreground"
@@ -239,12 +251,12 @@ export default function LayersPanel({ compact = false }: { compact?: boolean }) 
               label="عقب"
             />
             <ActionButton
-              onClick={() => duplicateLayer(selected.id)}
+              onClick={() => requireAccount(() => duplicateLayer(selected.id))}
               icon={<Copy size={14} />}
               label="کپی"
             />
             <ActionButton
-              onClick={() => updateLayer(selected.id, { locked: !isLayerLocked(selected) })}
+              onClick={() => toggleLock(selected)}
               icon={isLayerLocked(selected) ? <LockOpen size={14} /> : <Lock size={14} />}
               label={isLayerLocked(selected) ? "باز کردن" : "قفل"}
             />
