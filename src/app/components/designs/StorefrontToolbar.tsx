@@ -43,8 +43,8 @@ export default function StorefrontToolbar({
       <div className="flex flex-wrap items-center gap-2">
         {colors.length > 0 ? (
           <div className="flex flex-wrap items-center gap-2 pe-1">
-            <span className="text-xs font-bold text-muted">رنگ قاب/بدنه</span>
-            <ul className="flex flex-wrap gap-1.5" aria-label="رنگ قاب/بدنه">
+            <span className="text-xs font-bold text-muted">رنگ‌ طرح</span>
+            <ul className="flex flex-wrap gap-1.5" aria-label="رنگ‌ طرح">
               {colors.map((option) => {
                 const swatch = colorSwatch(option.label);
                 return (
