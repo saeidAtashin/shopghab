@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
-import { HERO_CTAS, HERO_DESCRIPTION } from "@/app/components/home/hero/hero.constants";
+import { HERO_CTAS, HERO_DESCRIPTION, HERO_HEADING } from "@/app/components/home/hero/hero.constants";
 import { cn } from "@/lib/utils";
 
 const SLIDES = [
@@ -26,31 +26,39 @@ type Props = {
   className?: string;
 };
 
-function HeroCopy({ compact = false }: { compact?: boolean }) {
+function HeroPrimaryCta({ compact = false }: { compact?: boolean }) {
   return (
-    <div className={cn("flex flex-col", compact ? "gap-3" : "gap-5")}>
-      <h1
-        className={cn(
-          "font-black leading-tight text-white",
-          compact ? "text-xl" : "text-4xl",
-        )}
-      >
+    <Link
+      href={HERO_CTAS.primary.href}
+      className={cn(
+        "inline-flex w-fit items-center gap-2 bg-gradient-to-l from-[#5145FF] to-[#6A5CFF] font-bold text-white shadow-[0_12px_30px_-16px_rgba(81,69,255,0.95)] transition hover:brightness-110",
+        compact ? "min-h-10 rounded-full px-4 text-xs" : "min-h-11 rounded-full px-5 text-sm",
+      )}
+    >
+      {HERO_CTAS.primary.label}
+      <ArrowLeft className="h-4 w-4" aria-hidden />
+    </Link>
+  );
+}
+
+function HeroCopy({ mode = "full" }: { mode?: "full" | "ctaOnly" }) {
+  if (mode === "ctaOnly") {
+    return (
+      <>
+        <h1 className="sr-only">{HERO_HEADING}</h1>
+        <HeroPrimaryCta compact />
+      </>
+    );
+  }
+
+  return (
+    <div className="flex flex-col gap-5">
+      <h1 className="text-4xl font-black leading-tight text-white">
         قاب گوشی،
         <span className="mt-1 block text-[#C4C0FF]">به سبک خودت</span>
       </h1>
-      <p className={cn("text-white/80", compact ? "text-xs leading-6" : "max-w-sm text-sm leading-7")}>
-        {HERO_DESCRIPTION}
-      </p>
-      <Link
-        href={HERO_CTAS.primary.href}
-        className={cn(
-          "inline-flex w-fit items-center gap-2 bg-gradient-to-l from-[#5145FF] to-[#6A5CFF] font-bold text-white shadow-[0_12px_30px_-16px_rgba(81,69,255,0.95)] transition hover:brightness-110",
-          compact ? "min-h-10 rounded-full px-4 text-xs" : "min-h-11 rounded-full px-5 text-sm",
-        )}
-      >
-        {HERO_CTAS.primary.label}
-        <ArrowLeft className="h-4 w-4" aria-hidden />
-      </Link>
+      <p className="max-w-sm text-sm leading-7 text-white/80">{HERO_DESCRIPTION}</p>
+      <HeroPrimaryCta />
     </div>
   );
 }
@@ -92,19 +100,21 @@ export default function HomeHero({ className }: Props) {
         }
       }}
     >
-      <div className="grid min-h-[13.5rem] grid-cols-[minmax(0,0.95fr)_minmax(0,1fr)] xl:hidden">
-        <div className="relative min-h-40">
-          <Image
-            src={SLIDES[0].src}
-            alt={SLIDES[0].alt}
-            fill
-            priority
-            sizes="50vw"
-            className="object-cover object-center"
-          />
-        </div>
-        <div className="flex items-center px-4 py-5">
-          <HeroCopy compact />
+      <div className="relative aspect-[16/9] min-h-40 xl:hidden">
+        <Image
+          src={SLIDES[0].src}
+          alt={SLIDES[0].alt}
+          fill
+          priority
+          sizes="(max-width: 1280px) 100vw, 50vw"
+          className="object-cover object-center"
+        />
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#080D18]/95 via-[#080D18]/55 to-transparent"
+          aria-hidden
+        />
+        <div className="absolute inset-x-0 bottom-0 z-10 flex items-end px-4 pb-4">
+          <HeroCopy mode="ctaOnly" />
         </div>
       </div>
 
