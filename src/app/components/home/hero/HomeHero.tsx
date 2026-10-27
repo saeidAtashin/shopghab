@@ -6,9 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import PhoneVerificationModal from "@/app/components/auth/PhoneVerificationModal";
 import { HERO_CTAS, HERO_HEADING } from "@/app/components/home/hero/hero.constants";
-import { useAuth } from "@/app/context/AuthContext";
 import { cn } from "@/lib/utils";
 
 const SLIDES = [
@@ -35,11 +33,9 @@ type Props = {
 
 export default function HomeHero({ className }: Props) {
   const router = useRouter();
-  const { user, loading: authLoading } = useAuth();
   const prefersReducedMotion = useReducedMotion();
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [loginOpen, setLoginOpen] = useState(false);
 
   const touchStartX = useRef<number | null>(null);
   const didSwipe = useRef(false);
@@ -61,13 +57,8 @@ export default function HomeHero({ className }: Props) {
   }, [router]);
 
   const handleBannerActivate = useCallback(() => {
-    if (authLoading) return;
-    if (!user) {
-      setLoginOpen(true);
-      return;
-    }
     navigateToDesigns();
-  }, [authLoading, navigateToDesigns, user]);
+  }, [navigateToDesigns]);
 
   useEffect(() => {
     if (prefersReducedMotion || isPaused) return;
@@ -111,7 +102,6 @@ export default function HomeHero({ className }: Props) {
   }, [handleBannerActivate]);
 
   return (
-    <>
       <section
         aria-roledescription="carousel"
         aria-label="بنر اصلی"
@@ -208,17 +198,5 @@ export default function HomeHero({ className }: Props) {
           </div>
         </div>
       </section>
-
-      <PhoneVerificationModal
-        open={loginOpen}
-        phone=""
-        description="برای ویرایش و استفاده از طرح‌ها، شماره موبایل خود را تأیید کنید."
-        onClose={() => setLoginOpen(false)}
-        onVerified={() => {
-          setLoginOpen(false);
-          navigateToDesigns();
-        }}
-      />
-    </>
   );
 }

@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import { Upload } from "lucide-react";
 import { uploadImage } from "@/lib/cases/api";
+import { useGuestEditGate } from "@/app/components/case-editor/EditorGuestGate";
 import ImageToolsPanel from "@/app/components/case-editor/ImageToolsPanel";
 import { useEditorStore } from "@/lib/design/editor-store";
 import type { ImageLayer } from "@/lib/design/types";
@@ -14,6 +15,7 @@ export default function UploadPanel() {
   const [error, setError] = useState<string | null>(null);
   const { addImageLayer, uploadedAssets, selectedLayerId, document } =
     useEditorStore();
+  const { requireAccount } = useGuestEditGate();
 
   const selectedImageLayer = selectedLayerId
     ? (document.layers.find(
@@ -96,7 +98,7 @@ export default function UploadPanel() {
       <button
         type="button"
         disabled={uploading}
-        onClick={() => inputRef.current?.click()}
+        onClick={() => requireAccount(() => inputRef.current?.click())}
         className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-zinc-600 py-6 text-sm text-muted transition hover:border-cyan-500/50 hover:text-cyan-400 disabled:opacity-50"
       >
         <Upload size={18} />
@@ -113,7 +115,7 @@ export default function UploadPanel() {
               <button
                 key={src}
                 type="button"
-                onClick={() => void reAddAsset(src)}
+                onClick={() => requireAccount(() => void reAddAsset(src))}
                 className="relative aspect-square overflow-hidden rounded-lg border border-border bg-card/60 transition hover:border-cyan-500/50"
                 title="افزودن مجدد"
               >

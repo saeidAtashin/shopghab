@@ -28,6 +28,7 @@ import {
   type DesignLayer,
 } from "@/lib/design/types";
 import DesignImageLayerNode from "@/app/components/case-editor/DesignImageLayerNode";
+import { useGuestEditGate } from "@/app/components/case-editor/EditorGuestGate";
 import TextLayerNode from "@/app/components/case-editor/TextLayerNode";
 
 type Props = {
@@ -139,6 +140,7 @@ function CaseCanvas({
   const updateLayer = useEditorStore((s) => s.updateLayer);
   const setLayerVisible = useEditorStore((s) => s.setLayerVisible);
   const commitHistory = useEditorStore((s) => s.commitHistory);
+  const { requireAccount } = useGuestEditGate();
   const [textLineWidths, setTextLineWidths] = useState<number[] | null>(null);
   const [fontEpoch, setFontEpoch] = useState(0);
   const textLineWidthsRef = useRef<number[] | null>(null);
@@ -589,7 +591,14 @@ function CaseCanvas({
           layoutWidth={layoutWidth}
           layoutHeight={layoutHeight}
           placeControl={placeControl}
-          onLock={() => updateLayer(selectedLayer.id, { locked: !selectedLocked })}
+          onLock={() => {
+            const apply = () => updateLayer(selectedLayer.id, { locked: !selectedLocked });
+            if (selectedLocked) {
+              requireAccount(apply);
+              return;
+            }
+            apply();
+          }}
           onDelete={() => setLayerVisible(selectedLayer.id, false)}
           onRotateStart={(event) => {
             if (selectedLocked) return;
