@@ -5,7 +5,7 @@ import HomeCategoryMosaic from "@/app/components/home/HomeCategoryMosaic";
 import HomeCollections from "@/app/components/home/HomeCollections";
 import HomeDiscovery from "@/app/components/home/HomeDiscovery";
 import HomeMobileDock from "@/app/components/home/HomeMobileDock";
-import HomeHero from "@/app/components/home/hero/HomeHero";
+import HomeHero, { type HeroFilmDesign } from "@/app/components/home/hero/HomeHero";
 import NavSearch from "@/app/components/layout/nav/NavSearch";
 import { PHONE_BRANDS, getCaseTotalPrice, getCaseTypeBySlug, SELECTABLE_CASE_TYPE_SLUG } from "@/lib/cases/brands.static";
 import {
@@ -30,6 +30,37 @@ const BRAND_LABELS: Record<string, string> = {
 };
 
 const HOME_PAGE_SIZE = 24;
+const HERO_FILM_COUNT = 12;
+
+function heroFilmDesigns(
+  items: {
+    id: string;
+    slug: string;
+    title: string;
+    artworkPath: string;
+    thumbnailPath: string;
+  }[],
+): HeroFilmDesign[] {
+  const source = items
+    .filter((design) => design.artworkPath)
+    .slice(0, HERO_FILM_COUNT)
+    .map((design) => ({
+      id: design.id,
+      title: design.title,
+      href: `/designs/${design.slug}`,
+      artwork: design.artworkPath,
+      thumb: design.thumbnailPath.includes("/designed/thumbs/") ? design.thumbnailPath : design.artworkPath,
+    }));
+  if (source.length >= 10 || source.length === 0) return source;
+  const filled: HeroFilmDesign[] = [];
+  while (filled.length < 10) {
+    for (const design of source) {
+      filled.push({ ...design, id: `${design.id}-${filled.length}` });
+      if (filled.length >= 10) break;
+    }
+  }
+  return filled;
+}
 
 type SearchParams = {
   q?: string;
@@ -121,6 +152,9 @@ export default function HomeCasePage({ searchParams }: { searchParams: SearchPar
     });
   }
   const featured = storyCards[0];
+  const heroDesigns = heroFilmDesigns(
+    queryPublicDesigns(catalog, { sort: "featured", page: 1, pageSize: HERO_FILM_COUNT }).items,
+  );
 
   return (
     <main
@@ -130,14 +164,9 @@ export default function HomeCasePage({ searchParams }: { searchParams: SearchPar
       <div className="mx-auto flex max-w-[90rem] flex-col gap-4">
         <NavSearch placeholder="جستجو در طرح‌ها..." className="xl:hidden" />
 
-        <div className="relative flex flex-col gap-4 xl:block">
-          <HomeHero className={categoryItems.length > 0 ? "xl:ms-[calc(28rem+1rem)]" : undefined} />
-          {categoryItems.length > 0 ? (
-            <HomeCategoryMosaic
-              items={categoryItems}
-              className="xl:absolute xl:inset-y-0 xl:start-0 xl:w-[28rem] xl:overflow-hidden"
-            />
-          ) : null}
+        <div className="flex flex-col gap-4">
+          <HomeHero designs={heroDesigns} />
+          {categoryItems.length > 0 ? <HomeCategoryMosaic items={categoryItems} /> : null}
         </div>
 
         <p className="text-sm leading-7 text-muted">

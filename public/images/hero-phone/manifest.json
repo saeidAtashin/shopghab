@@ -1,0 +1,43 @@
+{
+  "width": 1600,
+  "height": 1200,
+  "print": {
+    "x": 543,
+    "y": 89,
+    "width": 514,
+    "height": 1034
+  },
+  "printWindowTransparent": false,
+  "overlays": [
+    {
+      "file": "overlay-0.png",
+      "blend": "linear-burn",
+      "name": "Shadow"
+    },
+    {
+      "file": "overlay-1.png",
+      "blend": "screen",
+      "name": "Highlights"
+    },
+    {
+      "file": "overlay-2.png",
+      "blend": "normal",
+      "name": "Color"
+    },
+    {
+      "file": "overlay-3.png",
+      "blend": "linear-burn",
+      "name": "Shadow"
+    },
+    {
+      "file": "overlay-4.png",
+      "blend": "screen",
+      "name": "Highlights"
+    },
+    {
+      "file": "overlay-5.png",
+      "blend": "normal",
+      "name": "Camera"
+    }
+  ]
+}
