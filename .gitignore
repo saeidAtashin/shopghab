@@ -49,6 +49,10 @@ next-env.d.ts
 /data/shop-activity.json
 /data/receipts/
 
+# last good catalog, used when a sync cannot read or write the live file
+/data/design-catalog.cache.json
+/data/design-catalog.json.before-sync
+
 # PSD masters must not be publicly served; originals live in the separate LFS repo
 /public/psds/
 

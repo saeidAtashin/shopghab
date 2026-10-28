@@ -15,6 +15,7 @@ import { catalogSchema, parseCatalogDocument, type DesignCatalog } from "./schem
 type CacheEntry = {
   mtimeMs: number;
   catalog: DesignCatalog;
+  source: "main" | "cache";
 };
 
 let cache: CacheEntry | null = null;
@@ -22,6 +23,10 @@ let queue: Promise<unknown> = Promise.resolve();
 
 export function catalogFilePath(): string {
   return join(process.cwd(), "data", "design-catalog.json");
+}
+
+export function catalogCacheFilePath(): string {
+  return join(process.cwd(), "data", "design-catalog.cache.json");
 }
 
 export function catalogFileExists(): boolean {
@@ -37,18 +42,59 @@ function withLock<T>(fn: () => T): Promise<T> {
   return run;
 }
 
-export function readCatalog(): DesignCatalog {
-  const file = catalogFilePath();
+function writeCacheFile(catalog: DesignCatalog): void {
+  try {
+    const file = catalogCacheFilePath();
+    mkdirSync(dirname(file), { recursive: true });
+    const tmp = `${file}.${process.pid}.tmp`;
+    writeFileSync(tmp, `${JSON.stringify(catalog, null, 2)}\n`, "utf8");
+    renameSync(tmp, file);
+  } catch (error) {
+    console.error("Could not write the catalog cache.");
+    console.error(error instanceof Error ? error.message : error);
+  }
+}
+
+function readCachedCatalog(): DesignCatalog {
+  const file = catalogCacheFilePath();
   if (!existsSync(file)) return emptyCatalog();
 
-  const stat = statSync(file);
-  if (cache && cache.mtimeMs === stat.mtimeMs) {
-    return structuredClone(cache.catalog);
+  try {
+    const stat = statSync(file);
+    if (cache && cache.source === "cache" && cache.mtimeMs === stat.mtimeMs) {
+      return structuredClone(cache.catalog);
+    }
+
+    const parsed = parseCatalogDocument(JSON.parse(readFileSync(file, "utf8")));
+    cache = { mtimeMs: stat.mtimeMs, catalog: parsed, source: "cache" };
+    return structuredClone(parsed);
+  } catch (error) {
+    console.error("Cached catalog is unreadable.");
+    console.error(error instanceof Error ? error.message : error);
+    return emptyCatalog();
+  }
+}
+
+export function readCatalog(): DesignCatalog {
+  const file = catalogFilePath();
+  if (existsSync(file)) {
+    try {
+      const stat = statSync(file);
+      if (cache && cache.source === "main" && cache.mtimeMs === stat.mtimeMs) {
+        return structuredClone(cache.catalog);
+      }
+
+      const parsed = parseCatalogDocument(JSON.parse(readFileSync(file, "utf8")));
+      cache = { mtimeMs: stat.mtimeMs, catalog: parsed, source: "main" };
+      writeCacheFile(parsed);
+      return structuredClone(parsed);
+    } catch (error) {
+      console.error("Catalog file is unreadable. Using the cached catalog.");
+      console.error(error instanceof Error ? error.message : error);
+    }
   }
 
-  const parsed = parseCatalogDocument(JSON.parse(readFileSync(file, "utf8")));
-  cache = { mtimeMs: stat.mtimeMs, catalog: parsed };
-  return structuredClone(parsed);
+  return readCachedCatalog();
 }
 
 function writeCatalogSync(catalog: DesignCatalog): void {
@@ -58,7 +104,9 @@ function writeCatalogSync(catalog: DesignCatalog): void {
   const tmp = `${file}.${process.pid}.tmp`;
   writeFileSync(tmp, `${JSON.stringify(validated, null, 2)}\n`, "utf8");
   renameSync(tmp, file);
-  cache = null;
+  const stat = statSync(file);
+  cache = { mtimeMs: stat.mtimeMs, catalog: validated, source: "main" };
+  writeCacheFile(validated);
 }
 
 export function writeCatalog(catalog: DesignCatalog): Promise<void> {

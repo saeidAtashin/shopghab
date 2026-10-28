@@ -33,7 +33,6 @@ import {
 } from "@/app/components/case-editor/EditorGuestGate";
 import WizardBreadcrumb from "@/app/components/case-wizard/WizardBreadcrumb";
 import DockableAction from "@/app/components/ui/DockableAction";
-import DesignRouteLoading from "@/app/components/ui/DesignRouteLoading";
 import TextPanel from "@/app/components/case-editor/TextPanel";
 import UploadPanel from "@/app/components/case-editor/UploadPanel";
 import DescriptionPanel from "@/app/components/case-editor/DescriptionPanel";
@@ -670,25 +669,6 @@ export default function EditorPageClient({
     </AnimatePresence>
   );
 
-<<<<<<< HEAD
-  if (authLoading) {
-    return <DesignRouteLoading />;
-  }
-
-  if (!user) {
-    return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4 pt-24 text-center">
-        <p className="text-sm text-muted">برای استفاده از ادیتور ابتدا وارد شوید.</p>
-        <PhoneVerificationModal
-          open
-          phone=""
-          onClose={leaveEditor}
-          onVerified={() => {}}
-        />
-      </div>
-    );
-  }
-=======
   const accountPrompt = (
     <>
       <GuestEditNotice
@@ -713,7 +693,6 @@ export default function EditorPageClient({
   );
 
   const designerLoader = <CaseDesignerLoader previewReady={previewReady} />;
->>>>>>> b30ecce6594f8307a08f0a3ffaf197ae58cec20f
 
   if (isMobileViewport) {
     return (

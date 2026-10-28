@@ -4,6 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
+import { useAuth } from "@/app/context/AuthContext";
+
 import ApplyTemplateWizard, {
   type TemplatePurchaseIntent,
 } from "@/app/components/designs/ApplyTemplateWizard";
@@ -52,13 +54,10 @@ export default function DesignDetailClient({
   related,
   linkedTemplate,
 }: Props) {
+  const { user } = useAuth();
   const [wizardOpen, setWizardOpen] = useState(false);
   const [wizardIntent, setWizardIntent] = useState<TemplatePurchaseIntent>("premade");
-<<<<<<< HEAD
   const [forkDesignId, setForkDesignId] = useState<string | undefined>();
-  const [loginOpen, setLoginOpen] = useState(false);
-=======
->>>>>>> b30ecce6594f8307a08f0a3ffaf197ae58cec20f
   const [caseTypeSlug, setCaseTypeSlug] = useState(SELECTABLE_CASE_TYPE_SLUG);
   const [activeIndex, setActiveIndex] = useState(0);
   const [zoomOpen, setZoomOpen] = useState(false);

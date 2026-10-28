@@ -6,12 +6,7 @@ import Image from "next/image";
 import { Check, Search, X } from "lucide-react";
 
 import { PhoneBackSvg } from "@/app/components/case-wizard/PhoneBackSvg";
-<<<<<<< HEAD
 import SuggestedPhoneCard, { usePhoneSuggestions } from "@/app/components/case-wizard/SuggestedPhoneCard";
-import { useAuth } from "@/app/context/AuthContext";
-=======
-import SuggestedPhoneCard, { useSuggestedPhone } from "@/app/components/case-wizard/SuggestedPhoneCard";
->>>>>>> b30ecce6594f8307a08f0a3ffaf197ae58cec20f
 import { usePreferredBrandLoader } from "@/app/context/PreferredBrandLoaderContext";
 import { useShopCart } from "@/app/context/ShopCartContext";
 import { designedAssetUrl } from "@/lib/designed-assets";
@@ -141,13 +136,8 @@ export default function ApplyTemplateWizard({
   forkDesignId,
 }: Props) {
   const router = useRouter();
-<<<<<<< HEAD
   const suggestions = usePhoneSuggestions();
   const currentPhone = suggestions.find((item) => item.kind === "current") ?? null;
-  const { user, loading: authLoading } = useAuth();
-=======
-  const suggested = useSuggestedPhone();
->>>>>>> b30ecce6594f8307a08f0a3ffaf197ae58cec20f
   const { addCatalogCase } = useShopCart();
   const { setPreferredBrandSlug } = usePreferredBrandLoader();
   const [brandSlug, setBrandSlug] = useState(initialBrandSlug ?? "");
@@ -182,19 +172,10 @@ export default function ApplyTemplateWizard({
         return;
       }
 
-<<<<<<< HEAD
       const path = forkDesignId
         ? `${buildCustomDesignPath(nextBrandSlug, nextModelSlug)}?fork=${encodeURIComponent(forkDesignId)}`
         : `${buildCustomDesignPath(nextBrandSlug, nextModelSlug)}?template=${encodeURIComponent(template.slug)}`;
-      if (authLoading || !user) {
-        setPendingPath(path);
-        if (!authLoading) setLoginOpen(true);
-        return;
-      }
       beginRouteNavigation();
-=======
-      const path = `${buildCustomDesignPath(nextBrandSlug, nextModelSlug)}?template=${encodeURIComponent(template.slug)}`;
->>>>>>> b30ecce6594f8307a08f0a3ffaf197ae58cec20f
       router.push(path);
       onClose();
     },
@@ -228,25 +209,6 @@ export default function ApplyTemplateWizard({
   }, [open, intent, initialBrandSlug, initialModelSlug, finish]);
 
   useEffect(() => {
-<<<<<<< HEAD
-    if (!pendingPath || authLoading) return;
-    if (!user) {
-      setLoginOpen(true);
-      return;
-    }
-    if (navigatedRef.current) return;
-    navigatedRef.current = true;
-    const path = pendingPath;
-    setPendingPath(null);
-    setLoginOpen(false);
-    beginRouteNavigation();
-    router.push(path);
-    onClose();
-  }, [pendingPath, authLoading, user, router, onClose]);
-
-  useEffect(() => {
-=======
->>>>>>> b30ecce6594f8307a08f0a3ffaf197ae58cec20f
     if (!open) return;
 
     function handleKeyDown(event: KeyboardEvent) {
@@ -387,7 +349,7 @@ export default function ApplyTemplateWizard({
 
         <div className="shrink-0 px-4 pt-4 empty:hidden sm:px-5">
           <SuggestedPhoneCard
-            navigatesOnPick={Boolean(intent) && !authLoading && Boolean(user)}
+            navigatesOnPick={intent === "custom"}
             onPick={(pick) => {
               setBrandSlug(pick.brandSlug);
               handleContinue(pick.modelSlug, pick.brandSlug);

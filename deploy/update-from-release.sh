@@ -28,7 +28,12 @@ fi
 
 RUNTIME="$(mktemp -d)"
 cleanup() {
+  local status=$?
+  if [ "$status" -ne 0 ]; then
+    restore_cached_runtime "$APP_DIR" || true
+  fi
   rm -rf "$RUNTIME"
+  exit "$status"
 }
 trap cleanup EXIT
 
@@ -59,6 +64,28 @@ preserve_local_files() {
     mkdir -p "$dest_dir/deploy/ssl"
     cp -a "$source_dir/deploy/ssl/." "$dest_dir/deploy/ssl/"
   fi
+}
+
+restore_cached_runtime() {
+  local dest_dir="$1"
+  if [ -z "${RUNTIME:-}" ] || [ ! -d "$RUNTIME" ] || [ ! -d "$dest_dir" ]; then
+    return 0
+  fi
+  mkdir -p "$dest_dir/data"
+  if [ -f "$RUNTIME/design-catalog.json" ]; then
+    cp "$RUNTIME/design-catalog.json" "$dest_dir/data/design-catalog.json"
+  fi
+  if [ -f "$RUNTIME/landing-sections.json" ]; then
+    cp "$RUNTIME/landing-sections.json" "$dest_dir/data/landing-sections.json"
+  fi
+  if [ -f "$RUNTIME/shop-activity.json" ]; then
+    cp "$RUNTIME/shop-activity.json" "$dest_dir/data/shop-activity.json"
+  fi
+  if [ -d "$RUNTIME/receipts" ]; then
+    mkdir -p "$dest_dir/data/receipts"
+    cp -a "$RUNTIME/receipts/." "$dest_dir/data/receipts/"
+  fi
+  echo "update failed; restored cached runtime data" >&2
 }
 
 restore_runtime_files() {
@@ -100,8 +127,7 @@ merge_live_catalog() {
     node /merge.mjs --live /live.json --incoming /incoming.json --out /out/design-catalog.json
   then
     cp "$RUNTIME/design-catalog.json" "$dest_dir/data/design-catalog.json"
-    echo "catalog merge failed; restored the live catalog" >&2
-    exit 1
+    echo "catalog merge failed; restored the cached catalog and continuing the code update" >&2
   fi
 }
 

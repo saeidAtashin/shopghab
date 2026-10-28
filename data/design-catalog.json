@@ -3024,6 +3024,20 @@
       "sortOrder": 2000,
       "createdAt": "2026-10-25T09:55:25.690Z",
       "updatedAt": "2026-10-25T09:55:25.690Z"
+    },
+    {
+      "id": "cat_f2b5ed7f94e6",
+      "name": "اسلامی",
+      "slug": "islamic",
+      "parentId": null,
+      "description": "مجموعه طرح‌های اسلامی برای چاپ روی قاب موبایل.",
+      "seoTitle": "",
+      "seoDescription": "",
+      "coverImage": "",
+      "status": "active",
+      "sortOrder": 0,
+      "createdAt": "2026-10-28T10:14:37.439Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z"
     }
   ],
   "designs": [
@@ -4331,7 +4345,7 @@
       "id": "dsn_6fdc160ec4a57a6b",
       "sourceKey": "islamic/vecteezy_luxury-ornamental-mandala-background-with-arabic-islamic_.eps",
       "legacySlug": "vecteezy_luxury-ornamental-mandala-background-with-arabic-islamic_",
-      "templateSlug": "vecteezy_luxury-ornamental-mandala-background-with-arabic-islamic",
+      "templateSlug": "vecteezy_luxury-ornamental-mandala-background-with-arabic-islamic_",
       "imagePath": "/designed/vecteezy_luxury-ornamental-mandala-background-with-arabic-islamic_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_luxury-ornamental-mandala-background-with-arabic-islamic_.webp",
       "width": 1920,
@@ -4413,7 +4427,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:28:02.374Z",
-      "updatedAt": "2026-10-20T08:37:28.057Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:28:02.374Z"
     },
     {
@@ -4498,7 +4512,7 @@
       "id": "dsn_63a61d6e55acf444",
       "sourceKey": "abstract/vecteezy_abstract-hand-draw-doodle-pattern-set-design_.eps",
       "legacySlug": "vecteezy_abstract-hand-draw-doodle-pattern-set-design_",
-      "templateSlug": "vecteezy_abstract-hand-draw-doodle-pattern-set-design",
+      "templateSlug": "vecteezy_abstract-hand-draw-doodle-pattern-set-design_",
       "imagePath": "/designed/vecteezy_abstract-hand-draw-doodle-pattern-set-design_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_abstract-hand-draw-doodle-pattern-set-design_.webp",
       "width": 1920,
@@ -4569,14 +4583,14 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:22:01.174Z",
-      "updatedAt": "2026-10-20T10:10:50.167Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:22:01.174Z"
     },
     {
       "id": "dsn_749f1044a5af4504",
       "sourceKey": "abstract/vecteezy_modern-abstract-high-speed-movement-colorful-dynamic-arrows_.eps",
       "legacySlug": "vecteezy_modern-abstract-high-speed-movement-colorful-dynamic-arrows_",
-      "templateSlug": "vecteezy_modern-abstract-high-speed-movement-colorful-dynamic-arrows",
+      "templateSlug": "vecteezy_modern-abstract-high-speed-movement-colorful-dynamic-arrows_",
       "imagePath": "/designed/vecteezy_modern-abstract-high-speed-movement-colorful-dynamic-arrows_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_modern-abstract-high-speed-movement-colorful-dynamic-arrows_.webp",
       "width": 1920,
@@ -4647,7 +4661,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:28:24.423Z",
-      "updatedAt": "2026-10-20T13:15:44.144Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:28:24.423Z"
     },
     {
@@ -5233,7 +5247,7 @@
       "id": "dsn_6b199ab8bdb76f46",
       "sourceKey": "abstract/Background_design_(9).eps",
       "legacySlug": "Background_design_(9)",
-      "templateSlug": "background_design",
+      "templateSlug": "Background_design_(9)",
       "imagePath": "/designed/Background_design_(9).webp",
       "thumbnailPath": "/designed/thumbs/Background_design_(9).webp",
       "width": 2048,
@@ -5321,7 +5335,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:18:07.608Z",
-      "updatedAt": "2026-10-20T12:37:08.120Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:18:07.608Z"
     },
     {
@@ -5620,7 +5634,7 @@
       "id": "dsn_0685754a524d9e1c",
       "sourceKey": "abstract/vecteezy_abstract-art-woodland-jungle-camouflage-stripes-seamless_.eps",
       "legacySlug": "vecteezy_abstract-art-woodland-jungle-camouflage-stripes-seamless_",
-      "templateSlug": "vecteezy_abstract-art-woodland-jungle-camouflage-stripes-seamless",
+      "templateSlug": "vecteezy_abstract-art-woodland-jungle-camouflage-stripes-seamless_",
       "imagePath": "/designed/vecteezy_abstract-art-woodland-jungle-camouflage-stripes-seamless_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_abstract-art-woodland-jungle-camouflage-stripes-seamless_.webp",
       "width": 1920,
@@ -5711,7 +5725,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:18:47.514Z",
-      "updatedAt": "2026-10-20T08:57:57.791Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:18:47.514Z"
     },
     {
@@ -6109,7 +6123,7 @@
       "id": "dsn_d3f3811ffd0215f8",
       "sourceKey": "abstract/vecteezy_brown-floral-brush-strokes-seamless-pattern-background_.eps",
       "legacySlug": "vecteezy_brown-floral-brush-strokes-seamless-pattern-background_",
-      "templateSlug": "vecteezy_brown-floral-brush-strokes-seamless-pattern-background",
+      "templateSlug": "vecteezy_brown-floral-brush-strokes-seamless-pattern-background_",
       "imagePath": "/designed/vecteezy_brown-floral-brush-strokes-seamless-pattern-background_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_brown-floral-brush-strokes-seamless-pattern-background_.webp",
       "width": 1920,
@@ -6201,7 +6215,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:25:39.651Z",
-      "updatedAt": "2026-10-20T12:33:34.674Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:25:39.651Z"
     },
     {
@@ -6499,7 +6513,7 @@
       "id": "dsn_0a5c7f29afbdf9b2",
       "sourceKey": "abstract/vecteezy_abstract-tropical-palm-leaf-seamless-pattern-background_.eps",
       "legacySlug": "vecteezy_abstract-tropical-palm-leaf-seamless-pattern-background_",
-      "templateSlug": "vecteezy_abstract-tropical-palm-leaf-seamless-pattern-background",
+      "templateSlug": "vecteezy_abstract-tropical-palm-leaf-seamless-pattern-background_",
       "imagePath": "/designed/vecteezy_abstract-tropical-palm-leaf-seamless-pattern-background_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_abstract-tropical-palm-leaf-seamless-pattern-background_.webp",
       "width": 1920,
@@ -6589,7 +6603,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:24:35.456Z",
-      "updatedAt": "2026-10-20T11:53:04.146Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:24:35.456Z"
     },
     {
@@ -7769,7 +7783,7 @@
       "id": "dsn_feb56431a8e6d0e6",
       "sourceKey": "abstract/vecteezy_abstract-geometric-pattern-flat-design_.eps",
       "legacySlug": "vecteezy_abstract-geometric-pattern-flat-design_",
-      "templateSlug": "vecteezy_abstract-geometric-pattern-flat-design",
+      "templateSlug": "vecteezy_abstract-geometric-pattern-flat-design_",
       "imagePath": "/designed/vecteezy_abstract-geometric-pattern-flat-design_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_abstract-geometric-pattern-flat-design_.webp",
       "width": 1920,
@@ -7855,7 +7869,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:21:21.944Z",
-      "updatedAt": "2026-10-20T09:37:20.204Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:21:21.944Z"
     },
     {
@@ -8249,7 +8263,7 @@
       "id": "dsn_b3452dde5c3ebd4a",
       "sourceKey": "abstract/vecteezy_abstract-seamless-colorful-brush-strokes-pattern-background_.eps",
       "legacySlug": "vecteezy_abstract-seamless-colorful-brush-strokes-pattern-background_",
-      "templateSlug": "vecteezy_abstract-seamless-colorful-brush-strokes-pattern-background",
+      "templateSlug": "vecteezy_abstract-seamless-colorful-brush-strokes-pattern-background_",
       "imagePath": "/designed/vecteezy_abstract-seamless-colorful-brush-strokes-pattern-background_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_abstract-seamless-colorful-brush-strokes-pattern-background_.webp",
       "width": 1920,
@@ -8338,7 +8352,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:23:34.714Z",
-      "updatedAt": "2026-10-20T11:34:46.028Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:23:34.714Z"
     },
     {
@@ -9034,7 +9048,7 @@
       "id": "dsn_badcac9d5d49d3e0",
       "sourceKey": "abstract/vecteezy_abstract-geometric-graphic-design-halftone-pattern-background_.eps",
       "legacySlug": "vecteezy_abstract-geometric-graphic-design-halftone-pattern-background_",
-      "templateSlug": "vecteezy_abstract-geometric-graphic-design-halftone-pattern-background",
+      "templateSlug": "vecteezy_abstract-geometric-graphic-design-halftone-pattern-background_",
       "imagePath": "/designed/vecteezy_abstract-geometric-graphic-design-halftone-pattern-background_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_abstract-geometric-graphic-design-halftone-pattern-background_.webp",
       "width": 1920,
@@ -9122,7 +9136,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:21:12.924Z",
-      "updatedAt": "2026-10-20T09:39:51.871Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:21:12.924Z"
     },
     {
@@ -9711,7 +9725,7 @@
       "id": "dsn_4a2d846c4624db4c",
       "sourceKey": "abstract/vecteezy_abstract-banner-background-template-with-grunge-texture_.eps",
       "legacySlug": "vecteezy_abstract-banner-background-template-with-grunge-texture_",
-      "templateSlug": "vecteezy_abstract-banner-background-template-with-grunge-texture",
+      "templateSlug": "vecteezy_abstract-banner-background-template-with-grunge-texture_",
       "imagePath": "/designed/vecteezy_abstract-banner-background-template-with-grunge-texture_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_abstract-banner-background-template-with-grunge-texture_.webp",
       "width": 1920,
@@ -9799,7 +9813,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:19:36.431Z",
-      "updatedAt": "2026-10-20T09:22:53.932Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:19:36.431Z"
     },
     {
@@ -10009,7 +10023,7 @@
       "id": "dsn_2a9abfd9ec7c3f53",
       "sourceKey": "vecteezy_abstract-stripe-background-in-white-and-blue-with-wavy-lines_.jpg",
       "legacySlug": "vecteezy_abstract-stripe-background-in-white-and-blue-with-wavy-lines_",
-      "templateSlug": "vecteezy_abstract-stripe-background-in-white-and-blue-with-wavy-lines",
+      "templateSlug": "vecteezy_abstract-stripe-background-in-white-and-blue-with-wavy-lines_",
       "imagePath": "/designed/vecteezy_abstract-stripe-background-in-white-and-blue-with-wavy-lines_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_abstract-stripe-background-in-white-and-blue-with-wavy-lines_.webp",
       "width": 1920,
@@ -10101,7 +10115,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-10-17T10:05:37.034Z",
-      "updatedAt": "2026-10-21T12:16:58.626Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-10-17T10:05:37.034Z"
     },
     {
@@ -10403,7 +10417,7 @@
       "id": "dsn_cd1ebb89cd65ca24",
       "sourceKey": "vecteezy_a-seamless-pattern-featuring-red-and-black-circles-connected_.jpg",
       "legacySlug": "vecteezy_a-seamless-pattern-featuring-red-and-black-circles-connected_",
-      "templateSlug": "vecteezy_a-seamless-pattern-featuring-red-and-black-circles-connected",
+      "templateSlug": "vecteezy_a-seamless-pattern-featuring-red-and-black-circles-connected_",
       "imagePath": "/designed/vecteezy_a-seamless-pattern-featuring-red-and-black-circles-connected_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_a-seamless-pattern-featuring-red-and-black-circles-connected_.webp",
       "width": 1920,
@@ -10494,14 +10508,14 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-10-17T10:05:33.207Z",
-      "updatedAt": "2026-10-21T12:34:21.871Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-10-17T10:05:33.207Z"
     },
     {
       "id": "dsn_959d4d44cb108f5b",
       "sourceKey": "abstract/vecteezy_seamless-pattern-with-abstract-blue-weaving-lines-vector_.eps",
       "legacySlug": "vecteezy_seamless-pattern-with-abstract-blue-weaving-lines-vector_",
-      "templateSlug": "vecteezy_seamless-pattern-with-abstract-blue-weaving-lines-vector",
+      "templateSlug": "vecteezy_seamless-pattern-with-abstract-blue-weaving-lines-vector_",
       "imagePath": "/designed/vecteezy_seamless-pattern-with-abstract-blue-weaving-lines-vector_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_seamless-pattern-with-abstract-blue-weaving-lines-vector_.webp",
       "width": 1920,
@@ -10590,7 +10604,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:29:31.757Z",
-      "updatedAt": "2026-10-20T13:05:46.888Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:29:31.757Z"
     },
     {
@@ -11078,7 +11092,7 @@
       "id": "dsn_77718e04f23bd89d",
       "sourceKey": "abstract/vecteezy_abstract-rainbow-coloured-doodle-pattern-design_.eps",
       "legacySlug": "vecteezy_abstract-rainbow-coloured-doodle-pattern-design_",
-      "templateSlug": "vecteezy_abstract-rainbow-coloured-doodle-pattern-design",
+      "templateSlug": "vecteezy_abstract-rainbow-coloured-doodle-pattern-design_",
       "imagePath": "/designed/vecteezy_abstract-rainbow-coloured-doodle-pattern-design_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_abstract-rainbow-coloured-doodle-pattern-design_.webp",
       "width": 1920,
@@ -11167,14 +11181,14 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:23:26.080Z",
-      "updatedAt": "2026-10-20T11:37:02.501Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:23:26.080Z"
     },
     {
       "id": "dsn_bc93fbf5936ac7c6",
       "sourceKey": "abstract/X58.eps",
       "legacySlug": "X58",
-      "templateSlug": "draw-line-light",
+      "templateSlug": "X58",
       "imagePath": "/designed/X58.webp",
       "thumbnailPath": "/designed/thumbs/X58.webp",
       "width": 2048,
@@ -11263,7 +11277,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:31:24.937Z",
-      "updatedAt": "2026-10-20T13:33:42.821Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:31:24.937Z"
     },
     {
@@ -12529,7 +12543,7 @@
       "id": "dsn_1c67af4062a65321",
       "sourceKey": "abstract/DD-Grunge-Lines-Background-22090-Preview.jpg",
       "legacySlug": "DD-Grunge-Lines-Background-22090-Preview",
-      "templateSlug": "dd-grunge-lines-background-22090",
+      "templateSlug": "DD-Grunge-Lines-Background-22090-Preview",
       "imagePath": "/designed/DD-Grunge-Lines-Background-22090-Preview.webp",
       "thumbnailPath": "/designed/thumbs/DD-Grunge-Lines-Background-22090-Preview.webp",
       "width": 1400,
@@ -12618,7 +12632,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:18:12.058Z",
-      "updatedAt": "2026-10-20T13:00:48.517Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:18:12.058Z"
     },
     {
@@ -12821,7 +12835,7 @@
       "id": "dsn_08104ca6da2d6dfb",
       "sourceKey": "abstract/vecteezy_abstract-pattern-background-design_.eps",
       "legacySlug": "vecteezy_abstract-pattern-background-design_",
-      "templateSlug": "vecteezy_abstract-pattern-background-design",
+      "templateSlug": "vecteezy_abstract-pattern-background-design_",
       "imagePath": "/designed/vecteezy_abstract-pattern-background-design_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_abstract-pattern-background-design_.webp",
       "width": 1920,
@@ -12910,7 +12924,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:22:56.473Z",
-      "updatedAt": "2026-10-20T10:17:57.183Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:22:56.473Z"
     },
     {
@@ -13687,7 +13701,7 @@
       "id": "dsn_aa8577a5591789e5",
       "sourceKey": "abstract/vecteezy_abstract-pattern-with-wood-colour-wood-design-background_.eps",
       "legacySlug": "vecteezy_abstract-pattern-with-wood-colour-wood-design-background_",
-      "templateSlug": "vecteezy_abstract-pattern-with-wood-colour-wood-design-background",
+      "templateSlug": "vecteezy_abstract-pattern-with-wood-colour-wood-design-background_",
       "imagePath": "/designed/vecteezy_abstract-pattern-with-wood-colour-wood-design-background_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_abstract-pattern-with-wood-colour-wood-design-background_.webp",
       "width": 1920,
@@ -13781,7 +13795,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:23:18.019Z",
-      "updatedAt": "2026-10-20T11:38:48.690Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:23:18.019Z"
     },
     {
@@ -14941,7 +14955,7 @@
       "id": "dsn_7cdf52cb89a3e281",
       "sourceKey": "abstract/vecteezy_seamless-pattern-with-abstract-hand-drawn-waves-colorful_.eps",
       "legacySlug": "vecteezy_seamless-pattern-with-abstract-hand-drawn-waves-colorful_",
-      "templateSlug": "vecteezy_seamless-pattern-with-abstract-hand-drawn-waves-colorful",
+      "templateSlug": "vecteezy_seamless-pattern-with-abstract-hand-drawn-waves-colorful_",
       "imagePath": "/designed/vecteezy_seamless-pattern-with-abstract-hand-drawn-waves-colorful_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_seamless-pattern-with-abstract-hand-drawn-waves-colorful_.webp",
       "width": 1920,
@@ -15032,7 +15046,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:29:44.571Z",
-      "updatedAt": "2026-10-20T13:44:05.800Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:29:44.571Z"
     },
     {
@@ -15323,7 +15337,7 @@
       "id": "dsn_f4576e03dde2500d",
       "sourceKey": "vecteezy_abstract-white-pattern-or-background-design_.jpg",
       "legacySlug": "vecteezy_abstract-white-pattern-or-background-design_",
-      "templateSlug": "vecteezy_abstract-white-pattern-or-background-design",
+      "templateSlug": "vecteezy_abstract-white-pattern-or-background-design_",
       "imagePath": "/designed/vecteezy_abstract-white-pattern-or-background-design_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_abstract-white-pattern-or-background-design_.webp",
       "width": 1920,
@@ -15414,7 +15428,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-10-17T10:05:37.757Z",
-      "updatedAt": "2026-10-21T12:14:49.750Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-10-17T10:05:37.757Z"
     },
     {
@@ -16096,7 +16110,7 @@
       "id": "dsn_9b404be6019ee192",
       "sourceKey": "abstract/vecteezy_abstract-colorful-geometric-background-3d-effect-trendy-colors_.eps",
       "legacySlug": "vecteezy_abstract-colorful-geometric-background-3d-effect-trendy-colors_",
-      "templateSlug": "vecteezy_abstract-colorful-geometric-background-3d-effect-trendy-colors",
+      "templateSlug": "vecteezy_abstract-colorful-geometric-background-3d-effect-trendy-colors_",
       "imagePath": "/designed/vecteezy_abstract-colorful-geometric-background-3d-effect-trendy-colors_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_abstract-colorful-geometric-background-3d-effect-trendy-colors_.webp",
       "width": 1920,
@@ -16182,7 +16196,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:20:17.872Z",
-      "updatedAt": "2026-10-20T09:51:17.738Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:20:17.872Z"
     },
     {
@@ -16286,7 +16300,7 @@
       "id": "dsn_283d90015d2878e4",
       "sourceKey": "abstract/vecteezy_uzbek-ikat-pattern-and-fabric-in-uzbekistan-abstract_.eps",
       "legacySlug": "vecteezy_uzbek-ikat-pattern-and-fabric-in-uzbekistan-abstract_",
-      "templateSlug": "vecteezy_uzbek-ikat-pattern-and-fabric-in-uzbekistan-abstract",
+      "templateSlug": "vecteezy_uzbek-ikat-pattern-and-fabric-in-uzbekistan-abstract_",
       "imagePath": "/designed/vecteezy_uzbek-ikat-pattern-and-fabric-in-uzbekistan-abstract_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_uzbek-ikat-pattern-and-fabric-in-uzbekistan-abstract_.webp",
       "width": 1920,
@@ -16377,7 +16391,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:30:42.221Z",
-      "updatedAt": "2026-10-20T13:39:03.808Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:30:42.221Z"
     },
     {
@@ -16674,7 +16688,7 @@
       "id": "dsn_bc1e9b1bc79677a4",
       "sourceKey": "abstract/vector-JUL-2020-92.eps",
       "legacySlug": "vector-JUL-2020-92",
-      "templateSlug": "vector-2020-92",
+      "templateSlug": "vector-JUL-2020-92",
       "imagePath": "/designed/vector-JUL-2020-92.webp",
       "thumbnailPath": "/designed/thumbs/vector-JUL-2020-92.webp",
       "width": 2048,
@@ -16765,14 +16779,14 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:31:06.303Z",
-      "updatedAt": "2026-10-20T13:37:13.754Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:31:06.303Z"
     },
     {
       "id": "dsn_68247c3a080ba9c2",
       "sourceKey": "abstract/vecteezy_colorful-sea-shells-seamless-pattern-on-a-dark-blue_.eps",
       "legacySlug": "vecteezy_colorful-sea-shells-seamless-pattern-on-a-dark-blue_",
-      "templateSlug": "vecteezy_colorful-sea-shells-seamless-pattern-on-a-dark-blue",
+      "templateSlug": "vecteezy_colorful-sea-shells-seamless-pattern-on-a-dark-blue_",
       "imagePath": "/designed/vecteezy_colorful-sea-shells-seamless-pattern-on-a-dark-blue_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_colorful-sea-shells-seamless-pattern-on-a-dark-blue_.webp",
       "width": 1920,
@@ -16863,7 +16877,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:26:06.922Z",
-      "updatedAt": "2026-10-20T12:03:37.279Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:26:06.922Z"
     },
     {
@@ -16971,7 +16985,7 @@
       "id": "dsn_577a0fbf4edec958",
       "sourceKey": "abstract/Free-Star-Background-Vector-1.jpg",
       "legacySlug": "Free-Star-Background-Vector-1",
-      "templateSlug": "free-star-background-vector",
+      "templateSlug": "Free-Star-Background-Vector-1",
       "imagePath": "/designed/Free-Star-Background-Vector-1.webp",
       "thumbnailPath": "/designed/thumbs/Free-Star-Background-Vector-1.webp",
       "width": 1400,
@@ -17063,14 +17077,14 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:18:15.872Z",
-      "updatedAt": "2026-10-20T12:51:03.290Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:18:15.872Z"
     },
     {
       "id": "dsn_ec4492b5185c1646",
       "sourceKey": "abstract/Q63.eps",
       "legacySlug": "Q63",
-      "templateSlug": "flash-patern-colors",
+      "templateSlug": "Q63",
       "imagePath": "/designed/Q63.webp",
       "thumbnailPath": "/designed/thumbs/Q63.webp",
       "width": 2048,
@@ -17161,14 +17175,14 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:18:35.171Z",
-      "updatedAt": "2026-10-20T13:12:57.247Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:18:35.171Z"
     },
     {
       "id": "dsn_3cf63ba1aedb2c52",
       "sourceKey": "abstract/Patt_121__generated.jpg",
       "legacySlug": "Patt_121__generated",
-      "templateSlug": "patt_121_generated",
+      "templateSlug": "Patt_121__generated",
       "imagePath": "/designed/Patt_121__generated.webp",
       "thumbnailPath": "/designed/thumbs/Patt_121__generated.webp",
       "width": 1920,
@@ -17259,14 +17273,14 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:18:27.377Z",
-      "updatedAt": "2026-10-20T13:13:50.458Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:18:27.377Z"
     },
     {
       "id": "dsn_64681bf5b276945f",
       "sourceKey": "abstract/vecteezy_abstract-heart-seamless-pattern-background-vector-illustration_.eps",
       "legacySlug": "vecteezy_abstract-heart-seamless-pattern-background-vector-illustration_",
-      "templateSlug": "vecteezy_abstract-heart-seamless-pattern-background-vector-illustration",
+      "templateSlug": "vecteezy_abstract-heart-seamless-pattern-background-vector-illustration_",
       "imagePath": "/designed/vecteezy_abstract-heart-seamless-pattern-background-vector-illustration_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_abstract-heart-seamless-pattern-background-vector-illustration_.webp",
       "width": 1920,
@@ -17363,7 +17377,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:22:09.440Z",
-      "updatedAt": "2026-10-20T10:09:00.419Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:22:09.440Z"
     },
     {
@@ -17468,7 +17482,7 @@
       "id": "dsn_8e483f56e5581483",
       "sourceKey": "abstract/vecteezy_soccer-jersey-design-for-sublimation-abstract-background_.eps",
       "legacySlug": "vecteezy_soccer-jersey-design-for-sublimation-abstract-background_",
-      "templateSlug": "vecteezy_soccer-jersey-design-for-sublimation-abstract-background",
+      "templateSlug": "vecteezy_soccer-jersey-design-for-sublimation-abstract-background_",
       "imagePath": "/designed/vecteezy_soccer-jersey-design-for-sublimation-abstract-background_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_soccer-jersey-design-for-sublimation-abstract-background_.webp",
       "width": 1323,
@@ -17559,7 +17573,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:30:23.506Z",
-      "updatedAt": "2026-10-20T13:41:22.686Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:30:23.506Z"
     },
     {
@@ -18077,7 +18091,7 @@
       "id": "dsn_f41f914ead77f8b9",
       "sourceKey": "abstract/vecteezy_bauhaus-pattern-design-of-abstract-background_.eps",
       "legacySlug": "vecteezy_bauhaus-pattern-design-of-abstract-background_",
-      "templateSlug": "vecteezy_bauhaus-pattern-design-of-abstract-background",
+      "templateSlug": "vecteezy_bauhaus-pattern-design-of-abstract-background_",
       "imagePath": "/designed/vecteezy_bauhaus-pattern-design-of-abstract-background_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_bauhaus-pattern-design-of-abstract-background_.webp",
       "width": 1920,
@@ -18171,7 +18185,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:25:21.043Z",
-      "updatedAt": "2026-10-20T12:36:18.795Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:25:21.043Z"
     },
     {
@@ -20726,7 +20740,7 @@
       "id": "dsn_f29393d9e3a6debc",
       "sourceKey": "abstract/VO55.eps",
       "legacySlug": "VO55",
-      "templateSlug": "v-55",
+      "templateSlug": "VO55",
       "imagePath": "/designed/VO55.webp",
       "thumbnailPath": "/designed/thumbs/VO55.webp",
       "width": 2048,
@@ -20812,7 +20826,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:31:18.453Z",
-      "updatedAt": "2026-10-20T13:35:31.507Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:31:18.453Z"
     },
     {
@@ -22331,7 +22345,7 @@
       "id": "dsn_01edaa865a08a1ff",
       "sourceKey": "abstract/vecteezy_modern-abstract-high-speed-movement-colourful-dynamic_.eps",
       "legacySlug": "vecteezy_modern-abstract-high-speed-movement-colourful-dynamic_",
-      "templateSlug": "vecteezy_modern-abstract-high-speed-movement-colourful-dynamic",
+      "templateSlug": "vecteezy_modern-abstract-high-speed-movement-colourful-dynamic_",
       "imagePath": "/designed/vecteezy_modern-abstract-high-speed-movement-colourful-dynamic_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_modern-abstract-high-speed-movement-colourful-dynamic_.webp",
       "width": 1920,
@@ -22402,7 +22416,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:28:30.063Z",
-      "updatedAt": "2026-10-20T13:15:29.101Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:28:30.063Z"
     },
     {
@@ -22643,7 +22657,7 @@
       "id": "dsn_2526b9e6ebc8ca7e",
       "sourceKey": "abstract/VO15.eps",
       "legacySlug": "VO15",
-      "templateSlug": "v-15",
+      "templateSlug": "VO15",
       "imagePath": "/designed/VO15.webp",
       "thumbnailPath": "/designed/thumbs/VO15.webp",
       "width": 2048,
@@ -22714,7 +22728,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-07-23T21:31:12.602Z",
-      "updatedAt": "2026-10-20T13:35:47.230Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-07-23T21:31:12.602Z"
     },
     {
@@ -23551,7 +23565,7 @@
       "id": "dsn_5110ab7bc1a16682",
       "sourceKey": "APRIL-04.jpg",
       "legacySlug": "APRIL-04",
-      "templateSlug": "skate-space",
+      "templateSlug": "APRIL-04",
       "imagePath": "/designed/APRIL-04.webp",
       "thumbnailPath": "/designed/thumbs/APRIL-04.webp",
       "width": 2048,
@@ -23641,7 +23655,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-10-17T10:05:25.160Z",
-      "updatedAt": "2026-10-21T12:11:51.178Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-10-17T10:05:25.160Z"
     },
     {
@@ -24673,7 +24687,7 @@
       "id": "dsn_23f2f5307c1080de",
       "sourceKey": "Des1-02_generated.jpg",
       "legacySlug": "Des1-02_generated",
-      "templateSlug": "des1-02_generated",
+      "templateSlug": "Des1-02_generated",
       "imagePath": "/designed/Des1-02_generated.webp",
       "thumbnailPath": "/designed/thumbs/Des1-02_generated.webp",
       "width": 1920,
@@ -24765,14 +24779,14 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-10-17T10:05:28.764Z",
-      "updatedAt": "2026-10-21T13:08:29.888Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-10-17T10:05:28.764Z"
     },
     {
       "id": "dsn_1a95e57f09c93422",
       "sourceKey": "vecteezy_cute-cartoon-character-robot-wearing-hoodie-playing-skate_.jpg",
       "legacySlug": "vecteezy_cute-cartoon-character-robot-wearing-hoodie-playing-skate_",
-      "templateSlug": "vecteezy_cute-cartoon-character-robot-wearing-hoodie-playing-skate",
+      "templateSlug": "vecteezy_cute-cartoon-character-robot-wearing-hoodie-playing-skate_",
       "imagePath": "/designed/vecteezy_cute-cartoon-character-robot-wearing-hoodie-playing-skate_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_cute-cartoon-character-robot-wearing-hoodie-playing-skate_.webp",
       "width": 1920,
@@ -24863,7 +24877,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-10-17T10:05:46.602Z",
-      "updatedAt": "2026-10-21T13:04:24.505Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-10-17T10:05:46.602Z"
     },
     {
@@ -26975,7 +26989,7 @@
       "id": "dsn_383ce3a8701c3561",
       "sourceKey": "Bear33_generated.jpg",
       "legacySlug": "Bear33_generated",
-      "templateSlug": "bear33_generated",
+      "templateSlug": "Bear33_generated",
       "imagePath": "/designed/Bear33_generated.webp",
       "thumbnailPath": "/designed/thumbs/Bear33_generated.webp",
       "width": 1920,
@@ -27068,7 +27082,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-10-17T10:05:25.998Z",
-      "updatedAt": "2026-10-21T09:55:38.844Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-10-17T10:05:25.998Z"
     },
     {
@@ -29897,7 +29911,7 @@
       "id": "dsn_0aae3f818992546c",
       "sourceKey": "vecteezy_abstract-voronoi-cell-3d-geometric-background-minimal-polygonal-shapes_.jpg",
       "legacySlug": "vecteezy_abstract-voronoi-cell-3d-geometric-background-minimal-polygonal-shapes_",
-      "templateSlug": "vecteezy_abstract-voronoi-cell-3d-geometric-background-minimal-polygonal-shapes",
+      "templateSlug": "vecteezy_abstract-voronoi-cell-3d-geometric-background-minimal-polygonal-shapes_",
       "imagePath": "/designed/vecteezy_abstract-voronoi-cell-3d-geometric-background-minimal-polygonal-shapes_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_abstract-voronoi-cell-3d-geometric-background-minimal-polygonal-shapes_.webp",
       "width": 1920,
@@ -29988,7 +30002,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-10-17T10:05:37.572Z",
-      "updatedAt": "2026-10-21T12:15:39.314Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-10-17T10:05:37.572Z"
     },
     {
@@ -30790,7 +30804,7 @@
       "id": "dsn_94cc30708b181237",
       "sourceKey": "coffee_beans_on__background_5_generated.jpg",
       "legacySlug": "coffee_beans_on__background_5_generated",
-      "templateSlug": "coffee_beans_on_background_5_generated",
+      "templateSlug": "coffee_beans_on__background_5_generated",
       "imagePath": "/designed/coffee_beans_on__background_5_generated.webp",
       "thumbnailPath": "/designed/thumbs/coffee_beans_on__background_5_generated.webp",
       "width": 1920,
@@ -30881,7 +30895,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-10-17T10:05:26.831Z",
-      "updatedAt": "2026-10-21T13:24:59.695Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-10-17T10:05:26.831Z"
     },
     {
@@ -31589,7 +31603,7 @@
       "id": "dsn_3555325b8d0756e6",
       "sourceKey": "vecteezy_cute-cartoon-drawing-of-a-robot-illustration_.jpg",
       "legacySlug": "vecteezy_cute-cartoon-drawing-of-a-robot-illustration_",
-      "templateSlug": "vecteezy_cute-cartoon-drawing-of-a-robot-illustration",
+      "templateSlug": "vecteezy_cute-cartoon-drawing-of-a-robot-illustration_",
       "imagePath": "/designed/vecteezy_cute-cartoon-drawing-of-a-robot-illustration_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_cute-cartoon-drawing-of-a-robot-illustration_.webp",
       "width": 1920,
@@ -31679,14 +31693,14 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-10-17T10:05:46.829Z",
-      "updatedAt": "2026-10-21T13:05:19.059Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-10-17T10:05:46.829Z"
     },
     {
       "id": "dsn_93ae0136f096b2df",
       "sourceKey": "vecteezy_cute-cartoon-skater-robot-wearing-hoodie-and-shoes_.jpg",
       "legacySlug": "vecteezy_cute-cartoon-skater-robot-wearing-hoodie-and-shoes_",
-      "templateSlug": "vecteezy_cute-cartoon-skater-robot-wearing-hoodie-and-shoes",
+      "templateSlug": "vecteezy_cute-cartoon-skater-robot-wearing-hoodie-and-shoes_",
       "imagePath": "/designed/vecteezy_cute-cartoon-skater-robot-wearing-hoodie-and-shoes_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_cute-cartoon-skater-robot-wearing-hoodie-and-shoes_.webp",
       "width": 1920,
@@ -31776,7 +31790,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-10-17T10:05:47.063Z",
-      "updatedAt": "2026-10-21T13:06:06.789Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-10-17T10:05:47.063Z"
     },
     {
@@ -34051,7 +34065,7 @@
       "id": "dsn_832716fc8c8c0b61",
       "sourceKey": "APRIL-08.jpg",
       "legacySlug": "APRIL-08",
-      "templateSlug": "space",
+      "templateSlug": "APRIL-08",
       "imagePath": "/designed/APRIL-08.webp",
       "thumbnailPath": "/designed/thumbs/APRIL-08.webp",
       "width": 2048,
@@ -34139,7 +34153,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-10-17T10:05:25.723Z",
-      "updatedAt": "2026-10-21T10:00:23.196Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-10-17T10:05:25.723Z"
     },
     {
@@ -34446,7 +34460,7 @@
       "id": "dsn_913de561cf1be57e",
       "sourceKey": "vecteezy_coffee-cup-with-floral-outline-vector_.jpg",
       "legacySlug": "vecteezy_coffee-cup-with-floral-outline-vector_",
-      "templateSlug": "vecteezy_coffee-cup-with-floral-outline-vector",
+      "templateSlug": "vecteezy_coffee-cup-with-floral-outline-vector_",
       "imagePath": "/designed/vecteezy_coffee-cup-with-floral-outline-vector_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_coffee-cup-with-floral-outline-vector_.webp",
       "width": 1920,
@@ -34540,7 +34554,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-10-17T10:05:44.260Z",
-      "updatedAt": "2026-10-21T13:23:50.508Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-10-17T10:05:44.260Z"
     },
     {
@@ -34936,7 +34950,7 @@
       "id": "dsn_d2be13db33a7cd9c",
       "sourceKey": "Coffee_generated.jpg",
       "legacySlug": "Coffee_generated",
-      "templateSlug": "coffee_generated",
+      "templateSlug": "Coffee_generated",
       "imagePath": "/designed/Coffee_generated.webp",
       "thumbnailPath": "/designed/thumbs/Coffee_generated.webp",
       "width": 1417,
@@ -35034,7 +35048,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-10-17T10:05:27.030Z",
-      "updatedAt": "2026-10-21T09:51:16.511Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-10-17T10:05:27.030Z"
     },
     {
@@ -35140,7 +35154,7 @@
       "id": "dsn_5f55430974ca0b43",
       "sourceKey": "3208_R1NUIEpPUyAxMTktMjg.jpg",
       "legacySlug": "3208_R1NUIEpPUyAxMTktMjg",
-      "templateSlug": "coffee-black",
+      "templateSlug": "3208_R1NUIEpPUyAxMTktMjg",
       "imagePath": "/designed/3208_R1NUIEpPUyAxMTktMjg.webp",
       "thumbnailPath": "/designed/thumbs/3208_R1NUIEpPUyAxMTktMjg.webp",
       "width": 2048,
@@ -35233,7 +35247,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-10-17T10:05:23.313Z",
-      "updatedAt": "2026-10-21T09:00:45.371Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-10-17T10:05:23.313Z"
     },
     {
@@ -37550,7 +37564,7 @@
       "id": "dsn_13b48a7ebcaf16d2",
       "sourceKey": "2014_R0lVIERBTiA0NjYtMDE.jpg",
       "legacySlug": "2014_R0lVIERBTiA0NjYtMDE",
-      "templateSlug": "cat-patern-case",
+      "templateSlug": "2014_R0lVIERBTiA0NjYtMDE",
       "imagePath": "/designed/2014_R0lVIERBTiA0NjYtMDE.webp",
       "thumbnailPath": "/designed/thumbs/2014_R0lVIERBTiA0NjYtMDE.webp",
       "width": 1803,
@@ -37642,7 +37656,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-10-17T10:05:20.697Z",
-      "updatedAt": "2026-10-21T08:22:39.801Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-10-17T10:05:20.697Z"
     },
     {
@@ -39133,7 +39147,7 @@
       "id": "dsn_6a97dbfbeafec24d",
       "sourceKey": "A7_generated.jpg",
       "legacySlug": "A7_generated",
-      "templateSlug": "a7_generated",
+      "templateSlug": "A7_generated",
       "imagePath": "/designed/A7_generated.webp",
       "thumbnailPath": "/designed/thumbs/A7_generated.webp",
       "width": 1920,
@@ -39223,7 +39237,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-10-17T10:05:24.405Z",
-      "updatedAt": "2026-10-21T12:28:44.102Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-10-17T10:05:24.405Z"
     },
     {
@@ -39626,7 +39640,7 @@
       "id": "dsn_8b41252a37c59fd0",
       "sourceKey": "vecteezy_abstract-painting-multi-color-for-background-design_.jpg",
       "legacySlug": "vecteezy_abstract-painting-multi-color-for-background-design_",
-      "templateSlug": "vecteezy_abstract-painting-multi-color-for-background-design",
+      "templateSlug": "vecteezy_abstract-painting-multi-color-for-background-design_",
       "imagePath": "/designed/vecteezy_abstract-painting-multi-color-for-background-design_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_abstract-painting-multi-color-for-background-design_.webp",
       "width": 1920,
@@ -39723,7 +39737,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-10-17T10:05:36.325Z",
-      "updatedAt": "2026-10-21T12:19:30.281Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-10-17T10:05:36.325Z"
     },
     {
@@ -60090,7 +60104,7 @@
       "id": "dsn_5d62be5da1980a28",
       "sourceKey": "Animeeyes.jpg",
       "legacySlug": "Animeeyes",
-      "templateSlug": "animeeyes",
+      "templateSlug": "Animeeyes",
       "imagePath": "/designed/Animeeyes.webp",
       "thumbnailPath": "/designed/thumbs/Animeeyes.webp",
       "width": 2048,
@@ -60161,7 +60175,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-10-17T10:05:24.627Z",
-      "updatedAt": "2026-10-21T12:12:05.072Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-10-17T10:05:24.627Z"
     },
     {
@@ -60246,7 +60260,7 @@
       "id": "dsn_b4db86c857444907",
       "sourceKey": "Coffee_Infographic__Converted_-01_generated.jpg",
       "legacySlug": "Coffee_Infographic__Converted_-01_generated",
-      "templateSlug": "coffee_infographic_converted_01_generated",
+      "templateSlug": "Coffee_Infographic__Converted_-01_generated",
       "imagePath": "/designed/Coffee_Infographic__Converted_-01_generated.webp",
       "thumbnailPath": "/designed/thumbs/Coffee_Infographic__Converted_-01_generated.webp",
       "width": 1920,
@@ -60317,14 +60331,14 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-10-17T10:05:27.333Z",
-      "updatedAt": "2026-10-21T13:22:52.548Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-10-17T10:05:27.333Z"
     },
     {
       "id": "dsn_3112ab81efabc3cb",
       "sourceKey": "Coffee-04.jpg",
       "legacySlug": "Coffee-04",
-      "templateSlug": "coffee-04",
+      "templateSlug": "Coffee-04",
       "imagePath": "/designed/Coffee-04.webp",
       "thumbnailPath": "/designed/thumbs/Coffee-04.webp",
       "width": 2048,
@@ -60395,7 +60409,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-10-17T10:05:27.685Z",
-      "updatedAt": "2026-10-21T09:51:38.052Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-10-17T10:05:27.685Z"
     },
     {
@@ -61182,7 +61196,7 @@
       "id": "dsn_8b8fba0ca7e82dfc",
       "sourceKey": "vecteezy_coffee-cup-icon-set-design-vector-illustration-eps_.jpg",
       "legacySlug": "vecteezy_coffee-cup-icon-set-design-vector-illustration-eps_",
-      "templateSlug": "vecteezy_coffee-cup-icon-set-design-vector-illustration-eps",
+      "templateSlug": "vecteezy_coffee-cup-icon-set-design-vector-illustration-eps_",
       "imagePath": "/designed/vecteezy_coffee-cup-icon-set-design-vector-illustration-eps_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_coffee-cup-icon-set-design-vector-illustration-eps_.webp",
       "width": 1920,
@@ -61253,7 +61267,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-10-17T10:05:44.057Z",
-      "updatedAt": "2026-10-21T13:24:03.040Z",
+      "updatedAt": "2026-10-28T10:14:37.439Z",
       "publishedAt": "2026-10-17T10:05:44.057Z"
     },
     {

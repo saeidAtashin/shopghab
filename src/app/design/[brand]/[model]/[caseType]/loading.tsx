@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-import DesignRouteLoading from "@/app/components/ui/DesignRouteLoading";
-
-export default function DesignEditorLoading() {
-  return <DesignRouteLoading />;
-=======
 import ShopghabLoaderSvg from "@/app/components/ui/ShopghabLoaderSvg";
 
 export default function DesignEditorLoading() {
@@ -13,5 +7,4 @@ export default function DesignEditorLoading() {
       <ShopghabLoaderSvg runId={0} />
     </div>
   );
->>>>>>> b30ecce6594f8307a08f0a3ffaf197ae58cec20f
 }
