@@ -24,7 +24,6 @@ Do **not** commit `.env` or live secrets.
 
 <!-- in circle of categories and in its list of desktop should show عکس خام of its categories (not mockup) and in full size of its card -->
 
-
 <!-- make navbar and footer of mobile apply for all pages like landing -->
 <!-- make side toolbar in /designs look like landing but add a icon for categories too.  -->
 

@@ -1,9 +1,10 @@
 import { assertSafeId, mockupRoot, resolveInside } from "./paths";
 import type { FillStrategy, MockupTemplateConfig } from "./types";
+import { isQuiltMesh } from "./warp";
 import { mockupTemplates } from "../../../mockup-templates/templates.config";
 
 const FILL_STRATEGIES = new Set(["solid", "edge-extend", "blur"]);
-const OVERLAY_BLENDS = new Set(["normal", "screen", "multiply", "linear-burn"]);
+const OVERLAY_BLENDS = new Set(["normal", "screen", "multiply", "linear-burn", "color-burn", "soft-light", "color-dodge"]);
 
 function assertRelative(root: string, value: string | null): void {
   if (!value) return;
@@ -61,6 +62,9 @@ export function validateMockupTemplates(templates: MockupTemplateConfig[], templ
     if (mesh && (mesh.columns < 2 || mesh.rows < 2 || mesh.points.length !== mesh.columns * mesh.rows)) {
       throw new Error(`Template ${template.id} mesh does not match its grid.`);
     }
+    if (mesh && (mesh.slicesX || mesh.slicesY) && !isQuiltMesh(mesh.columns, mesh.rows, mesh.slicesX, mesh.slicesY)) {
+      throw new Error(`Template ${template.id} quilt slices do not match its grid.`);
+    }
   }
 
   const enabled = templates.filter((template) => template.enabled);
@@ -77,5 +81,4 @@ export function enabledTemplates(templates: MockupTemplateConfig[]): MockupTempl
 }
 
 export function loadProjectTemplates(cwd = process.cwd()): MockupTemplateConfig[] {
-  return validateMockupTemplates(mockupTemplates, mockupRoot(cwd));
-}
+  return validateMockupTempla

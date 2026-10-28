@@ -7,7 +7,7 @@ export type FillStrategy =
 
 export type MockupRenderer = "prepared" | "photoshop";
 
-export type OverlayBlend = "normal" | "screen" | "multiply" | "linear-burn";
+export type OverlayBlend = "normal" | "screen" | "multiply" | "linear-burn" | "color-burn" | "soft-light" | "color-dodge";
 
 export type MockupOverlay = {
   path: string;
@@ -17,8 +17,11 @@ export type MockupOverlay = {
 export type PrintableMesh = {
   columns: number;
   rows: number;
-  /** Row-major grid in smart-object pixels. */
+  /** Row-major grid in smart-object pixels. Quilt meshes store Bezier controls. */
   points: Point[];
+  /** Quilt divisions in smart-object pixels, including both ends. */
+  slicesX?: number[];
+  slicesY?: number[];
 };
 
 export type PrintableRegion = {
@@ -66,6 +69,4 @@ export type MockupRecord = {
   contentHash: string;
   templateVersion: string;
   generatedAt: string;
-  status: MockupStatus;
-  error: string;
-};
+ 

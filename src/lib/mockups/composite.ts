@@ -8,7 +8,7 @@ import { MockupError } from "./errors";
 import { coverCropRect, isCenterPlacement, type MockupPlacement } from "./focal";
 import { resolveInside } from "./paths";
 import type { FillStrategy, MockupTemplateConfig, OverlayBlend, Point } from "./types";
-import { displaceImage, warpImage, warpMesh, type RawImage } from "./warp";
+import { displaceImage, warpImage, warpPrintMesh, type RawImage } from "./warp";
 
 type Rgba = { r: number; g: number; b: number; alpha: number };
 
@@ -300,7 +300,16 @@ export async function compositePrepared(options: {
   let textureRaw = await toRaw(texture, regionWidth, regionHeight);
   const mesh = template.printable.mesh;
   if (mesh && mesh.columns >= 2 && mesh.rows >= 2 && mesh.points.length === mesh.columns * mesh.rows) {
-    textureRaw = warpMesh(textureRaw, mesh.columns, mesh.rows, mesh.points, regionWidth, regionHeight);
+    textureRaw = warpPrintMesh(
+      textureRaw,
+      mesh.columns,
+      mesh.rows,
+      mesh.points,
+      regionWidth,
+      regionHeight,
+      mesh.slicesX,
+      mesh.slicesY,
+    );
   }
 
   let placed: Buffer;

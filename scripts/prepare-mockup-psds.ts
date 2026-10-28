@@ -67,10 +67,12 @@ function renderConfig(templates: MockupTemplateConfig[]): string {
         ? `\n      quad: [\n${quad.map((point) => `        { x: ${point.x}, y: ${point.y} },`).join("\n")}\n      ],`
         : "";
       const mesh = template.printable.mesh;
+      const sliceText = (name: string, values: number[] | undefined) =>
+        values?.length ? `\n        ${name}: [${values.join(", ")}],` : "";
       const meshText = mesh
         ? `\n      mesh: {\n        columns: ${mesh.columns},\n        rows: ${mesh.rows},\n        points: [\n${mesh.points
             .map((point) => `          { x: ${point.x}, y: ${point.y} },`)
-            .join("\n")}\n        ],\n      },`
+            .join("\n")}\n        ],${sliceText("slicesX", mesh.slicesX)}${sliceText("slicesY", mesh.slicesY)}\n      },`
         : "";
       const overlays = template.overlays;
       const overlayText =
@@ -206,6 +208,12 @@ async function prepareFromPixels(root: string, template: MockupTemplateConfig): 
               x: Math.round(point.x * 100) / 100,
               y: Math.round(point.y * 100) / 100,
             })),
+            ...(stack.mesh.slicesX?.length && stack.mesh.slicesY?.length
+              ? {
+                  slicesX: stack.mesh.slicesX.map((value) => Math.round(value * 100) / 100),
+                  slicesY: stack.mesh.slicesY.map((value) => Math.round(value * 100) / 100),
+                }
+              : {}),
           }
         : undefined,
       smartObjectName: stack.name,

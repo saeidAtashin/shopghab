@@ -20,10 +20,10 @@ import { opaqueBoundsFillRectangle, placementCorners, quadIsAxisAligned } from "
 import { publishValidatedWebp } from "./output";
 import { artworkAbsolutePath, mockupPublicPaths, resolveInside } from "./paths";
 import { mergeMockupRecords, renderDesignTemplates, shouldReuseOutput } from "./render";
-import { splitPrintStack, envelopeMesh } from "./stack";
+import { splitPrintStack, envelopeMesh, overlayBlend } from "./stack";
 import { summarizeMockups } from "./status";
 import type { MockupRecord, MockupTemplateConfig } from "./types";
-import { warpImage, warpMesh } from "./warp";
+import { warpImage, warpMesh, warpPrintMesh } from "./warp";
 
 function removeTemp(dir: string): void {
   try {
@@ -1016,6 +1016,71 @@ test("a 2x2 mesh moves the artwork corner with that grid point", () => {
   assert.ok((moved.data[lower + 3] ?? 0) > 200);
 });
 
+test("a flat bezier patch keeps the middle of the artwork in place", () => {
+  const width = 16;
+  const height = 16;
+  const data = Buffer.alloc(width * height * 4);
+  for (let y = 0; y < height; y += 1) {
+    for (let x = 0; x < width; x += 1) {
+      const index = (y * width + x) * 4;
+      data[index] = y * 15;
+      data[index + 1] = x * 15;
+      data[index + 3] = 255;
+    }
+  }
+  const points = [];
+  for (let row = 0; row < 4; row += 1) {
+    for (let column = 0; column < 4; column += 1) {
+      points.push({ x: (column / 3) * width, y: (row / 3) * height });
+    }
+  }
+  const warped = warpPrintMesh({ data, width, height }, 4, 4, points, width, height, [0, width], [0, height]);
+  const x = 8;
+  const y = 8;
+  const index = (y * width + x) * 4;
+  const expectedY = ((y + 0.5) / height) * (height - 1) * 15;
+  const expectedX = ((x + 0.5) / width) * (width - 1) * 15;
+  assert.ok(Math.abs((warped.data[index] ?? 0) - expectedY) < 3);
+  assert.ok(Math.abs((warped.data[index + 1] ?? 0) - expectedX) < 3);
+  assert.ok((warped.data[index + 3] ?? 0) > 200);
+});
+
+test("a thin quilt slice keeps the middle of the artwork out of the bottom band", () => {
+  const width = 8;
+  const height = 20;
+  const data = Buffer.alloc(width * height * 4, 255);
+  for (let y = 0; y < height; y += 1) {
+    for (let x = 0; x < width; x += 1) data[(y * width + x) * 4] = y * 10;
+  }
+  const points = [];
+  for (let row = 0; row < 7; row += 1) {
+    const y = row <= 3 ? (row / 3) * 18 : 18 + ((row - 3) / 3) * 2;
+    for (let column = 0; column < 4; column += 1) {
+      points.push({ x: (column / 3) * width, y });
+    }
+  }
+  const warped = warpPrintMesh({ data, width, height }, 4, 7, points, width, height, [0, width], [0, 18, height]);
+  const mid = (10 * width + 4) * 4;
+  const red = warped.data[mid] ?? 0;
+  assert.ok(red > 80);
+  assert.ok(red < 130);
+});
+
+test("a quilt envelope keeps its slice positions", () => {
+  const grid = envelopeMesh({
+    style: "custom",
+    deformNumCols: 4,
+    deformNumRows: 4,
+    customEnvelopeWarp: {
+      meshPoints: Array.from({ length: 16 }, (_, index) => ({ x: index, y: index })),
+      quiltSliceX: [0, 10],
+      quiltSliceY: [0, 20],
+    },
+  });
+  assert.deepEqual(grid?.slicesX, [0, 10]);
+  assert.deepEqual(grid?.slicesY, [0, 20]);
+});
+
 test("a complete custom envelope stays the print slot with the light above it", async () => {
   const stack = await splitPrintStack({
     width: 2,
@@ -1136,5 +1201,4 @@ test("an unknown overlay blend is rejected", () => {
       ),
     /unknown overlay blend/,
   );
-  removeTemp(root);
-});
+  removeTemp

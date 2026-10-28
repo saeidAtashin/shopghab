@@ -37,10 +37,13 @@ export function envelopeMesh(warp: Warp | undefined): PrintableMesh | null {
   const rows = warp?.deformNumRows ?? 0;
   const points = warp?.customEnvelopeWarp?.meshPoints ?? [];
   if (columns < 2 || rows < 2 || points.length !== columns * rows) return null;
+  const slicesX = warp?.customEnvelopeWarp?.quiltSliceX;
+  const slicesY = warp?.customEnvelopeWarp?.quiltSliceY;
   return {
     columns,
     rows,
     points: points.map((point) => ({ x: point.x, y: point.y })),
+    ...(slicesX?.length && slicesY?.length ? { slicesX: [...slicesX], slicesY: [...slicesY] } : {}),
   };
 }
 
@@ -58,6 +61,9 @@ export function warpIsMesh(warp: Warp | undefined): boolean {
 export function overlayBlend(mode: string | undefined): OverlayBlend {
   const value = (mode ?? "normal").toLowerCase();
   if (value === "linear burn" || value === "linear-burn") return "linear-burn";
+  if (value === "color burn" || value === "color-burn" || value === "colour burn" || value === "colour-burn") return "color-burn";
+  if (value === "soft light" || value === "soft-light") return "soft-light";
+  if (value === "color dodge" || value === "color-dodge" || value === "colour dodge" || value === "colour-dodge") return "color-dodge";
   if (value === "screen" || value === "multiply") return value;
   return "normal";
 }
@@ -392,16 +398,4 @@ export async function splitPrintStack(options: {
     mask: null,
     overlays: [],
   };
-  await paintContainer(options.layers, [], target, slot, size);
-  if (!target.passedSlot || !target.mask) return null;
-  return {
-    name: slot.name ?? "",
-    width: Math.round(width),
-    height: Math.round(height),
-    transform: corners,
-    base: target.base,
-    mask: target.mask,
-    mesh: envelopeMesh(placed.warp),
-    overlays: target.overlays,
-  };
-}
+  await paintContain
