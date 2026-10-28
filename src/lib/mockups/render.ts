@@ -5,7 +5,14 @@ import { safeMockupMessage, MockupError } from "./errors";
 import type { MockupPlacement } from "./focal";
 import { hashFile, mockupContentHash } from "./hash";
 import { assertValidWebp } from "./output";
-import { artworkAbsolutePath, mockupAbsolutePaths, mockupRoot, publicRoot, resolveInside } from "./paths";
+import {
+  artworkAbsolutePath,
+  mockupAbsolutePaths,
+  mockupPublicPaths,
+  mockupRoot,
+  publicRoot,
+  resolveInside,
+} from "./paths";
 import { renderPhotoshopMockup } from "./photoshop";
 import type { MockupRecord, MockupTemplateConfig } from "./types";
 
@@ -109,7 +116,7 @@ export async function renderDesignTemplates(options: {
     }
 
     try {
-      const paths = mockupPublicPathsSafe(options.cwd, options.slug, template.id);
+      const paths = mockupPublicPathsSafe(options.cwd, options.slug, template.id, contentHash);
       const size = await renderOne({
         cwd: options.cwd,
         artworkPath,
@@ -156,17 +163,19 @@ export async function renderDesignTemplates(options: {
   return records;
 }
 
-function mockupPublicPathsSafe(cwd: string, slug: string, templateId: string): {
+function mockupPublicPathsSafe(
+  cwd: string,
+  slug: string,
+  templateId: string,
+  contentHash: string,
+): {
   image: string;
   thumb: string;
   publicImage: string;
   publicThumb: string;
 } {
-  const absolute = mockupAbsolutePaths(cwd, slug, templateId);
-  const pub = {
-    image: `/designed/mockups/${slug}/${templateId}.webp`,
-    thumb: `/designed/mockups/${slug}/${templateId}.thumb.webp`,
-  };
+  const pub = mockupPublicPaths(slug, templateId, contentHash);
+  const absolute = mockupAbsolutePaths(cwd, slug, templateId, contentHash);
   return { image: absolute.image, thumb: absolute.thumb, publicImage: pub.image, publicThumb: pub.thumb };
 }
 

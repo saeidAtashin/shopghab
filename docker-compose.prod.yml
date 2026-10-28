@@ -16,6 +16,8 @@ services:
       PORT: "3000"
     volumes:
       - ./data:/app/data
+      - ./mockup-templates:/app/mockup-templates:ro
+      - ./public/designed/mockups:/app/public/designed/mockups
     healthcheck:
       test:
         [

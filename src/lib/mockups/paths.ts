@@ -3,6 +3,7 @@ import { isAbsolute, relative, resolve } from "node:path";
 import { MockupError } from "./errors";
 
 const SAFE_ID = /^[a-z0-9]+(?:[_-][a-z0-9]+)*$/;
+const CONTENT_HASH = /^[a-f0-9]{64}$/;
 
 export function mockupRoot(cwd = process.cwd()): string {
   return resolve(cwd, "mockup-templates");
@@ -19,6 +20,14 @@ export function assertSafeId(value: string): string {
   return value;
 }
 
+function assertContentHash(value: string): string {
+  const normalized = value.trim().toLowerCase();
+  if (!CONTENT_HASH.test(normalized)) {
+    throw new MockupError("pathRejected");
+  }
+  return normalized;
+}
+
 export function resolveInside(root: string, candidate: string): string {
   if (!candidate || candidate.includes("\0")) throw new MockupError("pathRejected");
   const normalized = candidate.replace(/\\/g, "/");
@@ -32,12 +41,17 @@ export function resolveInside(root: string, candidate: string): string {
   return abs;
 }
 
-export function mockupPublicPaths(slug: string, templateId: string): { image: string; thumb: string } {
+export function mockupPublicPaths(
+  slug: string,
+  templateId: string,
+  contentHash?: string,
+): { image: string; thumb: string } {
   const safeSlug = assertSafeId(slug);
   const safeTemplate = assertSafeId(templateId);
+  const stamp = contentHash ? `.${assertContentHash(contentHash)}` : "";
   return {
-    image: `/designed/mockups/${safeSlug}/${safeTemplate}.webp`,
-    thumb: `/designed/mockups/${safeSlug}/${safeTemplate}.thumb.webp`,
+    image: `/designed/mockups/${safeSlug}/${safeTemplate}${stamp}.webp`,
+    thumb: `/designed/mockups/${safeSlug}/${safeTemplate}${stamp}.thumb.webp`,
   };
 }
 
@@ -45,8 +59,9 @@ export function mockupAbsolutePaths(
   cwd: string,
   slug: string,
   templateId: string,
+  contentHash?: string,
 ): { image: string; thumb: string } {
-  const pub = mockupPublicPaths(slug, templateId);
+  const pub = mockupPublicPaths(slug, templateId, contentHash);
   const root = publicRoot(cwd);
   return {
     image: resolveInside(root, pub.image.slice(1)),

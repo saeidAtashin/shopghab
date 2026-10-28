@@ -127,6 +127,10 @@ test("template paths cannot escape the mockup or public directories", () => {
   assert.throws(() => resolveInside(root, "prepared/../../secret.png"), MockupError);
   assert.throws(() => mockupPublicPaths("../slug", "flat-case"), MockupError);
   assert.throws(() => mockupPublicPaths("space-cat", "../flat"), MockupError);
+  assert.throws(() => mockupPublicPaths("space-cat", "flat-case", "../secret"), MockupError);
+  const stamped = mockupPublicPaths("space-cat", "flat-case", "a".repeat(64));
+  assert.equal(stamped.image, `/designed/mockups/space-cat/flat-case.${"a".repeat(64)}.webp`);
+  assert.equal(stamped.thumb, `/designed/mockups/space-cat/flat-case.${"a".repeat(64)}.thumb.webp`);
   assert.throws(() => artworkAbsolutePath(root, "/designed/../../secret.webp"), MockupError);
   assert.throws(() => artworkAbsolutePath(root, "/tmp/secret.webp"), MockupError);
 });

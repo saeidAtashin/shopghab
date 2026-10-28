@@ -52,6 +52,10 @@ snapshot_runtime_data() {
     mkdir -p "$RUNTIME/receipts"
     cp -a "$source_dir/data/receipts/." "$RUNTIME/receipts/"
   fi
+  if [ -d "$source_dir/public/designed/mockups" ]; then
+    mkdir -p "$RUNTIME/mockups"
+    cp -a "$source_dir/public/designed/mockups/." "$RUNTIME/mockups/"
+  fi
 }
 
 preserve_local_files() {
@@ -85,7 +89,19 @@ restore_cached_runtime() {
     mkdir -p "$dest_dir/data/receipts"
     cp -a "$RUNTIME/receipts/." "$dest_dir/data/receipts/"
   fi
+  restore_server_mockups "$dest_dir"
   echo "update failed; restored cached runtime data" >&2
+}
+
+restore_server_mockups() {
+  local dest_dir="$1"
+  if [ ! -d "$RUNTIME/mockups" ]; then
+    return 0
+  fi
+  # Copy the live photos back over the git copies. Files that exist only in
+  # the new release stay, because this does not delete the destination.
+  mkdir -p "$dest_dir/public/designed/mockups"
+  cp -a "$RUNTIME/mockups/." "$dest_dir/public/designed/mockups/"
 }
 
 restore_runtime_files() {
@@ -151,7 +167,9 @@ else
 fi
 
 restore_runtime_files "$APP_DIR"
+restore_server_mockups "$APP_DIR"
 merge_live_catalog "$APP_DIR"
+mkdir -p "$APP_DIR/mockup-templates/prepared" "$APP_DIR/public/designed/mockups"
 
 if [ ! -f "$APP_DIR/.env" ]; then
   printf '%s\n' \
