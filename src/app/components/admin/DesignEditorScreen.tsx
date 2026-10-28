@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import { adminJson } from "@/app/components/admin/AdminShell";
 import DesignEditorForm from "@/app/components/admin/DesignEditorForm";
+import DesignAdminTools from "@/app/components/designs/DesignAdminTools";
 import type {
   AttributeGroupRecord,
   AttributeValueRecord,
@@ -61,12 +62,15 @@ export default function DesignEditorScreen({ id }: { id?: string }) {
   if (loading) return <p className="text-muted">در حال بارگذاری فرم...</p>;
   if (error) return <p className="text-red-300">{error}</p>;
   return (
-    <DesignEditorForm
-      design={design}
-      categories={categories}
-      groups={groups}
-      values={values}
-      collections={collections}
-    />
+    <div className="grid gap-8">
+      <DesignEditorForm
+        design={design}
+        categories={categories}
+        groups={groups}
+        values={values}
+        collections={collections}
+      />
+      {design ? <DesignAdminTools designId={design.id} /> : null}
+    </div>
   );
 }

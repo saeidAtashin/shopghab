@@ -42679,9 +42679,9 @@
           "thumbPath": "/designed/mockups/download-44/iphone-free-case.thumb.webp",
           "width": 1600,
           "height": 1067,
-          "contentHash": "d487635239433406e7ec43258eb426298aca5300901691cc890ea42028dcbc12",
+          "contentHash": "1427636fc41c90690351bb67c88aafc2f36f714c50795644abb58e5789ac4b77",
           "templateVersion": "2",
-          "generatedAt": "2026-10-19T14:36:30.634Z",
+          "generatedAt": "2026-10-28T08:23:48.839Z",
           "status": "ready",
           "error": ""
         },
@@ -42693,11 +42693,17 @@
           "height": 1067,
           "contentHash": "e65f2c049cf21b3d28f2ec97bd8e08a6d42acbe1efab25091114c4a3000786c8",
           "templateVersion": "5",
-          "generatedAt": "2026-10-19T14:36:30.634Z",
+          "generatedAt": "2026-10-28T08:23:44.445Z",
           "status": "ready",
           "error": ""
         }
       ],
+      "placements": {
+        "iphone-free-case": {
+          "focalX": 0.504,
+          "focalY": 0.5
+        }
+      },
       "seoTitle": "",
       "seoDescription": "",
       "ogImage": "",
@@ -42707,7 +42713,7 @@
       "assetMissing": false,
       "unedited": true,
       "createdAt": "2026-10-18T15:13:20.550Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-10-28T08:23:52.479Z",
       "publishedAt": "2026-10-18T15:13:20.550Z"
     },
     {

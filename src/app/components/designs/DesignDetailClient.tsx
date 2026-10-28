@@ -9,7 +9,6 @@ import ApplyTemplateWizard, {
   type TemplatePurchaseIntent,
 } from "@/app/components/designs/ApplyTemplateWizard";
 import DockableAction from "@/app/components/ui/DockableAction";
-import DesignAdminTools from "@/app/components/designs/DesignAdminTools";
 import DesignArtworkStage from "@/app/components/designs/DesignArtworkStage";
 import DesignImageZoom from "@/app/components/designs/DesignImageZoom";
 import { useAuth } from "@/app/context/AuthContext";
@@ -287,8 +286,6 @@ export default function DesignDetailClient({
           )}
         </div>
       </div>
-
-      {user?.role === "admin" ? <DesignAdminTools designId={previewId} /> : null}
 
       {related.length > 0 ? (
         <section className="mt-16" aria-labelledby="related-designs">

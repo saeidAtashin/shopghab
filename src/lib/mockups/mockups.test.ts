@@ -262,6 +262,58 @@ test("cover focal keeps the left edge or the right edge of a wide artwork", asyn
     const centered = mockupContentHash("art", template, { focalX: 0.5, focalY: 0.5 });
     assert.equal(centered, mockupContentHash("art", template));
     assert.notEqual(centered, mockupContentHash("art", template, { focalX: 0, focalY: 0.5 }));
+    assert.equal(
+      mockupContentHash("art", template, { focalX: 0, focalY: 0.5 }),
+      mockupContentHash("art", template, { focalX: 0, focalY: 0.5, zoom: 1 }),
+    );
+    assert.notEqual(centered, mockupContentHash("art", template, { focalX: 0.5, focalY: 0.5, zoom: 2 }));
+  } finally {
+    removeTemp(dir);
+  }
+});
+
+test("cover zoom crops tighter than the fitted window", async () => {
+  const dir = mkdtempSync(join(tmpdir(), "mockup-zoom-"));
+  try {
+    const width = 80;
+    const height = 80;
+    const data = Buffer.alloc(width * height * 4, 255);
+    for (let y = 0; y < height; y += 1) {
+      for (let x = 0; x < width; x += 1) {
+        const index = (y * width + x) * 4;
+        const leftSide = x < width / 2;
+        data[index] = leftSide ? 255 : 0;
+        data[index + 1] = 0;
+        data[index + 2] = leftSide ? 0 : 255;
+      }
+    }
+    const artPath = join(dir, "square.png");
+    writeFileSync(artPath, await sharp(data, { raw: { width, height, channels: 4 } }).png().toBuffer());
+
+    const fitted = coverCropRect(width, height, 40, 40, { focalX: 0.5, focalY: 0.5 });
+    const zoomedLeft = coverCropRect(width, height, 40, 40, { focalX: 0, focalY: 0.5, zoom: 2 });
+    const zoomedRight = coverCropRect(width, height, 40, 40, { focalX: 1, focalY: 0.5, zoom: 2 });
+    assert.equal(fitted.resizedWidth, 40);
+    assert.equal(zoomedLeft.resizedWidth, 80);
+    assert.equal(zoomedLeft.left, 0);
+    assert.equal(zoomedRight.left, 40);
+
+    const leftTexture = await buildPrintableTexture(artPath, 40, 40, { strategy: "solid", color: "#ffffff" }, "cover", {
+      focalX: 0,
+      focalY: 0.5,
+      zoom: 2,
+    });
+    const rightTexture = await buildPrintableTexture(artPath, 40, 40, { strategy: "solid", color: "#ffffff" }, "cover", {
+      focalX: 1,
+      focalY: 0.5,
+      zoom: 2,
+    });
+    const leftEdge = await pixel(leftTexture, 39, 20);
+    const rightEdge = await pixel(rightTexture, 0, 20);
+    assert.ok(leftEdge[0] > 200);
+    assert.ok(leftEdge[2] < 40);
+    assert.ok(rightEdge[2] > 200);
+    assert.ok(rightEdge[0] < 40);
   } finally {
     removeTemp(dir);
   }

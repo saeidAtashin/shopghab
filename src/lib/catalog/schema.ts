@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { selectProductImages } from "@/lib/mockups/display";
-import { mockupPlacementSchema } from "@/lib/mockups/focal";
+import { MAX_PLACEMENT_ZOOM, MIN_PLACEMENT_ZOOM, mockupPlacementSchema } from "@/lib/mockups/focal";
 import { seededAttributeValueSlug } from "./taxonomy";
 
 export const designStatusSchema = z.enum(["draft", "published", "archived"]);
@@ -58,7 +58,7 @@ export const designRecordSchema = z.object({
   alt: z.string(),
   gallery: z.array(z.string()),
   mockups: z.array(mockupRecordSchema),
-  /** Per-template cover focal for this design. Missing means the centered crop. */
+  /** Per-template cover focal and zoom for this design. Missing means the centered cover crop. */
   placements: z.record(z.string().min(1), mockupPlacementSchema).optional(),
   seoTitle: z.string(),
   seoDescription: z.string(),
@@ -180,6 +180,7 @@ export const designPlacementWriteSchema = z
     templateId: z.string().trim().min(1).max(80),
     focalX: z.number().min(0).max(1),
     focalY: z.number().min(0).max(1),
+    zoom: z.number().min(MIN_PLACEMENT_ZOOM).max(MAX_PLACEMENT_ZOOM).optional(),
   })
   .strict();
 

@@ -22,6 +22,7 @@ export type DesignPlacementTemplate = {
   printableHeight: number;
   focalX: number;
   focalY: number;
+  zoom: number;
   rendered: string;
   thumb: string;
   generatedAt: string;
@@ -54,6 +55,7 @@ function placementView(design: DesignRecord, templates: MockupTemplateConfig[]):
         printableHeight: template.printable.height,
         focalX: placement?.focalX ?? 0.5,
         focalY: placement?.focalY ?? 0.5,
+        zoom: placement?.zoom ?? 1,
         rendered: ready?.path ?? "",
         thumb: ready?.thumbPath || ready?.path || "",
         generatedAt: ready?.generatedAt ?? "",
@@ -88,7 +90,7 @@ export async function POST(request: Request, context: RouteContext) {
   try {
     const body: unknown = await request.json();
     const input = designPlacementWriteSchema.parse(body);
-    const placement = normalizePlacement(input.focalX, input.focalY);
+    const placement = normalizePlacement(input.focalX, input.focalY, input.zoom ?? 1);
     const catalog = readCatalog();
     const design = catalog.designs.find((item) => item.id === id);
     if (!design) throw new CatalogError("طرح پیدا نشد", 404);

@@ -1071,6 +1071,28 @@ test("placement is stored on that design and a centered crop clears it", () => {
     NOW,
   );
   assert.equal(cleared.design.placements, undefined);
+
+  const zoomed = saveDesignPlacement(
+    cleared.catalog,
+    cleared.design.id,
+    "flat-case",
+    { focalX: 0.5, focalY: 0.5, zoom: 2 },
+    mockup,
+    ["flat-case"],
+    NOW,
+  );
+  assert.deepEqual(zoomed.design.placements?.["flat-case"], { focalX: 0.5, focalY: 0.5, zoom: 2 });
+
+  const reset = saveDesignPlacement(
+    zoomed.catalog,
+    zoomed.design.id,
+    "flat-case",
+    { focalX: 0.5, focalY: 0.5, zoom: 1 },
+    mockup,
+    ["flat-case"],
+    NOW,
+  );
+  assert.equal(reset.design.placements, undefined);
   assert.throws(
     () => saveDesignPlacement(cleared.catalog, cleared.design.id, "other", { focalX: 0.1, focalY: 0.1 }, mockup, ["flat-case"], NOW),
     (error: unknown) => error instanceof CatalogError,

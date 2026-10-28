@@ -41,7 +41,14 @@ export function mockupContentHash(
 ): string {
   const hash = createHash("sha256").update(artworkHash).update(templateSettingsHash(template));
   if (placement && !isCenterPlacement(placement)) {
-    hash.update(JSON.stringify({ focalX: placement.focalX, focalY: placement.focalY }));
+    const zoom = placement.zoom;
+    hash.update(
+      JSON.stringify({
+        focalX: placement.focalX,
+        focalY: placement.focalY,
+        ...(zoom != null && Math.abs(zoom - 1) > 0.0001 ? { zoom } : {}),
+      }),
+    );
   }
   return hash.digest("hex");
 }
