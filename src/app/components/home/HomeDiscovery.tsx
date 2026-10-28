@@ -4,11 +4,12 @@ import { ChevronDown, LayoutGrid, Search, SlidersHorizontal, X } from "lucide-re
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useId, useRef, useState, type FormEvent } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState, type FormEvent } from "react";
 
 import BrowseLink from "@/app/components/designs/BrowseLink";
 import CatalogDesignCard from "@/app/components/designs/CatalogDesignCard";
 import StorefrontToolbar from "@/app/components/designs/StorefrontToolbar";
+import HomeDesignFilmstrip, { type FilmDesign } from "@/app/components/home/HomeDesignFilmstrip";
 import { colorSwatch, filterToneHex, swatchLoaderAccent } from "@/app/components/designs/browse-visuals";
 import {
   browseHref,
@@ -60,6 +61,7 @@ type Props = {
   brands: HomeBrandLink[];
   featured: HomeFeaturedCollection | null;
   rail: HomeRail | null;
+  film: FilmDesign[];
 };
 
 const fieldClass =
@@ -96,6 +98,46 @@ function optionLabel(shell: BrowseShell, id: string): string {
     if (option) return option.label;
   }
   return id;
+}
+
+const cardGridClass = "grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-4";
+
+function DesignGrid({
+  designs,
+  film,
+  filmAfter,
+  priceLabel,
+  categoryNames,
+}: {
+  designs: PublicDesign[];
+  film: FilmDesign[];
+  filmAfter: number | null;
+  priceLabel: string;
+  categoryNames: Record<string, string>;
+}) {
+  const cutoff = filmAfter ?? designs.length;
+  const lead = designs.slice(0, cutoff);
+  const rest = designs.slice(cutoff);
+  const cards = (list: PublicDesign[], offset: number) =>
+    list.map((design, index) => (
+      <div key={design.id} data-design-card>
+        <CatalogDesignCard
+          design={design}
+          variant="storefront"
+          priceLabel={priceLabel}
+          categoryName={categoryName(design, categoryNames)}
+          priority={offset + index < 4}
+        />
+      </div>
+    ));
+
+  return (
+    <>
+      {lead.length > 0 ? <div className={cardGridClass}>{cards(lead, 0)}</div> : null}
+      {film.length > 0 ? <HomeDesignFilmstrip designs={film} className="my-4" /> : null}
+      {rest.length > 0 ? <div className={`${cardGridClass} mt-3`}>{cards(rest, lead.length)}</div> : null}
+    </>
+  );
 }
 
 function FilterGroups({
@@ -278,6 +320,7 @@ export default function HomeDiscovery({
   brands,
   featured,
   rail,
+  film,
 }: Props) {
   const router = useRouter();
   const searchId = useId();
@@ -287,7 +330,10 @@ export default function HomeDiscovery({
   const [items, setItems] = useState(designs);
   const [hasMore, setHasMore] = useState(pageCount > 1);
   const [loadingMore, setLoadingMore] = useState(false);
+  const [filmAfter, setFilmAfter] = useState<number | null>(null);
   const sentinel = useRef<HTMLDivElement>(null);
+  const filtersRef = useRef<HTMLElement>(null);
+  const columnRef = useRef<HTMLDivElement>(null);
   const loadingRef = useRef(false);
   const hasMoreRef = useRef(pageCount > 1);
   const nextPageRef = useRef(2);
@@ -302,7 +348,44 @@ export default function HomeDiscovery({
     const more = pageCount > 1;
     setHasMore(more);
     hasMoreRef.current = more;
+    setFilmAfter(null);
   }, [queryKey, designs, pageCount, query.q]);
+
+  useLayoutEffect(() => {
+    const filters = filtersRef.current;
+    const column = columnRef.current;
+    if (!filters || !column || film.length === 0) return;
+
+    const measure = () => {
+      const cards = column.querySelectorAll<HTMLElement>("[data-design-card]");
+      if (cards.length === 0) return;
+      const film = column.querySelector<HTMLElement>("[data-filmstrip]");
+      const filmHeight = film?.getBoundingClientRect().height ?? 0;
+      const columnTop = column.getBoundingClientRect().top;
+      const filterBottom = filters.getBoundingClientRect().bottom - columnTop;
+      const columns = 4;
+      let next = cards.length;
+      for (let index = 0; index < cards.length; index += 1) {
+        const card = cards[index];
+        if (!card) continue;
+        const filmBefore = film
+          ? (film.compareDocumentPosition(card) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0
+          : false;
+        const bottom = card.getBoundingClientRect().bottom - columnTop - (filmBefore ? filmHeight : 0);
+        if (bottom >= filterBottom) {
+          next = Math.min(cards.length, Math.floor(index / columns) * columns + columns);
+          break;
+        }
+      }
+      setFilmAfter((current) => (current === next ? current : next));
+    };
+
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(filters);
+    observer.observe(column);
+    return () => observer.disconnect();
+  }, [film.length, items.length, queryKey]);
 
   useEffect(() => {
     const node = sentinel.current;
@@ -423,7 +506,7 @@ export default function HomeDiscovery({
             : "xl:grid-cols-[16rem_minmax(0,1fr)]",
         )}
       >
-        <div className="min-w-0 xl:order-2">
+        <div ref={columnRef} className="min-w-0 overflow-visible xl:order-2">
           <div className="mb-4">
             <StorefrontToolbar
               colors={(colorGroup?.options ?? []).map((option) => ({
@@ -474,18 +557,13 @@ export default function HomeDiscovery({
               طرحی با این فیلتر پیدا نشد.
             </p>
           ) : (
-            <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-4">
-              {items.map((design, index) => (
-                <CatalogDesignCard
-                  key={design.id}
-                  design={design}
-                  variant="storefront"
-                  priceLabel={priceLabel}
-                  categoryName={categoryName(design, categoryNames)}
-                  priority={index < 4}
-                />
-              ))}
-            </div>
+            <DesignGrid
+              designs={items}
+              film={film}
+              filmAfter={filmAfter}
+              priceLabel={priceLabel}
+              categoryNames={categoryNames}
+            />
           )}
 
           <div ref={sentinel} className="mt-4 text-center text-sm text-muted">
@@ -569,7 +647,7 @@ export default function HomeDiscovery({
           </aside>
         ) : null}
 
-        <aside className="hidden xl:order-1 xl:block">{renderFilters()}</aside>
+        <aside ref={filtersRef} className="hidden xl:order-1 xl:block">{renderFilters()}</aside>
       </div>
 
       <div

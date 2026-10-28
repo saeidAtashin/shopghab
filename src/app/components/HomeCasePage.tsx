@@ -3,9 +3,10 @@ import Link from "next/link";
 import HomeBenefits from "@/app/components/home/HomeBenefits";
 import HomeCategoryMosaic from "@/app/components/home/HomeCategoryMosaic";
 import HomeCollections from "@/app/components/home/HomeCollections";
+import HomeDesignFilmstrip, { type FilmDesign } from "@/app/components/home/HomeDesignFilmstrip";
 import HomeDiscovery from "@/app/components/home/HomeDiscovery";
 import HomeMobileDock from "@/app/components/home/HomeMobileDock";
-import HomeHero, { type HeroFilmDesign } from "@/app/components/home/hero/HomeHero";
+import HomeHero from "@/app/components/home/hero/HomeHero";
 import NavSearch from "@/app/components/layout/nav/NavSearch";
 import { PHONE_BRANDS, getCaseTotalPrice, getCaseTypeBySlug, SELECTABLE_CASE_TYPE_SLUG } from "@/lib/cases/brands.static";
 import {
@@ -40,7 +41,7 @@ function heroFilmDesigns(
     artworkPath: string;
     thumbnailPath: string;
   }[],
-): HeroFilmDesign[] {
+): FilmDesign[] {
   const source = items
     .filter((design) => design.artworkPath)
     .slice(0, HERO_FILM_COUNT)
@@ -52,7 +53,7 @@ function heroFilmDesigns(
       thumb: design.thumbnailPath.includes("/designed/thumbs/") ? design.thumbnailPath : design.artworkPath,
     }));
   if (source.length >= 10 || source.length === 0) return source;
-  const filled: HeroFilmDesign[] = [];
+  const filled: FilmDesign[] = [];
   while (filled.length < 10) {
     for (const design of source) {
       filled.push({ ...design, id: `${design.id}-${filled.length}` });
@@ -164,9 +165,14 @@ export default function HomeCasePage({ searchParams }: { searchParams: SearchPar
       <div className="mx-auto flex max-w-[90rem] flex-col gap-4">
         <NavSearch placeholder="جستجو در طرح‌ها..." className="xl:hidden" />
 
-        <div className="flex flex-col gap-4">
-          <HomeHero designs={heroDesigns} />
-          {categoryItems.length > 0 ? <HomeCategoryMosaic items={categoryItems} /> : null}
+        <div className="relative flex flex-col gap-4 xl:block">
+          <HomeHero className={categoryItems.length > 0 ? "xl:ms-[calc(28rem+1rem)]" : undefined} />
+          {categoryItems.length > 0 ? (
+            <HomeCategoryMosaic
+              items={categoryItems}
+              className="xl:absolute xl:inset-y-0 xl:start-0 xl:w-[28rem] xl:overflow-hidden"
+            />
+          ) : null}
         </div>
 
         <p className="text-sm leading-7 text-muted">
@@ -214,6 +220,7 @@ export default function HomeCasePage({ searchParams }: { searchParams: SearchPar
               : null
           }
           rail={collectionRail(catalog)}
+          film={heroDesigns}
         />
 
         <HomeCollections cards={storyCards} />
