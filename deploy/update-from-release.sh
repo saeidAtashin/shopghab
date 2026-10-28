@@ -12,6 +12,26 @@ if ! flock -n 9; then
   exit 0
 fi
 
+ensure_prepared_templates() {
+  local marker="$APP_DIR/mockup-templates/prepared/iphone-17-pro-cover/base.png"
+  if [ -f "$marker" ]; then
+    return 0
+  fi
+  mkdir -p "$APP_DIR/mockup-templates/prepared"
+  local archive
+  archive="$(mktemp)"
+  if ! curl -fL "$RELEASE_BASE/mockup-prepared.tgz" -o "$archive"; then
+    rm -f "$archive"
+    echo "prepared template archive is not on the release yet" >&2
+    return 0
+  fi
+  tar -xzf "$archive" -C "$APP_DIR/mockup-templates/prepared"
+  rm -f "$archive"
+  if [ ! -f "$marker" ]; then
+    echo "prepared template archive did not include the template base" >&2
+  fi
+}
+
 remote_sha="$(curl -fsSL "$RELEASE_BASE/deploy-sha.txt" | tr -d '[:space:]')"
 if [ -z "$remote_sha" ]; then
   echo "deploy-latest release has an empty sha" >&2
@@ -23,6 +43,7 @@ if [ -f "$APP_DIR/DEPLOY_SHA" ]; then
   local_sha="$(tr -d '[:space:]' < "$APP_DIR/DEPLOY_SHA")"
 fi
 if [ "$remote_sha" = "$local_sha" ]; then
+  ensure_prepared_templates
   exit 0
 fi
 
@@ -168,6 +189,7 @@ fi
 
 restore_runtime_files "$APP_DIR"
 restore_server_mockups "$APP_DIR"
+ensure_prepared_templates
 merge_live_catalog "$APP_DIR"
 mkdir -p "$APP_DIR/mockup-templates/prepared" "$APP_DIR/public/designed/mockups"
 
