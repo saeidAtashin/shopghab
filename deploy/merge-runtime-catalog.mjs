@@ -55,12 +55,41 @@ function remap(map, id) {
   return map.get(id);
 }
 
+function generatedAt(mockup) {
+  return text(mockup?.generatedAt);
+}
+
 function refreshMockups(existing, incoming, matches) {
   for (const item of incoming) {
     if (!item || typeof item !== "object" || !Array.isArray(item.mockups) || item.mockups.length === 0) continue;
     const found = existing.find((candidate) => matches(candidate, item));
     if (!found) continue;
-    found.mockups = structuredClone(item.mockups);
+    const live = Array.isArray(found.mockups) ? found.mockups : [];
+    const liveByTemplate = new Map();
+    for (const mockup of live) {
+      const id = text(mockup?.templateId);
+      if (id) liveByTemplate.set(id, mockup);
+    }
+    const next = [];
+    const seen = new Set();
+    for (const mockup of item.mockups) {
+      const id = text(mockup?.templateId);
+      const current = id ? liveByTemplate.get(id) : undefined;
+      const liveAt = generatedAt(current);
+      const releaseAt = generatedAt(mockup);
+      if (current && liveAt && (!releaseAt || liveAt > releaseAt)) {
+        next.push(current);
+      } else {
+        next.push(structuredClone(mockup));
+      }
+      if (id) seen.add(id);
+    }
+    for (const mockup of live) {
+      const id = text(mockup?.templateId);
+      if (!id || seen.has(id)) continue;
+      next.push(mockup);
+    }
+    found.mockups = next;
   }
 }
 

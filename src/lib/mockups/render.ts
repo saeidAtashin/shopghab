@@ -75,6 +75,8 @@ export async function renderDesignTemplates(options: {
   previous: MockupRecord[];
   placements?: Record<string, MockupPlacement>;
   now?: string;
+  /** Placement edits must fail the request instead of rewriting the saved photo. */
+  strict?: boolean;
 }): Promise<MockupRecord[]> {
   const now = options.now ?? new Date().toISOString();
   const records: MockupRecord[] = [];
@@ -93,12 +95,8 @@ export async function renderDesignTemplates(options: {
   for (const template of options.templates) {
     const previous = options.previous.find((item) => item.templateId === template.id);
     if (artworkError || !artworkPath) {
-      const message = safeMockupMessage(artworkError);
-      if (previous && (await outputIsValid(options.cwd, previous)) && previous.status === "ready") {
-        records.push({ ...previous, error: message });
-      } else {
-        records.push(emptyError(template, message, now));
-      }
+      if (options.strict) throw artworkError ?? new MockupError("missingArtwork");
+      records.push(await unchangedOrError(options.cwd, previous, safeMockupMessage(artworkError), template, now));
       continue;
     }
 
@@ -151,16 +149,30 @@ export async function renderDesignTemplates(options: {
         error: "",
       });
     } catch (error) {
-      const message = safeMockupMessage(error);
-      if (previous && previous.status === "ready" && (await outputIsValid(options.cwd, previous))) {
-        records.push({ ...previous, error: message });
-      } else {
-        records.push(emptyError(template, message, now));
+      if (options.strict) {
+        if (error instanceof MockupError) throw error;
+        console.error(error);
+        throw new MockupError("unsupported");
       }
+      records.push(await unchangedOrError(options.cwd, previous, safeMockupMessage(error), template, now));
     }
   }
 
   return records;
+}
+
+/** A failed rerun leaves a ready photo as it was. Only a missing photo becomes an error record. */
+async function unchangedOrError(
+  cwd: string,
+  previous: MockupRecord | undefined,
+  message: string,
+  template: MockupTemplateConfig,
+  now: string,
+): Promise<MockupRecord> {
+  if (previous && previous.status === "ready" && (await outputIsValid(cwd, previous))) {
+    return previous;
+  }
+  return emptyError(template, message, now);
 }
 
 function mockupPublicPathsSafe(

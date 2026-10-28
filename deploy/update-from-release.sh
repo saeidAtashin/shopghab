@@ -12,9 +12,33 @@ if ! flock -n 9; then
   exit 0
 fi
 
+# Enabled templates in mockup-templates/templates.config.ts. Each one needs prepared/<id>/base.png.
+PREPARED_BASES=(
+  iphone-17-pro-cover
+  iphone-17-pro-case
+  iphone-pro-case
+  mockup-1
+  mockup-1-1
+  mockup-2
+  mockup-2-1
+  mockup-3
+  iphone-14-pro-matt
+  iphone-pro-in-hand
+  iphone-case-on-path
+  iphone-free-case
+)
+
+prepared_bases_ready() {
+  local id
+  for id in "${PREPARED_BASES[@]}"; do
+    if [ ! -f "$APP_DIR/mockup-templates/prepared/$id/base.png" ]; then
+      return 1
+    fi
+  done
+}
+
 ensure_prepared_templates() {
-  local marker="$APP_DIR/mockup-templates/prepared/iphone-17-pro-cover/base.png"
-  if [ -f "$marker" ]; then
+  if prepared_bases_ready; then
     return 0
   fi
   mkdir -p "$APP_DIR/mockup-templates/prepared"
@@ -22,13 +46,14 @@ ensure_prepared_templates() {
   archive="$(mktemp)"
   if ! curl -fL "$RELEASE_BASE/mockup-prepared.tgz" -o "$archive"; then
     rm -f "$archive"
-    echo "prepared template archive is not on the release yet" >&2
-    return 0
+    echo "prepared template archive is not on the release" >&2
+    return 1
   fi
   tar -xzf "$archive" -C "$APP_DIR/mockup-templates/prepared"
   rm -f "$archive"
-  if [ ! -f "$marker" ]; then
-    echo "prepared template archive did not include the template base" >&2
+  if ! prepared_bases_ready; then
+    echo "prepared template archive is missing a template base" >&2
+    return 1
   fi
 }
 

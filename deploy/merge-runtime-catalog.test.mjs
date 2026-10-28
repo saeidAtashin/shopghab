@@ -320,14 +320,43 @@ test("a design already on the server is not added again by source key or slug", 
   assert.equal(merged.designs[0]?.title, "عنوان دستی");
 });
 
-test("a release replaces product mockup photos and keeps the rest of a live design", () => {
+test("a release replaces an older product photo and keeps a newer live photo and its placement", () => {
   const live = catalog();
+  live.designs[0].placements = { "iphone-free-case": { focalX: 0.2, focalY: 0.8 } };
+  live.designs[0].mockups = [
+    {
+      templateId: "iphone-free-case",
+      path: "/designed/mockups/space-cat/live.webp",
+      generatedAt: "2026-10-28T12:00:00.000Z",
+      status: "ready",
+    },
+    {
+      templateId: "iphone-pro-case",
+      path: "/designed/mockups/space-cat/old.webp",
+      generatedAt: "2026-01-01T00:00:00.000Z",
+      status: "ready",
+    },
+  ];
   const incoming = catalog({
     designs: [
       design({
         title: "پیش‌فرض",
         description: "پیش‌فرض",
-        mockups: [{ templateId: "iphone-free-case", image: "/designed/mockups/space-cat/iphone-free-case.webp", status: "ready" }],
+        placements: { "iphone-free-case": { focalX: 0.9, focalY: 0.1 } },
+        mockups: [
+          {
+            templateId: "iphone-free-case",
+            path: "/designed/mockups/space-cat/release.webp",
+            generatedAt: "2026-02-01T00:00:00.000Z",
+            status: "ready",
+          },
+          {
+            templateId: "iphone-pro-case",
+            path: "/designed/mockups/space-cat/release-pro.webp",
+            generatedAt: "2026-06-01T00:00:00.000Z",
+            status: "ready",
+          },
+        ],
       }),
     ],
   });
@@ -336,7 +365,9 @@ test("a release replaces product mockup photos and keeps the rest of a live desi
   assert.equal(merged.designs.length, 1);
   assert.equal(merged.designs[0]?.title, "عنوان دستی");
   assert.equal(merged.designs[0]?.description, "توضیح دستی");
-  assert.equal(merged.designs[0]?.mockups[0]?.templateId, "iphone-free-case");
+  assert.equal(merged.designs[0]?.mockups[0]?.path, "/designed/mockups/space-cat/live.webp");
+  assert.equal(merged.designs[0]?.mockups[1]?.path, "/designed/mockups/space-cat/release-pro.webp");
+  assert.equal(merged.designs[0]?.placements?.["iphone-free-case"]?.focalX, 0.2);
 });
 
 test("cli writes the merged catalog without changing the live file", () => {

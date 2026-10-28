@@ -4,6 +4,8 @@ import { MockupError } from "./errors";
 
 const SAFE_ID = /^[a-z0-9]+(?:[_-][a-z0-9]+)*$/;
 const CONTENT_HASH = /^[a-f0-9]{64}$/;
+/** Filename stamp. The catalog still stores the full hash; 16 hex chars keeps Windows paths short. */
+const HASH_STAMP_LENGTH = 16;
 
 export function mockupRoot(cwd = process.cwd()): string {
   return resolve(cwd, "mockup-templates");
@@ -25,7 +27,7 @@ function assertContentHash(value: string): string {
   if (!CONTENT_HASH.test(normalized)) {
     throw new MockupError("pathRejected");
   }
-  return normalized;
+  return normalized.slice(0, HASH_STAMP_LENGTH);
 }
 
 export function resolveInside(root: string, candidate: string): string {

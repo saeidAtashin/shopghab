@@ -5,6 +5,7 @@ import { CatalogError, saveDesignPlacement } from "@/lib/catalog/logic";
 import { designPlacementWriteSchema, type DesignRecord } from "@/lib/catalog/schema";
 import { mutateCatalog, readCatalog } from "@/lib/catalog/store";
 import { loadProjectTemplates } from "@/lib/mockups/config";
+import { MockupError } from "@/lib/mockups/errors";
 import { normalizePlacement } from "@/lib/mockups/focal";
 import { mockupOutputSlug, templatesForDesign } from "@/lib/mockups/generate";
 import { renderDesignTemplates } from "@/lib/mockups/render";
@@ -111,9 +112,15 @@ export async function POST(request: Request, context: RouteContext) {
       templates: [template],
       previous: design.mockups,
       placements: { ...design.placements, [template.id]: placement },
+      strict: true,
+    }).catch((error: unknown) => {
+      if (error instanceof MockupError) throw new CatalogError(error.message, 500);
+      throw error;
     });
     const mockup = rendered[0];
-    if (!mockup) throw new CatalogError("موکاپ ساخته نشد", 500);
+    if (!mockup || mockup.status !== "ready" || mockup.error.trim() !== "") {
+      throw new CatalogError(mockup?.error || "موکاپ ساخته نشد", 500);
+    }
 
     const saved = await mutateCatalog((currentCatalog) => {
       const updated = saveDesignPlacement(

@@ -129,8 +129,9 @@ test("template paths cannot escape the mockup or public directories", () => {
   assert.throws(() => mockupPublicPaths("space-cat", "../flat"), MockupError);
   assert.throws(() => mockupPublicPaths("space-cat", "flat-case", "../secret"), MockupError);
   const stamped = mockupPublicPaths("space-cat", "flat-case", "a".repeat(64));
-  assert.equal(stamped.image, `/designed/mockups/space-cat/flat-case.${"a".repeat(64)}.webp`);
-  assert.equal(stamped.thumb, `/designed/mockups/space-cat/flat-case.${"a".repeat(64)}.thumb.webp`);
+  assert.equal(stamped.image, `/designed/mockups/space-cat/flat-case.${"a".repeat(16)}.webp`);
+  assert.equal(stamped.thumb, `/designed/mockups/space-cat/flat-case.${"a".repeat(16)}.thumb.webp`);
+  assert.throws(() => mockupPublicPaths("space-cat", "flat-case", "a".repeat(16)), MockupError);
   assert.throws(() => artworkAbsolutePath(root, "/designed/../../secret.webp"), MockupError);
   assert.throws(() => artworkAbsolutePath(root, "/tmp/secret.webp"), MockupError);
 });
@@ -423,11 +424,38 @@ test("a failed template does not block a valid one, and success requires a real 
     assert.equal(records[0]?.error, "");
     assert.equal(records[1]?.status, "error");
     assert.equal(records[1]?.path, "");
-    const output = join(cwd, "public", "designed", "mockups", "space-cat", "flat-case.webp");
+    assert.match(records[0]?.path ?? "", /\/flat-case\.[a-f0-9]{16}\.webp$/);
+    const output = join(cwd, "public", (records[0]?.path ?? "").replace(/^\//, ""));
     const meta = await sharp(output).metadata();
     assert.equal(meta.format, "webp");
     assert.equal(meta.width, 80);
     assert.ok(!readFileSync(output).equals(Buffer.alloc(0)));
+
+    const previousReady = {
+      ...records[0]!,
+      templateId: "broken-case",
+    };
+    const kept = await renderDesignTemplates({
+      cwd,
+      slug: "space-cat",
+      artworkPublicPath: "/designed/art.webp",
+      templates: [broken],
+      previous: [previousReady],
+      now: "2026-05-01T00:00:00.000Z",
+    });
+    assert.deepEqual(kept[0], previousReady);
+    await assert.rejects(
+      () =>
+        renderDesignTemplates({
+          cwd,
+          slug: "space-cat",
+          artworkPublicPath: "/designed/art.webp",
+          templates: [broken],
+          previous: [previousReady],
+          strict: true,
+        }),
+      MockupError,
+    );
 
     const again = await renderDesignTemplates({
       cwd,
