@@ -12,6 +12,7 @@ import {
 import { useEditorStore } from "@/lib/design/editor-store";
 import type { SavedDesign } from "@/lib/design/types";
 import { formatToman } from "@/lib/shop/format";
+import { designRouteLoaderProps } from "@/lib/route-navigation";
 import { getCaseTotalPrice } from "@/lib/cases/brands.static";
 
 const CaseCanvas = dynamic(() => import("@/app/components/case-editor/CaseCanvas"), {
@@ -65,6 +66,7 @@ export default function SharePageClient({ design }: Props) {
         </p>
         <Link
           href={`/design/${design.brandSlug}/${design.modelSlug}/${design.caseTypeSlug}?share=${design.shareToken}`}
+          {...designRouteLoaderProps}
           className="mt-6 inline-flex items-center gap-2 rounded-xl bg-cyan-500 px-8 py-3 text-sm font-bold text-black"
         >
           <ShoppingCart size={18} />

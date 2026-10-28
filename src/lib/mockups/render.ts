@@ -2,6 +2,7 @@ import { existsSync } from "node:fs";
 
 import { compositePrepared } from "./composite";
 import { safeMockupMessage, MockupError } from "./errors";
+import type { MockupPlacement } from "./focal";
 import { hashFile, mockupContentHash } from "./hash";
 import { assertValidWebp } from "./output";
 import { artworkAbsolutePath, mockupAbsolutePaths, mockupRoot, publicRoot, resolveInside } from "./paths";
@@ -65,6 +66,7 @@ export async function renderDesignTemplates(options: {
   artworkPublicPath: string;
   templates: MockupTemplateConfig[];
   previous: MockupRecord[];
+  placements?: Record<string, MockupPlacement>;
   now?: string;
 }): Promise<MockupRecord[]> {
   const now = options.now ?? new Date().toISOString();
@@ -93,7 +95,8 @@ export async function renderDesignTemplates(options: {
       continue;
     }
 
-    const contentHash = mockupContentHash(artworkHash, template);
+    const placement = options.placements?.[template.id];
+    const contentHash = mockupContentHash(artworkHash, template, placement);
     const reusable = shouldReuseOutput({
       previous,
       contentHash,
@@ -113,6 +116,7 @@ export async function renderDesignTemplates(options: {
         template,
         imagePath: paths.image,
         thumbPath: paths.thumb,
+        placement,
       });
       const written = await outputIsValid(options.cwd, {
         templateId: template.id,
@@ -172,6 +176,7 @@ async function renderOne(options: {
   template: MockupTemplateConfig;
   imagePath: string;
   thumbPath: string;
+  placement?: MockupPlacement;
 }): Promise<{ width: number; height: number }> {
   if (options.template.renderer === "photoshop") {
     const psdPath = resolveInside(mockupRoot(options.cwd), options.template.psdPath);
@@ -193,5 +198,6 @@ async function renderOne(options: {
     templateRoot: mockupRoot(options.cwd),
     outputPath: options.imagePath,
     thumbPath: options.thumbPath,
+    placement: options.placement,
   });
 }

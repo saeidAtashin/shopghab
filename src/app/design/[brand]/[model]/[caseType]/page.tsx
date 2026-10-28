@@ -18,6 +18,7 @@ type Props = {
     share?: string;
     template?: string;
     tab?: string;
+    fork?: string;
   }>;
 };
 
@@ -62,6 +63,20 @@ export default async function DesignEditorPage({ params, searchParams }: Props) 
       ? (requestedTab as EditorTab)
       : undefined;
 
+  const catalog = readCatalog();
+  const forkDesign = query.fork ? catalog.designs.find((item) => item.id === query.fork) : undefined;
+  const forkSrc = forkDesign?.imagePath ?? "";
+  const forkArtwork =
+    forkDesign && forkSrc.startsWith("/designed/") && !forkSrc.includes("..")
+      ? {
+          designId: forkDesign.id,
+          src: forkSrc,
+          width: forkDesign.width > 0 ? forkDesign.width : 1600,
+          height: forkDesign.height > 0 ? forkDesign.height : 1600,
+          name: forkDesign.title || "طرح",
+        }
+      : undefined;
+
   return (
     <EditorPageClient
       brandSlug={brand}
@@ -71,7 +86,8 @@ export default async function DesignEditorPage({ params, searchParams }: Props) 
       initialShareToken={query.share}
       initialTemplateSlug={query.template}
       initialTab={initialTab}
-      designPicker={editorDesignPicker(readCatalog())}
+      forkArtwork={forkArtwork}
+      designPicker={editorDesignPicker(catalog)}
     />
   );
 }

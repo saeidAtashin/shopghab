@@ -13,6 +13,8 @@ import {
   createDesign,
   deleteAttribute,
   emptyCatalog,
+  forkDesignFromArtwork,
+  saveDesignPlacement,
   indexableCatalogPaths,
   moveDesign,
   syncCatalog,
@@ -1001,6 +1003,78 @@ test("moving past an equal sort order assigns a free neighboring number", () => 
   assert.equal(moved.designs.find((design) => design.slug === "older")?.sortOrder, 3);
   assert.equal(moved.designs.find((design) => design.slug === "newer")?.sortOrder, 5);
   assert.equal(moved.designs.find((design) => design.slug === "taken")?.sortOrder, 4);
+});
+
+test("fork copies taxonomy onto a new published artwork", () => {
+  const category = createCategory(emptyCatalog(), {
+    name: "انتزاعی",
+    slug: "abstract",
+    parentId: null,
+    description: "",
+    seoTitle: "",
+    seoDescription: "",
+    coverImage: "",
+    status: "active",
+  }, NOW);
+  const created = createDesign(category.catalog, writeInput({
+    categoryIds: [category.category.id],
+    tags: ["گربه"],
+    colors: ["آبی"],
+    styles: ["مینیمال"],
+  }), NOW);
+  const forked = forkDesignFromArtwork(created.catalog, created.design.id, {
+    imagePath: "/designed/edits/dsn_abc.webp",
+    thumbnailPath: "/designed/edits/dsn_abc.thumb.webp",
+    width: 800,
+    height: 1600,
+  }, NOW);
+
+  assert.notEqual(forked.design.id, created.design.id);
+  assert.equal(forked.design.title, "گربه فضایی (ویرایش)");
+  assert.equal(forked.design.slug, "space-cat-edit");
+  assert.equal(forked.design.status, "published");
+  assert.equal(forked.design.featured, false);
+  assert.deepEqual(forked.design.categoryIds, [category.category.id]);
+  assert.deepEqual(forked.design.tags, ["گربه"]);
+  assert.deepEqual(forked.design.colors, ["آبی"]);
+  assert.deepEqual(forked.design.styles, ["مینیمال"]);
+  assert.equal(forked.design.imagePath.startsWith("/designed/"), true);
+  assert.equal(forked.design.templateSlug, forked.design.slug);
+  assert.notEqual(forked.design.templateSlug, created.design.templateSlug);
+  assert.equal(forked.design.width, 800);
+  assert.equal(forked.design.height, 1600);
+});
+
+test("placement is stored on that design and a centered crop clears it", () => {
+  const created = createDesign(emptyCatalog(), writeInput(), NOW);
+  const mockup = readyMockup("/designed/mockups/space-cat/flat.webp", "/designed/mockups/space-cat/flat.thumb.webp");
+  mockup.templateId = "flat-case";
+  const saved = saveDesignPlacement(
+    created.catalog,
+    created.design.id,
+    "flat-case",
+    { focalX: 0.2, focalY: 0.8 },
+    mockup,
+    ["flat-case"],
+    NOW,
+  );
+  assert.deepEqual(saved.design.placements?.["flat-case"], { focalX: 0.2, focalY: 0.8 });
+  assert.equal(saved.design.mockups[0]?.templateId, "flat-case");
+
+  const cleared = saveDesignPlacement(
+    saved.catalog,
+    saved.design.id,
+    "flat-case",
+    { focalX: 0.5, focalY: 0.5 },
+    mockup,
+    ["flat-case"],
+    NOW,
+  );
+  assert.equal(cleared.design.placements, undefined);
+  assert.throws(
+    () => saveDesignPlacement(cleared.catalog, cleared.design.id, "other", { focalX: 0.1, focalY: 0.1 }, mockup, ["flat-case"], NOW),
+    (error: unknown) => error instanceof CatalogError,
+  );
 });
 
 function readyMockup(imagePath: string, thumbnailPath: string): MockupRecord {

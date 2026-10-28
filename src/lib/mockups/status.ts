@@ -4,6 +4,7 @@ import { enabledTemplates, loadProjectTemplates } from "./config";
 import { safeMockupMessage, MockupError } from "./errors";
 import { hashFile, mockupContentHash } from "./hash";
 import { artworkAbsolutePath, publicRoot, resolveInside } from "./paths";
+import type { MockupPlacement } from "./focal";
 import type { MockupRecord, MockupTemplateConfig } from "./types";
 
 export type MockupIssue = {
@@ -38,6 +39,7 @@ type StatusDesign = {
   imagePath: string;
   assetMissing: boolean;
   mockups: MockupRecord[];
+  placements?: Record<string, MockupPlacement>;
 };
 
 function fileReady(cwd: string, publicPath: string): boolean {
@@ -105,7 +107,7 @@ export async function summarizeMockups(input: {
         });
         continue;
       }
-      const current = mockupContentHash(artworkHash, template);
+      const current = mockupContentHash(artworkHash, template, design.placements?.[template.id]);
       const filesExist = fileReady(input.cwd, record.path) && fileReady(input.cwd, record.thumbPath);
       if (!filesExist) {
         summary.missing += 1;
@@ -160,6 +162,7 @@ export async function projectMockupStatus(cwd = process.cwd()): Promise<MockupSt
       imagePath: design.imagePath,
       assetMissing: design.assetMissing,
       mockups: design.mockups,
+      placements: design.placements,
     })),
   });
 }

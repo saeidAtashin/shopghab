@@ -4,6 +4,7 @@ import CatalogBreadcrumbs from "@/app/components/designs/CatalogBreadcrumbs";
 import DesignDetailClient from "@/app/components/designs/DesignDetailClient";
 import JsonLd from "@/app/components/seo/JsonLd";
 import { getCaseTemplateBySlug } from "@/lib/cases/templates.static";
+import { DEFAULT_REFERENCE_CANVAS, type CaseTemplate } from "@/lib/design/types";
 import {
   designHasImage,
   designOgImage,
@@ -71,7 +72,17 @@ export default async function DesignDetailPage({ params }: Props) {
       : []),
     { label: direct.title },
   );
-  const template = getCaseTemplateBySlug(direct.templateSlug) ?? null;
+  const staticTemplate = getCaseTemplateBySlug(direct.templateSlug) ?? null;
+  const template: CaseTemplate = staticTemplate ?? {
+    id: direct.id,
+    slug: direct.slug,
+    title: direct.title,
+    description: direct.description || direct.shortDescription || description,
+    thumbnail: direct.thumbnailPath || direct.imagePath,
+    tags: direct.tags,
+    referenceCanvas: DEFAULT_REFERENCE_CANVAS,
+    layers: [],
+  };
   const images = selectProductImages(direct);
   const gallery = images.frames.map((frame) => ({
     src: frame.src,
@@ -122,6 +133,7 @@ export default async function DesignDetailPage({ params }: Props) {
               collections={collections}
               tags={direct.tags}
               related={related}
+              linkedTemplate={staticTemplate !== null}
             />
           </div>
         </div>

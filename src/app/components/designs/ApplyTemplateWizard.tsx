@@ -7,7 +7,7 @@ import { Check, Search, X } from "lucide-react";
 
 import PhoneVerificationModal from "@/app/components/auth/PhoneVerificationModal";
 import { PhoneBackSvg } from "@/app/components/case-wizard/PhoneBackSvg";
-import SuggestedPhoneCard, { useSuggestedPhone } from "@/app/components/case-wizard/SuggestedPhoneCard";
+import SuggestedPhoneCard, { usePhoneSuggestions } from "@/app/components/case-wizard/SuggestedPhoneCard";
 import { useAuth } from "@/app/context/AuthContext";
 import { usePreferredBrandLoader } from "@/app/context/PreferredBrandLoaderContext";
 import { useShopCart } from "@/app/context/ShopCartContext";
@@ -22,6 +22,7 @@ import {
   SELECTABLE_CASE_TYPE_SLUG,
 } from "@/lib/cases/brands.static";
 import { rememberSelectedPhone } from "@/lib/cases/device-phone";
+import { beginRouteNavigation } from "@/lib/route-navigation";
 import { searchPhoneModels } from "@/lib/cases/model-search";
 import type { PhoneModel } from "@/lib/cases/types";
 import { designPublicTitle } from "@/lib/seo/design-copy";
@@ -47,6 +48,8 @@ type Props = {
   initialModelSlug?: string;
   /** When omitted, the user chooses premade or custom after picking a phone. */
   intent?: TemplatePurchaseIntent;
+  /** Load this catalog design's original artwork in the editor instead of a static template. */
+  forkDesignId?: string;
 };
 
 function stepIndex(step: Step): number {
@@ -132,9 +135,11 @@ export default function ApplyTemplateWizard({
   initialBrandSlug,
   initialModelSlug,
   intent,
+  forkDesignId,
 }: Props) {
   const router = useRouter();
-  const suggested = useSuggestedPhone();
+  const suggestions = usePhoneSuggestions();
+  const currentPhone = suggestions.find((item) => item.kind === "current") ?? null;
   const { user, loading: authLoading } = useAuth();
   const { addCatalogCase } = useShopCart();
   const { setPreferredBrandSlug } = usePreferredBrandLoader();
@@ -173,12 +178,15 @@ export default function ApplyTemplateWizard({
         return;
       }
 
-      const path = `${buildCustomDesignPath(nextBrandSlug, nextModelSlug)}?template=${encodeURIComponent(template.slug)}`;
+      const path = forkDesignId
+        ? `${buildCustomDesignPath(nextBrandSlug, nextModelSlug)}?fork=${encodeURIComponent(forkDesignId)}`
+        : `${buildCustomDesignPath(nextBrandSlug, nextModelSlug)}?template=${encodeURIComponent(template.slug)}`;
       if (authLoading || !user) {
         setPendingPath(path);
         if (!authLoading) setLoginOpen(true);
         return;
       }
+      beginRouteNavigation();
       router.push(path);
       onClose();
     },
@@ -189,6 +197,7 @@ export default function ApplyTemplateWizard({
       onClose,
       premadePrice,
       router,
+      forkDesignId,
       setPreferredBrandSlug,
       template,
       user,
@@ -226,6 +235,7 @@ export default function ApplyTemplateWizard({
     const path = pendingPath;
     setPendingPath(null);
     setLoginOpen(false);
+    beginRouteNavigation();
     router.push(path);
     onClose();
   }, [pendingPath, authLoading, user, router, onClose]);
@@ -258,14 +268,14 @@ export default function ApplyTemplateWizard({
       trimmed.length < 2 || !brandSlug
         ? models
         : searchPhoneModels(trimmed, { brandSlug, limit: 50 }).map((r) => r.model);
-    if (!suggested || suggested.brandSlug !== brandSlug) return list;
-    const index = list.findIndex((item) => item.slug === suggested.modelSlug);
+    if (!currentPhone || currentPhone.brandSlug !== brandSlug) return list;
+    const index = list.findIndex((item) => item.slug === currentPhone.modelSlug);
     if (index <= 0) return list;
     const next = [...list];
     const [item] = next.splice(index, 1);
     next.unshift(item);
     return next;
-  }, [modelQuery, brandSlug, models, suggested]);
+  }, [modelQuery, brandSlug, models, currentPhone]);
 
   if (!open) return null;
 
@@ -371,6 +381,7 @@ export default function ApplyTemplateWizard({
 
         <div className="shrink-0 px-4 pt-4 empty:hidden sm:px-5">
           <SuggestedPhoneCard
+            navigatesOnPick={Boolean(intent) && !authLoading && Boolean(user)}
             onPick={(pick) => {
               setBrandSlug(pick.brandSlug);
               handleContinue(pick.modelSlug, pick.brandSlug);
@@ -488,9 +499,9 @@ export default function ApplyTemplateWizard({
                       <div className="mt-2 text-center">
                         <p className="text-xs font-bold text-foreground sm:text-sm">{item.name}</p>
                         <p className="text-[10px] text-muted sm:text-xs">{item.nameEn}</p>
-                        {suggested?.brandSlug === brandSlug && suggested.modelSlug === item.slug ? (
+                        {currentPhone?.brandSlug === brandSlug && currentPhone.modelSlug === item.slug ? (
                           <span className="mt-1 inline-flex rounded-full bg-cyan-500/15 px-2 py-0.5 text-[10px] font-semibold text-cyan-300">
-                            پیشنهادی
+                            گوشی فعلی
                           </span>
                         ) : null}
                       </div>

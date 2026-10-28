@@ -53,7 +53,7 @@ export function templateForDesign(designId: string, templates: MockupTemplateCon
   return chosen;
 }
 
-function outputFolder(id: string, slug: string): string {
+export function mockupOutputSlug(id: string, slug: string): string {
   try {
     return assertSafeId(slug);
   } catch {
@@ -124,10 +124,11 @@ export async function generateMockupsForDesigns(options: {
     const chosen = templatesForDesign(design.id, templates, current?.templateId);
     const updates = await renderDesignTemplates({
       cwd,
-      slug: outputFolder(design.id, design.slug),
+      slug: mockupOutputSlug(design.id, design.slug),
       artworkPublicPath: design.imagePath,
       templates: chosen,
       previous,
+      placements: design.placements,
     });
     report.designs += 1;
     for (const update of updates) {

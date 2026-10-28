@@ -327,7 +327,7 @@ textarea.input-neon:autofill {
   place-items: center;
   background: var(--overlay);
   backdrop-filter: blur(4px);
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 .route-loader-svg {

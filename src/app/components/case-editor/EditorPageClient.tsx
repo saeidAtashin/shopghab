@@ -28,6 +28,7 @@ import type Konva from "konva";
 import PhoneVerificationModal from "@/app/components/auth/PhoneVerificationModal";
 import WizardBreadcrumb from "@/app/components/case-wizard/WizardBreadcrumb";
 import DockableAction from "@/app/components/ui/DockableAction";
+import DesignRouteLoading from "@/app/components/ui/DesignRouteLoading";
 import TextPanel from "@/app/components/case-editor/TextPanel";
 import UploadPanel from "@/app/components/case-editor/UploadPanel";
 import DescriptionPanel from "@/app/components/case-editor/DescriptionPanel";
@@ -48,8 +49,9 @@ import { getCaseTemplateBySlug } from "@/lib/cases/templates.static";
 import { getReadyCaseBySlug } from "@/lib/cases/ready.static";
 import { getDesign, getDesignByShareToken } from "@/lib/design/api";
 import { useEditorStore } from "@/lib/design/editor-store";
+import { ensureCatalogCookie } from "@/lib/auth-api";
 import { saveDesign } from "@/lib/design/api";
-import { exportStageToPng } from "@/lib/design/export";
+import { dataUrlToFile, exportStageToPng } from "@/lib/design/export";
 import {
   SHORTCUT_HELP,
   useEditorShortcuts,
@@ -98,6 +100,14 @@ export type EditorTab =
   | "design-for-you"
   | "description";
 
+export type ForkArtwork = {
+  designId: string;
+  src: string;
+  width: number;
+  height: number;
+  name: string;
+};
+
 type Props = {
   brandSlug: string;
   modelSlug: string;
@@ -106,6 +116,7 @@ type Props = {
   initialShareToken?: string;
   initialTemplateSlug?: string;
   initialTab?: EditorTab;
+  forkArtwork?: ForkArtwork;
   designPicker: EditorDesignPicker;
 };
 
@@ -125,6 +136,7 @@ export default function EditorPageClient({
   initialShareToken,
   initialTemplateSlug,
   initialTab,
+  forkArtwork,
   designPicker,
 }: Props) {
   const brand = getBrandBySlug(brandSlug)!;
@@ -151,6 +163,7 @@ export default function EditorPageClient({
   const init = useEditorStore((s) => s.init);
   const loadDocument = useEditorStore((s) => s.loadDocument);
   const loadTemplate = useEditorStore((s) => s.loadTemplate);
+  const addDesignImage = useEditorStore((s) => s.addDesignImage);
   const document = useEditorStore((s) => s.document);
   const undo = useEditorStore((s) => s.undo);
   const redo = useEditorStore((s) => s.redo);
@@ -188,6 +201,7 @@ export default function EditorPageClient({
   const [warningExpanded, setWarningExpanded] = useState(false);
   const [mobileDockCollapsed, setMobileDockCollapsed] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [savingCatalog, setSavingCatalog] = useState(false);
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [buyBusy, setBuyBusy] = useState(false);
   const [analyzing, setAnalyzing] = useState(false);
@@ -255,6 +269,11 @@ export default function EditorPageClient({
       loadedRef.current = true;
       setEditorReady(true);
 
+      if (forkArtwork) {
+        addDesignImage(forkArtwork.src, forkArtwork.width, forkArtwork.height, forkArtwork.name);
+        return;
+      }
+
       if (initialTemplateSlug) {
         const template = getCaseTemplateBySlug(initialTemplateSlug);
         if (template) {
@@ -291,14 +310,57 @@ export default function EditorPageClient({
     initialDesignId,
     initialShareToken,
     initialTemplateSlug,
+    forkArtwork,
     init,
     loadDocument,
     loadTemplate,
+    addDesignImage,
     caseType,
     model,
     authLoading,
     user,
   ]);
+
+  const handleSaveAsCatalogDesign = useCallback(async () => {
+    if (!forkArtwork || user?.role !== "admin") return;
+    const stage = stageRef.current;
+    if (!stage) {
+      setMessage("بوم طراحی هنوز آماده نیست.");
+      return;
+    }
+    setSavingCatalog(true);
+    setMessage(null);
+    try {
+      const allowed = await ensureCatalogCookie();
+      if (!allowed) throw new Error("نشست ادمین برقرار نشد");
+      const dataUrl = await exportStageToPng(stage, 2);
+      const file = dataUrlToFile(dataUrl, "design.png", "image/png");
+      const body = new FormData();
+      body.set("sourceId", forkArtwork.designId);
+      body.set("image", file);
+      const response = await fetch("/api/admin/catalog/designs/from-editor", {
+        method: "POST",
+        credentials: "include",
+        body,
+      });
+      const payload = (await response.json().catch(() => ({}))) as {
+        slug?: string | null;
+        adminPath?: string;
+        error?: string;
+      };
+      if (!response.ok) throw new Error(payload.error || "ذخیره طرح جدید انجام نشد");
+      if (payload.slug) {
+        router.push(`/designs/${payload.slug}`);
+        return;
+      }
+      setMessage(payload.error || "طرح ذخیره شد اما موکاپ آماده نیست.");
+      if (payload.adminPath) router.push(payload.adminPath);
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "ذخیره طرح جدید انجام نشد");
+    } finally {
+      setSavingCatalog(false);
+    }
+  }, [forkArtwork, router, user?.role]);
 
   const handleSaveToAccount = useCallback(async () => {
     if (!user) {
@@ -567,14 +629,16 @@ export default function EditorPageClient({
     </AnimatePresence>
   );
 
-  if (authLoading || !user) {
+  if (authLoading) {
+    return <DesignRouteLoading />;
+  }
+
+  if (!user) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4 pt-24 text-center">
-        <p className="text-sm text-muted">
-          {authLoading ? "در حال بررسی ورود…" : "برای استفاده از ادیتور ابتدا وارد شوید."}
-        </p>
+        <p className="text-sm text-muted">برای استفاده از ادیتور ابتدا وارد شوید.</p>
         <PhoneVerificationModal
-          open={!authLoading && !user}
+          open
           phone=""
           onClose={leaveEditor}
           onVerified={() => {}}
@@ -637,6 +701,14 @@ export default function EditorPageClient({
             icon={<Save size={15} />}
             label="ذخیره"
           />
+          {user?.role === "admin" && forkArtwork ? (
+            <MobileIconButton
+              onClick={() => void handleSaveAsCatalogDesign()}
+              disabled={savingCatalog}
+              icon={<Save size={15} />}
+              label={savingCatalog ? "در حال ذخیره" : "طرح جدید"}
+            />
+          ) : null}
           <MobileIconButton
             onClick={handleOpenEditorGuide}
             icon={<GraduationCap size={15} />}
@@ -774,6 +846,14 @@ export default function EditorPageClient({
               label="پیش‌نمایش"
             />
             <ToolbarButton onClick={() => setShowSaveModal(true)} icon={<Save size={16} />} label="ذخیره" />
+            {user?.role === "admin" && forkArtwork ? (
+              <ToolbarButton
+                onClick={() => void handleSaveAsCatalogDesign()}
+                disabled={savingCatalog}
+                icon={<Save size={16} />}
+                label={savingCatalog ? "در حال ذخیره" : "طرح جدید"}
+              />
+            ) : null}
           </div>
 
           <div className="hidden h-6 w-px shrink-0 bg-border sm:block" aria-hidden />

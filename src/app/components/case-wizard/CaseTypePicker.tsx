@@ -12,6 +12,7 @@ import {
 import type { CaseType } from "@/lib/cases/types";
 import DockableAction from "@/app/components/ui/DockableAction";
 import PhoneMockupPreview from "./PhoneMockupPreview";
+import { designRouteLoaderProps } from "@/lib/route-navigation";
 
 type Props = {
   brandSlug: string;
@@ -83,6 +84,7 @@ export default function CaseTypePicker({
         <DockableAction className="mt-4">
           <Link
             href={buildCustomDesignPath(brandSlug, modelSlug)}
+            {...designRouteLoaderProps}
             className="flex w-full items-center justify-center rounded-xl bg-cyan-500 py-3.5 text-sm font-bold text-black transition hover:bg-cyan-400"
           >
             شروع طراحی

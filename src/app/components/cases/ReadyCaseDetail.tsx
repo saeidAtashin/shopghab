@@ -11,6 +11,7 @@ import {
   getModelBySlug,
 } from "@/lib/cases";
 import { formatToman } from "@/lib/shop/format";
+import { designRouteLoaderProps } from "@/lib/route-navigation";
 import type { ReadyCase } from "@/lib/cases/types";
 
 type Props = {
@@ -114,6 +115,7 @@ export default function ReadyCaseDetail({ product }: Props) {
             {product.template ? (
               <Link
                 href={`/design/${product.brandSlug}/${product.modelSlug}/${product.caseTypeSlug}?template=${product.slug}`}
+                {...designRouteLoaderProps}
                 className="flex items-center gap-2 rounded-xl border border-cyan-500/50 bg-cyan-500/10 px-6 py-3 text-sm font-bold text-cyan-400 transition hover:bg-cyan-500/20"
               >
                 <Palette size={18} />

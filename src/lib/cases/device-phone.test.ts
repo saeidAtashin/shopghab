@@ -5,7 +5,8 @@ import {
   isPhoneVisitor,
   matchPhoneFromDevice,
   parseRememberedPhone,
-  resolveSuggestedPhone,
+  parseRememberedPhones,
+  resolvePhoneSuggestions,
 } from "./device-phone";
 
 const ANDROID_S24_ULTRA =
@@ -62,16 +63,38 @@ test("matchPhoneFromDevice maps an iPhone screen bucket to the newest shared mod
   );
 });
 
-test("resolveSuggestedPhone keeps a later choice ahead of the detected device", () => {
-  const remembered = { brandSlug: "apple", modelSlug: "iphone-15" };
+test("resolvePhoneSuggestions puts the detected phone ahead of earlier choices", () => {
+  const remembered = [
+    { brandSlug: "apple", modelSlug: "iphone-15" },
+    { brandSlug: "apple", modelSlug: "iphone-14" },
+  ];
   const detected = { brandSlug: "samsung", modelSlug: "galaxy-s24-ultra" };
   assert.deepEqual(
-    resolveSuggestedPhone({ isPhone: true, remembered, detected }),
-    remembered,
+    resolvePhoneSuggestions({ isPhone: true, remembered, detected }),
+    [
+      { ...detected, kind: "current" },
+      { ...remembered[0], kind: "previous" },
+      { ...remembered[1], kind: "previous" },
+    ],
   );
-  assert.equal(
-    resolveSuggestedPhone({ isPhone: false, remembered, detected }),
-    null,
+  assert.deepEqual(
+    resolvePhoneSuggestions({ isPhone: false, remembered, detected }),
+    remembered.map((phone) => ({ ...phone, kind: "previous" })),
+  );
+});
+
+test("resolvePhoneSuggestions does not repeat the current phone in earlier choices", () => {
+  const detected = { brandSlug: "samsung", modelSlug: "galaxy-s24-ultra" };
+  assert.deepEqual(
+    resolvePhoneSuggestions({
+      isPhone: true,
+      remembered: [detected, { brandSlug: "apple", modelSlug: "iphone-15" }],
+      detected,
+    }),
+    [
+      { ...detected, kind: "current" },
+      { brandSlug: "apple", modelSlug: "iphone-15", kind: "previous" },
+    ],
   );
 });
 
@@ -83,6 +106,32 @@ test("parseRememberedPhone rejects an unknown model", () => {
   assert.deepEqual(
     parseRememberedPhone(JSON.stringify({ brandSlug: "apple", modelSlug: "iphone-15" })),
     { brandSlug: "apple", modelSlug: "iphone-15" },
+  );
+});
+
+test("parseRememberedPhones reads a legacy phone and caps the list", () => {
+  assert.deepEqual(
+    parseRememberedPhones(JSON.stringify({ brandSlug: "apple", modelSlug: "iphone-15" })),
+    [{ brandSlug: "apple", modelSlug: "iphone-15" }],
+  );
+  assert.deepEqual(
+    parseRememberedPhones(
+      JSON.stringify([
+        { brandSlug: "apple", modelSlug: "iphone-16" },
+        { brandSlug: "apple", modelSlug: "missing" },
+        { brandSlug: "apple", modelSlug: "iphone-16" },
+        { brandSlug: "apple", modelSlug: "iphone-15" },
+        { brandSlug: "apple", modelSlug: "iphone-15-pro" },
+        { brandSlug: "apple", modelSlug: "iphone-14" },
+        { brandSlug: "samsung", modelSlug: "galaxy-s24-ultra" },
+      ]),
+    ),
+    [
+      { brandSlug: "apple", modelSlug: "iphone-16" },
+      { brandSlug: "apple", modelSlug: "iphone-15" },
+      { brandSlug: "apple", modelSlug: "iphone-15-pro" },
+      { brandSlug: "apple", modelSlug: "iphone-14" },
+    ],
   );
 });
 

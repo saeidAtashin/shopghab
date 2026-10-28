@@ -1,10 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
+import { DesignRoutePendingLabel } from "@/app/components/ui/DesignRouteLoading";
 import { buildCustomDesignPath } from "@/lib/cases/brands.static";
 import { rememberSelectedPhone } from "@/lib/cases/device-phone";
 import type { PhoneModel } from "@/lib/cases/types";
 import { getSeriesBySlug, groupModelsBySeries } from "@/lib/cases/series";
+import { designRouteLoaderProps } from "@/lib/route-navigation";
 import { PhoneBackSvg } from "./PhoneBackSvg";
 
 type Props = {
@@ -14,27 +17,42 @@ type Props = {
 };
 
 function ModelCards({ brandSlug, models }: { brandSlug: string; models: PhoneModel[] }) {
+  const [pendingSlug, setPendingSlug] = useState<string | null>(null);
+
   return (
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-      {models.map((model) => (
-        <Link
-          key={model.slug}
-          href={buildCustomDesignPath(brandSlug, model.slug)}
-          onClick={() => rememberSelectedPhone({ brandSlug, modelSlug: model.slug })}
-          className="group rounded-2xl border border-border bg-card/60 p-4 transition hover:border-cyan-500/50 hover:bg-card"
-        >
-          <div className="relative mx-auto flex h-36 w-20 items-center justify-center">
-            <PhoneBackSvg
-              model={model}
-              className="h-full w-auto max-w-full drop-shadow-lg transition group-hover:scale-105"
-            />
-          </div>
-          <div className="mt-3 text-center">
-            <p className="text-sm font-bold text-foreground">{model.name}</p>
-            <p className="text-xs text-muted">{model.nameEn}</p>
-          </div>
-        </Link>
-      ))}
+      {models.map((model) => {
+        const pending = pendingSlug === model.slug;
+        return (
+          <Link
+            key={model.slug}
+            href={buildCustomDesignPath(brandSlug, model.slug)}
+            {...designRouteLoaderProps}
+            aria-busy={pending}
+            onClick={() => {
+              rememberSelectedPhone({ brandSlug, modelSlug: model.slug });
+              setPendingSlug(model.slug);
+            }}
+            className={`group relative rounded-2xl border border-border bg-card/60 p-4 transition hover:border-cyan-500/50 hover:bg-card ${pending ? "pointer-events-none border-cyan-500/50" : ""}`}
+          >
+            {pending ? (
+              <div className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl bg-background/80 p-3 text-center">
+                <DesignRoutePendingLabel />
+              </div>
+            ) : null}
+            <div className="relative mx-auto flex h-36 w-20 items-center justify-center">
+              <PhoneBackSvg
+                model={model}
+                className="h-full w-auto max-w-full drop-shadow-lg transition group-hover:scale-105"
+              />
+            </div>
+            <div className="mt-3 text-center">
+              <p className="text-sm font-bold text-foreground">{model.name}</p>
+              <p className="text-xs text-muted">{model.nameEn}</p>
+            </div>
+          </Link>
+        );
+      })}
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { createReadStream } from "node:fs";
 
+import { isCenterPlacement, type MockupPlacement } from "./focal";
 import type { MockupTemplateConfig } from "./types";
 
 export function hashFile(filePath: string): Promise<string> {
@@ -33,6 +34,14 @@ export function templateSettingsHash(template: MockupTemplateConfig): string {
   return createHash("sha256").update(payload).digest("hex");
 }
 
-export function mockupContentHash(artworkHash: string, template: MockupTemplateConfig): string {
-  return createHash("sha256").update(artworkHash).update(templateSettingsHash(template)).digest("hex");
+export function mockupContentHash(
+  artworkHash: string,
+  template: MockupTemplateConfig,
+  placement?: MockupPlacement,
+): string {
+  const hash = createHash("sha256").update(artworkHash).update(templateSettingsHash(template));
+  if (placement && !isCenterPlacement(placement)) {
+    hash.update(JSON.stringify({ focalX: placement.focalX, focalY: placement.focalY }));
+  }
+  return hash.digest("hex");
 }

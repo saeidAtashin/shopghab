@@ -168,40 +168,75 @@ export function isPhoneVisitor(userAgent: string, viewportWidth: number): boolea
   return /Android/i.test(userAgent) && /Mobile/i.test(userAgent);
 }
 
+export const MAX_REMEMBERED_PHONES = 4;
+
+export type PhoneSuggestionKind = "current" | "previous";
+
+export type PhoneSuggestion = PhonePick & {
+  kind: PhoneSuggestionKind;
+};
+
+function samePhone(a: PhonePick, b: PhonePick): boolean {
+  return a.brandSlug === b.brandSlug && a.modelSlug === b.modelSlug;
+}
+
 export function parseRememberedPhone(raw: string | null): PhonePick | null {
-  if (!raw) return null;
+  return parseRememberedPhones(raw)[0] ?? null;
+}
+
+export function parseRememberedPhones(raw: string | null): PhonePick[] {
+  if (!raw) return [];
   try {
-    const parsed = JSON.parse(raw) as Partial<PhonePick>;
-    if (!parsed.brandSlug || !parsed.modelSlug) return null;
-    return pick(parsed.brandSlug, parsed.modelSlug);
+    const parsed = JSON.parse(raw) as unknown;
+    const items = Array.isArray(parsed) ? parsed : [parsed];
+    const phones: PhonePick[] = [];
+    for (const item of items) {
+      if (!item || typeof item !== "object") continue;
+      const candidate = item as Partial<PhonePick>;
+      if (!candidate.brandSlug || !candidate.modelSlug) continue;
+      const phone = pick(candidate.brandSlug, candidate.modelSlug);
+      if (!phone || phones.some((existing) => samePhone(existing, phone))) continue;
+      phones.push(phone);
+      if (phones.length >= MAX_REMEMBERED_PHONES) break;
+    }
+    return phones;
   } catch {
-    return null;
+    return [];
   }
 }
 
-export function resolveSuggestedPhone(options: {
+export function resolvePhoneSuggestions(options: {
   isPhone: boolean;
-  remembered: PhonePick | null;
+  remembered: PhonePick[];
   detected: PhonePick | null;
-}): PhonePick | null {
-  if (!options.isPhone) return null;
-  return options.remembered ?? options.detected;
+}): PhoneSuggestion[] {
+  const suggestions: PhoneSuggestion[] = [];
+  const current = options.isPhone ? options.detected : null;
+  if (current) suggestions.push({ ...current, kind: "current" });
+
+  for (const phone of options.remembered) {
+    if (suggestions.some((item) => samePhone(item, phone))) continue;
+    suggestions.push({ ...phone, kind: "previous" });
+  }
+
+  return suggestions;
 }
 
-export function readRememberedPhone(): PhonePick | null {
-  if (typeof window === "undefined") return null;
+export function readRememberedPhones(): PhonePick[] {
+  if (typeof window === "undefined") return [];
   try {
-    return parseRememberedPhone(window.localStorage.getItem(SELECTED_PHONE_STORAGE_KEY));
+    return parseRememberedPhones(window.localStorage.getItem(SELECTED_PHONE_STORAGE_KEY));
   } catch {
-    return null;
+    return [];
   }
 }
 
-export function rememberSelectedPhone(pick: PhonePick): void {
+export function rememberSelectedPhone(selected: PhonePick): void {
   if (typeof window === "undefined") return;
-  if (!getModelBySlug(pick.brandSlug, pick.modelSlug)) return;
-  window.localStorage.setItem(
-    SELECTED_PHONE_STORAGE_KEY,
-    JSON.stringify({ brandSlug: pick.brandSlug, modelSlug: pick.modelSlug }),
-  );
+  const phone = pick(selected.brandSlug, selected.modelSlug);
+  if (!phone) return;
+
+  const remembered = readRememberedPhones().filter((item) => !samePhone(item, phone));
+  const next = [phone, ...remembered].slice(0, MAX_REMEMBERED_PHONES);
+  window.localStorage.setItem(SELECTED_PHONE_STORAGE_KEY, JSON.stringify(next));
 }

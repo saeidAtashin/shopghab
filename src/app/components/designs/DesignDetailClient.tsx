@@ -9,6 +9,7 @@ import ApplyTemplateWizard, {
   type TemplatePurchaseIntent,
 } from "@/app/components/designs/ApplyTemplateWizard";
 import DockableAction from "@/app/components/ui/DockableAction";
+import DesignAdminTools from "@/app/components/designs/DesignAdminTools";
 import DesignArtworkStage from "@/app/components/designs/DesignArtworkStage";
 import DesignImageZoom from "@/app/components/designs/DesignImageZoom";
 import { useAuth } from "@/app/context/AuthContext";
@@ -37,6 +38,8 @@ type Props = {
   collections?: CategoryLink[];
   tags: string[];
   related: RelatedDesign[];
+  /** False when the editor must load the catalog artwork instead of a generated template. */
+  linkedTemplate: boolean;
 };
 
 export default function DesignDetailClient({
@@ -50,10 +53,12 @@ export default function DesignDetailClient({
   collections = [],
   tags,
   related,
+  linkedTemplate,
 }: Props) {
   const { user, loading: authLoading } = useAuth();
   const [wizardOpen, setWizardOpen] = useState(false);
   const [wizardIntent, setWizardIntent] = useState<TemplatePurchaseIntent>("premade");
+  const [forkDesignId, setForkDesignId] = useState<string | undefined>();
   const [loginOpen, setLoginOpen] = useState(false);
   const [caseTypeSlug, setCaseTypeSlug] = useState(SELECTABLE_CASE_TYPE_SLUG);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -64,7 +69,14 @@ export default function DesignDetailClient({
   const customPrice = caseType ? getCaseTotalPrice(caseType, true) : null;
 
   function openWizard(intent: TemplatePurchaseIntent) {
+    setForkDesignId(intent === "custom" && !linkedTemplate ? previewId : undefined);
     setWizardIntent(intent);
+    setWizardOpen(true);
+  }
+
+  function openAdminCopy() {
+    setForkDesignId(previewId);
+    setWizardIntent("custom");
     setWizardOpen(true);
   }
 
@@ -259,6 +271,15 @@ export default function DesignDetailClient({
                 >
                   طراحی اختصاصی
                 </button>
+                {user?.role === "admin" ? (
+                  <button
+                    type="button"
+                    onClick={openAdminCopy}
+                    className="inline-flex w-full items-center justify-center rounded-xl border border-border py-3.5 text-sm font-bold text-foreground transition hover:border-cyan-400"
+                  >
+                    کپی و ویرایش
+                  </button>
+                ) : null}
               </div>
             </DockableAction>
           ) : (
@@ -266,6 +287,8 @@ export default function DesignDetailClient({
           )}
         </div>
       </div>
+
+      {user?.role === "admin" ? <DesignAdminTools designId={previewId} /> : null}
 
       {related.length > 0 ? (
         <section className="mt-16" aria-labelledby="related-designs">
@@ -302,6 +325,7 @@ export default function DesignDetailClient({
         <ApplyTemplateWizard
           template={template}
           intent={wizardIntent}
+          forkDesignId={forkDesignId}
           open={wizardOpen}
           onClose={() => setWizardOpen(false)}
         />

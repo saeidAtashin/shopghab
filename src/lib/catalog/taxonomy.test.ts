@@ -238,6 +238,13 @@ test("older catalog files gain the new fields on read", () => {
   assert.deepEqual(parsed.designs[0]?.collectionIds, []);
   assert.deepEqual(parsed.designs[0]?.mockups, []);
   assert.equal(parsed.designs[0]?.unedited, true);
+  assert.equal(parsed.designs[0]?.placements, undefined);
+  const withPlacement = structuredClone(parsed);
+  const design = withPlacement.designs[0];
+  assert.ok(design);
+  design.placements = { "iphone-17-pro-cover": { focalX: 0.2, focalY: 0.8 } };
+  const again = parseCatalogDocument(withPlacement);
+  assert.equal(again.designs[0]?.placements?.["iphone-17-pro-cover"]?.focalX, 0.2);
   assert.deepEqual(parsed.collections, []);
 });
 

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { listUserDesigns } from "@/lib/design/api";
+import { designRouteLoaderProps } from "@/lib/route-navigation";
 import type { SavedDesign } from "@/lib/design/types";
 
 export default function DesignsDashboardClient() {
@@ -50,6 +51,7 @@ export default function DesignsDashboardClient() {
                 </Link>
                 <Link
                   href={`/design/${design.brandSlug}/${design.modelSlug}/${design.caseTypeSlug}?design=${design.id}`}
+                  {...designRouteLoaderProps}
                   className="rounded-lg bg-cyan-500/20 px-3 py-1.5 text-xs text-cyan-400"
                 >
                   ویرایش

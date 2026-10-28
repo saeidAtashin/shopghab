@@ -9,6 +9,7 @@ import {
   SELECTABLE_CASE_TYPE_SLUG,
   buildCustomDesignPath,
 } from "@/lib/cases/brands.static";
+import { designRouteLoaderProps } from "@/lib/route-navigation";
 import type { CaseType, PhoneBrand, PhoneModel } from "@/lib/cases/types";
 
 type FaqItem = { question: string; answer: string };
@@ -77,6 +78,7 @@ export default function ModelCaseHubClient({
             </p>
             <Link
               href={`${buildCustomDesignPath(brand.slug, model.slug)}?tab=design-for-you`}
+              {...designRouteLoaderProps}
               className="mt-4 inline-flex rounded-xl bg-cyan-500 px-6 py-2.5 text-sm font-bold text-black transition hover:bg-cyan-400"
             >
               ارسال درخواست طراحی

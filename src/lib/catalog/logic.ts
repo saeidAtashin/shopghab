@@ -1,6 +1,8 @@
 import type { BrowseShell } from "@/lib/catalog/browse";
 import type { EditorDesignPicker } from "@/lib/catalog/editor-picker";
 import { designHasProductMockup, selectProductImages } from "@/lib/mockups/display";
+import { isCenterPlacement, type MockupPlacement } from "@/lib/mockups/focal";
+import type { MockupRecord } from "@/lib/mockups/types";
 import {
   suggestedCategorySeoDescription,
   suggestedCategorySeoTitle,
@@ -551,6 +553,87 @@ export function createDesign(
     publishedAt: input.status === "published" ? now : null,
   };
   next.designs.push(design);
+  return { catalog: next, design };
+}
+
+function clipText(value: string, max: number): string {
+  const text = value.replace(/\s+/g, " ").trim();
+  if (text.length <= max) return text;
+  return text.slice(0, max).trimEnd();
+}
+
+export function forkDesignFromArtwork(
+  catalog: DesignCatalog,
+  sourceId: string,
+  asset: { imagePath: string; thumbnailPath: string; width: number; height: number },
+  now = new Date().toISOString(),
+): { catalog: DesignCatalog; design: DesignRecord } {
+  const source = catalog.designs.find((item) => item.id === sourceId);
+  if (!source) throw new CatalogError("طرح پیدا نشد", 404);
+  if (!asset.imagePath.startsWith("/designed/") || asset.imagePath.includes("..")) {
+    throw new CatalogError("مسیر تصویر باید داخل /designed/ باشد", 400);
+  }
+  const title = clipText(`${source.title} (ویرایش)`, 200);
+  const slugBase = source.slug ? `${source.slug}-edit` : "design-edit";
+  const created = createDesign(
+    catalog,
+    {
+      title,
+      titleEn: clipText(source.titleEn, 200),
+      slug: slugBase,
+      shortDescription: clipText(source.shortDescription, 400),
+      description: clipText(source.description, 8000),
+      categoryIds: [...source.categoryIds],
+      attributeValueIds: [...source.attributeValueIds],
+      collectionIds: [...source.collectionIds],
+      tags: [...source.tags],
+      colors: [...source.colors],
+      styles: [...source.styles],
+      alt: clipText(source.alt || title, 300),
+      imagePath: asset.imagePath,
+      thumbnailPath: asset.thumbnailPath || asset.imagePath,
+      gallery: [],
+      seoTitle: clipText(source.seoTitle, 200),
+      seoDescription: clipText(source.seoDescription, 320),
+      ogImage: asset.imagePath,
+      status: "published",
+      featured: false,
+      sortOrder: source.sortOrder,
+      templateSlug: "",
+    },
+    now,
+  );
+  created.design.width = asset.width;
+  created.design.height = asset.height;
+  return created;
+}
+
+export function saveDesignPlacement(
+  catalog: DesignCatalog,
+  id: string,
+  templateId: string,
+  placement: MockupPlacement,
+  mockup: MockupRecord,
+  allowedTemplateIds: string[],
+  now = new Date().toISOString(),
+): { catalog: DesignCatalog; design: DesignRecord } {
+  if (!allowedTemplateIds.includes(templateId)) {
+    throw new CatalogError("این قالب برای طرح انتخاب نشده است", 400);
+  }
+  if (mockup.templateId !== templateId) {
+    throw new CatalogError("خروجی موکاپ با قالب هم‌خوان نیست", 400);
+  }
+  const next = cloneCatalog(catalog);
+  const design = next.designs.find((item) => item.id === id);
+  if (!design) throw new CatalogError("طرح پیدا نشد", 404);
+  const placements = { ...(design.placements ?? {}) };
+  if (isCenterPlacement(placement)) delete placements[templateId];
+  else placements[templateId] = placement;
+  design.placements = Object.keys(placements).length > 0 ? placements : undefined;
+  const index = design.mockups.findIndex((item) => item.templateId === templateId);
+  if (index < 0) design.mockups.push(mockup);
+  else design.mockups[index] = mockup;
+  design.updatedAt = now;
   return { catalog: next, design };
 }
 

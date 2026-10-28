@@ -4,6 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 
 import { usePreferredBrandLoader } from "@/app/context/PreferredBrandLoaderContext";
+import {
+  DEFAULT_ROUTE_LOADER_LABEL,
+  DESIGN_ROUTE_LOADER_LABEL,
+  subscribeRouteNavigation,
+} from "@/lib/route-navigation";
 import RouteLoaderSvg from "./RouteLoaderSvg";
 
 const SHOW_DELAY_MS = 180;
@@ -40,11 +45,13 @@ export default function RouteLoadingOverlay() {
   const { preferredBrandSlug } = usePreferredBrandLoader();
 
   const [visible, setVisible] = useState(false);
+  const [label, setLabel] = useState(DEFAULT_ROUTE_LOADER_LABEL);
   const [runId, setRunId] = useState(0);
   const pendingRef = useRef(false);
   const initialRouteRef = useRef(true);
   const showDelayRef = useRef<number | null>(null);
   const failsafeTimeoutRef = useRef<number | null>(null);
+  const startLoaderRef = useRef<(nextLabel?: string) => void>(() => {});
 
   const clearTimers = () => {
     if (showDelayRef.current) {
@@ -57,10 +64,12 @@ export default function RouteLoadingOverlay() {
     }
   };
 
-  const startLoader = () => {
+  const startLoader = (nextLabel = DEFAULT_ROUTE_LOADER_LABEL) => {
     pendingRef.current = true;
+    setLabel(nextLabel);
     if (showDelayRef.current) window.clearTimeout(showDelayRef.current);
 
+    const delay = nextLabel === DESIGN_ROUTE_LOADER_LABEL ? 0 : SHOW_DELAY_MS;
     showDelayRef.current = window.setTimeout(() => {
       showDelayRef.current = null;
       if (!pendingRef.current) return;
@@ -75,8 +84,9 @@ export default function RouteLoadingOverlay() {
         pendingRef.current = false;
         setVisible(false);
       }, FAILSAFE_HIDE_MS);
-    }, SHOW_DELAY_MS);
+    }, delay);
   };
+  startLoaderRef.current = startLoader;
 
   useEffect(() => {
     const onDocumentClick = (event: MouseEvent) => {
@@ -100,7 +110,9 @@ export default function RouteLoadingOverlay() {
 
       const anchor = target.closest("a");
       if (anchor instanceof HTMLAnchorElement && isInternalNavigationAnchor(anchor)) {
-        startLoader();
+        startLoaderRef.current(
+          anchor.getAttribute("data-route-loader-label") || DEFAULT_ROUTE_LOADER_LABEL,
+        );
         return;
       }
 
@@ -108,12 +120,14 @@ export default function RouteLoadingOverlay() {
         "button[data-route-loader-trigger='true'], [role='button'][data-route-loader-trigger='true']",
       );
       if (button) {
-        startLoader();
+        startLoaderRef.current(
+          button.getAttribute("data-route-loader-label") || DEFAULT_ROUTE_LOADER_LABEL,
+        );
       }
     };
 
     const onPopState = () => {
-      startLoader();
+      startLoaderRef.current();
     };
 
     document.addEventListener("click", onDocumentClick, true);
@@ -121,6 +135,7 @@ export default function RouteLoadingOverlay() {
     return () => {
       document.removeEventListener("click", onDocumentClick, true);
       window.removeEventListener("popstate", onPopState);
+      clearTimers();
     };
   }, []);
 
@@ -138,17 +153,19 @@ export default function RouteLoadingOverlay() {
   }, [pathname, searchParams]);
 
   useEffect(() => {
-    return () => {
-      clearTimers();
-    };
+    return subscribeRouteNavigation((nextLabel) => {
+      startLoaderRef.current(nextLabel);
+    });
   }, []);
 
   if (!visible) return null;
 
   return (
     <div className="route-loader-overlay" role="status" aria-live="polite">
-      <span className="sr-only">در حال بارگذاری…</span>
-      <RouteLoaderSvg brandSlug={preferredBrandSlug} runId={runId} />
+      <div className="flex flex-col items-center gap-4 px-6 text-center">
+        <RouteLoaderSvg brandSlug={preferredBrandSlug} runId={runId} />
+        <p className="text-sm font-bold text-foreground">{label}</p>
+      </div>
     </div>
   );
 }

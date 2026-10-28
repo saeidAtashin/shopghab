@@ -12,7 +12,9 @@ import { applyLinearBurn, buildPrintableTexture, compositePrepared } from "./com
 import { selectProductImages } from "./display";
 import { templatesForDesign } from "./generate";
 import { MockupError } from "./errors";
+import { coverCropRect } from "./focal";
 import { artworkFullyInside, aspectPreserved, containPlacement, filledTextureSize } from "./fit";
+import { mockupContentHash } from "./hash";
 import { inspectPsdBuffer } from "./inspect";
 import { opaqueBoundsFillRectangle, placementCorners, quadIsAxisAligned } from "./placement";
 import { publishValidatedWebp } from "./output";
@@ -219,6 +221,47 @@ test("cover fit fills the print height and crops a wide artwork", async () => {
     assert.equal(bottom[3], 255);
     assert.ok(top[1] > 20 && top[1] < 80);
     assert.ok(bottom[1] > 150);
+  } finally {
+    removeTemp(dir);
+  }
+});
+
+test("cover focal keeps the left edge or the right edge of a wide artwork", async () => {
+  const dir = mkdtempSync(join(tmpdir(), "mockup-focal-"));
+  try {
+    const width = 80;
+    const height = 20;
+    const data = Buffer.alloc(width * height * 4, 255);
+    for (let y = 0; y < height; y += 1) {
+      for (let x = 0; x < width; x += 1) {
+        const index = (y * width + x) * 4;
+        const leftSide = x < width / 2;
+        data[index] = leftSide ? 255 : 0;
+        data[index + 1] = 0;
+        data[index + 2] = leftSide ? 0 : 255;
+      }
+    }
+    const artPath = join(dir, "wide.png");
+    writeFileSync(artPath, await sharp(data, { raw: { width, height, channels: 4 } }).png().toBuffer());
+
+    const left = coverCropRect(width, height, 40, 40, { focalX: 0, focalY: 0.5 });
+    const right = coverCropRect(width, height, 40, 40, { focalX: 1, focalY: 0.5 });
+    assert.equal(left.left, 0);
+    assert.equal(right.left, right.resizedWidth - 40);
+
+    const leftTexture = await buildPrintableTexture(artPath, 40, 40, { strategy: "solid", color: "#ffffff" }, "cover", { focalX: 0, focalY: 0.5 });
+    const rightTexture = await buildPrintableTexture(artPath, 40, 40, { strategy: "solid", color: "#ffffff" }, "cover", { focalX: 1, focalY: 0.5 });
+    const leftPixel = await pixel(leftTexture, 0, 20);
+    const rightPixel = await pixel(rightTexture, 39, 20);
+    assert.ok(leftPixel[0] > 200);
+    assert.ok(leftPixel[2] < 40);
+    assert.ok(rightPixel[2] > 200);
+    assert.ok(rightPixel[0] < 40);
+
+    const template = placementTemplate({ fit: "cover" });
+    const centered = mockupContentHash("art", template, { focalX: 0.5, focalY: 0.5 });
+    assert.equal(centered, mockupContentHash("art", template));
+    assert.notEqual(centered, mockupContentHash("art", template, { focalX: 0, focalY: 0.5 }));
   } finally {
     removeTemp(dir);
   }

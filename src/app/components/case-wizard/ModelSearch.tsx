@@ -4,8 +4,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Search } from "lucide-react";
+import { DesignRoutePendingLabel } from "@/app/components/ui/DesignRouteLoading";
 import { buildCustomDesignPath } from "@/lib/cases/brands.static";
 import { rememberSelectedPhone } from "@/lib/cases/device-phone";
+import { beginRouteNavigation, designRouteLoaderProps } from "@/lib/route-navigation";
 import { hasStrongModelMatch, searchPhoneModels } from "@/lib/cases/model-search";
 import type { ModelSearchResult } from "@/lib/cases/model-search";
 import { PhoneBackSvg } from "./PhoneBackSvg";
@@ -30,6 +32,7 @@ export default function ModelSearch({
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [results, setResults] = useState<ModelSearchResult[]>([]);
   const [open, setOpen] = useState(false);
+  const [pendingKey, setPendingKey] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -63,12 +66,12 @@ export default function ModelSearch({
 
   const handleSelect = useCallback(
     (result: ModelSearchResult) => {
-      setOpen(false);
-      setQuery("");
+      setPendingKey(`${result.model.brandSlug}-${result.model.slug}`);
       rememberSelectedPhone({
         brandSlug: result.model.brandSlug,
         modelSlug: result.model.slug,
       });
+      beginRouteNavigation();
       router.push(buildCustomDesignPath(result.model.brandSlug, result.model.slug));
     },
     [router],
@@ -127,33 +130,42 @@ export default function ModelSearch({
           role="listbox"
           className="absolute z-20 mt-2 max-h-80 w-full overflow-y-auto rounded-2xl border border-border bg-background/95 p-2 shadow-2xl backdrop-blur-xl"
         >
-          {results.map((result) => (
-            <li key={`${result.model.brandSlug}-${result.model.slug}`} role="option">
+          {results.map((result) => {
+            const key = `${result.model.brandSlug}-${result.model.slug}`;
+            const pending = pendingKey === key;
+            return (
+            <li key={key} role="option">
               <Link
                 href={buildCustomDesignPath(result.model.brandSlug, result.model.slug)}
+                {...designRouteLoaderProps}
+                aria-busy={pending}
                 onClick={() => {
                   rememberSelectedPhone({
                     brandSlug: result.model.brandSlug,
                     modelSlug: result.model.slug,
                   });
-                  setOpen(false);
-                  setQuery("");
+                  setPendingKey(key);
                 }}
-                className="flex items-center gap-3 rounded-xl px-3 py-2.5 transition hover:bg-surface"
+                className={`flex items-center gap-3 rounded-xl px-3 py-2.5 transition hover:bg-surface ${pending ? "pointer-events-none" : ""}`}
               >
                 <div className="flex h-14 w-8 shrink-0 items-center justify-center">
                   <PhoneBackSvg model={result.model} className="h-full w-auto" />
                 </div>
                 <div className="min-w-0 flex-1 text-right">
                   <p className="truncate text-sm font-bold text-foreground">{result.model.name}</p>
-                  <p className="truncate text-xs text-muted">{result.model.nameEn}</p>
+                  {pending ? (
+                    <DesignRoutePendingLabel className="mt-1" />
+                  ) : (
+                    <p className="truncate text-xs text-muted">{result.model.nameEn}</p>
+                  )}
                 </div>
                 <span className="shrink-0 rounded-lg bg-surface px-2 py-1 text-xs text-muted">
                   {result.brand.name}
                 </span>
               </Link>
             </li>
-          ))}
+            );
+          })}
         </ul>
       ) : null}
 

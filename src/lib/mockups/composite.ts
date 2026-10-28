@@ -5,6 +5,7 @@ import { join } from "node:path";
 import sharp from "sharp";
 
 import { MockupError } from "./errors";
+import { coverCropRect, isCenterPlacement, type MockupPlacement } from "./focal";
 import { resolveInside } from "./paths";
 import type { FillStrategy, MockupTemplateConfig, OverlayBlend, Point } from "./types";
 import { displaceImage, warpImage, warpMesh, type RawImage } from "./warp";
@@ -53,15 +54,28 @@ export async function buildPrintableTexture(
   regionHeight: number,
   fill: FillStrategy,
   fit: "contain" | "cover" = "contain",
+  placement?: MockupPlacement,
 ): Promise<Buffer> {
   if (regionWidth < 1 || regionHeight < 1) throw new MockupError("unconfiguredRegion");
   const meta = await sharp(artworkPath).metadata();
   if (!meta.width || !meta.height) throw new MockupError("invalidArtwork");
 
   if (fit === "cover") {
-    return sharp(artworkPath)
+    if (!placement || isCenterPlacement(placement)) {
+      return sharp(artworkPath)
+        .ensureAlpha()
+        .resize(regionWidth, regionHeight, { fit: "cover", position: "centre" })
+        .png()
+        .toBuffer();
+    }
+    const crop = coverCropRect(meta.width, meta.height, regionWidth, regionHeight, placement);
+    const resized = await sharp(artworkPath)
       .ensureAlpha()
-      .resize(regionWidth, regionHeight, { fit: "cover", position: "centre" })
+      .resize(crop.resizedWidth, crop.resizedHeight, { fit: "fill" })
+      .png()
+      .toBuffer();
+    return sharp(resized)
+      .extract({ left: crop.left, top: crop.top, width: crop.width, height: crop.height })
       .png()
       .toBuffer();
   }
@@ -266,6 +280,7 @@ export async function compositePrepared(options: {
   templateRoot: string;
   outputPath: string;
   thumbPath: string;
+  placement?: MockupPlacement;
 }): Promise<{ width: number; height: number }> {
   const { template } = options;
   const regionWidth = template.printable.width;
@@ -280,6 +295,7 @@ export async function compositePrepared(options: {
     regionHeight,
     template.fill,
     template.fit,
+    options.placement,
   );
   let textureRaw = await toRaw(texture, regionWidth, regionHeight);
   const mesh = template.printable.mesh;
