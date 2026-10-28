@@ -398,4 +398,16 @@ export async function splitPrintStack(options: {
     mask: null,
     overlays: [],
   };
-  await paintContain
+  await paintContainer(options.layers, [], target, slot, size);
+  if (!target.passedSlot || !target.mask) return null;
+  return {
+    name: slot.name ?? "",
+    width: Math.round(width),
+    height: Math.round(height),
+    transform: corners,
+    base: target.base,
+    mask: target.mask,
+    mesh: envelopeMesh(placed.warp),
+    overlays: target.overlays,
+  };
+}

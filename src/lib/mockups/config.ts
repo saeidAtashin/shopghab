@@ -81,4 +81,5 @@ export function enabledTemplates(templates: MockupTemplateConfig[]): MockupTempl
 }
 
 export function loadProjectTemplates(cwd = process.cwd()): MockupTemplateConfig[] {
-  return validateMockupTempla
+  return validateMockupTemplates(mockupTemplates, mockupRoot(cwd));
+}

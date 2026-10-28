@@ -85,7 +85,7 @@ export const mockupTemplates: MockupTemplateConfig[] = [
     psdPath: "psd/iphone_pro_case.psd",
     enabled: true,
     renderer: "prepared",
-    version: "5",
+    version: "6",
     default: false,
     output: { width: 1600, height: 1143, quality: 82, thumbEdge: 400 },
     printable: {
@@ -106,10 +106,10 @@ export const mockupTemplates: MockupTemplateConfig[] = [
     overlays: [
       { path: "prepared/iphone-pro-case/overlay-0.png", blend: "linear-burn" },
       { path: "prepared/iphone-pro-case/overlay-1.png", blend: "multiply" },
-      { path: "prepared/iphone-pro-case/overlay-2.png", blend: "normal" },
+      { path: "prepared/iphone-pro-case/overlay-2.png", blend: "color-burn" },
       { path: "prepared/iphone-pro-case/overlay-3.png", blend: "screen" },
-      { path: "prepared/iphone-pro-case/overlay-4.png", blend: "normal" },
-      { path: "prepared/iphone-pro-case/overlay-5.png", blend: "normal" },
+      { path: "prepared/iphone-pro-case/overlay-4.png", blend: "soft-light" },
+      { path: "prepared/iphone-pro-case/overlay-5.png", blend: "color-dodge" },
       { path: "prepared/iphone-pro-case/overlay-6.png", blend: "screen" },
     ],
     displacementPath: null,

@@ -69,4 +69,6 @@ export type MockupRecord = {
   contentHash: string;
   templateVersion: string;
   generatedAt: string;
- 
+  status: MockupStatus;
+  error: string;
+};

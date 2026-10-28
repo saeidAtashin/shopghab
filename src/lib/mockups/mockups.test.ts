@@ -1191,6 +1191,26 @@ test("linear burn darkens the artwork and stays above it", async () => {
   }
 });
 
+test("color burn, soft light, and color dodge are not painted as a normal cover", async () => {
+  assert.equal(overlayBlend("color burn"), "color-burn");
+  assert.equal(overlayBlend("soft light"), "soft-light");
+  assert.equal(overlayBlend("color dodge"), "color-dodge");
+  const white = await sharp({
+    create: { width: 1, height: 1, channels: 4, background: { r: 255, g: 255, b: 255, alpha: 1 } },
+  })
+    .png()
+    .toBuffer();
+  const dark = await sharp({
+    create: { width: 1, height: 1, channels: 4, background: { r: 38, g: 38, b: 38, alpha: 1 } },
+  })
+    .png()
+    .toBuffer();
+  const burned = await sharp(white).composite([{ input: dark, blend: "color-burn" }]).raw().toBuffer();
+  const covered = await sharp(white).composite([{ input: dark, blend: "over" }]).raw().toBuffer();
+  assert.ok((burned[0] ?? 0) > 200);
+  assert.ok((covered[0] ?? 0) < 50);
+});
+
 test("an unknown overlay blend is rejected", () => {
   const root = mkdtempSync(join(tmpdir(), "mockup-overlay-config-"));
   assert.throws(
@@ -1201,4 +1221,5 @@ test("an unknown overlay blend is rejected", () => {
       ),
     /unknown overlay blend/,
   );
-  removeTemp
+  removeTemp(root);
+});
