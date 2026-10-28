@@ -122,37 +122,37 @@ export default function CatalogBrowseChrome({ shell, children }: Props) {
 
   return (
     <div>
-      <div className="mb-4 flex items-start gap-2">
-        <div className="min-w-0 flex-1">
-          <StorefrontToolbar
-            colors={(colorGroup?.options ?? []).map((option) => ({
-              id: option.id,
-              label: option.label,
-              active: query.attrs.includes(option.id),
-              href: stay({ attrs: toggleBrowseToken(query.attrs, option.id) }),
-            }))}
-            sort={query.sort}
-            onSort={changeSort}
-            searchValue={draft}
-            onSearchValue={setDraft}
-            onSearch={submitSearch}
-          />
-        </div>
-        <button
-          type="button"
-          onClick={() => setDrawerOpen(true)}
-          aria-expanded={drawerOpen}
-          aria-controls="browse-filters"
-          className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-xl border border-border bg-card px-3 text-sm font-bold lg:hidden"
-        >
-          <SlidersHorizontal className="h-4 w-4" aria-hidden />
-          فیلتر
-          {query.attrs.length > 0 ? (
-            <span className="rounded-full bg-[#5145FF]/20 px-1.5 text-xs text-[#C4C0FF]">
-              {query.attrs.length.toLocaleString("fa-IR")}
-            </span>
-          ) : null}
-        </button>
+      <div className="mb-4">
+        <StorefrontToolbar
+          colors={(colorGroup?.options ?? []).map((option) => ({
+            id: option.id,
+            label: option.label,
+            active: query.attrs.includes(option.id),
+            href: stay({ attrs: toggleBrowseToken(query.attrs, option.id) }),
+          }))}
+          sort={query.sort}
+          onSort={changeSort}
+          searchValue={draft}
+          onSearchValue={setDraft}
+          onSearch={submitSearch}
+          actions={
+            <button
+              type="button"
+              onClick={() => setDrawerOpen(true)}
+              aria-expanded={drawerOpen}
+              aria-controls="browse-filters"
+              className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-xl border border-border bg-card px-3 text-sm font-bold lg:hidden"
+            >
+              <SlidersHorizontal className="h-4 w-4" aria-hidden />
+              فیلتر
+              {query.attrs.length > 0 ? (
+                <span className="rounded-full bg-[#5145FF]/20 px-1.5 text-xs text-[#C4C0FF]">
+                  {query.attrs.length.toLocaleString("fa-IR")}
+                </span>
+              ) : null}
+            </button>
+          }
+        />
       </div>
 
       <div className="lg:grid lg:grid-cols-[18rem_minmax(0,1fr)] lg:items-start lg:gap-8">

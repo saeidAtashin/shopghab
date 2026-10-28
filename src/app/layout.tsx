@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import "./globals.css";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
+import SiteBottomChrome from "./components/layout/SiteBottomChrome";
 import SiteFooter from "./components/layout/SiteFooter";
 import GoogleAnalytics from "./components/seo/GoogleAnalytics";
 import LocalBusinessSchema from "./components/seo/LocalBusinessSchema";
@@ -84,12 +85,14 @@ export default function RootLayout({
                 <RouteLoadingOverlay />
               </Suspense>
               <Navbar />
-              {children}
-              <Suspense fallback={null}>
-                <SiteFooter>
-                  <Footer />
-                </SiteFooter>
-              </Suspense>
+              <SiteBottomChrome>
+                {children}
+                <Suspense fallback={null}>
+                  <SiteFooter>
+                    <Footer />
+                  </SiteFooter>
+                </Suspense>
+              </SiteBottomChrome>
             </PreferredBrandLoaderProvider>
           </ShopCartProvider>
         </AuthProvider>

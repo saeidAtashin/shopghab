@@ -5,7 +5,6 @@ import HomeCategoryMosaic from "@/app/components/home/HomeCategoryMosaic";
 import HomeCollections from "@/app/components/home/HomeCollections";
 import HomeDesignFilmstrip, { type FilmDesign } from "@/app/components/home/HomeDesignFilmstrip";
 import HomeDiscovery from "@/app/components/home/HomeDiscovery";
-import HomeMobileDock from "@/app/components/home/HomeMobileDock";
 import HomeHero from "@/app/components/home/hero/HomeHero";
 import NavSearch from "@/app/components/layout/nav/NavSearch";
 import { PHONE_BRANDS, getCaseTotalPrice, getCaseTypeBySlug, SELECTABLE_CASE_TYPE_SLUG } from "@/lib/cases/brands.static";
@@ -161,7 +160,7 @@ export default function HomeCasePage({ searchParams }: { searchParams: SearchPar
     <main
       id="main"
       tabIndex={-1}
-      className="home-storefront min-h-screen overflow-x-clip px-4 pb-28 pt-16 outline-none sm:px-6 xl:pb-16 xl:pt-24">
+      className="home-storefront min-h-screen overflow-x-clip px-4 pb-16 pt-16 outline-none sm:px-6 xl:pt-24">
       <div className="mx-auto flex max-w-[90rem] flex-col gap-4">
         <NavSearch placeholder="جستجو در طرح‌ها..." className="xl:hidden" />
 
@@ -225,7 +224,6 @@ export default function HomeCasePage({ searchParams }: { searchParams: SearchPar
 
         <HomeCollections cards={storyCards} />
       </div>
-      <HomeMobileDock />
     </main>
   );
 }
