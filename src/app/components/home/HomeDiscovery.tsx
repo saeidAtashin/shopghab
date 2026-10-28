@@ -102,6 +102,19 @@ function optionLabel(shell: BrowseShell, id: string): string {
 
 const cardGridClass = "grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-4";
 
+function gridColumns(cards: HTMLElement[]) {
+  const first = cards[0];
+  if (!first) return 1;
+  const top = first.getBoundingClientRect().top;
+  let count = 1;
+  for (let index = 1; index < cards.length; index += 1) {
+    const card = cards[index];
+    if (!card || Math.abs(card.getBoundingClientRect().top - top) > 1) break;
+    count += 1;
+  }
+  return count;
+}
+
 function DesignGrid({
   designs,
   film,
@@ -357,24 +370,29 @@ export default function HomeDiscovery({
     if (!filters || !column || film.length === 0) return;
 
     const measure = () => {
-      const cards = column.querySelectorAll<HTMLElement>("[data-design-card]");
+      const cards = [...column.querySelectorAll<HTMLElement>("[data-design-card]")];
       if (cards.length === 0) return;
-      const film = column.querySelector<HTMLElement>("[data-filmstrip]");
-      const filmHeight = film?.getBoundingClientRect().height ?? 0;
-      const columnTop = column.getBoundingClientRect().top;
-      const filterBottom = filters.getBoundingClientRect().bottom - columnTop;
-      const columns = 4;
+      const columns = gridColumns(cards);
+      const sidebar = filters.getClientRects().length > 0;
       let next = cards.length;
-      for (let index = 0; index < cards.length; index += 1) {
-        const card = cards[index];
-        if (!card) continue;
-        const filmBefore = film
-          ? (film.compareDocumentPosition(card) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0
-          : false;
-        const bottom = card.getBoundingClientRect().bottom - columnTop - (filmBefore ? filmHeight : 0);
-        if (bottom >= filterBottom) {
-          next = Math.min(cards.length, Math.floor(index / columns) * columns + columns);
-          break;
+      if (!sidebar) {
+        next = Math.min(cards.length, columns * 2);
+      } else {
+        const film = column.querySelector<HTMLElement>("[data-filmstrip]");
+        const filmHeight = film?.getBoundingClientRect().height ?? 0;
+        const columnTop = column.getBoundingClientRect().top;
+        const filterBottom = filters.getBoundingClientRect().bottom - columnTop;
+        for (let index = 0; index < cards.length; index += 1) {
+          const card = cards[index];
+          if (!card) continue;
+          const filmBefore = film
+            ? (film.compareDocumentPosition(card) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0
+            : false;
+          const bottom = card.getBoundingClientRect().bottom - columnTop - (filmBefore ? filmHeight : 0);
+          if (bottom >= filterBottom) {
+            next = Math.min(cards.length, Math.floor(index / columns) * columns + columns);
+            break;
+          }
         }
       }
       setFilmAfter((current) => (current === next ? current : next));
@@ -384,7 +402,11 @@ export default function HomeDiscovery({
     const observer = new ResizeObserver(measure);
     observer.observe(filters);
     observer.observe(column);
-    return () => observer.disconnect();
+    window.addEventListener("resize", measure);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", measure);
+    };
   }, [film.length, items.length, queryKey]);
 
   useEffect(() => {
@@ -462,7 +484,7 @@ export default function HomeDiscovery({
   }
 
   return (
-    <section aria-label="طرح‌ها" className="hidden space-y-4 xl:block">
+    <section aria-label="طرح‌ها" className="space-y-4">
       <div className="sticky top-[4.5rem] z-30 -mx-4 border-b border-border bg-[#080D18]/95 px-4 py-3 backdrop-blur-md xl:hidden">
         <div className="flex items-center gap-2">
           <form role="search" onSubmit={submitSearch} className="relative min-w-0 flex-1">

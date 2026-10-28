@@ -108,22 +108,28 @@ export default function HomeDesignFilmstrip({ designs, className }: Props) {
       const width = document.documentElement.clientWidth;
       stage.style.width = `${width}px`;
       stage.style.maxWidth = "none";
-      stage.style.transform = "none";
       stage.style.marginLeft = "0px";
+      stage.style.transform = "none";
       const left = stage.getBoundingClientRect().left;
-      stage.style.marginLeft = `${-left}px`;
+      stage.style.transform = `translate3d(${-left}px,0,0)`;
+
+      frame.style.transform = "none";
+      const frameRect = frame.getBoundingClientRect();
+      const nudge = width / 2 - (frameRect.left + frameRect.width / 2);
+      frame.style.transform = `translate3d(${nudge}px,0,0)`;
     };
 
     const applyMetrics = () => {
       alignStage();
       const innerCell = print.clientWidth;
       const frameHeight = frame.clientHeight;
+      const stageRect = stage.getBoundingClientRect();
       if (stage.clientWidth < 1 || frameHeight < 1 || innerCell < 1) return;
       const next: Metrics = {
         innerCell,
         outerCell: innerCell * OUTER_SCALE,
         outerHeight: frameHeight * (PRINT.height / FRAME.height) * OUTER_SCALE,
-        phoneCenter: stage.clientWidth / 2,
+        phoneCenter: document.documentElement.clientWidth / 2 - stageRect.left,
         count,
       };
       const prev = metricsRef.current;
@@ -229,7 +235,6 @@ export default function HomeDesignFilmstrip({ designs, className }: Props) {
       dir="ltr"
       data-filmstrip=""
       className={cn("relative z-30 flex max-w-none items-center justify-center", className)}
-      style={{ width: "100vw", maxWidth: "none" }}
       onDragStart={(event) => event.preventDefault()}
       onPointerDown={(event) => {
         if (event.button !== 0) return;
