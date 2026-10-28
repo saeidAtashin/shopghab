@@ -10,7 +10,7 @@ function isEditableTarget(target: EventTarget | null): boolean {
   return tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || target.isContentEditable;
 }
 
-export function useEditorShortcuts() {
+export function useEditorShortcuts(guardEdit?: (action: () => void) => void) {
   const {
     undo,
     redo,
@@ -24,6 +24,8 @@ export function useEditorShortcuts() {
   } = useEditorStore();
 
   useEffect(() => {
+    const allow = guardEdit ?? ((action: () => void) => action());
+
     function onKeyDown(e: KeyboardEvent) {
       if (isEditableTarget(e.target)) return;
 
@@ -42,12 +44,12 @@ export function useEditorShortcuts() {
       }
       if (mod && e.key === "t") {
         e.preventDefault();
-        addTextLayer();
+        allow(() => addTextLayer());
         return;
       }
       if (mod && e.key === "d" && selected) {
         e.preventDefault();
-        duplicateLayer(selected.id);
+        allow(() => duplicateLayer(selected.id));
         return;
       }
       if (mod && e.key === "]" && selected) {
@@ -96,6 +98,7 @@ export function useEditorShortcuts() {
     nudgeLayer,
     duplicateLayer,
     getSelectedLayer,
+    guardEdit,
   ]);
 }
 

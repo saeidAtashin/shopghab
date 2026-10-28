@@ -1,11 +1,17 @@
-import { isBrandLoaderSlug, type BrandLoaderSlug } from "./brand-route-loaders";
+export type BrandLoaderSlug = "apple" | "samsung" | "xiaomi" | "huawei";
 
 export const PREFERRED_BRAND_LOADER_STORAGE_KEY = "preferred-brand-loader";
 
 const BRAND_ROUTE_PATTERN =
   /^\/(?:create|design|phones)\/(apple|samsung|xiaomi|huawei)(?:\/|$|\?)/;
 
+const BRAND_LOADER_SET = new Set<string>(["apple", "samsung", "xiaomi", "huawei"]);
+
 export type PreferredBrandLoaderSlug = BrandLoaderSlug | null;
+
+export function isBrandLoaderSlug(slug: string): slug is BrandLoaderSlug {
+  return BRAND_LOADER_SET.has(slug);
+}
 
 function hasLocalStorage(): boolean {
   return typeof window !== "undefined" && typeof window.localStorage !== "undefined";

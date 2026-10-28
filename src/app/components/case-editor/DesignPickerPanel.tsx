@@ -17,6 +17,7 @@ import {
   type EditorPickerDesign,
   type EditorPickerSort,
 } from "@/lib/catalog/editor-picker";
+import { useGuestEditGate } from "@/app/components/case-editor/EditorGuestGate";
 import { useEditorStore } from "@/lib/design/editor-store";
 import { designedAssetUrl } from "@/lib/designed-assets";
 import { cn } from "@/lib/utils";
@@ -33,6 +34,7 @@ function toggleId(values: string[], id: string): string[] {
 
 export default function DesignPickerPanel({ picker }: Props) {
   const addDesignImage = useEditorStore((s) => s.addDesignImage);
+  const { requireAccount } = useGuestEditGate();
   const searchId = useId();
   const sortId = useId();
   const scrollerRef = useRef<HTMLDivElement>(null);
@@ -114,8 +116,10 @@ export default function DesignPickerPanel({ picker }: Props) {
   }
 
   function applyDesign(design: EditorPickerDesign) {
-    addDesignImage(design.src, design.width, design.height, design.title);
-    setAddedId(design.id);
+    requireAccount(() => {
+      addDesignImage(design.src, design.width, design.height, design.title);
+      setAddedId(design.id);
+    });
   }
 
   const pills = [...childIds, ...attributeIds].flatMap((id) => {

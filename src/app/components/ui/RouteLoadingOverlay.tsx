@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 
+<<<<<<< HEAD
 import { usePreferredBrandLoader } from "@/app/context/PreferredBrandLoaderContext";
 import {
   DEFAULT_ROUTE_LOADER_LABEL,
@@ -10,6 +11,15 @@ import {
   subscribeRouteNavigation,
 } from "@/lib/route-navigation";
 import RouteLoaderSvg from "./RouteLoaderSvg";
+=======
+import ShopghabLoaderSvg from "./ShopghabLoaderSvg";
+import {
+  DEFAULT_LOADER_THEME,
+  themeFromHref,
+  themeFromLocation,
+  type LoaderTheme,
+} from "@/lib/case-loading/loader-theme";
+>>>>>>> b30ecce6594f8307a08f0a3ffaf197ae58cec20f
 
 const SHOW_DELAY_MS = 180;
 const FAILSAFE_HIDE_MS = 8000;
@@ -28,8 +38,7 @@ function isInternalNavigationAnchor(element: HTMLAnchorElement) {
     const isSamePathAndSearch =
       url.pathname === window.location.pathname &&
       url.search === window.location.search;
-    const isHashOnly =
-      isSamePathAndSearch && url.hash.length > 0;
+    const isHashOnly = isSamePathAndSearch && url.hash.length > 0;
     const isSameRouteNoNavigation =
       isSamePathAndSearch && (url.hash === "" || url.hash === window.location.hash);
 
@@ -42,11 +51,13 @@ function isInternalNavigationAnchor(element: HTMLAnchorElement) {
 export default function RouteLoadingOverlay() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { preferredBrandSlug } = usePreferredBrandLoader();
 
   const [visible, setVisible] = useState(false);
   const [label, setLabel] = useState(DEFAULT_ROUTE_LOADER_LABEL);
   const [runId, setRunId] = useState(0);
+  const [theme, setTheme] = useState<LoaderTheme>(DEFAULT_LOADER_THEME);
+  const pathnameRef = useRef(pathname);
+  const searchParamsRef = useRef(searchParams);
   const pendingRef = useRef(false);
   const initialRouteRef = useRef(true);
   const showDelayRef = useRef<number | null>(null);
@@ -64,9 +75,15 @@ export default function RouteLoadingOverlay() {
     }
   };
 
+<<<<<<< HEAD
   const startLoader = (nextLabel = DEFAULT_ROUTE_LOADER_LABEL) => {
     pendingRef.current = true;
     setLabel(nextLabel);
+=======
+  const startLoader = useCallback((nextTheme?: LoaderTheme) => {
+    pendingRef.current = true;
+    if (nextTheme) setTheme(nextTheme);
+>>>>>>> b30ecce6594f8307a08f0a3ffaf197ae58cec20f
     if (showDelayRef.current) window.clearTimeout(showDelayRef.current);
 
     const delay = nextLabel === DESIGN_ROUTE_LOADER_LABEL ? 0 : SHOW_DELAY_MS;
@@ -84,18 +101,24 @@ export default function RouteLoadingOverlay() {
         pendingRef.current = false;
         setVisible(false);
       }, FAILSAFE_HIDE_MS);
+<<<<<<< HEAD
     }, delay);
   };
   startLoaderRef.current = startLoader;
+=======
+    }, SHOW_DELAY_MS);
+  }, []);
+
+  useEffect(() => {
+    pathnameRef.current = pathname;
+    searchParamsRef.current = searchParams;
+  }, [pathname, searchParams]);
+>>>>>>> b30ecce6594f8307a08f0a3ffaf197ae58cec20f
 
   useEffect(() => {
     const onDocumentClick = (event: MouseEvent) => {
       const target = event.target as HTMLElement | null;
       if (!target) return;
-
-      if (target.closest("[data-route-loader-ignore='true']")) {
-        return;
-      }
 
       if (
         event.defaultPrevented ||
@@ -110,9 +133,27 @@ export default function RouteLoadingOverlay() {
 
       const anchor = target.closest("a");
       if (anchor instanceof HTMLAnchorElement && isInternalNavigationAnchor(anchor)) {
+<<<<<<< HEAD
         startLoaderRef.current(
           anchor.getAttribute("data-route-loader-label") || DEFAULT_ROUTE_LOADER_LABEL,
         );
+=======
+        const forceShow = anchor.getAttribute("data-route-loader-show") === "true";
+        if (!forceShow && target.closest("[data-route-loader-ignore='true']")) {
+          return;
+        }
+
+        startLoader(
+          themeFromHref(
+            anchor.getAttribute("href"),
+            anchor.getAttribute("data-loader-accent"),
+          ),
+        );
+        return;
+      }
+
+      if (target.closest("[data-route-loader-ignore='true']")) {
+>>>>>>> b30ecce6594f8307a08f0a3ffaf197ae58cec20f
         return;
       }
 
@@ -120,14 +161,27 @@ export default function RouteLoadingOverlay() {
         "button[data-route-loader-trigger='true'], [role='button'][data-route-loader-trigger='true']",
       );
       if (button) {
+<<<<<<< HEAD
         startLoaderRef.current(
           button.getAttribute("data-route-loader-label") || DEFAULT_ROUTE_LOADER_LABEL,
         );
+=======
+        startLoader(themeFromLocation(pathnameRef.current, searchParamsRef.current));
+>>>>>>> b30ecce6594f8307a08f0a3ffaf197ae58cec20f
       }
     };
 
     const onPopState = () => {
+<<<<<<< HEAD
       startLoaderRef.current();
+=======
+      startLoader(
+        themeFromLocation(
+          window.location.pathname,
+          new URLSearchParams(window.location.search),
+        ),
+      );
+>>>>>>> b30ecce6594f8307a08f0a3ffaf197ae58cec20f
     };
 
     document.addEventListener("click", onDocumentClick, true);
@@ -137,7 +191,7 @@ export default function RouteLoadingOverlay() {
       window.removeEventListener("popstate", onPopState);
       clearTimers();
     };
-  }, []);
+  }, [startLoader]);
 
   useEffect(() => {
     if (initialRouteRef.current) {
@@ -162,10 +216,15 @@ export default function RouteLoadingOverlay() {
 
   return (
     <div className="route-loader-overlay" role="status" aria-live="polite">
+<<<<<<< HEAD
       <div className="flex flex-col items-center gap-4 px-6 text-center">
         <RouteLoaderSvg brandSlug={preferredBrandSlug} runId={runId} />
         <p className="text-sm font-bold text-foreground">{label}</p>
       </div>
+=======
+      <span className="sr-only">در حال بارگذاری…</span>
+      <ShopghabLoaderSvg runId={runId} theme={theme} />
+>>>>>>> b30ecce6594f8307a08f0a3ffaf197ae58cec20f
     </div>
   );
 }

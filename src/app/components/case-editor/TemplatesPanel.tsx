@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import {
   getAllTemplates,
 } from "@/lib/cases/templates.static";
+import { useGuestEditGate } from "@/app/components/case-editor/EditorGuestGate";
 import { useEditorStore } from "@/lib/design/editor-store";
 import type { CaseTemplate } from "@/lib/design/types";
 import { lockPageScroll } from "@/lib/scroll-lock";
@@ -19,6 +20,7 @@ type Props = {
 export default function TemplatesPanel({ brandSlug: _brandSlug, modelSlug: _modelSlug, caseTypeSlug: _caseTypeSlug }: Props) {
   const document = useEditorStore((s) => s.document);
   const loadTemplate = useEditorStore((s) => s.loadTemplate);
+  const { requireAccount } = useGuestEditGate();
   const [confirmTemplate, setConfirmTemplate] = useState<CaseTemplate | null>(null);
 
   useEffect(() => {
@@ -29,8 +31,10 @@ export default function TemplatesPanel({ brandSlug: _brandSlug, modelSlug: _mode
   const displayTemplates = getAllTemplates();
 
   function applyTemplate(template: CaseTemplate, replace: boolean) {
-    loadTemplate(template, replace);
-    setConfirmTemplate(null);
+    requireAccount(() => {
+      loadTemplate(template, replace);
+      setConfirmTemplate(null);
+    });
   }
 
   function handleSelect(template: CaseTemplate) {

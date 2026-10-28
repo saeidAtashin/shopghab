@@ -5,10 +5,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { Check, Search, X } from "lucide-react";
 
-import PhoneVerificationModal from "@/app/components/auth/PhoneVerificationModal";
 import { PhoneBackSvg } from "@/app/components/case-wizard/PhoneBackSvg";
+<<<<<<< HEAD
 import SuggestedPhoneCard, { usePhoneSuggestions } from "@/app/components/case-wizard/SuggestedPhoneCard";
 import { useAuth } from "@/app/context/AuthContext";
+=======
+import SuggestedPhoneCard, { useSuggestedPhone } from "@/app/components/case-wizard/SuggestedPhoneCard";
+>>>>>>> b30ecce6594f8307a08f0a3ffaf197ae58cec20f
 import { usePreferredBrandLoader } from "@/app/context/PreferredBrandLoaderContext";
 import { useShopCart } from "@/app/context/ShopCartContext";
 import { designedAssetUrl } from "@/lib/designed-assets";
@@ -138,18 +141,19 @@ export default function ApplyTemplateWizard({
   forkDesignId,
 }: Props) {
   const router = useRouter();
+<<<<<<< HEAD
   const suggestions = usePhoneSuggestions();
   const currentPhone = suggestions.find((item) => item.kind === "current") ?? null;
   const { user, loading: authLoading } = useAuth();
+=======
+  const suggested = useSuggestedPhone();
+>>>>>>> b30ecce6594f8307a08f0a3ffaf197ae58cec20f
   const { addCatalogCase } = useShopCart();
   const { setPreferredBrandSlug } = usePreferredBrandLoader();
   const [brandSlug, setBrandSlug] = useState(initialBrandSlug ?? "");
   const [modelSlug, setModelSlug] = useState(initialModelSlug ?? "");
   const [modelQuery, setModelQuery] = useState("");
-  const [loginOpen, setLoginOpen] = useState(false);
-  const [pendingPath, setPendingPath] = useState<string | null>(null);
   const autoStartedRef = useRef(false);
-  const navigatedRef = useRef(false);
 
   const initialStep: Step = initialBrandSlug ? "model" : "brand";
   const [step, setStep] = useState<Step>(initialStep);
@@ -178,6 +182,7 @@ export default function ApplyTemplateWizard({
         return;
       }
 
+<<<<<<< HEAD
       const path = forkDesignId
         ? `${buildCustomDesignPath(nextBrandSlug, nextModelSlug)}?fork=${encodeURIComponent(forkDesignId)}`
         : `${buildCustomDesignPath(nextBrandSlug, nextModelSlug)}?template=${encodeURIComponent(template.slug)}`;
@@ -187,12 +192,14 @@ export default function ApplyTemplateWizard({
         return;
       }
       beginRouteNavigation();
+=======
+      const path = `${buildCustomDesignPath(nextBrandSlug, nextModelSlug)}?template=${encodeURIComponent(template.slug)}`;
+>>>>>>> b30ecce6594f8307a08f0a3ffaf197ae58cec20f
       router.push(path);
       onClose();
     },
     [
       addCatalogCase,
-      authLoading,
       caseType,
       onClose,
       premadePrice,
@@ -200,22 +207,18 @@ export default function ApplyTemplateWizard({
       forkDesignId,
       setPreferredBrandSlug,
       template,
-      user,
     ],
   );
 
   useEffect(() => {
     if (!open) {
       autoStartedRef.current = false;
-      navigatedRef.current = false;
       return;
     }
     setBrandSlug(initialBrandSlug ?? "");
     setModelSlug(initialModelSlug ?? "");
     setModelQuery("");
     setStep(initialStep);
-    setLoginOpen(false);
-    setPendingPath(null);
   }, [open, initialBrandSlug, initialModelSlug, initialStep]);
 
   useEffect(() => {
@@ -225,6 +228,7 @@ export default function ApplyTemplateWizard({
   }, [open, intent, initialBrandSlug, initialModelSlug, finish]);
 
   useEffect(() => {
+<<<<<<< HEAD
     if (!pendingPath || authLoading) return;
     if (!user) {
       setLoginOpen(true);
@@ -241,6 +245,8 @@ export default function ApplyTemplateWizard({
   }, [pendingPath, authLoading, user, router, onClose]);
 
   useEffect(() => {
+=======
+>>>>>>> b30ecce6594f8307a08f0a3ffaf197ae58cec20f
     if (!open) return;
 
     function handleKeyDown(event: KeyboardEvent) {
@@ -534,13 +540,6 @@ export default function ApplyTemplateWizard({
           </div>
         ) : null}
       </div>
-
-      <PhoneVerificationModal
-        open={loginOpen}
-        phone=""
-        onClose={() => setLoginOpen(false)}
-        onVerified={() => setLoginOpen(false)}
-      />
     </div>
   );
 }

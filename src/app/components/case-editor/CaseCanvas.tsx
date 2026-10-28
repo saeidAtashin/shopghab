@@ -28,12 +28,14 @@ import {
   type DesignLayer,
 } from "@/lib/design/types";
 import DesignImageLayerNode from "@/app/components/case-editor/DesignImageLayerNode";
+import { useGuestEditGate } from "@/app/components/case-editor/EditorGuestGate";
 import TextLayerNode from "@/app/components/case-editor/TextLayerNode";
 
 type Props = {
   caseColor: string;
   caseMaterial: string;
   onStageRef?: (stage: Konva.Stage | null) => void;
+  onReady?: () => void;
   readOnly?: boolean;
   displayMaxWidth?: number;
   displayMaxHeight?: number;
@@ -115,6 +117,7 @@ function CaseCanvas({
   caseColor,
   caseMaterial,
   onStageRef,
+  onReady,
   readOnly = false,
   displayMaxWidth,
   displayMaxHeight,
@@ -122,6 +125,7 @@ function CaseCanvas({
 }: Props) {
   const stageRef = useRef<Konva.Stage>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const readyNotifiedRef = useRef(false);
   const touchGestureRef = useRef<TouchGesture | null>(null);
   const chromeGestureRef = useRef<ChromeGesture | null>(null);
   const chromeMovedRef = useRef(false);
@@ -136,6 +140,7 @@ function CaseCanvas({
   const updateLayer = useEditorStore((s) => s.updateLayer);
   const setLayerVisible = useEditorStore((s) => s.setLayerVisible);
   const commitHistory = useEditorStore((s) => s.commitHistory);
+  const { requireAccount } = useGuestEditGate();
   const [textLineWidths, setTextLineWidths] = useState<number[] | null>(null);
   const [fontEpoch, setFontEpoch] = useState(0);
   const textLineWidthsRef = useRef<number[] | null>(null);
@@ -174,6 +179,16 @@ function CaseCanvas({
   useEffect(() => {
     if (stageRef.current) onStageRef?.(stageRef.current);
   }, [onStageRef]);
+
+  useEffect(() => {
+    if (readyNotifiedRef.current || !onReady) return;
+    const stage = stageRef.current;
+    if (!stage) return;
+    if (stage.width() > 0 && stage.height() > 0) {
+      readyNotifiedRef.current = true;
+      onReady();
+    }
+  }, [layoutWidth, layoutHeight, onReady]);
 
   const selectedLayerRef = useRef(selectedLayer);
   const canvasWidthRef = useRef(width);
@@ -576,7 +591,14 @@ function CaseCanvas({
           layoutWidth={layoutWidth}
           layoutHeight={layoutHeight}
           placeControl={placeControl}
-          onLock={() => updateLayer(selectedLayer.id, { locked: !selectedLocked })}
+          onLock={() => {
+            const apply = () => updateLayer(selectedLayer.id, { locked: !selectedLocked });
+            if (selectedLocked) {
+              requireAccount(apply);
+              return;
+            }
+            apply();
+          }}
           onDelete={() => setLayerVisible(selectedLayer.id, false)}
           onRotateStart={(event) => {
             if (selectedLocked) return;
