@@ -102,6 +102,10 @@ snapshot_runtime_data() {
     mkdir -p "$RUNTIME/mockups"
     cp -a "$source_dir/public/designed/mockups/." "$RUNTIME/mockups/"
   fi
+  if [ -d "$source_dir/public/designed/edits" ]; then
+    mkdir -p "$RUNTIME/edits"
+    cp -a "$source_dir/public/designed/edits/." "$RUNTIME/edits/"
+  fi
 }
 
 preserve_local_files() {
@@ -136,6 +140,7 @@ restore_cached_runtime() {
     cp -a "$RUNTIME/receipts/." "$dest_dir/data/receipts/"
   fi
   restore_server_mockups "$dest_dir"
+  restore_server_edits "$dest_dir"
   echo "update failed; restored cached runtime data" >&2
 }
 
@@ -148,6 +153,16 @@ restore_server_mockups() {
   # the new release stay, because this does not delete the destination.
   mkdir -p "$dest_dir/public/designed/mockups"
   cp -a "$RUNTIME/mockups/." "$dest_dir/public/designed/mockups/"
+}
+
+restore_server_edits() {
+  local dest_dir="$1"
+  if [ ! -d "$RUNTIME/edits" ]; then
+    return 0
+  fi
+  # Edited artworks are not in git. A fresh clone would drop them.
+  mkdir -p "$dest_dir/public/designed/edits"
+  cp -a "$RUNTIME/edits/." "$dest_dir/public/designed/edits/"
 }
 
 restore_runtime_files() {
@@ -214,9 +229,10 @@ fi
 
 restore_runtime_files "$APP_DIR"
 restore_server_mockups "$APP_DIR"
+restore_server_edits "$APP_DIR"
 ensure_prepared_templates
 merge_live_catalog "$APP_DIR"
-mkdir -p "$APP_DIR/mockup-templates/prepared" "$APP_DIR/public/designed/mockups"
+mkdir -p "$APP_DIR/mockup-templates/prepared" "$APP_DIR/public/designed/mockups" "$APP_DIR/public/designed/edits"
 
 if [ ! -f "$APP_DIR/.env" ]; then
   printf '%s\n' \

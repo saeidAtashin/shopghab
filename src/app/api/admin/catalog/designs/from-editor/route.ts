@@ -5,15 +5,13 @@ import { NextResponse } from "next/server";
 import sharp from "sharp";
 
 import { catalogErrorResponse, isAdminSession, requireAdmin } from "@/lib/catalog/http";
-import { CatalogError, forkDesignFromArtwork } from "@/lib/catalog/logic";
+import { CatalogError, forkDesignFromArtwork, updateDesignStatus } from "@/lib/catalog/logic";
 import type { DesignRecord } from "@/lib/catalog/schema";
 import { mutateCatalog, readCatalog } from "@/lib/catalog/store";
 import { randomDesignId } from "@/lib/catalog/ids";
 import { loadProjectTemplates } from "@/lib/mockups/config";
-import { mockupOutputSlug, templatesForDesign } from "@/lib/mockups/generate";
+import { templatesForDesign } from "@/lib/mockups/generate";
 import { publicRoot, resolveInside } from "@/lib/mockups/paths";
-import { renderDesignTemplates } from "@/lib/mockups/render";
-import type { MockupRecord } from "@/lib/mockups/types";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 120;
@@ -73,43 +71,29 @@ export async function POST(request: Request) {
         width: meta.width ?? 0,
         height: meta.height ?? 0,
       });
-      return { catalog: created.catalog, result: created.design };
+      // Stay a draft until each mockup has been rendered in its own request.
+      const drafted = updateDesignStatus(created.catalog, created.design.id, "draft");
+      drafted.design.publishedAt = null;
+      return { catalog: drafted.catalog, result: drafted.design };
     });
     design = createdDesign;
 
-    const templates = loadProjectTemplates(process.cwd());
-    const chosen = templatesForDesign(createdDesign.id, templates);
-    let records: MockupRecord[];
+    let templates: { templateId: string; name: string }[] = [];
     try {
-      records = await renderDesignTemplates({
-        cwd: process.cwd(),
-        slug: mockupOutputSlug(createdDesign.id, createdDesign.slug),
-        artworkPublicPath: createdDesign.imagePath,
-        templates: chosen,
-        previous: [],
-      });
+      const loaded = loadProjectTemplates(process.cwd());
+      templates = templatesForDesign(createdDesign.id, loaded).map((template) => ({
+        templateId: template.id,
+        name: template.name,
+      }));
     } catch (error) {
       console.error(error);
-      records = [];
     }
-    const ready = records.some((item) => item.status === "ready" && item.path);
-    const saved = await mutateCatalog((catalog) => {
-      const live = catalog.designs.find((item) => item.id === createdDesign.id);
-      if (!live) return { catalog, result: createdDesign };
-      live.mockups = records;
-      if (!ready) {
-        live.status = "draft";
-        live.publishedAt = null;
-      }
-      return { catalog, result: live };
-    });
 
-    if (!saved) throw new CatalogError("طرح ذخیره نشد", 500);
     return NextResponse.json({
-      designId: saved.id,
-      slug: saved.status === "published" ? saved.slug : null,
-      adminPath: `/admin/designs/${saved.id}`,
-      error: saved.status === "published" ? undefined : "موکاپ ساخته نشد. طرح به صورت پیش‌نویس ذخیره شد.",
+      designId: createdDesign.id,
+      slug: createdDesign.slug,
+      adminPath: `/admin/designs/${createdDesign.id}`,
+      templates,
     });
   } catch (error) {
     if (!design) removeFiles(written);

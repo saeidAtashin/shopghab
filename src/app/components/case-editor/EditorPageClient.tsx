@@ -376,6 +376,7 @@ export default function EditorPageClient({
     }
     setSavingCatalog(true);
     setMessage(null);
+    let savedAdminPath = "";
     try {
       const allowed = await ensureCatalogCookie();
       if (!allowed) throw new Error("نشست ادمین برقرار نشد");
@@ -390,19 +391,75 @@ export default function EditorPageClient({
         body,
       });
       const payload = (await response.json().catch(() => ({}))) as {
-        slug?: string | null;
+        designId?: string;
+        slug?: string;
         adminPath?: string;
+        templates?: { templateId: string; name: string }[];
         error?: string;
       };
+      if (response.status === 413) throw new Error("حجم تصویر برای سرور زیاد است");
       if (!response.ok) throw new Error(payload.error || "ذخیره طرح جدید انجام نشد");
-      if (payload.slug) {
+      if (!payload.designId || !payload.adminPath) throw new Error("ذخیره طرح جدید انجام نشد");
+      savedAdminPath = payload.adminPath;
+
+      const templates = payload.templates ?? [];
+      if (templates.length === 0) {
+        setMessage("طرح ذخیره شد اما موکاپ آماده نیست.");
+        router.push(payload.adminPath);
+        return;
+      }
+
+      const failed: string[] = [];
+      for (let index = 0; index < templates.length; index += 1) {
+        const template = templates[index];
+        if (!template) continue;
+        setMessage(`در حال ساخت موکاپ ${index + 1} از ${templates.length}…`);
+        const allowed = await ensureCatalogCookie();
+        if (!allowed) throw new Error("نشست ادمین برقرار نشد");
+        const rendered = await fetch(`/api/admin/catalog/designs/${payload.designId}/placement`, {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            templateId: template.templateId,
+            focalX: 0.5,
+            focalY: 0.5,
+            zoom: 1,
+          }),
+        });
+        if (!rendered.ok) {
+          const reason = (await rendered.json().catch(() => ({}))) as { error?: string };
+          failed.push(reason.error || template.name);
+        }
+      }
+
+      const ready = templates.length - failed.length;
+      if (ready > 0) {
+        const published = await fetch(`/api/admin/catalog/designs/${payload.designId}`, {
+          method: "PATCH",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ status: "published" }),
+        });
+        if (!published.ok) {
+          const reason = (await published.json().catch(() => ({}))) as { error?: string };
+          throw new Error(reason.error || "طرح ذخیره شد اما منتشر نشد");
+        }
+      }
+
+      if (failed.length === 0 && payload.slug) {
         router.push(`/designs/${payload.slug}`);
         return;
       }
-      setMessage(payload.error || "طرح ذخیره شد اما موکاپ آماده نیست.");
-      if (payload.adminPath) router.push(payload.adminPath);
+      setMessage(
+        ready > 0
+          ? `برخی موکاپ‌ها ساخته نشد: ${failed.join("، ")}`
+          : "موکاپ ساخته نشد. طرح به صورت پیش‌نویس ذخیره شد.",
+      );
+      router.push(payload.adminPath);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "ذخیره طرح جدید انجام نشد");
+      if (savedAdminPath) router.push(savedAdminPath);
     } finally {
       setSavingCatalog(false);
     }

@@ -18,6 +18,7 @@ services:
       - ./data:/app/data
       - ./mockup-templates:/app/mockup-templates:ro
       - ./public/designed/mockups:/app/public/designed/mockups
+      - ./public/designed/edits:/app/public/designed/edits
     healthcheck:
       test:
         [
