@@ -5,7 +5,7 @@ import { join } from "node:path";
 import sharp from "sharp";
 
 import { MockupError } from "./errors";
-import { coverCropRect, isCenterPlacement, type MockupPlacement } from "./focal";
+import { clampPlacementZoom, coverCropRect, isCenterPlacement, type MockupPlacement } from "./focal";
 import { resolveInside } from "./paths";
 import type { FillStrategy, MockupTemplateConfig, OverlayBlend, Point } from "./types";
 import { displaceImage, warpImage, warpPrintMesh, type RawImage } from "./warp";
@@ -38,6 +38,24 @@ async function punchRect(image: Buffer, left: number, top: number, width: number
     .toBuffer();
 }
 
+/** Source pixels for a cover crop. Sharp extracts this window, then resizes it to the printable size. */
+function sourceCoverWindow(
+  artWidth: number,
+  artHeight: number,
+  regionWidth: number,
+  regionHeight: number,
+  placement: MockupPlacement,
+): { left: number; top: number; width: number; height: number } {
+  const scale = Math.max(regionWidth / artWidth, regionHeight / artHeight) * clampPlacementZoom(placement.zoom);
+  const crop = coverCropRect(artWidth, artHeight, regionWidth, regionHeight, placement);
+  const safeScale = scale > 0 ? scale : 1;
+  const left = Math.min(artWidth - 1, Math.max(0, Math.floor(crop.left / safeScale)));
+  const top = Math.min(artHeight - 1, Math.max(0, Math.floor(crop.top / safeScale)));
+  const right = Math.min(artWidth, Math.max(left + 1, Math.ceil((crop.left + crop.width) / safeScale)));
+  const bottom = Math.min(artHeight, Math.max(top + 1, Math.ceil((crop.top + crop.height) / safeScale)));
+  return { left, top, width: right - left, height: bottom - top };
+}
+
 async function edgeBuffer(
   contained: Buffer,
   extract: { left: number; top: number; width: number; height: number },
@@ -68,14 +86,11 @@ export async function buildPrintableTexture(
         .png()
         .toBuffer();
     }
-    const crop = coverCropRect(meta.width, meta.height, regionWidth, regionHeight, placement);
-    const resized = await sharp(artworkPath)
+    const source = sourceCoverWindow(meta.width, meta.height, regionWidth, regionHeight, placement);
+    return sharp(artworkPath)
+      .extract(source)
       .ensureAlpha()
-      .resize(crop.resizedWidth, crop.resizedHeight, { fit: "fill" })
-      .png()
-      .toBuffer();
-    return sharp(resized)
-      .extract({ left: crop.left, top: crop.top, width: crop.width, height: crop.height })
+      .resize(regionWidth, regionHeight, { fit: "fill" })
       .png()
       .toBuffer();
   }
@@ -199,12 +214,29 @@ export async function applyLinearBurn(bottom: Buffer, top: Buffer): Promise<Buff
   return sharp(out, { raw: { width: dest.info.width, height: dest.info.height, channels: 4 } }).png().toBuffer();
 }
 
-async function compositeBlend(bottom: Buffer, top: Buffer, blend: OverlayBlend): Promise<Buffer> {
-  if (blend === "linear-burn") return applyLinearBurn(bottom, top);
-  return sharp(bottom)
-    .composite([{ input: top, blend: blend === "normal" ? "over" : blend }])
-    .png()
-    .toBuffer();
+type StackLayer = { input: Buffer; blend: OverlayBlend };
+
+/** Sharp blends in a row share one composite. Linear burn stays a separate pass so order is unchanged. */
+async function compositeStack(bottom: Buffer, layers: StackLayer[]): Promise<Buffer> {
+  let image = bottom;
+  const batch: { input: Buffer; blend: "over" | Exclude<OverlayBlend, "normal" | "linear-burn"> }[] = [];
+
+  async function flush(): Promise<void> {
+    if (batch.length === 0) return;
+    const pending = batch.splice(0, batch.length);
+    image = await sharp(image).composite(pending).png().toBuffer();
+  }
+
+  for (const layer of layers) {
+    if (layer.blend === "linear-burn") {
+      await flush();
+      image = await applyLinearBurn(image, layer.input);
+      continue;
+    }
+    batch.push({ input: layer.input, blend: layer.blend === "normal" ? "over" : layer.blend });
+  }
+  await flush();
+  return image;
 }
 
 function roundedMask(width: number, height: number, radius: number, origin: Point, rectWidth: number, rectHeight: number): Buffer {
@@ -358,28 +390,26 @@ export async function compositePrepared(options: {
       .toBuffer();
   }
 
-  let image = await compositeBlend(await fitLayer(basePath, outputWidth, outputHeight), placed, "normal");
+  const layers: StackLayer[] = [{ input: placed, blend: "normal" }];
   if (template.shadePath) {
-    image = await compositeBlend(
-      image,
-      await fitLayer(existingFile(options.templateRoot, template.shadePath, "unsupported"), outputWidth, outputHeight),
-      "multiply",
-    );
+    layers.push({
+      input: await fitLayer(existingFile(options.templateRoot, template.shadePath, "unsupported"), outputWidth, outputHeight),
+      blend: "multiply",
+    });
   }
   if (template.highlightPath) {
-    image = await compositeBlend(
-      image,
-      await fitLayer(existingFile(options.templateRoot, template.highlightPath, "unsupported"), outputWidth, outputHeight),
-      "screen",
-    );
+    layers.push({
+      input: await fitLayer(existingFile(options.templateRoot, template.highlightPath, "unsupported"), outputWidth, outputHeight),
+      blend: "screen",
+    });
   }
   for (const overlay of template.overlays ?? []) {
-    image = await compositeBlend(
-      image,
-      await fitLayer(existingFile(options.templateRoot, overlay.path, "unsupported"), outputWidth, outputHeight),
-      overlay.blend,
-    );
+    layers.push({
+      input: await fitLayer(existingFile(options.templateRoot, overlay.path, "unsupported"), outputWidth, outputHeight),
+      blend: overlay.blend,
+    });
   }
+  const image = await compositeStack(await fitLayer(basePath, outputWidth, outputHeight), layers);
 
   const composited = await sharp(image).webp({ quality: template.output.quality }).toBuffer();
 

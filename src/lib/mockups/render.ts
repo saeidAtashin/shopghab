@@ -1,5 +1,7 @@
 import { existsSync } from "node:fs";
 
+import sharp from "sharp";
+
 import { compositePrepared } from "./composite";
 import { safeMockupMessage, MockupError } from "./errors";
 import type { MockupPlacement } from "./focal";
@@ -78,6 +80,8 @@ export async function renderDesignTemplates(options: {
   /** Placement edits must fail the request instead of rewriting the saved photo. */
   strict?: boolean;
 }): Promise<MockupRecord[]> {
+  sharp.concurrency(1);
+  sharp.cache({ memory: 50, files: 0, items: 50 });
   const now = options.now ?? new Date().toISOString();
   const records: MockupRecord[] = [];
 
