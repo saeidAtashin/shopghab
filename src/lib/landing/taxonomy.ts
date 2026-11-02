@@ -53,15 +53,20 @@ function usableCover(cover: string): string {
   return "";
 }
 
+function designArtwork(design: DesignRecord): string {
+  return usableCover(design.thumbnailPath) || usableCover(design.imagePath);
+}
+
 function pinnedThumb(
   catalog: DesignCatalog,
   designId: string | undefined,
   belongs: (design: DesignRecord) => boolean,
+  artwork = false,
 ): string {
   if (!designId) return "";
   const design = catalog.designs.find((item) => item.id === designId);
   if (!design || !isPublicCatalogDesign(design) || !belongs(design)) return "";
-  return designThumb(design);
+  return artwork ? designArtwork(design) : designThumb(design);
 }
 
 export function landingBannerChoices(catalog: DesignCatalog): BannerChoice[] {
@@ -142,11 +147,14 @@ export function landingTaxonomy(
   const valueThumb = new Map<string, string>();
 
   for (const design of published) {
+    const artwork = designArtwork(design);
+    if (artwork) {
+      for (const id of design.categoryIds) {
+        if (!categoryThumb.has(id)) categoryThumb.set(id, artwork);
+      }
+    }
     const thumb = designThumb(design);
     if (!thumb) continue;
-    for (const id of design.categoryIds) {
-      if (!categoryThumb.has(id)) categoryThumb.set(id, thumb);
-    }
     for (const id of design.collectionIds) {
       if (!collectionThumb.has(id)) collectionThumb.set(id, thumb);
     }
@@ -159,8 +167,11 @@ export function landingTaxonomy(
     .filter((category) => isCategoryIndexable(catalog, category))
     .map((category) => {
       const ids = descendantCategoryIds(catalog, category.id);
-      let image = pinnedThumb(catalog, banners.categories?.[category.id], (design) =>
-        design.categoryIds.some((id) => ids.has(id)),
+      let image = pinnedThumb(
+        catalog,
+        banners.categories?.[category.id],
+        (design) => design.categoryIds.some((id) => ids.has(id)),
+        true,
       );
       if (!image) image = usableCover(category.coverImage);
       if (!image) {

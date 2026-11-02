@@ -354,3 +354,23 @@ test("pinned design replaces the automatic landing card photo", () => {
   assert.deepEqual(cleaned.categories.banners, { [nature.category.id]: child.design.id });
   assert.deepEqual(cleaned.categories.itemIds, []);
 });
+
+test("category cards use flat artwork when the phone mockup thumb differs", () => {
+  const nature = createCategory(emptyCatalog(), categoryInput("طبیعت", "nature"), NOW);
+  const created = createDesign(nature.catalog, designInput("انار", "anar", [nature.category.id]), NOW);
+  const catalog = attachProductMockups(created.catalog);
+  const design = catalog.designs.find((item) => item.id === created.design.id);
+  assert.ok(design?.mockups[0]);
+  design.mockups[0].path = "/designed/mockups/anar/iphone-pro-in-hand.webp";
+  design.mockups[0].thumbPath = "/designed/mockups/anar/iphone-pro-in-hand.thumb.webp";
+
+  assert.equal(landingTaxonomy(catalog).categories[0]?.image, "/designed/thumbs/anar.webp");
+
+  const pinned = landingTaxonomy(catalog, {
+    categories: { [nature.category.id]: created.design.id },
+  });
+  assert.equal(pinned.categories[0]?.image, "/designed/thumbs/anar.webp");
+
+  design.thumbnailPath = "";
+  assert.equal(landingTaxonomy(catalog).categories[0]?.image, "/designed/anar.webp");
+});

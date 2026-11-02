@@ -10,7 +10,28 @@ type Props = {
   className?: string;
 };
 
-const RINGS = ["ring-[#7C6CFF]", "ring-[#3DDC97]", "ring-[#5B8CFF]", "ring-[#F0A05A]"] as const;
+const ACCENTS = [
+  {
+    ring: "ring-[#7C6CFF]",
+    circle: "shadow-[0_0_16px_rgba(124,108,255,0.7)]",
+    tile: "shadow-[0_0_22px_rgba(124,108,255,0.42)] hover:shadow-[0_0_34px_rgba(124,108,255,0.72)]",
+  },
+  {
+    ring: "ring-[#3DDC97]",
+    circle: "shadow-[0_0_16px_rgba(61,220,151,0.65)]",
+    tile: "shadow-[0_0_22px_rgba(61,220,151,0.38)] hover:shadow-[0_0_34px_rgba(61,220,151,0.68)]",
+  },
+  {
+    ring: "ring-[#5B8CFF]",
+    circle: "shadow-[0_0_16px_rgba(91,140,255,0.7)]",
+    tile: "shadow-[0_0_22px_rgba(91,140,255,0.42)] hover:shadow-[0_0_34px_rgba(91,140,255,0.72)]",
+  },
+  {
+    ring: "ring-[#F0A05A]",
+    circle: "shadow-[0_0_16px_rgba(240,160,90,0.7)]",
+    tile: "shadow-[0_0_22px_rgba(240,160,90,0.42)] hover:shadow-[0_0_34px_rgba(240,160,90,0.72)]",
+  },
+] as const;
 
 function CategoryImage({ src, sizes, className }: { src: string; sizes: string; className?: string }) {
   if (!src) return null;
@@ -47,10 +68,11 @@ export default function HomeCategoryMosaic({ items, className }: Props) {
                 <span
                   className={cn(
                     "relative block h-14 w-14 overflow-hidden rounded-full bg-surface ring-2",
-                    RINGS[index % RINGS.length],
+                    ACCENTS[index % ACCENTS.length].ring,
+                    ACCENTS[index % ACCENTS.length].circle,
                   )}
                 >
-                  <CategoryImage src={item.image} sizes="56px" />
+                  <CategoryImage src={item.image} sizes="56px" className="object-center" />
                 </span>
                 <span className="line-clamp-2 w-full text-center text-[10px] font-bold leading-4 text-foreground">
                   {item.title}
@@ -88,18 +110,27 @@ export default function HomeCategoryMosaic({ items, className }: Props) {
           SCROLL_GUTTER,
         )}
       >
-        {items.map((item) => (
+        {items.map((item, index) => (
           <Link
             key={item.id}
             href={item.href}
-            className="group flex min-h-0 items-center gap-3 overflow-hidden rounded-2xl border border-border bg-card p-2 transition hover:border-[#5145FF]/45"
+            className={cn(
+              "group relative block h-full min-h-0 overflow-hidden rounded-2xl bg-[#05070e] ring-1 transition duration-300",
+              ACCENTS[index % ACCENTS.length].ring,
+              ACCENTS[index % ACCENTS.length].tile,
+            )}
           >
-            <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-surface">
-              <CategoryImage src={item.image} sizes="56px" />
-            </span>
-            <span className="min-w-0">
-              <span className="line-clamp-1 block text-sm font-bold text-foreground">{item.title}</span>
-              <span className="mt-1 block text-[11px] text-muted">
+            <CategoryImage
+              src={item.image}
+              sizes="14rem"
+              className="object-center transition duration-500 group-hover:scale-105"
+            />
+            <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#05070e] via-[#05070e]/55 to-transparent" />
+            <span className="absolute inset-x-0 bottom-0 z-10 p-3">
+              <span className="line-clamp-2 block text-sm font-bold text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.55)]">
+                {item.title}
+              </span>
+              <span className="mt-1 block text-[11px] font-semibold text-white/90 drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]">
                 {item.count.toLocaleString("fa-IR")} طرح
               </span>
             </span>
