@@ -25,10 +25,10 @@ export default function CreatePage() {
         <p className="mt-1 text-sm text-muted">مرحله ۱ از ۲ — برند</p>
         <SuggestedPhoneCard className="mt-6" />
 
-        <div className="mt-10">
+        <div className="sticky top-14 z-30 -mx-4 mt-6 border-b border-border/70 bg-background/95 px-4 py-3 backdrop-blur-md sm:mx-0 sm:px-0 xl:top-[4.5rem]">
           <ModelSearch placeholder="مثلاً گلکسی S24، آیفون 15 Pro، ردمی نوت 13…" />
         </div>
-        <div className="mt-8">
+        <div className="mt-6">
           <BrandGrid brands={PHONE_BRANDS} />
         </div>
       </div>

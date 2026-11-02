@@ -1,76 +1,70 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { DesignRoutePendingLabel } from "@/app/components/ui/DesignRouteLoading";
+
 import { buildCustomDesignPath } from "@/lib/cases/brands.static";
 import { rememberSelectedPhone } from "@/lib/cases/device-phone";
 import type { PhoneModel } from "@/lib/cases/types";
 import { getSeriesBySlug, groupModelsBySeries } from "@/lib/cases/series";
-import { designRouteLoaderProps } from "@/lib/route-navigation";
-import { PhoneBackSvg } from "./PhoneBackSvg";
+import ModelPickerCard from "./ModelPickerCard";
 
 type Props = {
   brandSlug: string;
   models: PhoneModel[];
   seriesSlug?: string;
+  destination?: "editor" | "hub";
 };
 
-function ModelCards({ brandSlug, models }: { brandSlug: string; models: PhoneModel[] }) {
+function modelHref(destination: "editor" | "hub", brandSlug: string, modelSlug: string): string {
+  if (destination === "hub") return `/phones/${brandSlug}/${modelSlug}`;
+  return buildCustomDesignPath(brandSlug, modelSlug);
+}
+
+function ModelCards({
+  brandSlug,
+  models,
+  destination,
+}: {
+  brandSlug: string;
+  models: PhoneModel[];
+  destination: "editor" | "hub";
+}) {
   const [pendingSlug, setPendingSlug] = useState<string | null>(null);
 
   return (
-    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-      {models.map((model) => {
-        const pending = pendingSlug === model.slug;
-        return (
-          <Link
-            key={model.slug}
-            href={buildCustomDesignPath(brandSlug, model.slug)}
-            {...designRouteLoaderProps}
-            aria-busy={pending}
-            onClick={() => {
-              rememberSelectedPhone({ brandSlug, modelSlug: model.slug });
-              setPendingSlug(model.slug);
-            }}
-            className={`group relative rounded-2xl border border-border bg-card/60 p-4 transition hover:border-cyan-500/50 hover:bg-card ${pending ? "pointer-events-none border-cyan-500/50" : ""}`}
-          >
-            {pending ? (
-              <div className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl bg-background/80 p-3 text-center">
-                <DesignRoutePendingLabel />
-              </div>
-            ) : null}
-            <div className="relative mx-auto flex h-36 w-20 items-center justify-center">
-              <PhoneBackSvg
-                model={model}
-                className="h-full w-auto max-w-full drop-shadow-lg transition group-hover:scale-105"
-              />
-            </div>
-            <div className="mt-3 text-center">
-              <p className="text-sm font-bold text-foreground">{model.name}</p>
-              <p className="text-xs text-muted">{model.nameEn}</p>
-            </div>
-          </Link>
-        );
-      })}
+    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+      {models.map((model) => (
+        <ModelPickerCard
+          key={model.slug}
+          model={model}
+          href={modelHref(destination, brandSlug, model.slug)}
+          routeLoader={destination === "editor"}
+          pending={pendingSlug === model.slug}
+          namePrefix={destination === "hub" ? "قاب " : undefined}
+          onClick={() => {
+            rememberSelectedPhone({ brandSlug, modelSlug: model.slug });
+            setPendingSlug(model.slug);
+          }}
+        />
+      ))}
     </div>
   );
 }
 
-export default function ModelGrid({ brandSlug, models, seriesSlug }: Props) {
+export default function ModelGrid({
+  brandSlug,
+  models,
+  seriesSlug,
+  destination = "editor",
+}: Props) {
   if (seriesSlug) {
     const series = getSeriesBySlug(brandSlug, seriesSlug);
-    const filtered = models.filter((m) => m.seriesSlug === seriesSlug);
+    const filtered = models.filter((model) => model.seriesSlug === seriesSlug);
 
     return (
       <div className="space-y-6">
-        {series ? (
-          <div>
-            <h2 className="text-lg font-bold text-foreground">{series.name}</h2>
-            <p className="text-sm text-muted">{series.nameEn}</p>
-          </div>
-        ) : null}
-        <ModelCards brandSlug={brandSlug} models={filtered} />
+        {series ? <h2 className="text-lg font-bold text-foreground">{series.name}</h2> : null}
+        <ModelCards brandSlug={brandSlug} models={filtered} destination={destination} />
       </div>
     );
   }
@@ -80,20 +74,11 @@ export default function ModelGrid({ brandSlug, models, seriesSlug }: Props) {
   return (
     <div className="space-y-12">
       {groups.map(({ series, models: groupModels }) => (
-        <section key={series.slug} id={series.slug} className="scroll-mt-28">
-          <div className="mb-6 flex items-end justify-between gap-4 border-b border-border pb-3">
-            <div>
-              <h2 className="text-lg font-bold text-foreground">{series.name}</h2>
-              <p className="text-sm text-muted">{series.nameEn}</p>
-            </div>
-            <Link
-              href={`/create/${brandSlug}?series=${series.slug}`}
-              className="shrink-0 text-xs text-cyan-400 transition hover:text-cyan-300"
-            >
-              فقط این سری
-            </Link>
+        <section key={series.slug} id={series.slug} className="scroll-mt-36">
+          <div className="mb-4 border-b border-border pb-3">
+            <h2 className="text-lg font-bold text-foreground">{series.name}</h2>
           </div>
-          <ModelCards brandSlug={brandSlug} models={groupModels} />
+          <ModelCards brandSlug={brandSlug} models={groupModels} destination={destination} />
         </section>
       ))}
     </div>

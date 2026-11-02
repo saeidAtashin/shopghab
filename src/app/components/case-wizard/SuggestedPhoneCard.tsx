@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-import { PhoneBackSvg } from "@/app/components/case-wizard/PhoneBackSvg";
+import { PickerPhone, PickerPhoneWell } from "@/app/components/case-wizard/ModelPickerCard";
+import { modelPickerName } from "@/lib/cases/model-label";
 import { DesignRoutePendingLabel } from "@/app/components/ui/DesignRouteLoading";
 import { buildCustomDesignPath, getBrandBySlug, getModelBySlug } from "@/lib/cases/brands.static";
 import {
@@ -21,8 +22,6 @@ import { cn } from "@/lib/utils";
 type Suggestion = PhonePick & {
   kind: PhoneSuggestionKind;
   name: string;
-  nameEn: string;
-  brandName: string;
 };
 
 type Props = {
@@ -74,9 +73,7 @@ function loadSuggestions(modelName: string | null): Suggestion[] {
     return [
       {
         ...suggestion,
-        name: model.name,
-        nameEn: model.nameEn,
-        brandName: brand.name,
+        name: modelPickerName(model).name,
       },
     ];
   });
@@ -135,21 +132,15 @@ export default function SuggestedPhoneCard({ className, onPick, navigatesOnPick 
               const pending = pendingKey === key;
               const body = (
                 <>
-                  <div className="relative h-14 w-8 shrink-0 overflow-hidden">
-                    <PhoneBackSvg model={model} className="absolute inset-0 h-full w-full" />
-                  </div>
+                  <PickerPhoneWell className="h-16 w-10 shrink-0">
+                    <PickerPhone model={model} className="h-14 w-auto" />
+                  </PickerPhoneWell>
                   <div className="min-w-0 flex-1 text-right">
                     <p className="text-xs font-semibold text-cyan-400">
                       {kind === "current" ? "گوشی فعلی" : "انتخاب قبلی"}
                     </p>
                     <p className="truncate text-sm font-bold text-foreground">{suggestion.name}</p>
-                    {pending ? (
-                      <DesignRoutePendingLabel className="mt-1" />
-                    ) : (
-                      <p className="truncate text-xs text-muted">
-                        {suggestion.brandName} · {suggestion.nameEn}
-                      </p>
-                    )}
+                    {pending ? <DesignRoutePendingLabel className="mt-1" /> : null}
                   </div>
                 </>
               );

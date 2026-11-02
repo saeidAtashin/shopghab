@@ -9,13 +9,17 @@ function argument(name: string): string | undefined {
 async function main(): Promise<void> {
   const design = argument("design");
   const all = process.argv.includes("--all");
-  if (!design && !all) {
+  const missingLead = process.argv.includes("--missing-lead");
+  if (!design && !all && !missingLead) {
     console.error("Usage: npm run mockups:generate -- --design=<slug>");
     console.error("       npm run mockups:generate -- --all");
+    console.error("       npm run mockups:generate -- --missing-lead");
     process.exit(1);
   }
 
-  const report = await generateMockupsForDesigns(all ? { all: true } : { slugs: [design ?? ""] });
+  const report = await generateMockupsForDesigns(
+    missingLead ? { missingLead: true } : all ? { all: true } : { slugs: [design ?? ""] },
+  );
   console.log(
     `Mockups: ${report.designs} design(s), ${report.ready} written, ${report.reused} reused, ${report.errors} error(s), ${report.skippedTemplates} disabled template(s).`,
   );

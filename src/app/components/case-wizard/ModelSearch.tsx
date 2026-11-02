@@ -10,7 +10,8 @@ import { rememberSelectedPhone } from "@/lib/cases/device-phone";
 import { beginRouteNavigation, designRouteLoaderProps } from "@/lib/route-navigation";
 import { hasStrongModelMatch, searchPhoneModels } from "@/lib/cases/model-search";
 import type { ModelSearchResult } from "@/lib/cases/model-search";
-import { PhoneBackSvg } from "./PhoneBackSvg";
+import { modelPickerName } from "@/lib/cases/model-label";
+import { PickerPhone, PickerPhoneWell } from "./ModelPickerCard";
 import ModelSearchNotFound from "./ModelSearchNotFound";
 
 type Props = {
@@ -121,7 +122,7 @@ export default function ModelSearch({
           aria-label="جستجوی مدل گوشی"
           aria-expanded={showDropdown}
           aria-autocomplete="list"
-          className="w-full rounded-2xl border border-border bg-card/60 py-3.5 pl-4 pr-11 text-sm text-foreground placeholder:text-muted transition focus:border-cyan-500/50 focus:outline-none focus:ring-1 focus:ring-cyan-500/30"
+          className="min-h-11 w-full rounded-2xl border border-border bg-card/60 py-3 pl-4 pr-11 text-base text-foreground placeholder:text-muted transition focus:border-cyan-500/50 focus:outline-none focus:ring-1 focus:ring-cyan-500/30"
         />
       </div>
 
@@ -133,6 +134,7 @@ export default function ModelSearch({
           {results.map((result) => {
             const key = `${result.model.brandSlug}-${result.model.slug}`;
             const pending = pendingKey === key;
+            const names = modelPickerName(result.model);
             return (
             <li key={key} role="option">
               <Link
@@ -148,16 +150,12 @@ export default function ModelSearch({
                 }}
                 className={`flex items-center gap-3 rounded-xl px-3 py-2.5 transition hover:bg-surface ${pending ? "pointer-events-none" : ""}`}
               >
-                <div className="flex h-14 w-8 shrink-0 items-center justify-center">
-                  <PhoneBackSvg model={result.model} className="h-full w-auto" />
-                </div>
+                <PickerPhoneWell className="h-14 w-10 shrink-0">
+                  <PickerPhone model={result.model} className="h-12 w-auto" />
+                </PickerPhoneWell>
                 <div className="min-w-0 flex-1 text-right">
-                  <p className="truncate text-sm font-bold text-foreground">{result.model.name}</p>
-                  {pending ? (
-                    <DesignRoutePendingLabel className="mt-1" />
-                  ) : (
-                    <p className="truncate text-xs text-muted">{result.model.nameEn}</p>
-                  )}
+                  <p className="truncate text-base font-bold text-foreground">{names.name}</p>
+                  {pending ? <DesignRoutePendingLabel className="mt-1" /> : null}
                 </div>
                 <span className="shrink-0 rounded-lg bg-surface px-2 py-1 text-xs text-muted">
                   {result.brand.name}

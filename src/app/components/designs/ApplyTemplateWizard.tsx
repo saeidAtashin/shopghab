@@ -5,7 +5,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { Check, Search, X } from "lucide-react";
 
-import { PhoneBackSvg } from "@/app/components/case-wizard/PhoneBackSvg";
+import BrandPickerTile from "@/app/components/case-wizard/BrandPickerTile";
+import ModelPickerCard from "@/app/components/case-wizard/ModelPickerCard";
+import SeriesChips from "@/app/components/case-wizard/SeriesChips";
 import SuggestedPhoneCard, { usePhoneSuggestions } from "@/app/components/case-wizard/SuggestedPhoneCard";
 import { usePreferredBrandLoader } from "@/app/context/PreferredBrandLoaderContext";
 import { useShopCart } from "@/app/context/ShopCartContext";
@@ -117,7 +119,7 @@ function StepIndicator({
               >
                 {done && !active ? <Check size={12} /> : idx + 1}
               </span>
-              <span className="hidden sm:inline">{item.label}</span>
+              <span>{item.label}</span>
             </button>
           </div>
         );
@@ -143,6 +145,7 @@ export default function ApplyTemplateWizard({
   const [brandSlug, setBrandSlug] = useState(initialBrandSlug ?? "");
   const [modelSlug, setModelSlug] = useState(initialModelSlug ?? "");
   const [modelQuery, setModelQuery] = useState("");
+  const [seriesSlug, setSeriesSlug] = useState<string | undefined>(undefined);
   const autoStartedRef = useRef(false);
 
   const initialStep: Step = initialBrandSlug ? "model" : "brand";
@@ -199,6 +202,7 @@ export default function ApplyTemplateWizard({
     setBrandSlug(initialBrandSlug ?? "");
     setModelSlug(initialModelSlug ?? "");
     setModelQuery("");
+    setSeriesSlug(undefined);
     setStep(initialStep);
   }, [open, initialBrandSlug, initialModelSlug, initialStep]);
 
@@ -232,10 +236,16 @@ export default function ApplyTemplateWizard({
 
   const displayedModels = useMemo((): PhoneModel[] => {
     const trimmed = modelQuery.trim();
+    const scoped =
+      trimmed.length >= 2 || !seriesSlug
+        ? models
+        : models.filter((item) => item.seriesSlug === seriesSlug);
     const list =
       trimmed.length < 2 || !brandSlug
-        ? models
-        : searchPhoneModels(trimmed, { brandSlug, limit: 50 }).map((r) => r.model);
+        ? scoped
+        : searchPhoneModels(trimmed, { brandSlug, limit: 50 })
+            .map((result) => result.model)
+            .filter((item) => !seriesSlug || item.seriesSlug === seriesSlug);
     if (!currentPhone || currentPhone.brandSlug !== brandSlug) return list;
     const index = list.findIndex((item) => item.slug === currentPhone.modelSlug);
     if (index <= 0) return list;
@@ -243,7 +253,7 @@ export default function ApplyTemplateWizard({
     const [item] = next.splice(index, 1);
     next.unshift(item);
     return next;
-  }, [modelQuery, brandSlug, models, currentPhone]);
+  }, [modelQuery, brandSlug, models, currentPhone, seriesSlug]);
 
   if (!open) return null;
 
@@ -357,127 +367,97 @@ export default function ApplyTemplateWizard({
           />
         </div>
 
-        <div className="min-h-0 flex-1 overflow-y-auto p-4 sm:p-5">
+        <div className="flex min-h-0 flex-1 flex-col">
           {step === "brand" ? (
-            <div className="space-y-4">
-              <p className="text-sm font-semibold text-foreground">برند گوشی را انتخاب کنید</p>
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                {PHONE_BRANDS.map((item) => {
-                  const selected = brandSlug === item.slug;
-                  return (
-                    <button
+            <div className="min-h-0 flex-1 overflow-y-auto p-4 sm:p-5">
+              <div className="space-y-4">
+                <p className="text-sm font-semibold text-foreground">برند گوشی را انتخاب کنید</p>
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                  {PHONE_BRANDS.map((item) => (
+                    <BrandPickerTile
                       key={item.slug}
-                      type="button"
-                      onClick={() => {
+                      brand={item}
+                      selected={brandSlug === item.slug}
+                      onSelect={() => {
                         setPreferredBrandSlug(item.slug);
                         setBrandSlug(item.slug);
                         setModelSlug("");
                         setModelQuery("");
+                        setSeriesSlug(undefined);
                         setStep("model");
                       }}
-                      className={cn(
-                        "group flex min-h-[44px] flex-col items-center gap-3 rounded-2xl border bg-card/60 p-4 transition hover:border-cyan-500/50 hover:bg-card sm:p-6",
-                        selected
-                          ? "border-cyan-500/60 ring-1 ring-cyan-500/30"
-                          : "border-border",
-                      )}
-                    >
-                      <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-surface p-3 transition group-hover:bg-cyan-500/10">
-                        <Image
-                          src={item.logo}
-                          alt={item.name}
-                          width={48}
-                          height={48}
-                          className="h-10 w-10 object-contain"
-                        />
-                      </div>
-                      <div className="text-center">
-                        <p className="text-sm font-bold text-foreground">{item.name}</p>
-                        <p className="text-xs text-muted">{item.nameEn}</p>
-                      </div>
-                    </button>
-                  );
-                })}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           ) : null}
 
           {step === "model" && brandSlug ? (
-            <div className="space-y-4">
-              <div className="flex items-center justify-between gap-2">
-                <p className="text-sm font-semibold text-foreground">
-                  مدل {brand?.name ?? "گوشی"} را انتخاب کنید
-                </p>
-                {!brandLocked ? (
-                  <button
-                    type="button"
-                    onClick={() => setStep("brand")}
-                    className="shrink-0 text-xs text-cyan-400 hover:underline"
-                  >
-                    تغییر برند
-                  </button>
-                ) : null}
-              </div>
-
-              <div className="relative">
-                <Search
-                  size={18}
-                  className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted"
-                />
-                <input
-                  type="search"
-                  value={modelQuery}
-                  onChange={(e) => setModelQuery(e.target.value)}
-                  placeholder="جستجوی مدل…"
-                  aria-label="جستجوی مدل گوشی"
-                  className="w-full rounded-xl border border-border bg-card/60 py-3 pl-4 pr-10 text-sm text-foreground placeholder:text-muted transition focus:border-cyan-500/50 focus:outline-none focus:ring-1 focus:ring-cyan-500/30"
-                />
-              </div>
-
-              {displayedModels.length === 0 ? (
-                <p className="rounded-xl border border-border bg-surface px-4 py-8 text-center text-sm text-muted">
-                  مدلی یافت نشد.
-                </p>
-              ) : (
-                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                  {displayedModels.map((item) => (
+            <>
+              <div className="shrink-0 space-y-3 border-b border-border px-4 py-3 sm:px-5">
+                <div className="flex items-center justify-between gap-2">
+                  <p className="text-sm font-semibold text-foreground">
+                    مدل {brand?.name ?? "گوشی"} را انتخاب کنید
+                  </p>
+                  {!brandLocked ? (
                     <button
-                      key={item.slug}
                       type="button"
-                      onClick={() => {
-                        if (intent) {
-                          finish(intent, item.slug, brandSlug);
-                          return;
-                        }
-                        setModelSlug(item.slug);
-                      }}
-                      className={cn(
-                        "group rounded-2xl border bg-card/60 p-3 text-right transition hover:border-cyan-500/50 hover:bg-card sm:p-4",
-                        !intent && modelSlug === item.slug
-                          ? "border-cyan-500/60 ring-1 ring-cyan-500/30"
-                          : "border-border",
-                      )}
+                      onClick={() => setStep("brand")}
+                      className="inline-flex min-h-11 shrink-0 items-center text-xs text-cyan-400 hover:underline"
                     >
-                      <div className="relative mx-auto flex h-28 w-16 items-center justify-center sm:h-32 sm:w-20">
-                        <PhoneBackSvg
-                          model={item}
-                          className="h-full w-auto max-w-full drop-shadow-lg transition group-hover:scale-105"
-                        />
-                      </div>
-                      <div className="mt-2 text-center">
-                        <p className="text-xs font-bold text-foreground sm:text-sm">{item.name}</p>
-                        <p className="text-[10px] text-muted sm:text-xs">{item.nameEn}</p>
-                        {currentPhone?.brandSlug === brandSlug && currentPhone.modelSlug === item.slug ? (
-                          <span className="mt-1 inline-flex rounded-full bg-cyan-500/15 px-2 py-0.5 text-[10px] font-semibold text-cyan-300">
-                            گوشی فعلی
-                          </span>
-                        ) : null}
-                      </div>
+                      تغییر برند
                     </button>
-                  ))}
+                  ) : null}
                 </div>
-              )}
-            </div>
+
+                <div className="relative">
+                  <Search
+                    size={18}
+                    className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-muted"
+                  />
+                  <input
+                    type="search"
+                    value={modelQuery}
+                    onChange={(e) => setModelQuery(e.target.value)}
+                    placeholder="جستجوی مدل…"
+                    aria-label="جستجوی مدل گوشی"
+                    className="min-h-11 w-full rounded-xl border border-border bg-card/60 py-3 pl-4 pr-11 text-base text-foreground placeholder:text-muted transition focus:border-cyan-500/50 focus:outline-none focus:ring-1 focus:ring-cyan-500/30"
+                  />
+                </div>
+                <SeriesChips brandSlug={brandSlug} activeSlug={seriesSlug} onSelect={setSeriesSlug} />
+              </div>
+
+              <div className="min-h-0 flex-1 overflow-y-auto p-4 sm:p-5">
+                {displayedModels.length === 0 ? (
+                  <p className="rounded-xl border border-border bg-surface px-4 py-8 text-center text-sm text-muted">
+                    مدلی یافت نشد.
+                  </p>
+                ) : (
+                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                    {displayedModels.map((item) => (
+                      <ModelPickerCard
+                        key={item.slug}
+                        model={item}
+                        selected={!intent && modelSlug === item.slug}
+                        badge={
+                          currentPhone?.brandSlug === brandSlug && currentPhone.modelSlug === item.slug
+                            ? "گوشی فعلی"
+                            : undefined
+                        }
+                        onClick={() => {
+                          if (intent) {
+                            finish(intent, item.slug, brandSlug);
+                            return;
+                          }
+                          setModelSlug(item.slug);
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            </>
           ) : null}
         </div>
 
@@ -486,7 +466,7 @@ export default function ApplyTemplateWizard({
             <button
               type="button"
               onClick={() => finish("premade", modelSlug, brandSlug)}
-              className="flex w-full items-center justify-center rounded-xl bg-cyan-500 py-3 text-sm font-bold text-black transition hover:bg-cyan-400"
+              className="flex min-h-11 w-full items-center justify-center rounded-xl bg-cyan-500 py-3 text-sm font-bold text-black transition hover:bg-cyan-400"
             >
               خرید طرح پیش‌ساخته
               {premadePrice != null ? ` · ${formatToman(premadePrice)}` : ""}
@@ -494,7 +474,7 @@ export default function ApplyTemplateWizard({
             <button
               type="button"
               onClick={() => finish("custom", modelSlug, brandSlug)}
-              className="flex w-full items-center justify-center rounded-xl border border-cyan-500/50 bg-cyan-500/10 py-3 text-sm font-bold text-cyan-300 transition hover:bg-cyan-500/20"
+              className="flex min-h-11 w-full items-center justify-center rounded-xl border border-cyan-500/50 bg-cyan-500/10 py-3 text-sm font-bold text-cyan-300 transition hover:bg-cyan-500/20"
             >
               طراحی اختصاصی
               {customPrice != null ? ` · ${formatToman(customPrice)}` : ""}

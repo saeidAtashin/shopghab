@@ -601,30 +601,31 @@ test("each design keeps three stable phone mockups", () => {
     placementTemplate({ id: "case", default: false, listing: true }),
     placementTemplate({ id: "pro", default: false, listing: true }),
     placementTemplate({ id: "perspective", default: false, listing: false }),
-    placementTemplate({ id: "hand", default: false, listing: true }),
+    placementTemplate({ id: "iphone-pro-in-hand", default: false, listing: true }),
   ];
   const chosen = templatesForDesign("dsn_one", templates, "case");
   assert.deepEqual(
     templatesForDesign("dsn_one", templates, "case").map((template) => template.id),
     chosen.map((template) => template.id),
   );
-  assert.equal(chosen[0]?.id, "case");
+  assert.equal(chosen[0]?.id, "iphone-pro-in-hand");
+  assert.ok(chosen.some((template) => template.id === "case"));
   assert.equal(chosen.length, 3);
   assert.equal(new Set(chosen.map((template) => template.id)).size, 3);
   assert.ok(chosen.every((template) => template.id !== "perspective"));
 
   const replaced = templatesForDesign("dsn_two", templates, "perspective");
-  assert.notEqual(replaced[0]?.id, "perspective");
+  assert.equal(replaced[0]?.id, "iphone-pro-in-hand");
   assert.deepEqual(
     replaced.map((template) => template.id),
     templatesForDesign("dsn_two", templates).map((template) => template.id),
   );
-  const ids = new Set(
-    ["dsn_one", "dsn_two", "dsn_three", "dsn_four", "dsn_five", "dsn_six", "dsn_seven", "dsn_eight"].map(
-      (id) => templatesForDesign(id, templates)[0]?.id,
-    ),
-  );
-  assert.ok(ids.size > 1);
+  const designIds = ["dsn_one", "dsn_two", "dsn_three", "dsn_four", "dsn_five", "dsn_six", "dsn_seven", "dsn_eight"];
+  for (const id of designIds) {
+    assert.equal(templatesForDesign(id, templates)[0]?.id, "iphone-pro-in-hand");
+  }
+  const seconds = new Set(designIds.map((id) => templatesForDesign(id, templates)[1]?.id));
+  assert.ok(seconds.size > 1);
 });
 
 test("storefront uses the first ready mockup and keeps editorial gallery frames", () => {
@@ -674,6 +675,50 @@ test("storefront uses the first ready mockup and keeps editorial gallery frames"
   assert.deepEqual(images.gallery, ["/designed/extra.webp"]);
   assert.equal(images.alt, "طرح قاب space-cat");
   assert.equal(images.width, 80);
+});
+
+test("storefront leads with the in-hand mockup when it is ready", () => {
+  const images = selectProductImages({
+    imagePath: "/designed/art.webp",
+    thumbnailPath: "/designed/thumbs/art.webp",
+    gallery: [],
+    width: 100,
+    height: 200,
+    alt: "",
+    title: "space-cat",
+    mockups: [
+      {
+        templateId: "flat-case",
+        path: "/designed/mockups/space-cat/flat-case.webp",
+        thumbPath: "/designed/mockups/space-cat/flat-case.thumb.webp",
+        width: 80,
+        height: 80,
+        contentHash: "a",
+        templateVersion: "1",
+        generatedAt: NOW,
+        status: "ready",
+        error: "",
+      },
+      {
+        templateId: "iphone-pro-in-hand",
+        path: "/designed/mockups/space-cat/iphone-pro-in-hand.webp",
+        thumbPath: "/designed/mockups/space-cat/iphone-pro-in-hand.thumb.webp",
+        width: 160,
+        height: 106,
+        contentHash: "b",
+        templateVersion: "2",
+        generatedAt: NOW,
+        status: "ready",
+        error: "",
+      },
+    ],
+  });
+  assert.equal(images.hero, "/designed/mockups/space-cat/iphone-pro-in-hand.webp");
+  assert.equal(images.thumb, "/designed/mockups/space-cat/iphone-pro-in-hand.thumb.webp");
+  assert.equal(images.frames[0]?.src, "/designed/mockups/space-cat/iphone-pro-in-hand.webp");
+  assert.deepEqual(images.gallery, ["/designed/mockups/space-cat/flat-case.webp"]);
+  assert.equal(images.width, 160);
+  assert.equal(images.height, 106);
 });
 
 test("mockup records merge without dropping an untouched template", () => {

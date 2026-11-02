@@ -1,4 +1,5 @@
 import { enabledTemplates, loadProjectTemplates } from "./config";
+import { LEAD_LISTING_TEMPLATE_ID } from "./display";
 import { assertSafeId } from "./paths";
 import { renderDesignTemplates } from "./render";
 import type { MockupRecord, MockupTemplateConfig } from "./types";
@@ -23,27 +24,33 @@ export function phoneTemplates(templates: MockupTemplateConfig[]): MockupTemplat
   return enabledTemplates(templates).filter((template) => template.listing);
 }
 
-/** Stable across runs. The same design id always keeps the same three phone photos. */
+/** Stable across runs. Every design leads with the in-hand photo when that template is listed. */
 export function templatesForDesign(
   designId: string,
   templates: MockupTemplateConfig[],
   currentTemplateId?: string,
 ): MockupTemplateConfig[] {
   const phones = phoneTemplates(templates);
-  const first = phones[0];
-  if (!first) throw new Error("No enabled mockup templates.");
+  if (phones.length === 0) throw new Error("No enabled mockup templates.");
   let hash = 0;
   for (const char of designId) hash = (Math.imul(hash, 31) + char.charCodeAt(0)) >>> 0;
   const start = hash % phones.length;
   const ordered = [...phones.slice(start), ...phones.slice(0, start)];
+  const lead = phones.find((template) => template.id === LEAD_LISTING_TEMPLATE_ID);
   const current = phones.find((template) => template.id === currentTemplateId);
   const picked: MockupTemplateConfig[] = [];
-  if (current) picked.push(current);
-  for (const template of ordered) {
-    if (picked.length >= PHOTOS_PER_DESIGN) break;
-    if (picked.some((item) => item.id === template.id)) continue;
+
+  function push(template: MockupTemplateConfig | undefined): void {
+    if (!template) return;
+    if (picked.length >= PHOTOS_PER_DESIGN) return;
+    if (picked.some((item) => item.id === template.id)) return;
     picked.push(template);
   }
+
+  if (lead) push(lead);
+  else push(current);
+  if (lead) push(current);
+  for (const template of ordered) push(template);
   return picked;
 }
 
@@ -87,9 +94,21 @@ async function saveDesignMockups(
   }
 }
 
+function hasReadyLead(mockups: MockupRecord[]): boolean {
+  return mockups.some(
+    (item) =>
+      item.templateId === LEAD_LISTING_TEMPLATE_ID &&
+      item.status === "ready" &&
+      item.path.startsWith("/designed/") &&
+      item.thumbPath.startsWith("/designed/"),
+  );
+}
+
 export async function generateMockupsForDesigns(options: {
   slugs?: string[];
   all?: boolean;
+  /** Published designs that do not yet have a ready in-hand listing photo. */
+  missingLead?: boolean;
   cwd?: string;
 }): Promise<GenerateMockupReport> {
   const cwd = options.cwd ?? process.cwd();
@@ -106,6 +125,7 @@ export async function generateMockupsForDesigns(options: {
   const wanted = new Set((options.slugs ?? []).map((slug) => slug.toLowerCase()));
   const designs = catalog.designs.filter((design) => {
     if (!design.imagePath || design.assetMissing) return false;
+    if (options.missingLead) return design.status === "published" && !hasReadyLead(design.mockups);
     if (options.all) return true;
     return wanted.has(design.slug.toLowerCase());
   });

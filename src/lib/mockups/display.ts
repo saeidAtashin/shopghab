@@ -26,8 +26,19 @@ export type ProductImages = {
   alt: string;
 };
 
+/** Listing photo that should open every design gallery. */
+export const LEAD_LISTING_TEMPLATE_ID = "iphone-pro-in-hand";
+
 function safeAsset(path: string): boolean {
   return path.startsWith("/designed/") && !path.includes("..") && !path.includes("\\");
+}
+
+function leadFirst(mockups: MockupRecord[]): MockupRecord[] {
+  const leadIndex = mockups.findIndex((item) => item.templateId === LEAD_LISTING_TEMPLATE_ID);
+  if (leadIndex <= 0) return mockups;
+  const lead = mockups[leadIndex];
+  if (!lead) return mockups;
+  return [lead, ...mockups.slice(0, leadIndex), ...mockups.slice(leadIndex + 1)];
 }
 
 function readyProductMockups(mockups: MockupRecord[]): MockupRecord[] {
@@ -50,7 +61,7 @@ export function designImageAlt(design: { alt: string; title: string }): string {
 }
 
 export function selectProductImages(design: ProductImageSource): ProductImages {
-  const ready = readyProductMockups(design.mockups);
+  const ready = leadFirst(readyProductMockups(design.mockups));
   const hero = ready[0];
   const extra = ready.slice(1).map((item) => item.path);
   const used = new Set<string>([hero?.path ?? "", ...extra]);

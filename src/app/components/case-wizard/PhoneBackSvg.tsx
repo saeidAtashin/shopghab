@@ -5,6 +5,8 @@ type SvgProps = {
   model: PhoneModel;
   className?: string;
   bodyFill?: string;
+  bodyStroke?: string;
+  logoFill?: string;
   showCamera?: boolean;
 };
 
@@ -12,6 +14,8 @@ export function PhoneBackSvg({
   model,
   className = "",
   bodyFill = "#1a1a22",
+  bodyStroke,
+  logoFill = "rgba(255,255,255,0.06)",
   showCamera = true,
 }: SvgProps) {
   const geo = mapGeometryToCanvas(model);
@@ -34,6 +38,8 @@ export function PhoneBackSvg({
           rx={geo.cornerRadius}
           ry={geo.cornerRadius}
           fill={bodyFill}
+          stroke={bodyStroke}
+          strokeWidth={bodyStroke ? 6 : 0}
         />
       </g>
       {geo.logo ? (
@@ -41,7 +47,7 @@ export function PhoneBackSvg({
           cx={geo.logo.cx}
           cy={geo.logo.cy}
           r={geo.logo.r}
-          fill="rgba(255,255,255,0.06)"
+          fill={logoFill}
         />
       ) : null}
       {showCamera ? (

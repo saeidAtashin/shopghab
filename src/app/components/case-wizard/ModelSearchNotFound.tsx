@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { GENERIC_CUSTOM_MODEL } from "@/lib/cases/generic-model";
-import { PhoneBackSvg } from "./PhoneBackSvg";
+import { PickerPhone } from "./ModelPickerCard";
 
 type Props = {
   query: string;
@@ -18,11 +18,8 @@ export default function ModelSearchNotFound({ query }: Props) {
       </p>
 
       <div className="mt-6 flex flex-col items-center gap-6 sm:flex-row sm:items-start">
-        <div className="flex h-44 w-24 shrink-0 items-center justify-center rounded-xl border border-border bg-input-bg p-3">
-          <PhoneBackSvg
-            model={GENERIC_CUSTOM_MODEL}
-            className="h-full w-auto max-w-full drop-shadow-lg"
-          />
+        <div className="flex h-44 w-24 shrink-0 items-center justify-center">
+          <PickerPhone model={GENERIC_CUSTOM_MODEL} className="h-full w-auto max-w-full drop-shadow-md" />
         </div>
         <div className="flex flex-1 flex-col items-center gap-3 sm:items-start">
           <p className="text-center text-xs text-muted sm:text-right">

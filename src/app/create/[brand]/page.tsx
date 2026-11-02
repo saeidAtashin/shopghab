@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 
 import ModelGrid from "@/app/components/case-wizard/ModelGrid";
 import ModelSearch from "@/app/components/case-wizard/ModelSearch";
+import SeriesChips from "@/app/components/case-wizard/SeriesChips";
 import SuggestedPhoneCard from "@/app/components/case-wizard/SuggestedPhoneCard";
 import WizardBreadcrumb from "@/app/components/case-wizard/WizardBreadcrumb";
 import { getBrandBySlug, getModelsByBrandAndSeries } from "@/lib/cases/brands.static";
@@ -65,21 +65,18 @@ export default async function BrandModelsPage({ params, searchParams }: Props) {
         <p className="mt-2 text-muted">مرحله ۲ از ۲ — مدل</p>
         <SuggestedPhoneCard className="mt-6" />
 
-        {series ? (
-          <Link
-            href={`/create/${brandSlug}`}
-            className="mt-3 inline-block text-sm text-cyan-400 transition hover:text-cyan-300"
-          >
-            ← نمایش همه مدل‌های {brand.name}
-          </Link>
-        ) : null}
-        <div className="mt-6">
+        <div className="sticky top-14 z-30 -mx-4 mt-4 space-y-3 border-b border-border/70 bg-background/95 px-4 py-3 backdrop-blur-md sm:mx-0 sm:px-0 xl:top-[4.5rem]">
           <ModelSearch
             brandSlug={brandSlug}
             placeholder={`جستجو در مدل‌های ${brand.name}…`}
           />
+          <SeriesChips
+            brandSlug={brandSlug}
+            activeSlug={seriesSlug}
+            pathname={`/create/${brandSlug}`}
+          />
         </div>
-        <div className="mt-8">
+        <div className="mt-6">
           <ModelGrid brandSlug={brandSlug} models={models} seriesSlug={seriesSlug} />
         </div>
       </div>

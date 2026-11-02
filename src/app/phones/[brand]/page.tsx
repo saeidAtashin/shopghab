@@ -1,19 +1,22 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import JsonLd from "@/app/components/seo/JsonLd";
+import ModelGrid from "@/app/components/case-wizard/ModelGrid";
+import SeriesChips from "@/app/components/case-wizard/SeriesChips";
 import WizardBreadcrumb from "@/app/components/case-wizard/WizardBreadcrumb";
-import { PhoneBackSvg } from "@/app/components/case-wizard/PhoneBackSvg";
 import { createPageMetadata } from "@/lib/seo/metadata";
 import { SITE_BRAND } from "@/lib/seo/site";
 import { collectionPageJsonLd, webPageJsonLd } from "@/lib/seo/jsonld";
 import {
   getBrandBySlug,
-  getModelsByBrand,
+  getModelsByBrandAndSeries,
   PHONE_BRANDS,
 } from "@/lib/cases/brands.static";
-import { groupModelsBySeries } from "@/lib/cases/series";
+import { getSeriesBySlug } from "@/lib/cases/series";
 
-type Props = { params: Promise<{ brand: string }> };
+type Props = {
+  params: Promise<{ brand: string }>;
+  searchParams: Promise<{ series?: string }>;
+};
 
 export async function generateStaticParams() {
   return PHONE_BRANDS.filter((b) => b.slug !== "other").map((b) => ({
@@ -47,13 +50,14 @@ export async function generateMetadata({ params }: Props) {
   });
 }
 
-export default async function BrandPhonesPage({ params }: Props) {
+export default async function BrandPhonesPage({ params, searchParams }: Props) {
   const { brand: brandSlug } = await params;
+  const { series: seriesSlug } = await searchParams;
   const brand = getBrandBySlug(brandSlug);
   if (!brand) notFound();
+  if (seriesSlug && !getSeriesBySlug(brandSlug, seriesSlug)) notFound();
 
-  const models = getModelsByBrand(brandSlug);
-  const groups = groupModelsBySeries(models, brandSlug);
+  const models = getModelsByBrandAndSeries(brandSlug, seriesSlug);
   const path = `/phones/${brandSlug}`;
   const title = `خرید قاب گوشی ${brand.name}`;
   const description = `خرید قاب گوشی ${brand.name} در ${SITE_BRAND}. قاب موبایل، قاب اختصاصی و قاب تلفن همراه با انتخاب مدل.`;
@@ -81,36 +85,20 @@ export default async function BrandPhonesPage({ params }: Props) {
             قاب موبایل، قاب اختصاصی و قاب تلفن همراه {brand.name}. مدل گوشی را انتخاب کنید.
           </p>
 
-          <div className="mt-10 space-y-12">
-            {groups.map(({ series, models: groupModels }) => (
-              <section key={series.slug}>
-                <h2 className="mb-6 border-b border-border pb-3 text-lg font-bold text-foreground">
-                  {series.name}
-                </h2>
-                <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-                  {groupModels.map((model) => (
-                    <Link
-                      key={model.slug}
-                      href={`/phones/${brandSlug}/${model.slug}`}
-                      className="group rounded-2xl border border-border bg-card/60 p-4 transition hover:border-cyan-500/50 hover:bg-card"
-                    >
-                      <div className="relative mx-auto flex h-36 w-20 items-center justify-center">
-                        <PhoneBackSvg
-                          model={model}
-                          className="h-full w-auto max-w-full drop-shadow-lg transition group-hover:scale-105"
-                        />
-                      </div>
-                      <div className="mt-3 text-center">
-                        <p className="text-sm font-bold text-foreground">
-                          قاب {model.name}
-                        </p>
-                        <p className="text-xs text-muted">{model.nameEn}</p>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </section>
-            ))}
+          <div className="sticky top-14 z-30 -mx-4 mt-6 border-b border-border/70 bg-background/95 px-4 py-3 backdrop-blur-md sm:mx-0 sm:px-0 xl:top-[4.5rem]">
+            <SeriesChips
+              brandSlug={brandSlug}
+              activeSlug={seriesSlug}
+              pathname={`/phones/${brandSlug}`}
+            />
+          </div>
+          <div className="mt-6">
+            <ModelGrid
+              brandSlug={brandSlug}
+              models={models}
+              seriesSlug={seriesSlug}
+              destination="hub"
+            />
           </div>
         </div>
       </main>
