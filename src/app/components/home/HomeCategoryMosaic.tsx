@@ -33,7 +33,7 @@ export default function HomeCategoryMosaic({ items, className }: Props) {
   const tiles = items.slice(4, 6);
 
   return (
-    <section aria-label="دسته‌ها" className={cn("min-w-0", className)}>
+    <section aria-label="دسته‌ها" className={cn("flex min-h-0 min-w-0 flex-col xl:h-full", className)}>
       <div className="xl:hidden">
         <ul
           className={cn(
@@ -82,7 +82,12 @@ export default function HomeCategoryMosaic({ items, className }: Props) {
         ) : null}
       </div>
 
-      <div className={cn("hidden gap-3 xl:grid xl:grid-cols-2", SCROLL_GUTTER)}>
+      <div
+        className={cn(
+          "hidden h-full min-h-0 gap-3 overflow-y-auto overscroll-contain xl:grid xl:grid-cols-2 xl:auto-rows-[calc((100%-1.5rem)/3)]",
+          SCROLL_GUTTER,
+        )}
+      >
         {items.map((item) => (
           <Link
             key={item.id}

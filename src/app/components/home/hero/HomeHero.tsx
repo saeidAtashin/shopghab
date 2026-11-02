@@ -27,28 +27,28 @@ export default function HomeHero({ className }: Props) {
     <section
       className={cn(
         "relative isolate overflow-hidden bg-[#05070e] text-white",
-        "xl:rounded-3xl xl:border xl:border-border",
+        "xl:min-h-[26rem] xl:rounded-3xl xl:border xl:border-border",
         className,
       )}
     >
       <HeroNeonField />
 
-      <div className="relative z-10 flex flex-col items-center px-4 pb-8 pt-4 xl:flex-row xl:items-center xl:gap-10 xl:px-10 xl:py-10">
-        <div className="relative aspect-[1024/948] w-full xl:w-[46%] xl:shrink-0">
+      <div className="relative z-10 flex flex-col items-center px-4 pb-8 pt-4 xl:block xl:min-h-[26rem] xl:px-0 xl:py-0">
+        <div className="relative aspect-[1024/948] w-full xl:absolute xl:inset-y-8 xl:end-8 xl:aspect-auto xl:w-[min(46%,26rem)]">
           <Image
             src={LANDING_IMAGE.src}
             alt={LANDING_IMAGE.alt}
             fill
             preload
-            sizes="(min-width: 1280px) 46vw, 100vw"
-            className="hero-landing-photo object-cover object-center"
+            sizes="(min-width: 1280px) 26rem, 100vw"
+            className="hero-landing-photo object-cover object-center xl:object-contain"
           />
         </div>
 
-        <div className="mt-5 w-full max-w-xl text-center xl:mt-0 xl:max-w-none xl:flex-1 xl:text-start">
+        <div className="mt-5 w-full max-w-xl text-center xl:relative xl:flex xl:min-h-[26rem] xl:w-1/2 xl:max-w-none xl:flex-col xl:justify-center xl:px-10 xl:py-10 xl:text-start">
           <h1 className="font-black leading-[1.2] tracking-tight">
-            <span className="block text-[1.85rem] sm:text-4xl xl:text-5xl">{HERO_HEADING_LEAD}</span>
-            <span className="mt-1 block text-[2.05rem] text-[#2F6BFF] drop-shadow-[0_0_24px_rgba(47,107,255,0.45)] sm:text-5xl xl:text-6xl">
+            <span className="block text-[1.85rem] sm:text-4xl xl:text-4xl">{HERO_HEADING_LEAD}</span>
+            <span className="mt-1 block text-[2.05rem] text-[#2F6BFF] drop-shadow-[0_0_24px_rgba(47,107,255,0.45)] sm:text-5xl xl:text-5xl">
               {HERO_HEADING_ACCENT}
             </span>
           </h1>
@@ -59,7 +59,7 @@ export default function HomeHero({ className }: Props) {
           </p>
           <Link
             href={HERO_CTAS.primary.href}
-            className="mt-6 inline-flex h-14 w-full items-center justify-center gap-3 rounded-full bg-[#2F6BFF] px-6 text-base font-bold text-white shadow-[0_14px_40px_-12px_rgba(47,107,255,0.95)] transition hover:bg-[#3d78ff] xl:w-auto xl:min-w-64 xl:px-8"
+            className="mt-6 inline-flex h-14 w-full items-center justify-center gap-3 rounded-full bg-[#2F6BFF] px-6 text-base font-bold text-white shadow-[0_14px_40px_-12px_rgba(47,107,255,0.95)] transition hover:bg-[#3d78ff] xl:w-auto xl:min-w-56 xl:px-8"
           >
             {HERO_CTAS.primary.label}
             <ArrowRight className="h-5 w-5" aria-hidden />
