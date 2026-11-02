@@ -43,6 +43,42 @@ function clampOffset(offset: Offset, scale: number): Offset {
   };
 }
 
+type Box = { left: number; top: number; width: number; height: number };
+
+function objectContainBox(box: DOMRect, naturalWidth: number, naturalHeight: number): Box | null {
+  if (naturalWidth <= 0 || naturalHeight <= 0 || box.width <= 0 || box.height <= 0) return null;
+  const boxAspect = box.width / box.height;
+  const imageAspect = naturalWidth / naturalHeight;
+  const width = imageAspect > boxAspect ? box.width : box.height * imageAspect;
+  const height = imageAspect > boxAspect ? box.width / imageAspect : box.height;
+  return {
+    left: box.left + (box.width - width) / 2,
+    top: box.top + (box.height - height) / 2,
+    width,
+    height,
+  };
+}
+
+function pointHitsImage(
+  clientX: number,
+  clientY: number,
+  fitted: Box,
+  stage: DOMRect,
+  scale: number,
+  offset: Offset,
+): boolean {
+  const originX = stage.left + stage.width / 2;
+  const originY = stage.top + stage.height / 2;
+  const left = originX + (fitted.left - originX) * scale + offset.x;
+  const top = originY + (fitted.top - originY) * scale + offset.y;
+  return (
+    clientX >= left &&
+    clientX <= left + fitted.width * scale &&
+    clientY >= top &&
+    clientY <= top + fitted.height * scale
+  );
+}
+
 export default function DesignImageZoom({ open, src, alt, onClose, onPrev, onNext }: Props) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -51,6 +87,7 @@ export default function DesignImageZoom({ open, src, alt, onClose, onPrev, onNex
   const [dragging, setDragging] = useState(false);
   const [sharp, setSharp] = useState(false);
   const dragOrigin = useRef<{ x: number; y: number; ox: number; oy: number } | null>(null);
+  const dragged = useRef(false);
   const imageSizes = sharp ? "2560px" : "(max-width: 1100px) 90vw, 1100px";
 
   function applyScale(next: number): void {
@@ -112,6 +149,7 @@ export default function DesignImageZoom({ open, src, alt, onClose, onPrev, onNex
   }, [open, onPrev, onNext]);
 
   function onPointerDown(event: React.PointerEvent<HTMLDivElement>): void {
+    dragged.current = false;
     if (scale <= MIN_SCALE) return;
     event.currentTarget.setPointerCapture(event.pointerId);
     dragOrigin.current = { x: event.clientX, y: event.clientY, ox: offset.x, oy: offset.y };
@@ -121,6 +159,7 @@ export default function DesignImageZoom({ open, src, alt, onClose, onPrev, onNex
   function onPointerMove(event: React.PointerEvent<HTMLDivElement>): void {
     const origin = dragOrigin.current;
     if (!origin) return;
+    if (Math.hypot(event.clientX - origin.x, event.clientY - origin.y) > 3) dragged.current = true;
     setOffset(
       clampOffset(
         {
@@ -137,6 +176,20 @@ export default function DesignImageZoom({ open, src, alt, onClose, onPrev, onNex
     setDragging(false);
   }
 
+  function onStageClick(event: React.MouseEvent<HTMLDivElement>): void {
+    if (dragged.current) {
+      dragged.current = false;
+      return;
+    }
+    const stage = stageRef.current;
+    const image = stage?.querySelector("img");
+    if (!stage || !image) return;
+    const stageBox = stage.getBoundingClientRect();
+    const fitted = objectContainBox(stageBox, image.naturalWidth, image.naturalHeight);
+    if (!fitted) return;
+    if (!pointHitsImage(event.clientX, event.clientY, fitted, stageBox, scale, offset)) onClose();
+  }
+
   const label = alt || "طرح قاب";
 
   return (
@@ -144,6 +197,9 @@ export default function DesignImageZoom({ open, src, alt, onClose, onPrev, onNex
       ref={dialogRef}
       aria-label={label}
       className="fixed inset-0 z-[400] m-0 h-full max-h-none w-full max-w-none border-0 bg-transparent p-0 text-foreground backdrop:bg-black/80"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
       onClose={onClose}
     >
       <div
@@ -209,7 +265,7 @@ export default function DesignImageZoom({ open, src, alt, onClose, onPrev, onNex
           ref={stageRef}
           className="relative h-[85vh] w-[min(90vw,1100px)]"
           style={{ cursor: scale > MIN_SCALE ? (dragging ? "grabbing" : "grab") : "zoom-in" }}
-          onClick={(event) => event.stopPropagation()}
+          onClick={onStageClick}
           onDoubleClick={() => applyScale(scale > MIN_SCALE ? MIN_SCALE : 2)}
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
