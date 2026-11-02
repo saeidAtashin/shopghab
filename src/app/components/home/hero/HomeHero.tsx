@@ -1,202 +1,71 @@
-"use client";
-
-import { useReducedMotion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 
-import { HERO_CTAS, HERO_HEADING } from "@/app/components/home/hero/hero.constants";
+import HeroNeonField from "@/app/components/home/hero/HeroNeonField";
+import {
+  HERO_CTAS,
+  HERO_DESCRIPTION_LINES,
+  HERO_HEADING_ACCENT,
+  HERO_HEADING_LEAD,
+} from "@/app/components/home/hero/hero.constants";
 import { cn } from "@/lib/utils";
 
-const SLIDES = [
-  {
-    src: "/images/banner-shopghab-dark.webp",
-    alt: "قاب‌هایی با طرح‌های خاص برای همه انواع موبایل",
-  },
-  {
-    src: "/images/banner-shopghab-light.webp",
-    alt: "قاب‌هایی با طرح‌های خاص شاپ قاب",
-  },
-  {
-    src: "/images/phonecase-design-banner.webp",
-    alt: "قاب‌ موبایل با طرح اختصاصی شاپ قاب",
-  },
-] as const;
-
-const AUTO_PLAY_MS = 5500;
-const SWIPE_THRESHOLD_PX = 48;
+const LANDING_IMAGE = {
+  src: "/images/landing-shopghab.jpg",
+  width: 1024,
+  height: 948,
+  alt: "قاب‌های گل‌دار و قاب پرتره روی صحنه تیره، همراه با پنل بارگذاری طرح",
+} as const;
 
 type Props = {
   className?: string;
 };
 
 export default function HomeHero({ className }: Props) {
-  const router = useRouter();
-  const prefersReducedMotion = useReducedMotion();
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-
-  const touchStartX = useRef<number | null>(null);
-  const didSwipe = useRef(false);
-
-  const goTo = useCallback((index: number) => {
-    setActiveIndex((index + SLIDES.length) % SLIDES.length);
-  }, []);
-
-  const goNext = useCallback(() => {
-    goTo(activeIndex + 1);
-  }, [activeIndex, goTo]);
-
-  const goPrev = useCallback(() => {
-    goTo(activeIndex - 1);
-  }, [activeIndex, goTo]);
-
-  const navigateToDesigns = useCallback(() => {
-    router.push(HERO_CTAS.primary.href);
-  }, [router]);
-
-  const handleBannerActivate = useCallback(() => {
-    navigateToDesigns();
-  }, [navigateToDesigns]);
-
-  useEffect(() => {
-    if (prefersReducedMotion || isPaused) return;
-    const timer = window.setInterval(goNext, AUTO_PLAY_MS);
-    return () => window.clearInterval(timer);
-  }, [goNext, isPaused, prefersReducedMotion]);
-
-  const handleTouchStart = useCallback((event: React.TouchEvent) => {
-    touchStartX.current = event.touches[0]?.clientX ?? null;
-    didSwipe.current = false;
-  }, []);
-
-  const handleTouchEnd = useCallback(
-    (event: React.TouchEvent) => {
-      const startX = touchStartX.current;
-      touchStartX.current = null;
-      if (startX == null) return;
-
-      const endX = event.changedTouches[0]?.clientX;
-      if (endX == null) return;
-
-      const delta = endX - startX;
-      if (Math.abs(delta) < SWIPE_THRESHOLD_PX) return;
-
-      didSwipe.current = true;
-      if (delta > 0) {
-        goPrev();
-      } else {
-        goNext();
-      }
-    },
-    [goNext, goPrev],
-  );
-
-  const handleBannerClick = useCallback(() => {
-    if (didSwipe.current) {
-      didSwipe.current = false;
-      return;
-    }
-    handleBannerActivate();
-  }, [handleBannerActivate]);
-
   return (
-      <section
-        aria-roledescription="carousel"
-        aria-label="بنر اصلی"
-        className={cn("overflow-hidden rounded-3xl border border-border bg-[#0c1220]", className)}
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
-        onFocusCapture={() => setIsPaused(true)}
-        onBlurCapture={(event) => {
-          if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
-            setIsPaused(false);
-          }
-        }}
-      >
-        <h1 className="sr-only">{HERO_HEADING}</h1>
+    <section
+      className={cn(
+        "relative isolate overflow-hidden bg-[#05070e] text-white",
+        "xl:rounded-3xl xl:border xl:border-border",
+        className,
+      )}
+    >
+      <HeroNeonField />
 
-        <div
-          className="relative aspect-[16/9] min-h-40 xl:aspect-auto xl:min-h-[26rem]"
-          aria-live="polite"
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-        >
-          {SLIDES.map((slide, index) => {
-            const isActive = index === activeIndex;
-            return (
-              <div
-                key={slide.src}
-                className={cn(
-                  "absolute inset-0 transition-opacity motion-reduce:duration-0",
-                  prefersReducedMotion ? "duration-0" : "duration-500",
-                  isActive ? "opacity-100" : "pointer-events-none opacity-0",
-                )}
-                aria-hidden={!isActive}
-              >
-                <Image
-                  src={slide.src}
-                  alt={isActive ? slide.alt : ""}
-                  fill
-                  priority={index === 0}
-                  sizes="(max-width: 1280px) 100vw, 70vw"
-                  className="object-cover object-center"
-                />
-              </div>
-            );
-          })}
-
-          <div
-            className="pointer-events-none absolute inset-0 bg-gradient-to-l from-[#080D18]/88 via-[#080D18]/5 to-[#080D18]/10"
-            aria-hidden
+      <div className="relative z-10 flex flex-col items-center px-4 pb-8 pt-4 xl:flex-row xl:items-center xl:gap-10 xl:px-10 xl:py-10">
+        <div className="relative aspect-[1024/948] w-full xl:w-[46%] xl:shrink-0">
+          <Image
+            src={LANDING_IMAGE.src}
+            alt={LANDING_IMAGE.alt}
+            fill
+            preload
+            sizes="(min-width: 1280px) 46vw, 100vw"
+            className="hero-landing-photo object-cover object-center"
           />
-
-          <button
-            type="button"
-            onClick={handleBannerClick}
-            aria-label={HERO_CTAS.primary.label}
-            className="absolute inset-0 z-[1] cursor-pointer border-0 bg-transparent p-0"
-          />
-
-          <div className="absolute bottom-4 start-4 z-10 flex items-center gap-2">
-            <button
-              type="button"
-              onClick={goPrev}
-              aria-label="اسلاید قبلی"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-black/45 text-white transition hover:bg-black/65"
-            >
-              <ChevronRight className="h-4 w-4" aria-hidden />
-            </button>
-            <button
-              type="button"
-              onClick={goNext}
-              aria-label="اسلاید بعدی"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-black/45 text-white transition hover:bg-black/65"
-            >
-              <ChevronLeft className="h-4 w-4" aria-hidden />
-            </button>
-            <div className="flex items-center gap-1 rounded-full border border-white/15 bg-black/40 px-2 py-1">
-              {SLIDES.map((slide, index) => (
-                <button
-                  key={slide.src}
-                  type="button"
-                  onClick={() => goTo(index)}
-                  aria-label={`رفتن به اسلاید ${(index + 1).toLocaleString("fa-IR")}`}
-                  aria-current={index === activeIndex ? "true" : undefined}
-                  className="flex h-6 w-6 items-center justify-center"
-                >
-                  <span
-                    className={cn(
-                      "rounded-full transition-all",
-                      index === activeIndex ? "h-1.5 w-5 bg-[#5145FF]" : "h-1.5 w-1.5 bg-white/60",
-                    )}
-                  />
-                </button>
-              ))}
-            </div>
-          </div>
         </div>
-      </section>
+
+        <div className="mt-5 w-full max-w-xl text-center xl:mt-0 xl:max-w-none xl:flex-1 xl:text-start">
+          <h1 className="font-black leading-[1.2] tracking-tight">
+            <span className="block text-[1.85rem] sm:text-4xl xl:text-5xl">{HERO_HEADING_LEAD}</span>
+            <span className="mt-1 block text-[2.05rem] text-[#2F6BFF] drop-shadow-[0_0_24px_rgba(47,107,255,0.45)] sm:text-5xl xl:text-6xl">
+              {HERO_HEADING_ACCENT}
+            </span>
+          </h1>
+          <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-[#c5cedf] sm:text-base xl:mx-0">
+            {HERO_DESCRIPTION_LINES[0]}
+            <br />
+            {HERO_DESCRIPTION_LINES[1]}
+          </p>
+          <Link
+            href={HERO_CTAS.primary.href}
+            className="mt-6 inline-flex h-14 w-full items-center justify-center gap-3 rounded-full bg-[#2F6BFF] px-6 text-base font-bold text-white shadow-[0_14px_40px_-12px_rgba(47,107,255,0.95)] transition hover:bg-[#3d78ff] xl:w-auto xl:min-w-64 xl:px-8"
+          >
+            {HERO_CTAS.primary.label}
+            <ArrowRight className="h-5 w-5" aria-hidden />
+          </Link>
+        </div>
+      </div>
+    </section>
   );
 }

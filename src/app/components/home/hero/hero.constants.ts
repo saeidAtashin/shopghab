@@ -4,13 +4,22 @@ import type { CaseTemplate } from "@/lib/design/types";
 
 export const HERO_BADGE = "ارسال رایگان به سراسر ایران";
 
-export const HERO_HEADING = "قاب گوشی، به سبک خودت";
+export const HERO_HEADING_LEAD = "قاب گوشی،";
 
-export const HERO_DESCRIPTION = "هزاران طرح خاص برای همه سلیقه‌ها";
+export const HERO_HEADING_ACCENT = "امضای توست.";
+
+export const HERO_HEADING = `${HERO_HEADING_LEAD} ${HERO_HEADING_ACCENT}`;
+
+export const HERO_DESCRIPTION_LINES = [
+  "از یک تصویر ساده تا یک قاب منحصربه‌فرد.",
+  "طرح خودت را بساز و دنیای خودت را همراه داشته باش.",
+] as const;
+
+export const HERO_DESCRIPTION = HERO_DESCRIPTION_LINES.join(" ");
 
 export const HERO_CTAS = {
-  primary: { label: "مشاهده همه طرح‌ها", href: "/designs" },
-  secondary: { label: "شروع طراحی", href: "/create" },
+  primary: { label: "شروع طراحی", href: "/create" },
+  secondary: { label: "مشاهده همه طرح‌ها", href: "/designs" },
 } as const;
 
 export const HERO_RATING = {

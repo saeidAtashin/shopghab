@@ -160,19 +160,12 @@ export default function HomeCasePage({ searchParams }: { searchParams: SearchPar
     <main
       id="main"
       tabIndex={-1}
-      className="home-storefront min-h-screen overflow-x-clip px-4 pb-16 pt-16 outline-none sm:px-6 xl:pt-24">
-      <div className="mx-auto flex max-w-[90rem] flex-col gap-4">
-        <NavSearch placeholder="جستجو در طرح‌ها..." className="xl:hidden" />
-
-        <div className="relative flex flex-col gap-4 xl:block">
-          <HomeHero className={categoryItems.length > 0 ? "xl:ms-[calc(28rem+1rem)]" : undefined} />
-          {categoryItems.length > 0 ? (
-            <HomeCategoryMosaic
-              items={categoryItems}
-              className="xl:absolute xl:inset-y-0 xl:start-0 xl:w-[28rem] xl:overflow-hidden"
-            />
-          ) : null}
-        </div>
+      className="home-storefront min-h-screen overflow-x-clip pb-16 pt-16 outline-none xl:pt-24">
+      <div className="mx-auto flex w-full max-w-[90rem] flex-col gap-4 xl:px-6">
+        <NavSearch placeholder="جستجو در طرح‌ها..." className="mx-4 xl:hidden" />
+        <HomeHero />
+        <div className="flex flex-col gap-4 px-4 sm:px-6 xl:px-0">
+        {categoryItems.length > 0 ? <HomeCategoryMosaic items={categoryItems} /> : null}
 
         <p className="text-sm leading-7 text-muted">
           <Link href="/create" className="font-bold text-foreground underline-offset-4 hover:underline">
@@ -223,6 +216,7 @@ export default function HomeCasePage({ searchParams }: { searchParams: SearchPar
         />
 
         <HomeCollections cards={storyCards} />
+        </div>
       </div>
     </main>
   );
