@@ -134,19 +134,6 @@ export const CHASSIS_TEMPLATES: Record<string, ChassisTemplate> = {
     },
     printSafeInsetRatio: EDGE_INSET,
   },
-  "galaxy-s25-base-dual": {
-    slug: "galaxy-s25-base-dual",
-    cornerRadiusRatio: 0.145,
-    camera: {
-      module: { x: 0.055, y: 0.028, width: 0.34, height: 0.26, cornerRadius: 0.06 },
-      lenses: [
-        { cx: 0.135, cy: 0.068, r: 0.038 },
-        { cx: 0.275, cy: 0.108, r: 0.038 },
-      ],
-      flash: { x: 0.32, y: 0.058, width: 0.038, height: 0.038 },
-    },
-    printSafeInsetRatio: EDGE_INSET,
-  },
   "galaxy-a-triple-vertical": {
     slug: "galaxy-a-triple-vertical",
     cornerRadiusRatio: 0.14,
@@ -171,33 +158,6 @@ export const CHASSIS_TEMPLATES: Record<string, ChassisTemplate> = {
         { cx: 0.135, cy: 0.105, r: 0.03 },
       ],
       flash: { x: 0.23, y: 0.062, width: 0.032, height: 0.032 },
-    },
-    printSafeInsetRatio: EDGE_INSET,
-  },
-  "galaxy-z-fold-cover": {
-    slug: "galaxy-z-fold-cover",
-    cornerRadiusRatio: 0.12,
-    camera: {
-      module: { x: 0.05, y: 0.028, width: 0.44, height: 0.14, cornerRadius: 0.045 },
-      lenses: [
-        { cx: 0.12, cy: 0.058, r: 0.026 },
-        { cx: 0.24, cy: 0.058, r: 0.026 },
-        { cx: 0.36, cy: 0.058, r: 0.026 },
-      ],
-      flash: { x: 0.4, y: 0.048, width: 0.026, height: 0.026 },
-    },
-    printSafeInsetRatio: EDGE_INSET,
-  },
-  "galaxy-z-flip-dual": {
-    slug: "galaxy-z-flip-dual",
-    cornerRadiusRatio: 0.145,
-    camera: {
-      module: { x: 0.055, y: 0.028, width: 0.26, height: 0.22, cornerRadius: 0.05 },
-      lenses: [
-        { cx: 0.135, cy: 0.062, r: 0.032 },
-        { cx: 0.135, cy: 0.105, r: 0.032 },
-      ],
-      flash: { x: 0.22, y: 0.062, width: 0.034, height: 0.034 },
     },
     printSafeInsetRatio: EDGE_INSET,
   },

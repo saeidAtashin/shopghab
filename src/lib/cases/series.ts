@@ -3,8 +3,6 @@ import type { PhoneModel, PhoneSeries } from "./types";
 const SAMSUNG_SERIES: PhoneSeries[] = [
   { slug: "galaxy-s", name: "گلکسی S", nameEn: "Galaxy S", sortOrder: 1 },
   { slug: "galaxy-a", name: "گلکسی A", nameEn: "Galaxy A", sortOrder: 2 },
-  { slug: "galaxy-z-fold", name: "گلکسی Z Fold", nameEn: "Galaxy Z Fold", sortOrder: 3 },
-  { slug: "galaxy-z-flip", name: "گلکسی Z Flip", nameEn: "Galaxy Z Flip", sortOrder: 4 },
 ];
 
 const APPLE_SERIES: PhoneSeries[] = [

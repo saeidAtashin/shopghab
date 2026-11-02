@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg viewBox="0 0 280 585" xmlns="http://www.w3.org/2000/svg">
   <g id="body">
-    <rect x="0" y="0" width="280" height="585" rx="43.4" ry="43.4" fill="#1a1a22"/>
+    <rect x="0" y="0" width="280" height="585" rx="45.88" ry="45.88" fill="#1a1a22"/>
   </g>
-      <circle cx="140" cy="304.45" r="10.64" fill="rgba(255,255,255,0.06)"/>
+      <circle cx="140" cy="304.44" r="10.65" fill="rgba(255,255,255,0.06)"/>
   <g id="camera-module">
-    <rect x="100.8" y="23.42" width="78.4" height="30.8" rx="11.2" ry="11.2" fill="#252530" stroke="#3a3a48" stroke-width="1"/>
+    <rect x="17.77" y="17.02" width="244.39" height="88.24" rx="44.08" ry="44.08" fill="#252530" stroke="#3a3a48" stroke-width="1"/>
     <g id="lenses">
-    <circle class="lens" cx="140" cy="42.16" r="8.96" fill="#0d0d12" stroke="#333340" stroke-width="1"/>
+    <circle class="lens" cx="61.25" cy="61.29" r="29.65" fill="#0d0d12" stroke="#333340" stroke-width="1"/>
     </g>
 
-
+    <rect x="207.24" y="49.44" width="23.61" height="23.65" rx="2" fill="#f5f5dc" opacity="0.85"/>
   </g>
 </svg>

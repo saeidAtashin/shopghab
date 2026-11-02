@@ -51,16 +51,6 @@ const SAMSUNG_CODE_PREFIXES: { prefix: string; slug: string }[] = [
   { prefix: "SM-A256", slug: "galaxy-a25" },
   { prefix: "SM-A166", slug: "galaxy-a16" },
   { prefix: "SM-A156", slug: "galaxy-a15" },
-  { prefix: "SM-F966", slug: "galaxy-z-fold-7" },
-  { prefix: "SM-F956", slug: "galaxy-z-fold-6" },
-  { prefix: "SM-F946", slug: "galaxy-z-fold-5" },
-  { prefix: "SM-F936", slug: "galaxy-z-fold-4" },
-  { prefix: "SM-F926", slug: "galaxy-z-fold-3" },
-  { prefix: "SM-F766", slug: "galaxy-z-flip-7" },
-  { prefix: "SM-F741", slug: "galaxy-z-flip-6" },
-  { prefix: "SM-F731", slug: "galaxy-z-flip-5" },
-  { prefix: "SM-F721", slug: "galaxy-z-flip-4" },
-  { prefix: "SM-F711", slug: "galaxy-z-flip-3" },
 ];
 
 /**

@@ -1,3 +1,4 @@
+import { GLASSBACK_CASE_BACKS } from "../glassback/case-backs.generated";
 import { buildPhoneModel } from "../phone-back";
 import type { PhoneModel } from "../types";
 import { getChassisTemplate, resolveChassisTemplate } from "./chassis-templates";
@@ -12,7 +13,7 @@ function samsungModel(
   templateSlug: string,
   baseCanvasWidth?: number,
 ): PhoneModel {
-  const template = getChassisTemplate(templateSlug);
+  const measured = GLASSBACK_CASE_BACKS[slug];
   return buildPhoneModel({
     slug,
     brandSlug: "samsung",
@@ -21,7 +22,7 @@ function samsungModel(
     nameEn,
     widthMm,
     heightMm,
-    back: resolveChassisTemplate(template, widthMm, heightMm),
+    back: measured ?? resolveChassisTemplate(getChassisTemplate(templateSlug), widthMm, heightMm),
     baseCanvasWidth,
   });
 }
@@ -29,9 +30,9 @@ function samsungModel(
 export const SAMSUNG_PHONE_MODELS: PhoneModel[] = [
   // Galaxy S25
   samsungModel("galaxy-s25-ultra", "galaxy-s", "گلکسی S25 Ultra", "Galaxy S25 Ultra", 77.6, 162.8, "galaxy-s-ultra-isolated", 290),
-  samsungModel("galaxy-s25-plus", "galaxy-s", "گلکسی S25 Plus", "Galaxy S25 Plus", 75.8, 158.4, "galaxy-s25-base-dual"),
-  samsungModel("galaxy-s25", "galaxy-s", "گلکسی S25", "Galaxy S25", 70.5, 146.9, "galaxy-s25-base-dual"),
-  samsungModel("galaxy-s25-fe", "galaxy-s", "گلکسی S25 FE", "Galaxy S25 FE", 76.7, 161.9, "galaxy-s25-base-dual"),
+  samsungModel("galaxy-s25-plus", "galaxy-s", "گلکسی S25 Plus", "Galaxy S25 Plus", 75.8, 158.4, "galaxy-s-base-vertical"),
+  samsungModel("galaxy-s25", "galaxy-s", "گلکسی S25", "Galaxy S25", 70.5, 146.9, "galaxy-s-base-vertical"),
+  samsungModel("galaxy-s25-fe", "galaxy-s", "گلکسی S25 FE", "Galaxy S25 FE", 76.7, 161.9, "galaxy-s-base-vertical"),
 
   // Galaxy S24
   samsungModel("galaxy-s24-ultra", "galaxy-s", "گلکسی S24 Ultra", "Galaxy S24 Ultra", 79.0, 162.3, "galaxy-s-ultra-isolated", 290),
@@ -69,18 +70,4 @@ export const SAMSUNG_PHONE_MODELS: PhoneModel[] = [
   samsungModel("galaxy-a25", "galaxy-a", "گلکسی A25", "Galaxy A25", 76.6, 161.0, "galaxy-a-dual"),
   samsungModel("galaxy-a16", "galaxy-a", "گلکسی A16", "Galaxy A16", 77.4, 164.4, "galaxy-a-dual"),
   samsungModel("galaxy-a15", "galaxy-a", "گلکسی A15", "Galaxy A15", 76.8, 160.1, "galaxy-a-dual"),
-
-  // Galaxy Z Fold (cover screen back)
-  samsungModel("galaxy-z-fold-7", "galaxy-z-fold", "گلکسی Z Fold 7", "Galaxy Z Fold 7", 58.9, 158.4, "galaxy-z-fold-cover", 240),
-  samsungModel("galaxy-z-fold-6", "galaxy-z-fold", "گلکسی Z Fold 6", "Galaxy Z Fold 6", 58.9, 153.5, "galaxy-z-fold-cover", 240),
-  samsungModel("galaxy-z-fold-5", "galaxy-z-fold", "گلکسی Z Fold 5", "Galaxy Z Fold 5", 58.9, 154.9, "galaxy-z-fold-cover", 240),
-  samsungModel("galaxy-z-fold-4", "galaxy-z-fold", "گلکسی Z Fold 4", "Galaxy Z Fold 4", 58.3, 155.1, "galaxy-z-fold-cover", 240),
-  samsungModel("galaxy-z-fold-3", "galaxy-z-fold", "گلکسی Z Fold 3", "Galaxy Z Fold 3", 58.1, 158.2, "galaxy-z-fold-cover", 240),
-
-  // Galaxy Z Flip
-  samsungModel("galaxy-z-flip-7", "galaxy-z-flip", "گلکسی Z Flip 7", "Galaxy Z Flip 7", 75.2, 172.2, "galaxy-z-flip-dual"),
-  samsungModel("galaxy-z-flip-6", "galaxy-z-flip", "گلکسی Z Flip 6", "Galaxy Z Flip 6", 71.9, 165.1, "galaxy-z-flip-dual"),
-  samsungModel("galaxy-z-flip-5", "galaxy-z-flip", "گلکسی Z Flip 5", "Galaxy Z Flip 5", 71.9, 165.1, "galaxy-z-flip-dual"),
-  samsungModel("galaxy-z-flip-4", "galaxy-z-flip", "گلکسی Z Flip 4", "Galaxy Z Flip 4", 71.2, 165.2, "galaxy-z-flip-dual"),
-  samsungModel("galaxy-z-flip-3", "galaxy-z-flip", "گلکسی Z Flip 3", "Galaxy Z Flip 3", 72.2, 166.0, "galaxy-z-flip-dual"),
 ];

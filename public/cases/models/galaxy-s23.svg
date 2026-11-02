@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg viewBox="0 0 280 578" xmlns="http://www.w3.org/2000/svg">
   <g id="body">
-    <rect x="0" y="0" width="280" height="578" rx="40.6" ry="40.6" fill="#1a1a22"/>
+    <rect x="0" y="0" width="280" height="578" rx="34.36" ry="34.36" fill="#1a1a22"/>
   </g>
   
   <g id="camera-module">
-    <rect x="15.4" y="16.18" width="72.8" height="100.8" rx="14" ry="14" fill="#252530" stroke="#3a3a48" stroke-width="1"/>
+    <rect x="17.97" y="17.57" width="99.56" height="190.75" rx="11.85" ry="11.85" fill="#252530" stroke="#3a3a48" stroke-width="1"/>
     <g id="lenses">
-    <circle class="lens" cx="37.8" cy="30.04" r="8.96" fill="#0d0d12" stroke="#333340" stroke-width="1"/>
-    <circle class="lens" cx="37.8" cy="50.84" r="8.96" fill="#0d0d12" stroke="#333340" stroke-width="1"/>
-    <circle class="lens" cx="37.8" cy="71.64" r="8.96" fill="#0d0d12" stroke="#333340" stroke-width="1"/>
+    <circle class="lens" cx="49.37" cy="48.97" r="26.66" fill="#0d0d12" stroke="#333340" stroke-width="1"/>
+    <circle class="lens" cx="49.37" cy="112.95" r="26.66" fill="#0d0d12" stroke="#333340" stroke-width="1"/>
+    <circle class="lens" cx="49.37" cy="176.93" r="26.66" fill="#0d0d12" stroke="#333340" stroke-width="1"/>
     </g>
 
-    <rect x="61.6" y="30.04" width="10.08" height="10.08" rx="2" fill="#f5f5dc" opacity="0.85"/>
+    <rect x="97.35" y="41.27" width="15.44" height="15.44" rx="2" fill="#f5f5dc" opacity="0.85"/>
   </g>
 </svg>
