@@ -2,8 +2,10 @@
 
 import { useCallback, useEffect, useState } from "react";
 
+import ZoomableImage from "@/app/components/ui/ZoomableImage";
 import { getReadyCaseById } from "@/lib/cases/ready.static";
 import { formatToman } from "@/lib/shop";
+import { linePreview } from "@/lib/shop/line-preview";
 import type { AdminCustomer, PaymentMethod, PublicShopOrder, ShopOrderStatus } from "@/lib/shop/activity";
 import type { CartLineItem } from "@/lib/shop/types";
 
@@ -141,23 +143,34 @@ export default function ShopOrdersPanel() {
               <p className="mt-3 text-sm text-muted">
                 {METHOD_LABEL[order.paymentMethod]} · {STATUS_LABEL[order.status]} · {formatWhen(order.createdAt)}
               </p>
-              <ul className="mt-3 space-y-1 text-sm text-muted">
-                {order.items.map((item, index) => (
-                  <li key={`${order.id}-${index}`}>
-                    {itemLabel(item)} × {item.qty}
-                  </li>
-                ))}
+              <ul className="mt-3 space-y-2 text-sm text-muted">
+                {order.items.map((item, index) => {
+                  const preview = linePreview(item);
+                  return (
+                    <li key={`${order.id}-${index}`} className="flex items-center gap-3">
+                      {preview ? (
+                        <ZoomableImage
+                          src={preview.src}
+                          alt={preview.alt}
+                          className="h-14 w-12 shrink-0 overflow-hidden rounded-lg bg-background"
+                        />
+                      ) : null}
+                      <span>
+                        {itemLabel(item)} × {item.qty}
+                      </span>
+                    </li>
+                  );
+                })}
               </ul>
               <p className="mt-3 text-sm text-foreground">{order.address}</p>
               {order.note ? <p className="mt-1 text-sm text-muted">{order.note}</p> : null}
               {order.hasReceipt ? (
-                <a href={`/api/admin/shop-orders/${order.id}/receipt`} target="_blank" rel="noreferrer">
-                  <img
-                    src={`/api/admin/shop-orders/${order.id}/receipt`}
-                    alt={`رسید سفارش ${order.orderCode}`}
-                    className="mt-4 max-h-64 rounded-xl border border-border object-contain"
-                  />
-                </a>
+                <ZoomableImage
+                  src={`/api/admin/shop-orders/${order.id}/receipt`}
+                  alt={`رسید سفارش ${order.orderCode}`}
+                  className="mt-4 block"
+                  imgClassName="max-h-64 rounded-xl border border-border object-contain"
+                />
               ) : null}
               {order.status === "receipt_uploaded" ? (
                 <button

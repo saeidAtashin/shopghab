@@ -23,6 +23,16 @@ type Props = {
   className?: string;
 };
 
+function modelPlateParts(name: string): { lead: string; rest: string } {
+  const trimmed = name.trim();
+  const splitAt = trimmed.indexOf(" ");
+  if (splitAt <= 0) return { lead: trimmed, rest: "" };
+  return {
+    lead: trimmed.slice(0, splitAt),
+    rest: trimmed.slice(splitAt + 1).trim(),
+  };
+}
+
 export function PickerPhone({ model, className }: { model: PhoneModel; className?: string }) {
   return (
     <PhoneBackSvg
@@ -46,6 +56,8 @@ export default function ModelPickerCard({
   className,
 }: Props) {
   const names = modelPickerName(model);
+  const plate = modelPlateParts(names.name);
+  const caption = namePrefix.trim();
   const shell = cn(
     "group relative flex w-full flex-col items-center bg-transparent text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400",
     pending && "pointer-events-none",
@@ -59,13 +71,23 @@ export default function ModelPickerCard({
           <DesignRoutePendingLabel />
         </span>
       ) : null}
-      <PickerPhone
-        model={model}
-        className="h-full w-auto max-w-full drop-shadow-md transition group-hover:scale-[1.03]"
-      />
-      <span className="pointer-events-none absolute inset-x-[16%] top-1/2 -translate-y-1/2 text-center text-xl font-black leading-tight text-zinc-950 sm:text-2xl">
-        {namePrefix}
-        {names.name}
+      <span className="relative inline-flex h-full max-w-full items-center justify-center transition group-hover:scale-[1.03]">
+        <PickerPhone model={model} className="h-full w-auto max-w-full drop-shadow-md" />
+        <span className="pointer-events-none absolute top-1/2 left-1/2 flex w-[70%] -translate-x-1/2 -translate-y-1/2 flex-col items-center">
+          {caption ? (
+            <span className="mb-1 text-[10px] font-bold tracking-wide text-zinc-500">{caption}</span>
+          ) : null}
+          <span className="w-full rounded-2xl border border-white/80 bg-white/85 px-2 py-1.5 text-center shadow-[0_6px_16px_rgba(17,17,17,0.12)] backdrop-blur-md">
+            <span className="block text-balance text-lg font-black leading-none tracking-tight text-zinc-950 sm:text-xl">
+              {plate.lead}
+            </span>
+            {plate.rest ? (
+              <span className="mt-1 block text-balance text-[11px] font-semibold leading-tight text-zinc-600 sm:text-xs">
+                {plate.rest}
+              </span>
+            ) : null}
+          </span>
+        </span>
       </span>
       {selected ? (
         <span className="absolute start-1 top-1 inline-flex h-6 w-6 items-center justify-center rounded-full bg-cyan-500 text-black">

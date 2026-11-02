@@ -5,16 +5,45 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Phone, Search, Palette, ShoppingBag } from "lucide-react";
 
+import ZoomableImage from "@/app/components/ui/ZoomableImage";
 import { useAuth } from "@/app/context/AuthContext";
+import { apiRequest } from "@/lib/api-client";
+import type { LinePreview } from "@/lib/shop/line-preview";
 import { SITE_PHONE, SITE_PHONE_DISPLAY, SITE_WHATSAPP_URL } from "@/lib/seo/site";
-import { apiRequest, ApiError } from "@/lib/api-client";
 
 type Order = {
   orderCode: string;
   status: string;
   amount: number;
   createdAt: string;
+  previews?: LinePreview[];
 };
+
+const STATUS_LABEL: Record<string, string> = {
+  paid: "پرداخت شده",
+  receipt_uploaded: "در انتظار تایید رسید",
+  confirmed: "تایید شده",
+};
+
+function statusLabel(status: string): string {
+  return STATUS_LABEL[status] ?? status;
+}
+
+function mergeOrders(remote: Order[], local: Order[]): Order[] {
+  const byCode = new Map<string, Order>();
+  for (const order of remote) {
+    if (order.orderCode) byCode.set(order.orderCode, order);
+  }
+  for (const order of local) {
+    const existing = byCode.get(order.orderCode);
+    if (existing) {
+      byCode.set(order.orderCode, { ...existing, previews: order.previews });
+    } else {
+      byCode.set(order.orderCode, order);
+    }
+  }
+  return [...byCode.values()].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+}
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -22,16 +51,29 @@ export default function DashboardPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [ordersLoading, setOrdersLoading] = useState(true);
 
-  const loadOrders = useCallback(async () => {
+  const loadOrders = useCallback(async (phone: string | undefined) => {
     setOrdersLoading(true);
+    let remote: Order[] = [];
     try {
       const data = await apiRequest<{ orders?: Order[] }>("/shop/orders");
-      setOrders(data.orders ?? []);
+      remote = data.orders ?? [];
     } catch {
-      setOrders([]);
-    } finally {
-      setOrdersLoading(false);
+      remote = [];
     }
+
+    let local: Order[] = [];
+    if (phone) {
+      try {
+        const response = await fetch(`/api/shop/orders/mine?phone=${encodeURIComponent(phone)}`);
+        const body = (await response.json().catch(() => ({}))) as { orders?: Order[] };
+        if (response.ok) local = body.orders ?? [];
+      } catch {
+        local = [];
+      }
+    }
+
+    setOrders(mergeOrders(remote, local));
+    setOrdersLoading(false);
   }, []);
 
   useEffect(() => {
@@ -42,7 +84,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (authLoading || !user || user.role !== "user") return;
-    void loadOrders();
+    void loadOrders(user.phone ?? user.phone_number);
   }, [authLoading, user, loadOrders]);
 
   if (authLoading) {
@@ -137,10 +179,22 @@ export default function DashboardPage() {
                 >
                   <p className="text-xs text-muted">کد سفارش</p>
                   <p className="text-xl font-black text-cyan-400">{order.orderCode}</p>
-                  <p className="mt-2 text-sm text-muted">{order.status}</p>
+                  <p className="mt-2 text-sm text-muted">{statusLabel(order.status)}</p>
                   <p className="mt-1 text-xs text-muted">
                     {new Date(order.createdAt).toLocaleDateString("fa-IR")}
                   </p>
+                  {order.previews && order.previews.length > 0 ? (
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {order.previews.map((preview, index) => (
+                        <ZoomableImage
+                          key={`${order.orderCode}-${index}`}
+                          src={preview.src}
+                          alt={preview.alt}
+                          className="h-20 w-16 overflow-hidden rounded-xl bg-background"
+                        />
+                      ))}
+                    </div>
+                  ) : null}
                 </article>
               ))}
             </div>

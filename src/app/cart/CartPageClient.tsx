@@ -4,19 +4,12 @@ import Link from "next/link";
 import { useMemo } from "react";
 import { useShopCart } from "@/app/context/ShopCartContext";
 import DockableAction from "@/app/components/ui/DockableAction";
+import ZoomableImage from "@/app/components/ui/ZoomableImage";
 import { getReadyCaseById } from "@/lib/cases/ready.static";
 import { getBrandBySlug, getCaseTypeBySlug, getModelBySlug } from "@/lib/cases";
-import { designedAssetUrl } from "@/lib/designed-assets";
 import { formatToman } from "@/lib/shop/format";
+import { linePreview } from "@/lib/shop/line-preview";
 import { getCartItemKey } from "@/lib/shop/types";
-
-function cartPreviewSrc(image: string): string {
-  if (!image) return "";
-  if (image.startsWith("data:") || image.startsWith("blob:") || image.startsWith("http")) {
-    return image;
-  }
-  return designedAssetUrl(image);
-}
 
 export default function CartPageClient() {
   const { items, subtotal, incrementQty, decrementQty, removeItem } = useShopCart();
@@ -24,10 +17,11 @@ export default function CartPageClient() {
   const displayItems = useMemo(
     () =>
       items.map((item) => {
+        const preview = linePreview(item, { allowData: true });
         if (item.kind === "ready") {
           const product = getReadyCaseById(item.productId);
           return product
-            ? { item, key: getCartItemKey(item), title: product.title, price: product.price, image: product.image }
+            ? { item, key: getCartItemKey(item), title: product.title, price: product.price, preview }
             : null;
         }
         return {
@@ -35,7 +29,7 @@ export default function CartPageClient() {
           key: getCartItemKey(item),
           title: item.title,
           price: item.unitPrice,
-          image: item.previewUrl,
+          preview,
           description: item.kind === "custom" ? item.description : undefined,
         };
       }).filter(Boolean),
@@ -71,12 +65,11 @@ export default function CartPageClient() {
               className="flex gap-4 rounded-2xl border border-border bg-card/60 p-4"
             >
               <div className="relative h-20 w-16 shrink-0 overflow-hidden rounded-xl bg-surface">
-                {entry.image ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={cartPreviewSrc(entry.image)}
-                    alt=""
-                    className="h-full w-full object-contain"
+                {entry.preview ? (
+                  <ZoomableImage
+                    src={entry.preview.src}
+                    alt={entry.preview.alt || entry.title}
+                    className="h-full w-full"
                   />
                 ) : (
                   <div className="flex h-full items-center justify-center bg-gradient-to-br from-cyan-900/40 to-purple-900/40">

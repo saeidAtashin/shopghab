@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import PendingButtonLabel from "@/app/components/auth/PendingButtonLabel";
 import DockableAction from "@/app/components/ui/DockableAction";
+import ZoomableImage from "@/app/components/ui/ZoomableImage";
 import PhoneVerificationModal from "@/app/components/auth/PhoneVerificationModal";
 import { useAuth } from "@/app/context/AuthContext";
 import { useShopCart } from "@/app/context/ShopCartContext";
@@ -12,6 +13,7 @@ import { IRAN_MOBILE_CANONICAL, normalizeIranPhone, sanitizeCanonicalMobileInput
 import { requestZarinPalPayment } from "@/lib/payments/zarinpal";
 import { CARD_TO_CARD, formatCardNumber, type PaymentMethod } from "@/lib/shop/activity";
 import { formatToman, submitShopOrder } from "@/lib/shop";
+import { linePreview } from "@/lib/shop/line-preview";
 import { getReadyCaseById } from "@/lib/cases/ready.static";
 import { getCartItemKey } from "@/lib/shop/types";
 
@@ -60,11 +62,12 @@ export default function CheckoutPageClient() {
   const displayItems = useMemo(
     () =>
       items.map((item) => {
+        const preview = linePreview(item, { allowData: true });
         if (item.kind === "ready") {
           const product = getReadyCaseById(item.productId);
-          return product ? { item, product, key: getCartItemKey(item) } : null;
+          return product ? { item, product, key: getCartItemKey(item), preview } : null;
         }
-        return { item, key: getCartItemKey(item), product: null };
+        return { item, key: getCartItemKey(item), product: null, preview };
       }).filter(Boolean),
     [items],
   );
@@ -237,14 +240,23 @@ export default function CheckoutPageClient() {
           <ul className="space-y-2 text-sm text-muted">
             {displayItems.map((entry) =>
               entry ? (
-                <li key={entry.key} className="flex justify-between">
-                  <span>
-                    {entry.item.kind === "ready"
-                      ? entry.product?.title
-                      : entry.item.kind === "catalog"
-                        ? `طرح پیش‌ساخته: ${entry.item.title}`
-                        : entry.item.title}{" "}
-                    × {entry.item.qty}
+                <li key={entry.key} className="flex items-center justify-between gap-3">
+                  <span className="flex min-w-0 items-center gap-3">
+                    {entry.preview ? (
+                      <ZoomableImage
+                        src={entry.preview.src}
+                        alt={entry.preview.alt}
+                        className="h-14 w-12 shrink-0 overflow-hidden rounded-lg bg-background"
+                      />
+                    ) : null}
+                    <span className="min-w-0">
+                      {entry.item.kind === "ready"
+                        ? entry.product?.title
+                        : entry.item.kind === "catalog"
+                          ? `طرح پیش‌ساخته: ${entry.item.title}`
+                          : entry.item.title}{" "}
+                      × {entry.item.qty}
+                    </span>
                   </span>
                 </li>
               ) : null,
@@ -311,10 +323,11 @@ export default function CheckoutPageClient() {
                 />
               </label>
               {receiptPreview ? (
-                <img
+                <ZoomableImage
                   src={receiptPreview}
                   alt="پیش‌نمایش رسید پرداخت"
-                  className="max-h-48 rounded-lg border border-border object-contain"
+                  className="mt-1 block"
+                  imgClassName="max-h-48 rounded-lg border border-border object-contain"
                 />
               ) : null}
             </div>

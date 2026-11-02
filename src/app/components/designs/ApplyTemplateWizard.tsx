@@ -147,6 +147,7 @@ export default function ApplyTemplateWizard({
   const [modelQuery, setModelQuery] = useState("");
   const [seriesSlug, setSeriesSlug] = useState<string | undefined>(undefined);
   const autoStartedRef = useRef(false);
+  const modelStepRef = useRef<HTMLDivElement>(null);
 
   const initialStep: Step = initialBrandSlug ? "model" : "brand";
   const [step, setStep] = useState<Step>(initialStep);
@@ -227,6 +228,11 @@ export default function ApplyTemplateWizard({
     if (!open) return;
     return lockPageScroll();
   }, [open]);
+
+  useEffect(() => {
+    if (!open || step !== "model") return;
+    modelStepRef.current?.scrollIntoView({ block: "start" });
+  }, [open, step, brandSlug]);
 
   const brand = getBrandBySlug(brandSlug);
   const models = useMemo(
@@ -394,7 +400,7 @@ export default function ApplyTemplateWizard({
           ) : null}
 
           {step === "model" && brandSlug ? (
-            <>
+            <div ref={modelStepRef} className="flex min-h-0 flex-1 flex-col">
               <div className="shrink-0 space-y-3 border-b border-border px-4 py-3 sm:px-5">
                 <div className="flex items-center justify-between gap-2">
                   <p className="text-sm font-semibold text-foreground">
@@ -457,7 +463,7 @@ export default function ApplyTemplateWizard({
                   </div>
                 )}
               </div>
-            </>
+            </div>
           ) : null}
         </div>
 

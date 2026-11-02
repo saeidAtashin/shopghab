@@ -6,6 +6,16 @@ import { ChevronLeft, ChevronRight, Minus, Plus, X } from "lucide-react";
 
 import { designedAssetUrl } from "@/lib/designed-assets";
 
+function usesNativeImage(src: string): boolean {
+  return (
+    src.startsWith("data:") ||
+    src.startsWith("blob:") ||
+    src.startsWith("http://") ||
+    src.startsWith("https://") ||
+    src.startsWith("/api/")
+  );
+}
+
 type Props = {
   open: boolean;
   src: string;
@@ -214,14 +224,24 @@ export default function DesignImageZoom({ open, src, alt, onClose, onPrev, onNex
             }}
           >
             {open ? (
-              <Image
-                src={designedAssetUrl(src)}
-                alt={label}
-                fill
-                draggable={false}
-                sizes={imageSizes}
-                className="object-contain"
-              />
+              usesNativeImage(src) ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={src}
+                  alt={label}
+                  draggable={false}
+                  className="absolute inset-0 h-full w-full object-contain"
+                />
+              ) : (
+                <Image
+                  src={designedAssetUrl(src)}
+                  alt={label}
+                  fill
+                  draggable={false}
+                  sizes={imageSizes}
+                  className="object-contain"
+                />
+              )
             ) : null}
           </div>
         </div>

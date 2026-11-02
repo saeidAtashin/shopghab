@@ -3,6 +3,9 @@
 import { useState } from "react";
 import { CheckCircle2, Package, Search, Truck } from "lucide-react";
 
+import ZoomableImage from "@/app/components/ui/ZoomableImage";
+import type { LinePreview } from "@/lib/shop/line-preview";
+
 type ShopOrderStatus = "receipt_uploaded" | "paid" | "confirmed";
 
 type TrackedOrder = {
@@ -10,6 +13,7 @@ type TrackedOrder = {
   status: ShopOrderStatus;
   createdAt: string;
   summary: string;
+  previews?: LinePreview[];
 };
 
 const STATUS_STEPS: {
@@ -130,6 +134,19 @@ export default function TrackingPage() {
                 <CheckCircle2 className="w-6 h-6 text-cyan-400" />
               </div>
             </div>
+
+            {order.previews && order.previews.length > 0 ? (
+              <div className="mb-8 flex flex-wrap gap-3">
+                {order.previews.map((preview, index) => (
+                  <ZoomableImage
+                    key={`${order.orderCode}-${index}`}
+                    src={preview.src}
+                    alt={preview.alt}
+                    className="h-24 w-20 overflow-hidden rounded-2xl border border-border bg-background"
+                  />
+                ))}
+              </div>
+            ) : null}
 
             <div className="mb-8 grid sm:grid-cols-2 gap-4 text-sm">
               <div>

@@ -128,7 +128,7 @@ export default function HomeCasePage({ searchParams }: { searchParams: SearchPar
   const priceLabel = printablePrice();
   const brands = PHONE_BRANDS.map((brand) => ({
     name: BRAND_LABELS[brand.slug] ?? brand.nameEn,
-    href: `/create/${brand.slug}`,
+    href: `/create/${brand.slug}#models`,
   }));
 
   const storyCards: TaxonomyCard[] = [];

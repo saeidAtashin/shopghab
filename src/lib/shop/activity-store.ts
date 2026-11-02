@@ -4,6 +4,8 @@ import { randomBytes, randomUUID } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, renameSync, unlinkSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
+import { normalizeIranPhone } from "@/lib/phone";
+
 import {
   emptyShopActivity,
   toPublicOrder,
@@ -13,6 +15,7 @@ import {
   type ShopActivityOrder,
   type ShopOrderStatus,
 } from "./activity";
+import { linePreviews, type LinePreview } from "./line-preview";
 import type { CartLineItem } from "./types";
 
 type OrderDraft = {
@@ -195,6 +198,7 @@ export type ShopOrderTracking = {
   status: ShopOrderStatus;
   createdAt: string;
   summary: string;
+  previews: LinePreview[];
 };
 
 export function findShopOrderTracking(code: string): ShopOrderTracking | null {
@@ -211,7 +215,32 @@ export function findShopOrderTracking(code: string): ShopOrderTracking | null {
     status: order.status,
     createdAt: order.createdAt,
     summary: summary || "قاب موبایل",
+    previews: linePreviews(order.items),
   };
+}
+
+export type UserShopOrder = {
+  orderCode: string;
+  status: ShopOrderStatus;
+  amount: number;
+  createdAt: string;
+  previews: LinePreview[];
+};
+
+export function listShopOrdersForPhone(phone: string): UserShopOrder[] {
+  const normalized = normalizeIranPhone(phone);
+  if (!normalized) return [];
+  return readShopActivity()
+    .orders.filter((order) => order.phone === normalized)
+    .slice()
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+    .map((order) => ({
+      orderCode: order.orderCode,
+      status: order.status,
+      amount: order.amount,
+      createdAt: order.createdAt,
+      previews: linePreviews(order.items),
+    }));
 }
 
 export function readOrderReceipt(id: string): { bytes: Buffer; ext: string } | null {

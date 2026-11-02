@@ -121,9 +121,11 @@ export default function SuggestedPhoneCard({ className, onPick, navigatesOnPick 
       {groups.map((kind) => {
         const items = suggestions.filter((suggestion) => suggestion.kind === kind);
         if (items.length === 0) return null;
+        const fit = kind === "previous";
         return (
           <section key={kind} aria-label={GROUP_LABEL[kind]} className="space-y-2">
             <h2 className="text-sm font-bold text-foreground">{GROUP_LABEL[kind]}</h2>
+            <div className={fit ? "flex flex-wrap gap-2" : "space-y-2"}>
             {items.map((suggestion) => {
               const model = getModelBySlug(suggestion.brandSlug, suggestion.modelSlug);
               if (!model) return null;
@@ -135,17 +137,20 @@ export default function SuggestedPhoneCard({ className, onPick, navigatesOnPick 
                   <PickerPhoneWell className="h-16 w-10 shrink-0">
                     <PickerPhone model={model} className="h-14 w-auto" />
                   </PickerPhoneWell>
-                  <div className="min-w-0 flex-1 text-right">
+                  <div className={cn("text-right", fit ? "max-w-full" : "min-w-0 flex-1")}>
                     <p className="text-xs font-semibold text-cyan-400">
                       {kind === "current" ? "گوشی فعلی" : "انتخاب قبلی"}
                     </p>
-                    <p className="truncate text-sm font-bold text-foreground">{suggestion.name}</p>
+                    <p className={cn("text-sm font-bold text-foreground", fit ? "whitespace-nowrap" : "truncate")}>
+                      {suggestion.name}
+                    </p>
                     {pending ? <DesignRoutePendingLabel className="mt-1" /> : null}
                   </div>
                 </>
               );
               const cardClass = cn(
-                "flex w-full max-w-full min-w-0 items-center gap-3 rounded-2xl border border-cyan-500/40 bg-cyan-500/10 p-3 text-right transition hover:border-cyan-400",
+                "flex max-w-full min-w-0 items-center gap-3 rounded-2xl border border-cyan-500/40 bg-cyan-500/10 p-3 text-right transition hover:border-cyan-400",
+                fit ? "w-fit" : "w-full",
                 pending && "pointer-events-none border-cyan-400",
               );
 
@@ -183,6 +188,7 @@ export default function SuggestedPhoneCard({ className, onPick, navigatesOnPick 
                 </Link>
               );
             })}
+            </div>
           </section>
         );
       })}

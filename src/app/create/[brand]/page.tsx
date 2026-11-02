@@ -76,7 +76,7 @@ export default async function BrandModelsPage({ params, searchParams }: Props) {
             pathname={`/create/${brandSlug}`}
           />
         </div>
-        <div className="mt-6">
+        <div id="models" className="mt-6 scroll-mt-36">
           <ModelGrid brandSlug={brandSlug} models={models} seriesSlug={seriesSlug} />
         </div>
       </div>
