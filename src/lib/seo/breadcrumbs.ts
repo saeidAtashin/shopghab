@@ -15,10 +15,14 @@ export function breadcrumbTrail(
 }
 
 export const crumbs = {
-  services: (): BreadcrumbItem => ({ label: "خدمات", href: "/services" }),
-  issues: (): BreadcrumbItem => ({ label: "مشکلات رایج", href: "/issues" }),
-  repair: (): BreadcrumbItem => ({ label: "ثبت سفارش تعمیر" }),
-  tracking: (): BreadcrumbItem => ({ label: "پیگیری تعمیر" }),
+  designs: (): BreadcrumbItem => ({ label: "طراحی‌های آماده", href: "/designs" }),
+  create: (): BreadcrumbItem => ({ label: "طراحی قاب", href: "/create" }),
+  cases: (): BreadcrumbItem => ({ label: "قاب‌های آماده", href: "/cases" }),
+  tracking: (): BreadcrumbItem => ({
+    label: "پیگیری سفارش",
+    href: "/tracking",
+  }),
+  cart: (): BreadcrumbItem => ({ label: "سبد خرید", href: "/cart" }),
   current: (label: string): BreadcrumbItem => ({ label }),
 };
 

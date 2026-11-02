@@ -1,42 +1,27 @@
-import { blogPosts } from "@/app/data/blog";
-import { issues } from "@/app/data/issues";
-import { services } from "@/app/data/services";
-import {
-  consoleCatalog,
-  getConsole,
-  getRepairService,
-  type ConsoleId,
-} from "@/lib/console-catalog";
-import { getGameFilter } from "@/lib/game-filters";
-import { GAME_INSTALL_CONSOLE_META } from "@/lib/game-install-meta";
-import { isConsoleId } from "@/lib/repair-links";
-import {
-  getProducts,
-  SHOP_CONSOLE_META,
-  type ShopConsole,
-} from "@/lib/shop";
-import type { BreadcrumbItem } from "@/lib/seo/breadcrumbs";
+import { getReadyCaseBySlug } from "@/lib/cases/ready.static";
 import {
   getBrandBySlug,
   getModelBySlug,
 } from "@/lib/cases/brands.static";
 import {
-  normalizePath,
-  pathForBreadcrumbMatch,
-} from "@/lib/breadcrumb-tree-utils";
+  categoryChain,
+  findPublishedDesign,
+  primaryCategory,
+  resolvePublicFilter,
+} from "@/lib/catalog/logic";
+import { readCatalog } from "@/lib/catalog/store";
+import { normalizePath } from "@/lib/breadcrumb-tree-utils";
+import { crumbs, type BreadcrumbItem } from "@/lib/seo/breadcrumbs";
 
 const HOME: BreadcrumbItem = { label: "خانه", href: "/" };
 
 const STATIC_PAGES: Record<string, string> = {
-  "/tracking": "پیگیری تعمیر",
-  "/blog": "بلاگ",
+  "/tracking": "پیگیری سفارش",
   "/about-us": "درباره ما",
   "/contact": "تماس با ما",
   "/faq": "سوالات متداول",
   "/terms": "قوانین و شرایط",
   "/privacy-policy": "حریم خصوصی",
-  "/create": "طراحی قاب",
-  "/cases": "قاب‌های آماده",
 };
 
 function withHome(...segments: BreadcrumbItem[]): BreadcrumbItem[] {
@@ -44,219 +29,133 @@ function withHome(...segments: BreadcrumbItem[]): BreadcrumbItem[] {
 }
 
 function current(label: string): BreadcrumbItem {
-  return { label };
+  return crumbs.current(label);
 }
 
 function link(label: string, href: string): BreadcrumbItem {
   return { label, href };
 }
 
-function isShopConsole(slug: string): slug is ShopConsole {
-  return slug in SHOP_CONSOLE_META;
-}
-
-function resolveRepair(path: string): BreadcrumbItem[] {
-  const matchPath = pathForBreadcrumbMatch(path);
-  if (matchPath === "/repair") {
-    return withHome(current("ثبت سفارش تعمیر"));
-  }
-
-  if (matchPath.startsWith("/repair?console=")) {
-    const consoleId = matchPath.split("=")[1] as ConsoleId;
-    if (isConsoleId(consoleId)) {
-      const service = getRepairService(consoleId);
-      const config = consoleCatalog[consoleId];
-      const label = service?.title ?? `تعمیر ${config.title}`;
-      return withHome(
-        link("ثبت سفارش تعمیر", "/repair"),
-        current(label),
-      );
-    }
-  }
-
-  return withHome(current("ثبت سفارش تعمیر"));
-}
-
-function resolveServices(pathname: string, search: string): BreadcrumbItem[] | null {
+function resolveCreate(pathname: string): BreadcrumbItem[] | null {
   const segments = pathname.split("/").filter(Boolean);
-  if (segments[0] !== "services") return null;
+  if (segments[0] !== "create") return null;
 
-  if (segments.length === 1) {
-    return withHome(current("همه خدمات"));
-  }
+  const create = crumbs.create();
+  if (segments.length === 1) return withHome(current(create.label));
 
-  if (segments[1] === "game-install") {
-    const consoleSlug = segments[2];
-    const meta = consoleSlug ? GAME_INSTALL_CONSOLE_META[consoleSlug] : undefined;
-    if (!meta) return withHome(link("همه خدمات", "/services"));
-
-    const hubPath = `/services/game-install/${consoleSlug}`;
-    const hubLabel = `نصب بازی ${meta.label}`;
-
-    if (segments[3] === "games") {
-      const params = new URLSearchParams(search);
-      const filter = getGameFilter(params.get("filter") ?? "best");
-      return withHome(
-        link("همه خدمات", "/services"),
-        link(hubLabel, hubPath),
-        current(filter?.label ?? "لیست بازی‌ها"),
-      );
-    }
-
-    return withHome(
-      link("همه خدمات", "/services"),
-      current(hubLabel),
-    );
-  }
-
-  const slug = segments[1];
-  const service = services.find((s) => s.slug === slug);
-  if (!service) {
-    return withHome(link("همه خدمات", "/services"));
-  }
-
-  return withHome(
-    link("همه خدمات", "/services"),
-    current(service.title),
-  );
-}
-
-function resolveShop(pathname: string): BreadcrumbItem[] | null {
-  const segments = pathname.split("/").filter(Boolean);
-  if (segments[0] !== "shop") return null;
-
-  if (segments.length === 1) {
-    return withHome(current("فروشگاه"));
-  }
-
-  if (segments[1] === "cart") {
-    return withHome(link("فروشگاه", "/shop"), current("سبد خرید"));
-  }
-
-  if (segments[1] === "checkout") {
-    return withHome(
-      link("فروشگاه", "/shop"),
-      link("سبد خرید", "/shop/cart"),
-      current("تسویه حساب"),
-    );
-  }
-
-  const consoleSlug = segments[1];
-  if (!isShopConsole(consoleSlug)) {
-    return withHome(current("فروشگاه"));
-  }
-
-  const consoleLabel = `خرید ${SHOP_CONSOLE_META[consoleSlug].label}`;
-  const consolePath = `/shop/${consoleSlug}`;
+  const brand = getBrandBySlug(segments[1] ?? "");
+  if (!brand) return withHome(create);
 
   if (segments.length === 2) {
-    return withHome(link("فروشگاه", "/shop"), current(consoleLabel));
+    return withHome(create, current(brand.name));
   }
 
-  if (segments[2] === "parts") {
-    return withHome(
-      link("فروشگاه", "/shop"),
-      link(consoleLabel, consolePath),
-      current("فروش قطعات"),
-    );
-  }
-
-  const productSlug = segments[2];
-  const product = getProducts({ console: consoleSlug }).find(
-    (p) => p.slug === productSlug,
-  );
-
+  const model = getModelBySlug(brand.slug, segments[2] ?? "");
   return withHome(
-    link("فروشگاه", "/shop"),
-    link(consoleLabel, consolePath),
-    current(product?.title ?? productSlug),
+    create,
+    link(brand.name, `/create/${brand.slug}`),
+    current(model?.name ?? segments[2] ?? brand.name),
   );
 }
 
-function resolveConsoles(pathname: string): BreadcrumbItem[] | null {
+function resolveDesigns(pathname: string): BreadcrumbItem[] | null {
   const segments = pathname.split("/").filter(Boolean);
-  if (segments[0] !== "consoles") return null;
+  if (segments[0] !== "designs") return null;
 
-  const consoleId = segments[1];
-  const config = consoleId ? getConsole(consoleId) : undefined;
-  if (!config) return withHome(current("کنسول‌ها"));
+  const hub = crumbs.designs();
+  if (segments.length === 1) return withHome(current(hub.label));
 
-  const consolePath = `/consoles/${consoleId}`;
+  const catalog = readCatalog();
 
-  if (segments[2] === "issues") {
+  if (segments[1] === "category") {
+    const slug = segments[2];
+    if (!slug) return withHome(current(hub.label));
+    const category = catalog.categories.find((item) => item.slug === slug);
+    if (!category) return withHome(hub, current(slug));
+
+    const ancestry = categoryChain(catalog, category);
     return withHome(
-      link(config.title, consolePath),
-      current("مشکلات رایج"),
+      hub,
+      ...ancestry.map((item, index) =>
+        index === ancestry.length - 1
+          ? current(item.name)
+          : link(item.name, `/designs/category/${item.slug}`),
+      ),
     );
   }
 
-  return withHome(current(config.title));
-}
-
-function resolveIssues(pathname: string): BreadcrumbItem[] | null {
-  const segments = pathname.split("/").filter(Boolean);
-  if (segments[0] !== "issues") return null;
-
-  if (segments.length === 1) {
-    return withHome(current("مشکلات رایج"));
+  if (segments[1] === "collection") {
+    const slug = segments[2];
+    if (!slug) return withHome(current(hub.label));
+    const collection = catalog.collections.find((item) => item.slug === slug);
+    return withHome(hub, current(collection?.name ?? slug));
   }
 
-  const issue = issues.find((i) => i.slug === segments[1]);
+  if (segments[1] === "filter") {
+    const groupSlug = segments[2];
+    const valueSlug = segments[3];
+    if (!groupSlug) return withHome(current(hub.label));
+    if (!valueSlug) {
+      const group = catalog.attributeGroups.find((item) => item.slug === groupSlug);
+      return withHome(hub, current(group?.name ?? groupSlug));
+    }
+
+    const match = resolvePublicFilter(catalog, groupSlug, valueSlug);
+    if (!match) return withHome(hub, current(valueSlug));
+    return withHome(hub, { label: match.group.name }, current(match.value.name));
+  }
+
+  const design = findPublishedDesign(catalog, segments[1] ?? "");
+  const category = design ? primaryCategory(catalog, design) : undefined;
   return withHome(
-    link("مشکلات رایج", "/issues"),
-    current(issue?.title ?? segments[1]),
+    hub,
+    ...(category
+      ? [link(category.name, `/designs/category/${category.slug}`)]
+      : []),
+    current(design?.title ?? segments[1] ?? hub.label),
   );
 }
 
-function resolveBlog(pathname: string): BreadcrumbItem[] | null {
+function resolveCases(pathname: string): BreadcrumbItem[] | null {
   const segments = pathname.split("/").filter(Boolean);
-  if (segments[0] !== "blog") return null;
+  if (segments[0] !== "cases") return null;
 
-  if (segments.length === 1) {
-    return withHome(current("بلاگ"));
+  const hub = crumbs.cases();
+  if (segments.length === 1) return withHome(current(hub.label));
+
+  const slug = segments[1] ?? "";
+  const product = getReadyCaseBySlug(slug);
+  return withHome(hub, current(product?.title ?? slug));
+}
+
+function resolveCart(pathname: string): BreadcrumbItem[] | null {
+  if (pathname === "/cart") return withHome(current(crumbs.cart().label));
+  if (pathname === "/checkout") {
+    return withHome(crumbs.cart(), current("تسویه حساب"));
   }
-
-  const post = blogPosts.find((p) => p.slug === segments[1]);
-
-  if (segments.length >= 3 && post?.kind === "cheats") {
-    const gameSlug = segments[2];
-    const game = post.sections
-      .flatMap((s) => s.games)
-      .find((g) => g.slug === gameSlug);
-    return withHome(
-      link("بلاگ", "/blog"),
-      link(post.title, `/blog/${post.slug}`),
-      current(game?.name ?? gameSlug),
-    );
-  }
-
-  return withHome(
-    link("بلاگ", "/blog"),
-    current(post?.title ?? segments[1]),
-  );
+  return null;
 }
 
 function resolvePhones(pathname: string): BreadcrumbItem[] | null {
   const segments = pathname.split("/").filter(Boolean);
   if (segments[0] !== "phones") return null;
 
+  const create = crumbs.create();
+
   if (segments.length === 2) {
     const brand = getBrandBySlug(segments[1]!);
-    if (!brand) return withHome(link("طراحی قاب", "/create"), current("قاب موبایل"));
-    return withHome(
-      link("طراحی قاب", "/create"),
-      current(`قاب ${brand.name}`),
-    );
+    if (!brand) return withHome(create, current("قاب موبایل"));
+    return withHome(create, current(`قاب ${brand.name}`));
   }
 
   if (segments.length === 3) {
     const brand = getBrandBySlug(segments[1]!);
     const model = getModelBySlug(segments[1]!, segments[2]!);
     if (!brand || !model) {
-      return withHome(link("طراحی قاب", "/create"), current("قاب موبایل"));
+      return withHome(create, current("قاب موبایل"));
     }
     return withHome(
-      link("طراحی قاب", "/create"),
+      create,
       link(`قاب ${brand.name}`, `/phones/${brand.slug}`),
       current(model.name),
     );
@@ -275,19 +174,12 @@ export function resolveBreadcrumbs(
   const normalized = normalizePath(path);
   if (normalized === "/") return [];
 
-  const [pathname = "/", search = ""] = path.split("?");
-  const repairMatch = pathForBreadcrumbMatch(path);
-  if (repairMatch.startsWith("/repair")) {
-    return resolveRepair(path);
-  }
-
   const resolvers = [
-    () => resolvePhones(pathname),
-    () => resolveServices(pathname, search),
-    () => resolveShop(pathname),
-    () => resolveConsoles(pathname),
-    () => resolveIssues(pathname),
-    () => resolveBlog(pathname),
+    () => resolvePhones(normalized),
+    () => resolveCreate(normalized),
+    () => resolveDesigns(normalized),
+    () => resolveCases(normalized),
+    () => resolveCart(normalized),
   ];
 
   for (const resolve of resolvers) {
