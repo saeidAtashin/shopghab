@@ -7,7 +7,7 @@ import HomeDesignFilmstrip, { type FilmDesign } from "@/app/components/home/Home
 import HomeDiscovery from "@/app/components/home/HomeDiscovery";
 import HomeHero from "@/app/components/home/hero/HomeHero";
 import NavSearch from "@/app/components/layout/nav/NavSearch";
-import { PHONE_BRANDS, getCaseTotalPrice, getCaseTypeBySlug, SELECTABLE_CASE_TYPE_SLUG } from "@/lib/cases/brands.static";
+import { getCaseTotalPrice, getCaseTypeBySlug, SELECTABLE_CASE_TYPE_SLUG } from "@/lib/cases/brands.static";
 import {
   parsePublicListingQuery,
   publicBrowseShell,
@@ -20,14 +20,6 @@ import { selectLandingItems } from "@/lib/landing/sections";
 import { readLandingSections } from "@/lib/landing/store";
 import { landingTaxonomy, type TaxonomyCard } from "@/lib/landing/taxonomy";
 import { formatToman } from "@/lib/shop/format";
-
-const BRAND_LABELS: Record<string, string> = {
-  apple: "iPhone",
-  samsung: "Samsung",
-  xiaomi: "Xiaomi",
-  huawei: "Huawei",
-  other: "Other",
-};
 
 const HOME_PAGE_SIZE = 24;
 const HERO_FILM_COUNT = 12;
@@ -126,11 +118,6 @@ export default function HomeCasePage({ searchParams }: { searchParams: SearchPar
   const picks = publicPickCards(catalog);
   const categoryNames = Object.fromEntries(catalog.categories.map((category) => [category.id, category.name]));
   const priceLabel = printablePrice();
-  const brands = PHONE_BRANDS.map((brand) => ({
-    name: BRAND_LABELS[brand.slug] ?? brand.nameEn,
-    href: `/create/${brand.slug}#models`,
-  }));
-
   const storyCards: TaxonomyCard[] = [];
   const seen = new Set<string>();
   for (const card of collectionItems) {
@@ -207,7 +194,6 @@ export default function HomeCasePage({ searchParams }: { searchParams: SearchPar
           priceLabel={priceLabel}
           total={result.total}
           pageCount={result.pageCount}
-          brands={brands}
           featured={
             featured
               ? {

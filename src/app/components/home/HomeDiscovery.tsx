@@ -31,11 +31,6 @@ export type HomeRail = {
   items: PublicDesign[];
 };
 
-export type HomeBrandLink = {
-  name: string;
-  href: string;
-};
-
 export type HomeFeaturedCollection = {
   title: string;
   href: string;
@@ -58,7 +53,6 @@ type Props = {
   priceLabel: string;
   total: number;
   pageCount: number;
-  brands: HomeBrandLink[];
   featured: HomeFeaturedCollection | null;
   rail: HomeRail | null;
   film: FilmDesign[];
@@ -101,6 +95,13 @@ function optionLabel(shell: BrowseShell, id: string): string {
 }
 
 const cardGridClass = "grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-4";
+
+const COLLAPSED_BY_DEFAULT = new Set([
+  "visual-styles",
+  "image-types",
+  "mood",
+  "language",
+]);
 
 function gridColumns(cards: HTMLElement[]) {
   const first = cards[0];
@@ -156,14 +157,12 @@ function DesignGrid({
 function FilterGroups({
   shell,
   query,
-  brands,
   opened,
   onToggle,
   filters,
 }: {
   shell: BrowseShell;
   query: QueryState;
-  brands: HomeBrandLink[];
   opened: Record<string, boolean | undefined>;
   onToggle: (id: string, open: boolean) => void;
   filters: FilterLink[];
@@ -214,30 +213,11 @@ function FilterGroups({
           key={group.id}
           group={group}
           query={query}
-          open={opened[group.id] ?? true}
+          open={opened[group.id] ?? !COLLAPSED_BY_DEFAULT.has(group.slug)}
           onToggle={onToggle}
           filters={filters}
         />
       ))}
-
-      {brands.length > 0 ? (
-        <section className="rounded-2xl border border-border bg-card px-4 py-3">
-          <h2 className="mb-2 text-sm font-black text-foreground">مناسب برای</h2>
-          <ul className="space-y-1">
-            {brands.map((brand) => (
-              <li key={brand.href}>
-                <Link
-                  href={brand.href}
-                  className="flex items-center gap-2 rounded-xl px-1 py-1.5 text-sm text-foreground transition hover:bg-surface"
-                >
-                  <span className="h-4 w-4 rounded border border-white/25" aria-hidden />
-                  {brand.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
     </div>
   );
 }
@@ -330,7 +310,6 @@ export default function HomeDiscovery({
   priceLabel,
   total,
   pageCount,
-  brands,
   featured,
   rail,
   film,
@@ -475,7 +454,6 @@ export default function HomeDiscovery({
       <FilterGroups
         shell={shell}
         query={query}
-        brands={brands}
         opened={opened}
         onToggle={(id, open) => setOpened((current) => ({ ...current, [id]: open }))}
         filters={filters}
