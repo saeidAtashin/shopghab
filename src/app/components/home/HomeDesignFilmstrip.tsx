@@ -54,8 +54,10 @@ type Metrics = {
 type Drag = {
   id: number;
   startX: number;
+  startY: number;
   startProgress: number;
   cell: number;
+  axis: "pending" | "x" | "y";
   moved: boolean;
 };
 
@@ -221,7 +223,7 @@ export default function HomeDesignFilmstrip({ designs, className }: Props) {
     if (!drag || drag.id !== pointerId) return null;
     pointerRef.current = null;
     draggingRef.current = false;
-    if (drag.moved) suppressClick.current = true;
+    if (drag.axis === "x" && drag.moved) suppressClick.current = true;
     const stage = stageRef.current;
     if (stage?.hasPointerCapture(pointerId)) stage.releasePointerCapture(pointerId);
     return drag;
@@ -234,35 +236,50 @@ export default function HomeDesignFilmstrip({ designs, className }: Props) {
       aria-label="طرح‌های قاب"
       dir="ltr"
       data-filmstrip=""
-      className={cn("relative z-30 flex max-w-none items-center justify-center", className)}
+      className={cn("relative z-30 flex max-w-none touch-pan-y items-center justify-center", className)}
       onDragStart={(event) => event.preventDefault()}
       onPointerDown={(event) => {
         if (event.button !== 0) return;
         const current = metricsRef.current;
-        const stage = stageRef.current;
-        if (!current || current.innerCell < 1 || !stage) return;
-        draggingRef.current = true;
+        if (!current || current.innerCell < 1) return;
         pointerRef.current = {
           id: event.pointerId,
           startX: event.clientX,
+          startY: event.clientY,
           startProgress: progressRef.current,
           cell: insidePrint(event.clientX, event.clientY)
             ? (printRef.current?.clientWidth ?? current.innerCell)
             : current.outerCell,
+          axis: "pending",
           moved: false,
         };
-        stage.setPointerCapture(event.pointerId);
       }}
       onPointerMove={(event) => {
         const drag = pointerRef.current;
-        if (!drag || drag.id !== event.pointerId || drag.cell < 1) return;
-        const delta = event.clientX - drag.startX;
-        if (Math.abs(delta) >= DRAG_PX) drag.moved = true;
-        if (drag.moved) paint(drag.startProgress - delta / drag.cell);
+        const stage = stageRef.current;
+        if (!drag || drag.id !== event.pointerId || drag.cell < 1 || drag.axis === "y") return;
+
+        const dx = event.clientX - drag.startX;
+        const dy = event.clientY - drag.startY;
+
+        if (drag.axis === "pending") {
+          if (Math.abs(dx) < DRAG_PX && Math.abs(dy) < DRAG_PX) return;
+          if (Math.abs(dy) >= Math.abs(dx)) {
+            drag.axis = "y";
+            pointerRef.current = null;
+            return;
+          }
+          drag.axis = "x";
+          draggingRef.current = true;
+          stage?.setPointerCapture(event.pointerId);
+        }
+
+        if (Math.abs(dx) >= DRAG_PX) drag.moved = true;
+        if (drag.moved) paint(drag.startProgress - dx / drag.cell);
       }}
       onPointerUp={(event) => {
         const drag = endDrag(event.pointerId);
-        if (!drag || drag.moved) return;
+        if (!drag || drag.moved || drag.axis === "y") return;
         const design = designAt(event.clientX, event.clientY);
         if (!design) return;
         suppressClick.current = true;
@@ -319,7 +336,7 @@ export default function HomeDesignFilmstrip({ designs, className }: Props) {
       <div
         ref={frameRef}
         dir="ltr"
-        className="relative z-10 shrink-0 cursor-grab touch-none select-none isolate active:cursor-grabbing"
+        className="relative z-10 isolate shrink-0 cursor-grab touch-pan-y select-none active:cursor-grabbing"
         style={{
           height: "min(100dvh, 75vw)",
           width: "min(100vw, calc(100dvh * 4 / 3))",
