@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
@@ -10,7 +10,7 @@ import sharp from "sharp";
 import { validateMockupTemplates } from "./config";
 import { applyLinearBurn, buildPrintableTexture, compositePrepared } from "./composite";
 import { selectProductImages } from "./display";
-import { templatesForDesign } from "./generate";
+import { adminPlacementTemplates, templatesForDesign } from "./generate";
 import { MockupError } from "./errors";
 import { coverCropRect } from "./focal";
 import { artworkFullyInside, aspectPreserved, containPlacement, filledTextureSize } from "./fit";
@@ -593,6 +593,36 @@ test("perspective warp keeps source color inside the quad and transparency outsi
   const inside = (4 * 8 + 4) * 4;
   assert.ok((warped.data[inside + 3] ?? 0) > 200);
   assert.ok((warped.data[inside] ?? 0) > 200);
+});
+
+test("admin placement lists every prepared listing template without the storefront cap", () => {
+  const cwd = mkdtempSync(join(tmpdir(), "shopghab-admin-placement-"));
+  try {
+    const templates = [
+      placementTemplate({ id: "cover", default: true, listing: true, basePath: "prepared/cover/base.png" }),
+      placementTemplate({ id: "case", default: false, listing: true, basePath: "prepared/case/base.png" }),
+      placementTemplate({ id: "pro", default: false, listing: true, basePath: "prepared/pro/base.png" }),
+      placementTemplate({ id: "extra", default: false, listing: true, basePath: "prepared/extra/base.png" }),
+      placementTemplate({
+        id: "iphone-pro-in-hand",
+        default: false,
+        listing: true,
+        basePath: "prepared/iphone-pro-in-hand/base.png",
+      }),
+      placementTemplate({ id: "missing", default: false, listing: true, basePath: "prepared/missing/base.png" }),
+    ];
+    for (const id of ["cover", "case", "pro", "extra", "iphone-pro-in-hand"]) {
+      const dir = join(cwd, "mockup-templates", "prepared", id);
+      mkdirSync(dir, { recursive: true });
+      writeFileSync(join(dir, "base.png"), "x");
+    }
+    const chosen = adminPlacementTemplates(templates, cwd);
+    assert.equal(chosen[0]?.id, "iphone-pro-in-hand");
+    assert.equal(chosen.length, 5);
+    assert.ok(chosen.every((template) => template.id !== "missing"));
+  } finally {
+    removeTemp(cwd);
+  }
 });
 
 test("each design keeps three stable phone mockups", () => {

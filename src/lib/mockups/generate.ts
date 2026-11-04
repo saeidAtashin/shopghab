@@ -1,6 +1,8 @@
+import { existsSync } from "node:fs";
+
 import { enabledTemplates, loadProjectTemplates } from "./config";
 import { LEAD_LISTING_TEMPLATE_ID } from "./display";
-import { assertSafeId } from "./paths";
+import { assertSafeId, mockupRoot, resolveInside } from "./paths";
 import { renderDesignTemplates } from "./render";
 import type { MockupRecord, MockupTemplateConfig } from "./types";
 
@@ -22,6 +24,30 @@ const PHOTOS_PER_DESIGN = 3;
 
 export function phoneTemplates(templates: MockupTemplateConfig[]): MockupTemplateConfig[] {
   return enabledTemplates(templates).filter((template) => template.listing);
+}
+
+function hasPreparedBase(cwd: string, template: MockupTemplateConfig): boolean {
+  if (template.renderer !== "prepared" || !template.basePath) return template.renderer === "photoshop";
+  try {
+    return existsSync(resolveInside(mockupRoot(cwd), template.basePath));
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Admin placement editor: every enabled listing template that can render locally.
+ * Storefront generation still uses the capped `templatesForDesign` pick.
+ */
+export function adminPlacementTemplates(
+  templates: MockupTemplateConfig[],
+  cwd = process.cwd(),
+): MockupTemplateConfig[] {
+  const phones = phoneTemplates(templates).filter((template) => hasPreparedBase(cwd, template));
+  if (phones.length === 0) throw new Error("No enabled mockup templates.");
+  const lead = phones.find((template) => template.id === LEAD_LISTING_TEMPLATE_ID);
+  if (!lead) return phones;
+  return [lead, ...phones.filter((template) => template.id !== lead.id)];
 }
 
 /** Stable across runs. Every design leads with the in-hand photo when that template is listed. */

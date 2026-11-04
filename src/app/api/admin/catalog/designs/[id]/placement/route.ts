@@ -7,7 +7,7 @@ import { mutateCatalog, readCatalog } from "@/lib/catalog/store";
 import { loadProjectTemplates } from "@/lib/mockups/config";
 import { MockupError } from "@/lib/mockups/errors";
 import { normalizePlacement } from "@/lib/mockups/focal";
-import { mockupOutputSlug, templatesForDesign } from "@/lib/mockups/generate";
+import { adminPlacementTemplates, mockupOutputSlug } from "@/lib/mockups/generate";
 import { renderDesignTemplates } from "@/lib/mockups/render";
 import type { MockupTemplateConfig } from "@/lib/mockups/types";
 
@@ -36,8 +36,7 @@ export type DesignPlacementView = {
 };
 
 function placementView(design: DesignRecord, templates: MockupTemplateConfig[]): DesignPlacementView {
-  const current = design.mockups.find((item) => item.status === "ready" && item.templateId);
-  const chosen = templatesForDesign(design.id, templates, current?.templateId);
+  const chosen = adminPlacementTemplates(templates);
   return {
     artwork: {
       src: design.imagePath,
@@ -100,8 +99,7 @@ export async function POST(request: Request, context: RouteContext) {
     }
 
     const templates = loadProjectTemplates(process.cwd());
-    const current = design.mockups.find((item) => item.status === "ready" && item.templateId);
-    const chosen = templatesForDesign(design.id, templates, current?.templateId);
+    const chosen = adminPlacementTemplates(templates);
     const template = chosen.find((item) => item.id === input.templateId);
     if (!template) throw new CatalogError("این قالب برای طرح انتخاب نشده است", 400);
 

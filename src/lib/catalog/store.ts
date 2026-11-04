@@ -6,7 +6,16 @@
  * writable and must survive deploys; otherwise admin edits are lost on restart.
  * Image conversion still writes `public/designed` and the generated templates.
  */
-import { mkdirSync, readFileSync, renameSync, statSync, writeFileSync, existsSync } from "node:fs";
+import {
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  renameSync,
+  statSync,
+  unlinkSync,
+  writeFileSync,
+} from "node:fs";
 import { dirname, join } from "node:path";
 
 import { emptyCatalog } from "./logic";
@@ -42,13 +51,66 @@ function withLock<T>(fn: () => T): Promise<T> {
   return run;
 }
 
+function wait(ms: number): void {
+  const until = Date.now() + ms;
+  while (Date.now() < until) {
+    // Short pause so Windows/OneDrive can release a file handle before a rename.
+  }
+}
+
+function isRetryableFsError(error: unknown): boolean {
+  if (!error || typeof error !== "object" || !("code" in error)) return false;
+  const code = String((error as { code?: unknown }).code);
+  return code === "EPERM" || code === "EBUSY" || code === "EACCES";
+}
+
+/** Atomic replace with Windows/OneDrive-friendly rename retry and copy fallback. */
+function replaceFile(from: string, to: string): void {
+  let last: unknown;
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    try {
+      renameSync(from, to);
+      return;
+    } catch (error) {
+      last = error;
+      try {
+        copyFileSync(from, to);
+        try {
+          unlinkSync(from);
+        } catch (unlinkError) {
+          // Destination is already correct; a stuck tmp under OneDrive must not fail the write.
+          if (!isRetryableFsError(unlinkError)) throw unlinkError;
+        }
+        return;
+      } catch (copyError) {
+        last = copyError;
+        if (!isRetryableFsError(copyError) && !isRetryableFsError(error)) throw copyError;
+        wait(40 * (attempt + 1));
+      }
+    }
+  }
+  throw last;
+}
+
+function writeJsonAtomic(file: string, contents: string): void {
+  mkdirSync(dirname(file), { recursive: true });
+  const tmp = `${file}.${process.pid}.tmp`;
+  writeFileSync(tmp, contents, "utf8");
+  try {
+    replaceFile(tmp, file);
+  } catch (error) {
+    try {
+      if (existsSync(tmp)) unlinkSync(tmp);
+    } catch {
+      // Keep the original write error.
+    }
+    throw error;
+  }
+}
+
 function writeCacheFile(catalog: DesignCatalog): void {
   try {
-    const file = catalogCacheFilePath();
-    mkdirSync(dirname(file), { recursive: true });
-    const tmp = `${file}.${process.pid}.tmp`;
-    writeFileSync(tmp, `${JSON.stringify(catalog, null, 2)}\n`, "utf8");
-    renameSync(tmp, file);
+    writeJsonAtomic(catalogCacheFilePath(), `${JSON.stringify(catalog, null, 2)}\n`);
   } catch (error) {
     console.error("Could not write the catalog cache.");
     console.error(error instanceof Error ? error.message : error);
@@ -100,10 +162,7 @@ export function readCatalog(): DesignCatalog {
 function writeCatalogSync(catalog: DesignCatalog): void {
   const validated = catalogSchema.parse(catalog);
   const file = catalogFilePath();
-  mkdirSync(dirname(file), { recursive: true });
-  const tmp = `${file}.${process.pid}.tmp`;
-  writeFileSync(tmp, `${JSON.stringify(validated, null, 2)}\n`, "utf8");
-  renameSync(tmp, file);
+  writeJsonAtomic(file, `${JSON.stringify(validated, null, 2)}\n`);
   const stat = statSync(file);
   cache = { mtimeMs: stat.mtimeMs, catalog: validated, source: "main" };
   writeCacheFile(validated);

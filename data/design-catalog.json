@@ -3288,25 +3288,25 @@
       "mockups": [
         {
           "templateId": "iphone-pro-in-hand",
-          "path": "/designed/mockups/design-93e97c89b1/iphone-pro-in-hand.webp",
-          "thumbPath": "/designed/mockups/design-93e97c89b1/iphone-pro-in-hand.thumb.webp",
+          "path": "/designed/mockups/design-93e97c89b1/iphone-pro-in-hand.301486a213da54b5.webp",
+          "thumbPath": "/designed/mockups/design-93e97c89b1/iphone-pro-in-hand.301486a213da54b5.thumb.webp",
           "width": 1600,
           "height": 1067,
-          "contentHash": "3a9ef48dae109ca8d2e591b6d8f509f0cfa30c74818c394894f0e081474e2807",
+          "contentHash": "301486a213da54b530155b43916164b83a38ad435fd7f336cbeec278ddb771d6",
           "templateVersion": "2",
-          "generatedAt": "2026-10-19T14:15:20.768Z",
+          "generatedAt": "2026-11-04T22:01:51.508Z",
           "status": "ready",
           "error": ""
         },
         {
           "templateId": "iphone-14-pro-matt",
-          "path": "/designed/mockups/design-93e97c89b1/iphone-14-pro-matt.webp",
-          "thumbPath": "/designed/mockups/design-93e97c89b1/iphone-14-pro-matt.thumb.webp",
+          "path": "/designed/mockups/design-93e97c89b1/iphone-14-pro-matt.151cd1ba37a0ec3a.webp",
+          "thumbPath": "/designed/mockups/design-93e97c89b1/iphone-14-pro-matt.151cd1ba37a0ec3a.thumb.webp",
           "width": 1600,
           "height": 1138,
-          "contentHash": "6c8c92bf6a7c8c9a784309e7a2d06548d278d31d82b25ddd2471bb76d5e31ab6",
+          "contentHash": "151cd1ba37a0ec3aa577341585d53c79510a1fef309c54a019e1afcf10fbff1b",
           "templateVersion": "3",
-          "generatedAt": "2026-10-19T14:15:20.768Z",
+          "generatedAt": "2026-11-04T22:02:14.588Z",
           "status": "ready",
           "error": ""
         },
@@ -3321,8 +3321,54 @@
           "generatedAt": "2026-10-28T08:39:41.553Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/design-93e97c89b1/iphone-17-pro-cover.dac593720f21f892.webp",
+          "thumbPath": "/designed/mockups/design-93e97c89b1/iphone-17-pro-cover.dac593720f21f892.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "dac593720f21f892440194cb47c63cfd71512a1e6b22f9184554f8ccd6c1cc73",
+          "templateVersion": "5",
+          "generatedAt": "2026-11-04T22:11:16.365Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-pro-case",
+          "path": "/designed/mockups/design-93e97c89b1/iphone-pro-case.35e1b0baf138c36b.webp",
+          "thumbPath": "/designed/mockups/design-93e97c89b1/iphone-pro-case.35e1b0baf138c36b.thumb.webp",
+          "width": 1600,
+          "height": 1143,
+          "contentHash": "35e1b0baf138c36bad628256d060917721ff547a3911c7e4b6931ae20dfe5941",
+          "templateVersion": "6",
+          "generatedAt": "2026-11-04T22:05:43.659Z",
+          "status": "ready",
+          "error": ""
         }
       ],
+      "placements": {
+        "iphone-pro-in-hand": {
+          "focalX": 0.4761,
+          "focalY": 0.269,
+          "zoom": 1.75
+        },
+        "iphone-14-pro-matt": {
+          "focalX": 0.4847,
+          "focalY": 0.2386,
+          "zoom": 1.75
+        },
+        "iphone-17-pro-cover": {
+          "focalX": 0.5163,
+          "focalY": 0.2821,
+          "zoom": 1.75
+        },
+        "iphone-pro-case": {
+          "focalX": 0.5121,
+          "focalY": 0.3295,
+          "zoom": 1.75
+        }
+      },
       "seoTitle": "طرح احترام زیاد برای قاب موبایل",
       "seoDescription": "فروش قاب موبایل با طرح احترام زیاد، دسته عمومی، و پیش‌نمایش چاپ در شاپ قاب. چاپ اختصاصی با امکان پیش‌نمایش قبل از تولید. مناسب آیفون، سامسونگ و شیائومی.",
       "ogImage": "/designed/design-93e97c89b1.webp",
@@ -3332,7 +3378,7 @@
       "assetMissing": false,
       "unedited": false,
       "createdAt": "2026-10-18T08:26:52.569Z",
-      "updatedAt": "2026-10-19T12:26:39.277Z",
+      "updatedAt": "2026-11-04T22:11:19.435Z",
       "publishedAt": "2026-10-18T08:26:52.569Z"
     },
     {
