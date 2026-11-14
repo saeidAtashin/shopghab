@@ -11,8 +11,8 @@ export const HERO_HEADING_ACCENT = "امضای توست.";
 export const HERO_HEADING = `${HERO_HEADING_LEAD} ${HERO_HEADING_ACCENT}`;
 
 export const HERO_DESCRIPTION_LINES = [
-  "از یک تصویر ساده تا یک قاب منحصربه‌فرد.",
-  "طرح خودت را بساز و دنیای خودت را همراه داشته باش.",
+  "طرح آماده انتخاب کن یا قاب اختصاصی بساز.",
+  "چاپ باکیفیت روی مدل گوشی‌ات و ارسال به سراسر ایران.",
 ] as const;
 
 export const HERO_DESCRIPTION = HERO_DESCRIPTION_LINES.join(" ");

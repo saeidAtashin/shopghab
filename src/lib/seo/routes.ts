@@ -19,7 +19,7 @@ export const PUBLIC_SITEMAP_ENTRIES: SitemapEntry[] = [
   { path: "/", changeFrequency: "weekly", priority: 1 },
   { path: "/create", changeFrequency: "weekly", priority: 0.95 },
   { path: "/designs", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/cases", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/cases", changeFrequency: "weekly", priority: 0.7 },
   ...PHONE_BRANDS.filter((b) => b.slug !== "other").map((brand) => ({
     path: `/phones/${brand.slug}`,
     changeFrequency: "weekly" as const,
@@ -30,15 +30,10 @@ export const PUBLIC_SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "weekly" as const,
     priority: 0.8,
   })),
-  ...PHONE_BRANDS.map((brand) => ({
-    path: `/create/${brand.slug}`,
-    changeFrequency: "weekly" as const,
-    priority: 0.85,
-  })),
   ...READY_CASES.map((product) => ({
     path: `/cases/${product.slug}`,
     changeFrequency: "weekly" as const,
-    priority: 0.75,
+    priority: 0.55,
   })),
   { path: "/tracking", changeFrequency: "monthly", priority: 0.6 },
   { path: "/about-us", changeFrequency: "monthly", priority: 0.5 },

@@ -5,12 +5,15 @@ import { isCenterPlacement, type MockupPlacement } from "@/lib/mockups/focal";
 import type { MockupRecord } from "@/lib/mockups/types";
 import {
   suggestedCategorySeoDescription,
+  suggestedCategoryIntro,
   suggestedCategorySeoTitle,
   suggestedCollectionSeoDescription,
   suggestedCollectionSeoTitle,
   suggestedDesignSeoDescription,
   suggestedDesignSeoTitle,
+  categoryPageHeading,
 } from "./seo-copy";
+import { curatedCategorySeo } from "./category-seo-content";
 import { categoryLabel, subcategoryLabel } from "@/lib/designed-categories";
 import {
   designPublicDescription,
@@ -1506,6 +1509,7 @@ export type CatalogSitemapEntry = {
   path: string;
   changeFrequency: "weekly" | "monthly";
   priority: number;
+  lastModified?: string;
 };
 
 export function attributeFilterPath(groupSlug: string, valueSlug: string): string {
@@ -1567,6 +1571,7 @@ export function indexableCatalogPaths(catalog: DesignCatalog): CatalogSitemapEnt
       path: `/designs/category/${category.slug}`,
       changeFrequency: "weekly",
       priority: 0.7,
+      lastModified: category.updatedAt,
     });
   }
   for (const design of catalog.designs) {
@@ -1575,6 +1580,7 @@ export function indexableCatalogPaths(catalog: DesignCatalog): CatalogSitemapEnt
       path: `/designs/${design.slug}`,
       changeFrequency: "monthly",
       priority: 0.6,
+      lastModified: design.updatedAt,
     });
   }
   for (const collection of catalog.collections) {
@@ -1583,12 +1589,18 @@ export function indexableCatalogPaths(catalog: DesignCatalog): CatalogSitemapEnt
       path: `/designs/collection/${collection.slug}`,
       changeFrequency: "weekly",
       priority: 0.5,
+      lastModified: collection.updatedAt,
     });
   }
   for (const value of catalog.attributeValues) {
     const path = indexableAttributeFilterPath(catalog, value.id);
     if (!path) continue;
-    paths.push({ path, changeFrequency: "weekly", priority: 0.65 });
+    paths.push({
+      path,
+      changeFrequency: "weekly",
+      priority: 0.55,
+      lastModified: value.updatedAt,
+    });
   }
   return paths;
 }
@@ -1625,8 +1637,15 @@ export function designOgImage(
   return hero || undefined;
 }
 
-export function categorySeoTitle(category: Pick<CategoryRecord, "seoTitle" | "name">): string {
-  return category.seoTitle.trim() || suggestedCategorySeoTitle(category.name);
+export function categorySeoTitle(
+  category: Pick<CategoryRecord, "seoTitle" | "name" | "slug">,
+  parentName?: string,
+): string {
+  const custom = category.seoTitle.trim();
+  if (custom) return custom;
+  const curated = curatedCategorySeo(category.slug);
+  if (curated) return curated.seoTitle;
+  return suggestedCategorySeoTitle(category.name, parentName);
 }
 
 export function categorySeoDescription(
@@ -1635,7 +1654,24 @@ export function categorySeoDescription(
 ): string {
   const custom = category.seoDescription.trim();
   if (custom) return custom;
+  const curated = curatedCategorySeo(category.slug);
+  if (curated) return curated.seoDescription;
   return suggestedCategorySeoDescription(category.name, category.slug, parentName);
+}
+
+export function categoryVisibleHeading(category: Pick<CategoryRecord, "name">): string {
+  return categoryPageHeading(category.name);
+}
+
+export function categoryVisibleIntro(
+  category: Pick<CategoryRecord, "description" | "name" | "slug">,
+  parentName?: string,
+): string {
+  const custom = category.description.trim();
+  if (custom) return custom;
+  const curated = curatedCategorySeo(category.slug);
+  if (curated) return curated.description;
+  return suggestedCategoryIntro(category.name, parentName);
 }
 
 export function collectionSeoTitle(

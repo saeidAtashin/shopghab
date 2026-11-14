@@ -2,6 +2,7 @@ import { notFound, permanentRedirect } from "next/navigation";
 
 import CatalogBreadcrumbs from "@/app/components/designs/CatalogBreadcrumbs";
 import CatalogListing from "@/app/components/designs/CatalogListing";
+import CatalogSeoIntro from "@/app/components/designs/CatalogSeoIntro";
 import JsonLd from "@/app/components/seo/JsonLd";
 import { parsePublicListingQuery, queryPublicDesigns, resolvePublicFilter } from "@/lib/catalog/logic";
 import { readCatalog } from "@/lib/catalog/store";
@@ -114,8 +115,7 @@ export default async function DesignFilterPage({ params, searchParams }: Props) 
         ]}
       />
       <CatalogBreadcrumbs items={crumbs} soft />
-      <h1 className="mt-4 text-2xl font-black sm:text-3xl">{title}</h1>
-      <p className="mt-2 max-w-2xl leading-8 text-muted">{description}</p>
+      <CatalogSeoIntro heading={value.name} intro={description} />
       <div className="mt-6">
         <CatalogListing
           designs={result.items}

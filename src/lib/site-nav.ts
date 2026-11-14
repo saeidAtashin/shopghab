@@ -57,9 +57,10 @@ export const navbarNavItems: SiteNavItem[] = [
 export const footerQuickLinks: SiteNavLeaf[] = [
   { title: "خانه", href: "/" },
   { title: "طراحی‌های آماده", href: "/designs" },
-  { title: "طراحی قاب", href: "/create" },
+  { title: "طراحی قاب اختصاصی", href: "/create" },
+  { title: "قاب آیفون", href: "/phones/apple" },
+  { title: "قاب سامسونگ", href: "/phones/samsung" },
   { title: "پیگیری سفارش", href: "/tracking" },
-  { title: "سبد خرید", href: "/cart" },
 ];
 
 export const footerInfoLinks: SiteNavLeaf[] = [

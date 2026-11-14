@@ -2,11 +2,14 @@ import { notFound, permanentRedirect } from "next/navigation";
 
 import CatalogBreadcrumbs from "@/app/components/designs/CatalogBreadcrumbs";
 import CatalogListing from "@/app/components/designs/CatalogListing";
+import CatalogSeoIntro from "@/app/components/designs/CatalogSeoIntro";
 import JsonLd from "@/app/components/seo/JsonLd";
 import {
   categoryChain,
   categorySeoDescription,
   categorySeoTitle,
+  categoryVisibleHeading,
+  categoryVisibleIntro,
   cleanAttributeRedirect,
   cleanSubcategoryRedirect,
   findCategoryRedirect,
@@ -46,7 +49,7 @@ export async function generateMetadata({ params, searchParams }: Props) {
     ? catalog.categories.find((item) => item.id === category.parentId)?.name
     : undefined;
   return createPageMetadata({
-    title: categorySeoTitle(category),
+    title: categorySeoTitle(category, parentName),
     description: categorySeoDescription(category, parentName),
     path: `/designs/category/${category.slug}`,
     noIndex: query.noIndex || query.page > 1 || !isCategoryIndexable(catalog, category),
@@ -88,8 +91,10 @@ export default async function DesignCategoryPage({ params, searchParams }: Props
   const parentName = category.parentId
     ? catalog.categories.find((item) => item.id === category.parentId)?.name
     : undefined;
-  const title = categorySeoTitle(category);
+  const title = categorySeoTitle(category, parentName);
   const description = categorySeoDescription(category, parentName);
+  const heading = categoryVisibleHeading(category);
+  const intro = categoryVisibleIntro(category, parentName);
   const path = `/designs/category/${category.slug}`;
   const chain = breadcrumbTrail(
     { label: "طراحی‌های آماده", href: "/designs" },
@@ -123,10 +128,7 @@ export default async function DesignCategoryPage({ params, searchParams }: Props
         ]}
       />
       <CatalogBreadcrumbs items={chain} soft />
-      <h1 className="mt-4 text-2xl font-black sm:text-3xl">{title}</h1>
-      {category.description ? (
-        <p className="mt-2 max-w-2xl leading-8 text-muted">{category.description}</p>
-      ) : null}
+      <CatalogSeoIntro heading={heading} intro={intro} />
       <div className="mt-6">
         <CatalogListing
           designs={result.items}

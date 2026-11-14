@@ -15,22 +15,17 @@ type Props = {
   searchParams: Promise<{ series?: string }>;
 };
 
-export async function generateMetadata({ params, searchParams }: Props) {
+export async function generateMetadata({ params }: Props) {
   const { brand: brandSlug } = await params;
-  const { series: seriesSlug } = await searchParams;
   const brand = getBrandBySlug(brandSlug);
   if (!brand) return {};
 
-  const series = seriesSlug ? getSeriesBySlug(brandSlug, seriesSlug) : undefined;
-  const title = series
-    ? `فروش قاب ${series.name} ${brand.name}`
-    : `فروش قاب ${brand.name}`;
-
   return createPageMetadata({
-    title,
-    description: `انتخاب مدل ${series ? series.name : brand.name} برای فروش قاب موبایل در ${SITE_BRAND} (shopghab).`,
-    path: seriesSlug ? `/create/${brandSlug}?series=${seriesSlug}` : `/create/${brandSlug}`,
-    keywords: [`فروش قاب ${brand.name}`, "فروش قاب موبایل", SITE_BRAND, "shopghab"],
+    title: `انتخاب مدل ${brand.name}`,
+    description: `مدل گوشی ${brand.name} را برای طراحی قاب اختصاصی در ${SITE_BRAND} انتخاب کنید.`,
+    path: `/phones/${brandSlug}`,
+    noIndex: true,
+    keywords: [`قاب اختصاصی ${brand.name}`, "طراحی قاب", SITE_BRAND, "shopghab"],
   });
 }
 

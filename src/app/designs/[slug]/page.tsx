@@ -12,6 +12,8 @@ import {
   designSeoTitle,
   findPublishedDesign,
   findRedirectTarget,
+  isCategoryIndexable,
+  isCollectionIndexable,
   primaryCategory,
   relatedDesigns,
 } from "@/lib/catalog/logic";
@@ -58,12 +60,14 @@ export default async function DesignDetailPage({ params }: Props) {
   const description = designSeoDescription(direct, category?.name);
   const path = `/designs/${direct.slug}`;
   const categories = direct.categoryIds
-    .map((id) => catalog.categories.find((item) => item.id === id && item.status === "active"))
+    .map((id) => catalog.categories.find((item) => item.id === id))
     .filter((item): item is NonNullable<typeof item> => Boolean(item))
+    .filter((item) => isCategoryIndexable(catalog, item))
     .map((item) => ({ slug: item.slug, name: item.name }));
   const collections = direct.collectionIds
-    .map((id) => catalog.collections.find((item) => item.id === id && item.status === "active"))
+    .map((id) => catalog.collections.find((item) => item.id === id))
     .filter((item): item is NonNullable<typeof item> => Boolean(item))
+    .filter((item) => isCollectionIndexable(catalog, item))
     .map((item) => ({ slug: item.slug, name: item.name }));
   const crumbs = breadcrumbTrail(
     { label: "طراحی‌های آماده", href: "/designs" },
@@ -114,6 +118,7 @@ export default async function DesignDetailPage({ params }: Props) {
             path,
             image: images.hero || undefined,
             sku: direct.id,
+            category: category?.name,
           }),
           breadcrumbJsonLd(crumbs, path),
         ]}

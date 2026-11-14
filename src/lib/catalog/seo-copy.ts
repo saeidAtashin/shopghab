@@ -82,16 +82,16 @@ export function suggestedDesignSeoDescription(input: {
   const category = input.categoryName?.trim() || "طرح‌های آماده";
   const tag = input.tags?.map((item) => item.trim()).find((item) => item && item !== "طراحی آماده" && item !== "سایر");
   const leads = [
-    `فروش قاب موبایل با ${label} در دسته ${category}. چاپ این طرح در ${SITE_BRAND} با ارسال به سراسر ایران.`,
-    `${label} برای فروش قاب موبایل از دسته ${category} در ${SITE_BRAND} با چاپ باکیفیت و سفارش آنلاین.`,
-    `در ${SITE_BRAND} طرح ${label} از دسته ${category} برای فروش قاب موبایل چاپ و ارسال می‌شود.`,
-    `فروش قاب موبایل با طرح ${label}، دسته ${category}، و پیش‌نمایش چاپ در ${SITE_BRAND}.`,
+    `طرح ${label} از دسته ${category} برای چاپ روی قاب موبایل در ${SITE_BRAND}. قابل سفارش برای آیفون و اندروید.`,
+    `قاب موبایل با طرح ${label} (${category}) در ${SITE_BRAND}. طرح آماده با پیش‌نمایش و ارسال به سراسر ایران.`,
+    `در ${SITE_BRAND} طرح ${label} از دسته ${category} را روی قاب گوشی چاپ و به ایران ارسال کنید.`,
+    `طرح آماده ${label} برای قاب موبایل در دسته ${category}. چاپ اختصاصی و ارسال سراسری از ${SITE_BRAND}.`,
   ];
   const extras = [
-    "مناسب آیفون، سامسونگ و شیائومی.",
-    tag ? `سبک طرح: ${tag}.` : "طرح آماده برای چاپ روی قاب گوشی.",
-    "انتخاب مدل گوشی و ثبت سفارش در همان صفحه.",
-    "چاپ اختصاصی با امکان پیش‌نمایش قبل از تولید.",
+    "انتخاب مدل گوشی در همان صفحه.",
+    tag ? `سبک طرح: ${tag}.` : "قابل ویرایش قبل از چاپ.",
+    "مناسب هدیه و استفاده روزمره.",
+    "پیش‌نمایش چاپ قبل از تولید.",
   ];
   const index = variantIndex(input.slug || label, leads.length);
   const orderedExtras = extras.slice(index).concat(extras.slice(0, index));
@@ -100,7 +100,8 @@ export function suggestedDesignSeoDescription(input: {
 
 export function suggestedDesignAlt(title: string): string {
   const name = title.replace(/\s+/g, " ").trim() || "طرح قاب";
-  return clip(`طرح قاب موبایل ${name} — ${SITE_BRAND}`, 180);
+  const cleaned = name.replace(/^طرح\s+قاب\s+/i, "").replace(/^طرح\s+/i, "").trim() || name;
+  return clip(`طرح قاب موبایل ${cleaned} — ${SITE_BRAND}`, 180);
 }
 
 export function isWeakDesignAlt(alt: string, title: string): boolean {
@@ -108,31 +109,34 @@ export function isWeakDesignAlt(alt: string, title: string): boolean {
   return !current || current === title.trim();
 }
 
-function categoryLabel(name: string): string {
-  const label = name.replace(/\s+/g, " ").trim() || "طرح";
-  return /^طرح/.test(label) ? label : `طرح ${label}`;
+function categoryThemeLabel(name: string): string {
+  const label = name.replace(/\s+/g, " ").trim() || "آماده";
+  return label.replace(/^طرح\s+/i, "").trim() || label;
 }
 
-export function suggestedCategorySeoTitle(name: string): string {
-  return clip(`خرید قاب موبایل ${categoryLabel(name)}`, TITLE_MAX);
+export function suggestedCategorySeoTitle(name: string, parentName?: string): string {
+  const theme = categoryThemeLabel(name);
+  if (parentName?.trim()) {
+    return clip(`خرید قاب موبایل طرح ${theme}`, TITLE_MAX);
+  }
+  return clip(`خرید قاب موبایل طرح ${theme}`, TITLE_MAX);
 }
 
 export function suggestedCategorySeoDescription(name: string, slug: string, parentName?: string): string {
-  const label = compactLabel(name.trim() || "طرح", 36);
-  const titled = categoryLabel(label);
+  const theme = compactLabel(categoryThemeLabel(name), 28);
   const parent = parentName?.trim();
-  const place = parent ? `زیرمجموعه ${parent}` : "بخش طرح‌های آماده";
+  const place = parent ? `در دسته ${parent}` : "از طرح‌های آماده";
   const leads = [
-    `خرید قاب موبایل با ${titled} (${place}). چاپ روی قاب گوشی در ${SITE_BRAND}، با پیش‌نمایش و ارسال به سراسر ایران.`,
-    `در ${SITE_BRAND} خرید قاب موبایل با ${titled} فراهم است. این ${place} روی قاب گوشی چاپ و ارسال می‌شود.`,
-    `${place}: خرید قاب موبایل با ${titled}. ${SITE_BRAND} این طرح را برای قاب گوشی آماده کرده و به ایران می‌فرستد.`,
+    `خرید قاب موبایل طرح ${theme} ${place} در ${SITE_BRAND}. چاپ روی قاب گوشی با پیش‌نمایش و ارسال به سراسر ایران.`,
+    `قاب موبایل طرح ${theme} ${place}. در ${SITE_BRAND} طرح آماده را انتخاب کنید یا قاب اختصاصی بسازید.`,
+    `${place}: خرید قاب موبایل طرح ${theme} با چاپ باکیفیت در ${SITE_BRAND} و ارسال سراسری در ایران.`,
   ];
   const extras = [
-    "انتخاب مدل گوشی، پیش‌نمایش طرح و ثبت سفارش آنلاین.",
     "مناسب آیفون، سامسونگ، شیائومی و هواوی.",
-    "طرح آماده با امکان سفارش در همان صفحه.",
+    "انتخاب مدل گوشی و ثبت سفارش آنلاین.",
+    "طرح آماده و طراحی اختصاصی در یک فروشگاه.",
   ];
-  const index = variantIndex(slug || label, leads.length);
+  const index = variantIndex(slug || theme, leads.length);
   const orderedExtras = extras.slice(index).concat(extras.slice(0, index));
   return fitSeoDescription(leads[index] ?? leads[0], orderedExtras);
 }
@@ -174,25 +178,60 @@ export function suggestedFilterSeoDescription(groupSlug: string, name: string, s
   return fitSeoDescription(leads[index] ?? leads[0], orderedExtras);
 }
 
+const COLLECTION_TITLE_MAP: Record<string, string> = {
+  rare: "خرید قاب خاص",
+  "shopghab-exclusive": "طرح اختصاصی قاب موبایل",
+  bestsellers: "پرفروش‌ترین قاب موبایل",
+  popular: "پرطرفدارترین قاب موبایل",
+  newest: "جدیدترین طرح قاب موبایل",
+  "staff-picks": "منتخب قاب موبایل شاپ قاب",
+  "gift-boy": "قاب موبایل هدیه پسرانه",
+  "gift-friend": "قاب موبایل هدیه دوستانه",
+  "gift-girl": "قاب موبایل هدیه دخترانه",
+  occasion: "قاب موبایل مناسبتی",
+  seasonal: "قاب موبایل فصلی",
+  artists: "قاب موبایل هنری",
+  limited: "قاب موبایل محدود",
+};
+
 export function suggestedCollectionSeoTitle(name: string, slug = ""): string {
-  if (slug === "rare") return "خرید قاب خاص";
-  if (slug === "shopghab-exclusive") return "طرح اختصاصی قاب موبایل";
-  return suggestedCategorySeoTitle(name);
+  const mapped = COLLECTION_TITLE_MAP[slug];
+  if (mapped) return clip(mapped, TITLE_MAX);
+  const theme = categoryThemeLabel(name);
+  if (/هدیه|gift/i.test(slug) || /هدیه/.test(theme)) {
+    return clip(`خرید قاب موبایل هدیه ${theme.replace(/^هدیه\s*/u, "")}`.trim(), TITLE_MAX);
+  }
+  return clip(`خرید قاب موبایل ${theme}`, TITLE_MAX);
 }
 
 export function suggestedCollectionSeoDescription(name: string, slug: string): string {
-  const label = compactLabel(name.trim() || "منتخب", 36);
+  const label = compactLabel(categoryThemeLabel(name), 28);
   const leads = [
-    `فروش قاب موبایل از کالکشن ${label} در ${SITE_BRAND}. طرح‌های منتخب با چاپ باکیفیت و ارسال سراسری.`,
-    `کالکشن ${label} برای فروش قاب موبایل در ${SITE_BRAND}، با طرح آماده و امکان سفارش آنلاین.`,
-    `${SITE_BRAND} کالکشن ${label} را برای فروش قاب موبایل و چاپ طرح روی قاب گوشی گردآوری کرده است.`,
+    `کالکشن ${label} برای خرید قاب موبایل در ${SITE_BRAND}. طرح آماده با چاپ باکیفیت و ارسال به سراسر ایران.`,
+    `در ${SITE_BRAND} کالکشن ${label} را برای قاب گوشی ببینید؛ طرح آماده یا طراحی اختصاصی با پیش‌نمایش چاپ.`,
+    `فروش قاب موبایل از کالکشن ${label} در ${SITE_BRAND}، مناسب هدیه و استفاده روزمره روی آیفون و اندروید.`,
   ];
   const extras = [
-    "مناسب هدیه و استفاده روزمره روی آیفون و سامسونگ.",
-    "هر طرح قابل پیش‌نمایش قبل از چاپ است.",
-    "انتخاب مدل گوشی و ثبت سفارش در همان فروشگاه.",
+    "انتخاب مدل گوشی و ثبت سفارش آنلاین.",
+    "پیش‌نمایش طرح قبل از چاپ.",
+    "ارسال سراسری در ایران.",
   ];
   const index = variantIndex(`collection:${slug || label}`, leads.length);
   const orderedExtras = extras.slice(index).concat(extras.slice(0, index));
   return fitSeoDescription(leads[index] ?? leads[0], orderedExtras);
+}
+
+/** Visible H1 for category pages — human name, not SERP title. */
+export function categoryPageHeading(name: string): string {
+  return name.replace(/\s+/g, " ").trim() || "دسته‌بندی طرح‌ها";
+}
+
+/** Soft intro fallback when category.description is empty. */
+export function suggestedCategoryIntro(name: string, parentName?: string): string {
+  const theme = categoryThemeLabel(name);
+  const parent = parentName?.trim();
+  if (parent) {
+    return `طرح‌های ${theme} از دسته ${parent} را برای چاپ روی قاب موبایل ببینید. می‌توانید طرح آماده را انتخاب کنید یا از مسیر طراحی اختصاصی، قاب منحصربه‌فرد خود را بسازید.`;
+  }
+  return `مجموعه‌ای از طرح‌های ${theme} برای قاب موبایل در ${SITE_BRAND}. طرح آماده را روی مدل گوشی خود اعمال کنید یا قاب اختصاصی طراحی کنید و به سراسر ایران سفارش دهید.`;
 }

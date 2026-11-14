@@ -51,6 +51,7 @@ export function createPageMetadata(input: PageMetadataInput): Metadata {
       canonical: canonical,
       languages: {
         "fa-IR": canonical,
+        "x-default": canonical,
       },
     },
     robots: input.noIndex
@@ -89,7 +90,7 @@ export function createPageMetadata(input: PageMetadataInput): Metadata {
       images: [ogImageUrl],
     },
     metadataBase: new URL(getSiteUrl()),
-    category: "technology",
+    category: "shopping",
   };
 }
 

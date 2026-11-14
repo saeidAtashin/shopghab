@@ -3,6 +3,7 @@ import { notFound, permanentRedirect } from "next/navigation";
 import CatalogBreadcrumbs from "@/app/components/designs/CatalogBreadcrumbs";
 import CatalogListing from "@/app/components/designs/CatalogListing";
 import CatalogSectionPreview from "@/app/components/designs/CatalogSectionPreview";
+import CatalogSeoIntro from "@/app/components/designs/CatalogSeoIntro";
 import JsonLd from "@/app/components/seo/JsonLd";
 import {
   cleanAttributeRedirect,
@@ -17,7 +18,9 @@ import { createPageMetadata } from "@/lib/seo/metadata";
 
 const TITLE = "طرح‌های آماده قاب موبایل";
 const DESCRIPTION =
-  "فروش قاب موبایل با طرح‌های آماده در شاپ قاب — قابل چاپ روی آیفون، سامسونگ و شیائومی.";
+  "گالری طرح آماده قاب موبایل در شاپ قاب. طرح را انتخاب کنید، روی مدل گوشی ببینید یا قاب اختصاصی بسازید و به سراسر ایران سفارش دهید.";
+const INTRO =
+  "صدها طرح آماده برای چاپ روی قاب موبایل؛ از مینیمال و هنر ایرانی تا انیمه و گیمینگ. طرح دلخواه را انتخاب کنید و روی آیفون، سامسونگ، شیائومی یا هواوی اعمال کنید — یا از مسیر طراحی اختصاصی، قاب منحصربه‌فرد خود را بسازید.";
 
 export const dynamic = "force-dynamic";
 
@@ -95,8 +98,7 @@ export default async function DesignsGalleryPage({ searchParams }: Props) {
         ]}
       />
       <CatalogBreadcrumbs items={crumbs} soft />
-      <h1 className="mt-4 text-2xl font-black text-foreground sm:text-3xl">{TITLE}</h1>
-      <p className="mt-2 max-w-2xl text-muted">{DESCRIPTION}</p>
+      <CatalogSeoIntro heading={TITLE} intro={INTRO} />
       <div className="mt-6">
         {showResults ? (
           <CatalogListing

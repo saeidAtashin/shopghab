@@ -10,13 +10,17 @@ import {
   changeDesignSlug,
   createAttribute,
   createCategory,
+  createCollection,
   createDesign,
   deleteAttribute,
   emptyCatalog,
   forkDesignFromArtwork,
   saveDesignPlacement,
   indexableCatalogPaths,
+  isCategoryIndexable,
+  isCollectionIndexable,
   moveDesign,
+  publicPickCards,
   syncCatalog,
   queryDesigns,
   publicBrowseSections,
@@ -704,6 +708,83 @@ test("sitemap includes published designs with a product mockup and skips drafts 
   assert.ok(paths.includes("/designs/space-cat"));
   assert.ok(paths.includes("/designs/category/abstract"));
   assert.equal(paths.includes("/designs/draft-cat"), false);
+});
+
+test("empty categories and collections stay out of sitemap and public picks", () => {
+  const emptyCategory = createCategory(
+    emptyCatalog(),
+    {
+      name: "خالی",
+      slug: "empty-theme",
+      parentId: null,
+      description: "",
+      seoTitle: "",
+      seoDescription: "",
+      coverImage: "",
+      status: "active",
+    },
+    NOW,
+  );
+  assert.equal(isCategoryIndexable(emptyCategory.catalog, emptyCategory.category), false);
+  assert.equal(
+    indexableCatalogPaths(emptyCategory.catalog).some((item) => item.path === "/designs/category/empty-theme"),
+    false,
+  );
+
+  const emptyCollection = createCollection(
+    emptyCatalog(),
+    {
+      name: "کالکشن خالی",
+      slug: "empty-collection",
+      description: "",
+      seoTitle: "",
+      seoDescription: "",
+      coverImage: "",
+      status: "active",
+    },
+    NOW,
+  );
+  assert.equal(isCollectionIndexable(emptyCollection.catalog, emptyCollection.collection), false);
+  assert.equal(
+    indexableCatalogPaths(emptyCollection.catalog).some(
+      (item) => item.path === "/designs/collection/empty-collection",
+    ),
+    false,
+  );
+  assert.equal(
+    publicPickCards(emptyCollection.catalog).some((card) => card.slug === "empty-collection"),
+    false,
+  );
+
+  const filledCollection = createCollection(
+    emptyCatalog(),
+    {
+      name: "پرفروش‌ترین‌ها",
+      slug: "bestsellers",
+      description: "",
+      seoTitle: "",
+      seoDescription: "",
+      coverImage: "",
+      status: "active",
+    },
+    NOW,
+  );
+  const made = createDesign(
+    filledCollection.catalog,
+    writeInput({
+      slug: "bestseller-art",
+      collectionIds: [filledCollection.collection.id],
+      imagePath: "/designed/bestseller-art.webp",
+      thumbnailPath: "/designed/thumbs/bestseller-art.webp",
+    }),
+    NOW,
+  );
+  made.design.mockups = [readyMockup(made.design.imagePath, made.design.thumbnailPath)];
+  assert.equal(isCollectionIndexable(made.catalog, filledCollection.collection), true);
+  assert.ok(
+    indexableCatalogPaths(made.catalog).some((item) => item.path === "/designs/collection/bestsellers"),
+  );
+  assert.ok(publicPickCards(made.catalog).some((card) => card.slug === "bestsellers"));
 });
 
 test("an indexable color filter gets a clean path and a sitemap entry", () => {

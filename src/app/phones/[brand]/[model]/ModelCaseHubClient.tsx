@@ -34,8 +34,8 @@ export default function ModelCaseHubClient({
       <div className="mx-auto max-w-[90rem]">
         <WizardBreadcrumb
           crumbs={[
-            { label: "برند", href: "/create" },
-            { label: brand.name, href: `/create/${brand.slug}` },
+            { label: "قاب موبایل", href: `/phones/${brand.slug}` },
+            { label: brand.name, href: `/phones/${brand.slug}` },
             { label: model.name },
           ]}
         />
@@ -44,9 +44,26 @@ export default function ModelCaseHubClient({
           <h1 className="text-2xl font-black text-foreground sm:text-3xl">
             خرید قاب {model.name}
           </h1>
-          <p className="mt-2 max-w-2xl leading-8 text-muted">
-            خرید قاب گوشی و قاب موبایل {brand.name} {model.name}. قاب اختصاصی یا قاب تلفن همراه را
-            همین‌جا طراحی و سفارش دهید.
+          <p className="mt-2 max-w-3xl leading-8 text-muted">
+            خرید قاب گوشی {brand.name} {model.name}. همین‌جا قاب اختصاصی طراحی کنید یا از{" "}
+            <Link href="/designs" className="font-semibold text-cyan-600 hover:underline dark:text-cyan-400">
+              طرح‌های آماده
+            </Link>{" "}
+            الهام بگیرید و روی این مدل چاپ کنید.
+          </p>
+          <p className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm font-semibold">
+            <Link href="/create" className="text-cyan-600 hover:underline dark:text-cyan-400">
+              طراحی اختصاصی از برند
+            </Link>
+            <Link href="/designs/category/abstract-minimal" className="text-cyan-600 hover:underline dark:text-cyan-400">
+              قاب مینیمال
+            </Link>
+            <Link href="/designs/category/iranian-art" className="text-cyan-600 hover:underline dark:text-cyan-400">
+              هنر ایرانی
+            </Link>
+            <Link href="/designs/category/gaming" className="text-cyan-600 hover:underline dark:text-cyan-400">
+              گیمینگ
+            </Link>
           </p>
         </header>
 

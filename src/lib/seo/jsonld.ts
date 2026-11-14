@@ -1,11 +1,10 @@
+import type { ReadyCase } from "../cases/types";
 import { absoluteUrl, SITE_BRAND, SITE_NAME } from "./site";
 
 /** Catalog prices are stored in toman; schema.org expects ISO 4217 rials. */
 function tomanToIrr(toman: number): number {
   return toman * 10;
 }
-import type { ReadyCase } from "../cases/types";
-import type { ShopProduct } from "../shop";
 
 export function webPageJsonLd(input: {
   name: string;
@@ -57,33 +56,7 @@ export function collectionPageJsonLd(input: {
     url: absoluteUrl(input.path),
     inLanguage: "fa-IR",
     isPartOf: { "@id": `${absoluteUrl("/")}#website` },
-    publisher: { "@type": "Organization", name: SITE_NAME },
-  };
-}
-
-export function blogPostingJsonLd(input: {
-  title: string;
-  description: string;
-  path: string;
-  coverImage: string;
-  publishedAt: string;
-}) {
-  const imageUrl = input.coverImage.startsWith("http")
-    ? input.coverImage
-    : absoluteUrl(input.coverImage);
-
-  return {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: input.title,
-    description: input.description,
-    url: absoluteUrl(input.path),
-    image: imageUrl,
-    datePublished: input.publishedAt,
-    inLanguage: "fa-IR",
-    author: { "@type": "Organization", name: SITE_NAME },
-    publisher: { "@type": "Organization", name: SITE_NAME },
-    isPartOf: { "@id": `${absoluteUrl("/blog")}#blog` },
+    publisher: { "@id": `${absoluteUrl("/")}#business` },
   };
 }
 
@@ -129,9 +102,11 @@ export function designProductJsonLd(input: {
   path: string;
   image?: string;
   sku: string;
+  category?: string;
+  priceToman?: number;
 }) {
   const image = input.image?.trim();
-  return {
+  const product: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: input.name,
@@ -142,8 +117,21 @@ export function designProductJsonLd(input: {
       "@type": "Brand",
       name: SITE_BRAND,
     },
+    ...(input.category ? { category: input.category } : {}),
     ...(image ? { image: image.startsWith("http") ? image : absoluteUrl(image) } : {}),
   };
+
+  if (typeof input.priceToman === "number" && Number.isFinite(input.priceToman) && input.priceToman > 0) {
+    product.offers = {
+      "@type": "Offer",
+      price: tomanToIrr(input.priceToman),
+      priceCurrency: "IRR",
+      url: absoluteUrl(input.path),
+      availability: "https://schema.org/InStock",
+    };
+  }
+
+  return product;
 }
 
 export function readyCaseJsonLd(input: {
@@ -175,44 +163,6 @@ export function readyCaseJsonLd(input: {
           model: input.modelName,
         }
       : {}),
-    offers: {
-      "@type": "Offer",
-      price: tomanToIrr(input.product.price),
-      priceCurrency: "IRR",
-      url: productUrl,
-      availability,
-    },
-  };
-}
-
-export function productOfferJsonLd(input: {
-  product: ShopProduct;
-  path: string;
-  description?: string;
-}) {
-  const productUrl = absoluteUrl(input.path);
-  const availability = input.product.inStock
-    ? "https://schema.org/InStock"
-    : "https://schema.org/OutOfStock";
-
-  return {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: input.product.title,
-    url: productUrl,
-    image: absoluteUrl(input.product.image),
-    description:
-      input.description ?? input.product.highlights?.join(" - "),
-    category: `${input.product.category}:${input.product.console}`,
-    sku: input.product.id,
-    itemCondition:
-      input.product.condition === "new"
-        ? "https://schema.org/NewCondition"
-        : "https://schema.org/UsedCondition",
-    brand: {
-      "@type": "Brand",
-      name: SITE_NAME,
-    },
     offers: {
       "@type": "Offer",
       price: tomanToIrr(input.product.price),

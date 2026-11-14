@@ -163,13 +163,13 @@ export default function HomeCasePage({ searchParams }: { searchParams: SearchPar
 
         <p className="text-sm leading-7 text-muted">
           <Link href="/create" className="font-bold text-foreground underline-offset-4 hover:underline">
-            خرید قاب اختصاصی
+            طراحی قاب اختصاصی
           </Link>
-          {" و "}
+          {" یا "}
           <Link href="/designs" className="font-bold text-foreground underline-offset-4 hover:underline">
-            خرید قاب موبایل
+            طرح‌های آماده
           </Link>
-          {"، قاب گوشی و قاب تلفن همراه در شاپ قاب. "}
+          {" را انتخاب کنید. برای خرید مدل‌محور، "}
           <Link href="/phones/apple" className="font-bold text-foreground underline-offset-4 hover:underline">
             قاب آیفون
           </Link>
@@ -181,7 +181,15 @@ export default function HomeCasePage({ searchParams }: { searchParams: SearchPar
           <Link href="/phones/xiaomi" className="font-bold text-foreground underline-offset-4 hover:underline">
             قاب شیائومی
           </Link>
-          {" را با برند و مدل سفارش دهید، یا خرید قاب خاص را با طرح خودتان شروع کنید."}
+          {" را باز کنید؛ برای تم‌ها هم از "}
+          <Link href="/designs/category/iranian-art" className="font-bold text-foreground underline-offset-4 hover:underline">
+            هنر ایرانی
+          </Link>
+          {" و "}
+          <Link href="/designs/category/anime-manga" className="font-bold text-foreground underline-offset-4 hover:underline">
+            انیمه
+          </Link>
+          {" شروع کنید."}
         </p>
 
         <HomeBenefits />

@@ -57,13 +57,21 @@ export default function HomeHero({ className }: Props) {
             <br />
             {HERO_DESCRIPTION_LINES[1]}
           </p>
-          <Link
-            href={HERO_CTAS.primary.href}
-            className="mt-6 inline-flex h-14 w-full items-center justify-center gap-3 rounded-full bg-[#2F6BFF] px-6 text-base font-bold text-white shadow-[0_14px_40px_-12px_rgba(47,107,255,0.95)] transition hover:bg-[#3d78ff] xl:w-auto xl:min-w-56 xl:px-8"
-          >
-            {HERO_CTAS.primary.label}
-            <ArrowRight className="h-5 w-5" aria-hidden />
-          </Link>
+          <div className="mt-6 flex w-full flex-col gap-3 sm:flex-row sm:justify-center xl:justify-start">
+            <Link
+              href={HERO_CTAS.primary.href}
+              className="inline-flex h-14 w-full items-center justify-center gap-3 rounded-full bg-[#2F6BFF] px-6 text-base font-bold text-white shadow-[0_14px_40px_-12px_rgba(47,107,255,0.95)] transition hover:bg-[#3d78ff] xl:w-auto xl:min-w-56 xl:px-8"
+            >
+              {HERO_CTAS.primary.label}
+              <ArrowRight className="h-5 w-5" aria-hidden />
+            </Link>
+            <Link
+              href={HERO_CTAS.secondary.href}
+              className="inline-flex h-14 w-full items-center justify-center rounded-full border border-white/25 bg-white/5 px-6 text-base font-bold text-white transition hover:bg-white/10 xl:w-auto xl:min-w-56 xl:px-8"
+            >
+              {HERO_CTAS.secondary.label}
+            </Link>
+          </div>
         </div>
       </div>
     </section>

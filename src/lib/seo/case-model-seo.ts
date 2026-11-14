@@ -31,7 +31,7 @@ export function resolveModelSeo(
 
   const canonicalPath = buildModelCanonicalPath(brandSlug, modelSlug);
   const title = `خرید قاب ${model.name}`;
-  const description = `خرید قاب ${model.name} (${brand.name}) در ${SITE_BRAND}. قاب گوشی و قاب موبایل ${model.name}، قاب اختصاصی یا قاب تلفن همراه، با چاپ باکیفیت و ارسال به سراسر ایران.`;
+  const description = `خرید قاب ${model.name} از ${brand.name} در ${SITE_BRAND}. قاب اختصاصی بسازید یا طرح آماده را روی این مدل چاپ کنید؛ ارسال به سراسر ایران.`;
 
   return {
     title,
@@ -91,8 +91,8 @@ export function modelPageJsonLd(
     breadcrumbJsonLd(
       [
         { label: "خانه", href: "/" },
-        { label: "قاب موبایل", href: "/create" },
-        { label: ctx.brand.name, href: `/create/${ctx.brand.slug}` },
+        { label: "قاب موبایل", href: `/phones/${ctx.brand.slug}` },
+        { label: ctx.brand.name, href: `/phones/${ctx.brand.slug}` },
         { label: ctx.model.name },
       ],
       ctx.canonicalPath,

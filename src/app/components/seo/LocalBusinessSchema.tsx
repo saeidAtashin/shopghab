@@ -34,11 +34,14 @@ export default function LocalBusinessSchema() {
         },
         knowsAbout: [
           "فروش قاب موبایل",
+          "قاب اختصاصی",
           "طراحی قاب موبایل",
+          "طرح آماده قاب",
           "چاپ قاب",
           "قاب آیفون",
           "قاب سامسونگ",
           "قاب شیائومی",
+          "قاب هواوی",
         ],
       },
       {
@@ -48,6 +51,14 @@ export default function LocalBusinessSchema() {
         name: SITE_NAME,
         inLanguage: "fa-IR",
         publisher: { "@id": `${absoluteUrl("/")}#business` },
+        potentialAction: {
+          "@type": "SearchAction",
+          target: {
+            "@type": "EntryPoint",
+            urlTemplate: `${absoluteUrl("/designs")}?q={search_term_string}`,
+          },
+          "query-input": "required name=search_term_string",
+        },
       },
     ],
   };

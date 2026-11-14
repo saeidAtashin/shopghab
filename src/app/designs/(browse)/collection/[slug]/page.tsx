@@ -2,7 +2,9 @@ import { notFound, permanentRedirect } from "next/navigation";
 
 import CatalogBreadcrumbs from "@/app/components/designs/CatalogBreadcrumbs";
 import CatalogListing from "@/app/components/designs/CatalogListing";
+import CatalogSeoIntro from "@/app/components/designs/CatalogSeoIntro";
 import JsonLd from "@/app/components/seo/JsonLd";
+import { suggestedCategoryIntro } from "@/lib/catalog/seo-copy";
 import {
   cleanAttributeRedirect,
   collectionSeoDescription,
@@ -95,10 +97,13 @@ export default async function DesignCollectionPage({ params, searchParams }: Pro
         ]}
       />
       <CatalogBreadcrumbs items={crumbs} soft />
-      <h1 className="mt-4 text-2xl font-black sm:text-3xl">{title}</h1>
-      {collection.description ? (
-        <p className="mt-2 max-w-2xl leading-8 text-muted">{collection.description}</p>
-      ) : null}
+      <CatalogSeoIntro
+        heading={collection.name}
+        intro={
+          collection.description.trim() ||
+          suggestedCategoryIntro(collection.name)
+        }
+      />
       <div className="mt-6">
         <CatalogListing
           designs={result.items}
