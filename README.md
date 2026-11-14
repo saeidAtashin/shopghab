@@ -52,3 +52,28 @@ make side toolbar in /designs look like landing but add a icon for categories to
 ; in /designs/category/general ui of رنگ‌ طرح is not good in mobile also in /designs/category/general should be scroll show next page too.
 
 while scrolling for each time that is fetching new designs, should show a list of پرفروش ترین/ پربازدیدترین / یا 4 تا از یکی از کتگوری ها یا فیلتر ها رو نمایش بده به شکل   -->
+
+<!-- 
+Best next plan (do in this order)
+Week 1–2 — highest ROI
+Slug cleanup + 301 redirects for stock/hash design URLs → Persian-friendly Latin slugs
+Enrich design PDPs: 2–3 unique FA sentences, mini-FAQ, links to /phones/*, /create, parent category
+Fix model hub ItemList (cap to ~8–12 designs) + soften noIndex to still follow
+Pass real price into Product Offer on designs (no fake ratings)
+Submit sitemap in Google Search Console and spot-check sample URLs
+Month 1 — growth
+6–10 Persian guide pages (model + material + gift clusters) linking into categories/phones
+Stronger internal linking (Xiaomi/Huawei, sibling categories, category → model CTAs)
+Local trust: Instagram/Telegram sameAs, richer /about-us, Enamad/NAP consistency
+GA4 ecommerce events (view_item, begin_checkout, purchase)
+Later
+Quality gate before indexing thin designs
+Deeper child-category copy for winners only
+Real review schema only when you have real reviews
+What you should personally do (not just code)
+Claim/verify Search Console for shopghab.ir and watch queries for قاب آیفون, قاب اختصاصی, category themes
+Prioritize top 50–100 bestsellers for unique titles/descriptions first (don’t rewrite all 638 at once)
+Add real Instagram/Telegram + process photos (print, packaging, shop) — Iran trust signals matter
+Keep filling empty high-intent themes before reactivating them (don’t index empty again)
+If you want me to execute next, the best single follow-up sprint is: slug redirects + design PDP enrichment + model JSON-LD fix.
+ -->
