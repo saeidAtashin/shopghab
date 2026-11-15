@@ -44661,13 +44661,17 @@
       "thumbnailPath": "/designed/thumbs/download-60.webp",
       "width": 675,
       "height": 1200,
-      "title": "طرح قاب عمومی Download 60",
+      "title": "طرح قاب وینتیج کلاژ فرش و دختر",
       "titleEn": "",
       "slug": "download-60",
-      "shortDescription": "طرح قاب عمومی Download 60 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 60 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب وینتیج کلاژ فرش و دختر — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب وینتیج کلاژ فرش و دختر — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_13c8bb6d4284",
+        "cat_c59ddd3f7ba6",
+        "cat_98623739ef58",
+        "cat_c4cff141e7c1",
+        "cat_bfc7b1577465"
       ],
       "tags": [
         "عمومی",
@@ -44676,9 +44680,33 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_d3c5da27e6dd",
+        "val_57e1c5f643c3",
+        "val_3e300ac7bc4c",
+        "val_b7af8e1a0ecd",
+        "val_e4f8d94c7291",
+        "val_a2d7d95da1b8",
+        "val_d1906c204402",
+        "val_8ffce76c2bfd",
+        "val_c72250f3a72d",
+        "val_97724dd66cac",
+        "val_608897c3070e",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_75c8954ad774",
+        "val_2cc54d73d0cc",
+        "val_724549f44e75",
+        "val_de0003cc0d8f",
+        "val_6a9f398bf62d",
+        "val_bf24a5587147"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 60",
+      "alt": "طرح قاب موبایل وینتیج کلاژ فرش و دختر — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -44718,16 +44746,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب وینتیج کلاژ فرش و دختر برای قاب موبایل",
+      "seoDescription": "طرح آماده قاب وینتیج کلاژ فرش و دختر برای قاب موبایل در دسته انتزاعی و مینیمال. چاپ اختصاصی و ارسال سراسری از شاپ قاب. پیش‌نمایش چاپ قبل از تولید.",
+      "ogImage": "/designed/download-60.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 605,
+      "sortOrder": 9,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:28.591Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T12:19:07.293Z",
       "publishedAt": "2026-10-18T15:13:28.591Z"
     },
     {
@@ -44739,13 +44767,18 @@
       "thumbnailPath": "/designed/thumbs/download-61.webp",
       "width": 736,
       "height": 1318,
-      "title": "طرح قاب عمومی Download 61",
+      "title": "طرح قاب سنتی گلیم و قالیچه",
       "titleEn": "",
       "slug": "download-61",
-      "shortDescription": "طرح قاب عمومی Download 61 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 61 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب سنتی گلیم و قالیچه — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب سنتی گلیم و قالیچه — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_13c8bb6d4284",
+        "cat_c59ddd3f7ba6",
+        "cat_98623739ef58",
+        "cat_bfc7b1577465",
+        "cat_c4cff141e7c1",
+        "cat_903040ac9b10"
       ],
       "tags": [
         "عمومی",
@@ -44754,9 +44787,25 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_f6b30a4ffae6",
+        "val_3e300ac7bc4c",
+        "val_b7af8e1a0ecd",
+        "val_a2d7d95da1b8",
+        "val_d1906c204402",
+        "val_97724dd66cac",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_724549f44e75",
+        "val_7ce436e75702"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 61",
+      "alt": "طرح قاب موبایل سنتی گلیم و قالیچه — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -44796,16 +44845,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب سنتی گلیم و قالیچه برای قاب موبایل",
+      "seoDescription": "طرح قاب سنتی گلیم و قالیچه از دسته انتزاعی و مینیمال برای چاپ روی قاب موبایل در شاپ قاب. قابل سفارش برای آیفون و اندروید. انتخاب مدل گوشی در همان صفحه.",
+      "ogImage": "/designed/download-61.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 606,
+      "sortOrder": 12,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:28.880Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T12:20:13.750Z",
       "publishedAt": "2026-10-18T15:13:28.880Z"
     },
     {
@@ -44817,13 +44866,17 @@
       "thumbnailPath": "/designed/thumbs/download-62.webp",
       "width": 675,
       "height": 1200,
-      "title": "طرح قاب عمومی Download 62",
+      "title": "طرح قاب کلاژ سنتی فرش و اسب",
       "titleEn": "",
       "slug": "download-62",
-      "shortDescription": "طرح قاب عمومی Download 62 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 62 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب کلاژ سنتی فرش و اسب — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب کلاژ سنتی فرش و اسب — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_13c8bb6d4284",
+        "cat_adada2330049",
+        "cat_c59ddd3f7ba6",
+        "cat_98623739ef58",
+        "cat_c4cff141e7c1"
       ],
       "tags": [
         "عمومی",
@@ -44832,9 +44885,29 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
-      "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 62",
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_3e300ac7bc4c",
+        "val_e4f8d94c7291",
+        "val_b7af8e1a0ecd",
+        "val_8ffce76c2bfd",
+        "val_97724dd66cac",
+        "val_ff48b292c601",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f",
+        "val_bf24a5587147",
+        "val_d1906c204402",
+        "val_a2d7d95da1b8"
+      ],
+      "collectionIds": [
+        "col_25340de916ab"
+      ],
+      "alt": "طرح قاب موبایل کلاژ سنتی فرش و اسب — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -44874,16 +44947,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب کلاژ سنتی فرش و اسب برای قاب موبایل",
+      "seoDescription": "قاب موبایل با طرح قاب کلاژ سنتی فرش و اسب (انتزاعی و مینیمال) در شاپ قاب. طرح آماده با پیش‌نمایش و ارسال به سراسر ایران. سبک طرح: عمومی. مناسب هدیه و استفاده",
+      "ogImage": "/designed/download-62.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 607,
+      "sortOrder": 11,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:29.696Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T12:21:42.622Z",
       "publishedAt": "2026-10-18T15:13:29.696Z"
     },
     {
@@ -44895,13 +44968,18 @@
       "thumbnailPath": "/designed/thumbs/download-63.webp",
       "width": 675,
       "height": 1200,
-      "title": "طرح قاب عمومی Download 63",
+      "title": "طرح قاب کلاژ سنتی قاب فرش",
       "titleEn": "",
       "slug": "download-63",
-      "shortDescription": "طرح قاب عمومی Download 63 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 63 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب کلاژ سنتی قاب فرش — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب کلاژ سنتی قاب فرش — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_13c8bb6d4284",
+        "cat_c59ddd3f7ba6",
+        "cat_98623739ef58",
+        "cat_bfc7b1577465",
+        "cat_c4cff141e7c1",
+        "cat_903040ac9b10"
       ],
       "tags": [
         "عمومی",
@@ -44910,9 +44988,34 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_57e1c5f643c3",
+        "val_0facd2dd3115",
+        "val_2a2bd43a203d",
+        "val_3e300ac7bc4c",
+        "val_b7af8e1a0ecd",
+        "val_e4f8d94c7291",
+        "val_a2d7d95da1b8",
+        "val_d1906c204402",
+        "val_8ffce76c2bfd",
+        "val_c72250f3a72d",
+        "val_97724dd66cac",
+        "val_385daa843360",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_75c8954ad774",
+        "val_2cc54d73d0cc",
+        "val_bf24a5587147",
+        "val_c67b7018d3ca",
+        "val_6a9f398bf62d",
+        "val_608897c3070e"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 63",
+      "alt": "طرح قاب موبایل کلاژ سنتی قاب فرش — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -44952,16 +45055,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب کلاژ سنتی قاب فرش برای قاب موبایل",
+      "seoDescription": "در شاپ قاب طرح قاب کلاژ سنتی قاب فرش از دسته انتزاعی و مینیمال را روی قاب گوشی چاپ و به ایران ارسال کنید. مناسب هدیه و استفاده روزمره. پیش‌نمایش چاپ قبل از",
+      "ogImage": "/designed/download-63.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 608,
+      "sortOrder": 13,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:29.931Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T12:24:46.821Z",
       "publishedAt": "2026-10-18T15:13:29.931Z"
     },
     {
@@ -44973,13 +45076,14 @@
       "thumbnailPath": "/designed/thumbs/download-64.webp",
       "width": 736,
       "height": 1308,
-      "title": "طرح قاب عمومی Download 64",
+      "title": "طرح قاب فانتزی ماریو پیکسلی",
       "titleEn": "",
       "slug": "download-64",
-      "shortDescription": "طرح قاب عمومی Download 64 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 64 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب فانتزی ماریو پیکسلی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب فانتزی ماریو پیکسلی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_422a8e332828",
+        "cat_043500a99944"
       ],
       "tags": [
         "عمومی",
@@ -44988,9 +45092,31 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_57e1c5f643c3",
+        "val_334187eb48ee",
+        "val_2a2bd43a203d",
+        "val_f9d01c246f4c",
+        "val_64b03f856ddd",
+        "val_a3d2f3d093a8",
+        "val_65e60c76f9ef",
+        "val_87ccac233e86",
+        "val_b7af8e1a0ecd",
+        "val_c13e0a4665db",
+        "val_0c93794b161c",
+        "val_97724dd66cac",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f",
+        "val_7ce436e75702"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 64",
+      "alt": "طرح قاب موبایل فانتزی ماریو پیکسلی — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -45030,16 +45156,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب فانتزی ماریو پیکسلی برای قاب موبایل",
+      "seoDescription": "طرح آماده قاب فانتزی ماریو پیکسلی برای قاب موبایل در دسته انیمه و مانگا. چاپ اختصاصی و ارسال سراسری از شاپ قاب. پیش‌نمایش چاپ قبل از تولید. انتخاب مدل گوشی در",
+      "ogImage": "/designed/download-64.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 609,
+      "sortOrder": 15,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:30.119Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T12:26:08.471Z",
       "publishedAt": "2026-10-18T15:13:30.119Z"
     },
     {
@@ -45051,13 +45177,18 @@
       "thumbnailPath": "/designed/thumbs/download-65.webp",
       "width": 736,
       "height": 921,
-      "title": "طرح قاب عمومی Download 65",
+      "title": "طرح قاب ساده کارما",
       "titleEn": "",
       "slug": "download-65",
-      "shortDescription": "طرح قاب عمومی Download 65 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 65 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب ساده کارما — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب ساده کارما — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_0feae16d5536",
+        "cat_13c8bb6d4284",
+        "cat_c59ddd3f7ba6",
+        "cat_bfc7b1577465",
+        "cat_f2a989e13d09",
+        "cat_136876c70c47"
       ],
       "tags": [
         "عمومی",
@@ -45066,9 +45197,31 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
-      "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 65",
+      "attributeValueIds": [
+        "val_87ccac233e86",
+        "val_a3d2f3d093a8",
+        "val_919457bc7f3a",
+        "val_f6b30a4ffae6",
+        "val_b7af8e1a0ecd",
+        "val_c72250f3a72d",
+        "val_5ccfe1758d08",
+        "val_0c93794b161c",
+        "val_97724dd66cac",
+        "val_608897c3070e",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_2cc54d73d0cc",
+        "val_6a9f398bf62d",
+        "val_724549f44e75",
+        "val_735377ec49ee"
+      ],
+      "collectionIds": [
+        "col_5ebf7d2b500a"
+      ],
+      "alt": "طرح قاب موبایل ساده کارما — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -45108,16 +45261,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب ساده کارما برای قاب موبایل",
+      "seoDescription": "طرح قاب ساده کارما از دسته عمومی برای چاپ روی قاب موبایل در شاپ قاب. قابل سفارش برای آیفون و اندروید. انتخاب مدل گوشی در همان صفحه. سبک طرح: عمومی.",
+      "ogImage": "/designed/download-65.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 610,
+      "sortOrder": 9,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:30.213Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T12:28:54.405Z",
       "publishedAt": "2026-10-18T15:13:30.213Z"
     },
     {
@@ -45129,13 +45282,13 @@
       "thumbnailPath": "/designed/thumbs/download-66.webp",
       "width": 474,
       "height": 842,
-      "title": "طرح قاب عمومی Download 66",
+      "title": "طرح قاب تایپوگرافی you dont need more time, you need more focus",
       "titleEn": "",
       "slug": "download-66",
-      "shortDescription": "طرح قاب عمومی Download 66 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 66 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب تایپوگرافی you dont need more time, you need more focus — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب تایپوگرافی you dont need more time, you need more focus — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_bfc7b1577465"
       ],
       "tags": [
         "عمومی",
@@ -45144,9 +45297,28 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_87ccac233e86",
+        "val_64b03f856ddd",
+        "val_919457bc7f3a",
+        "val_f6b30a4ffae6",
+        "val_c72250f3a72d",
+        "val_608897c3070e",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_a300bcc5ca78",
+        "val_9eaa01587c60",
+        "val_2cc54d73d0cc",
+        "val_724549f44e75",
+        "val_6a9f398bf62d",
+        "val_735377ec49ee",
+        "val_a3d2f3d093a8"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 66",
+      "alt": "طرح قاب موبایل تایپوگرافی you dont need more time, you need more focus — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -45186,16 +45358,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب تایپوگرافی you dont need more time,… برای قاب موبایل",
+      "seoDescription": "قاب موبایل با طرح قاب تایپوگرافی you dont need more tim… (تایپوگرافی و نوشته) در شاپ قاب. طرح آماده با پیش‌نمایش و ارسال به سراسر ایران. سبک طرح: عمومی.",
+      "ogImage": "/designed/download-66.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 611,
+      "sortOrder": 14,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:30.297Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T12:37:19.263Z",
       "publishedAt": "2026-10-18T15:13:30.297Z"
     },
     {
@@ -45207,13 +45379,15 @@
       "thumbnailPath": "/designed/thumbs/download-67.webp",
       "width": 736,
       "height": 1309,
-      "title": "طرح قاب عمومی Download 67",
+      "title": "طرح قاب کلاژ فصل ها",
       "titleEn": "",
       "slug": "download-67",
-      "shortDescription": "طرح قاب عمومی Download 67 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 67 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب کلاژ فصل ها — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب کلاژ فصل ها — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_8b8a3400d3ec",
+        "cat_043500a99944",
+        "cat_adada2330049"
       ],
       "tags": [
         "عمومی",
@@ -45222,9 +45396,30 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_57e1c5f643c3",
+        "val_2a2bd43a203d",
+        "val_ac1a69035bb9",
+        "val_f9d01c246f4c",
+        "val_de1676aad248",
+        "val_b7af8e1a0ecd",
+        "val_8ffce76c2bfd",
+        "val_0c93794b161c",
+        "val_5ccfe1758d08",
+        "val_97724dd66cac",
+        "val_ff48b292c601",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f",
+        "val_bf24a5587147"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 67",
+      "alt": "طرح قاب موبایل کلاژ فصل ها — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -45264,16 +45459,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب کلاژ فصل ها برای قاب موبایل",
+      "seoDescription": "در شاپ قاب طرح قاب کلاژ فصل ها از دسته گل، گیاه و طبیعت را روی قاب گوشی چاپ و به ایران ارسال کنید. مناسب هدیه و استفاده روزمره. پیش‌نمایش چاپ قبل از تولید.",
+      "ogImage": "/designed/download-67.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 612,
+      "sortOrder": 8,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:30.463Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T12:38:38.397Z",
       "publishedAt": "2026-10-18T15:13:30.463Z"
     },
     {
@@ -45285,13 +45480,17 @@
       "thumbnailPath": "/designed/thumbs/download-68.webp",
       "width": 736,
       "height": 1308,
-      "title": "طرح قاب عمومی Download 68",
+      "title": "طرح قاب خلاقانه self control",
       "titleEn": "",
       "slug": "download-68",
-      "shortDescription": "طرح قاب عمومی Download 68 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 68 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب خلاقانه self control — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب خلاقانه self control — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_a6a6e8bbb08a",
+        "cat_bfc7b1577465",
+        "cat_b4ac45841a0d",
+        "cat_f2a989e13d09",
+        "cat_136876c70c47"
       ],
       "tags": [
         "عمومی",
@@ -45300,9 +45499,36 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
-      "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 68",
+      "attributeValueIds": [
+        "val_87ccac233e86",
+        "val_2a2bd43a203d",
+        "val_919457bc7f3a",
+        "val_f9d01c246f4c",
+        "val_f6b30a4ffae6",
+        "val_b7af8e1a0ecd",
+        "val_5ccfe1758d08",
+        "val_c72250f3a72d",
+        "val_97724dd66cac",
+        "val_9975d12780e0",
+        "val_f7dc3ec79a1a",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_9eaa01587c60",
+        "val_a300bcc5ca78",
+        "val_37ffde85cea2",
+        "val_2cc54d73d0cc",
+        "val_de0003cc0d8f",
+        "val_6a9f398bf62d",
+        "val_608897c3070e",
+        "val_735377ec49ee"
+      ],
+      "collectionIds": [
+        "col_ddeec83aadb2",
+        "col_5ebf7d2b500a",
+        "col_25340de916ab"
+      ],
+      "alt": "طرح قاب موبایل خلاقانه self control — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -45342,16 +45568,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب خلاقانه self control برای قاب موبایل",
+      "seoDescription": "طرح آماده قاب خلاقانه self control برای قاب موبایل در دسته الکترونیک. چاپ اختصاصی و ارسال سراسری از شاپ قاب. پیش‌نمایش چاپ قبل از تولید. انتخاب مدل گوشی در",
+      "ogImage": "/designed/download-68.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 613,
+      "sortOrder": 9,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:30.586Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T12:40:50.630Z",
       "publishedAt": "2026-10-18T15:13:30.586Z"
     },
     {
@@ -45363,13 +45589,16 @@
       "thumbnailPath": "/designed/thumbs/download-69.webp",
       "width": 736,
       "height": 1313,
-      "title": "طرح قاب عمومی Download 69",
+      "title": "طرح قاب انتزاعی ماتریکس",
       "titleEn": "",
       "slug": "download-69",
-      "shortDescription": "طرح قاب عمومی Download 69 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 69 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب انتزاعی ماتریکس — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب انتزاعی ماتریکس — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_13c8bb6d4284",
+        "cat_c59ddd3f7ba6",
+        "cat_903040ac9b10",
+        "cat_a6a6e8bbb08a"
       ],
       "tags": [
         "عمومی",
@@ -45378,9 +45607,25 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_919457bc7f3a",
+        "val_ac1a69035bb9",
+        "val_87ccac233e86",
+        "val_3e300ac7bc4c",
+        "val_b7af8e1a0ecd",
+        "val_5ccfe1758d08",
+        "val_97724dd66cac",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_bf24a5587147",
+        "val_de0003cc0d8f"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 69",
+      "alt": "طرح قاب موبایل انتزاعی ماتریکس — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -45420,16 +45665,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب انتزاعی ماتریکس برای قاب موبایل",
+      "seoDescription": "طرح قاب انتزاعی ماتریکس از دسته انتزاعی و مینیمال برای چاپ روی قاب موبایل در شاپ قاب. قابل سفارش برای آیفون و اندروید. انتخاب مدل گوشی در همان صفحه.",
+      "ogImage": "/designed/download-69.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 614,
+      "sortOrder": 25,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:31.085Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T12:42:02.684Z",
       "publishedAt": "2026-10-18T15:13:31.085Z"
     },
     {
@@ -45441,13 +45686,15 @@
       "thumbnailPath": "/designed/thumbs/download-7.webp",
       "width": 675,
       "height": 1200,
-      "title": "طرح قاب عمومی Download 7",
+      "title": "طرح قاب کلاژ پلنگ کلاسیک",
       "titleEn": "",
       "slug": "download-7",
-      "shortDescription": "طرح قاب عمومی Download 7 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 7 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب کلاژ پلنگ کلاسیک — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب کلاژ پلنگ کلاسیک — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_adada2330049",
+        "cat_043500a99944",
+        "cat_c4cff141e7c1"
       ],
       "tags": [
         "عمومی",
@@ -45456,7 +45703,25 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_b7af8e1a0ecd",
+        "val_e4f8d94c7291",
+        "val_a2d7d95da1b8",
+        "val_d1906c204402",
+        "val_8ffce76c2bfd",
+        "val_0c93794b161c",
+        "val_97724dd66cac",
+        "val_ff48b292c601",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f",
+        "val_bf24a5587147",
+        "val_7003466ddb9a"
+      ],
       "collectionIds": [],
       "alt": "طرح قاب موبایل طرح قاب عمومی Download 7 — شاپ قاب",
       "gallery": [],
@@ -45498,16 +45763,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "طرح قاب عمومی Download 7 برای قاب موبایل",
+      "seoTitle": "طرح قاب کلاژ پلنگ کلاسیک برای قاب موبایل",
       "seoDescription": "فروش قاب موبایل با قاب عمومی Download 7 در دسته عمومی. چاپ این طرح در شاپ قاب با ارسال به سراسر ایران. مناسب آیفون، سامسونگ و شیائومی. سبک طرح: عمومی.",
-      "ogImage": "",
+      "ogImage": "/designed/download-7.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 439,
+      "sortOrder": 25,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T08:27:00.194Z",
-      "updatedAt": "2026-10-18T15:18:33.376Z",
+      "updatedAt": "2026-11-15T12:43:28.866Z",
       "publishedAt": "2026-10-18T08:27:00.194Z"
     },
     {
@@ -45519,13 +45784,15 @@
       "thumbnailPath": "/designed/thumbs/download-7-2.webp",
       "width": 675,
       "height": 1200,
-      "title": "طرح قاب عمومی Download 7",
+      "title": "طرح قاب کلاژ دیجیتال طبیعت",
       "titleEn": "",
       "slug": "download-7-2",
-      "shortDescription": "طرح قاب عمومی Download 7 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 7 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب کلاژ دیجیتال طبیعت — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب کلاژ دیجیتال طبیعت — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_13c8bb6d4284",
+        "cat_c59ddd3f7ba6",
+        "cat_8b8a3400d3ec"
       ],
       "tags": [
         "عمومی",
@@ -45534,9 +45801,27 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_3e300ac7bc4c",
+        "val_b7af8e1a0ecd",
+        "val_cc09f73b02a0",
+        "val_c13e0a4665db",
+        "val_8ffce76c2bfd",
+        "val_97724dd66cac",
+        "val_6cacdaa3158a",
+        "val_ff48b292c601",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f",
+        "val_bf24a5587147"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 7",
+      "alt": "طرح قاب موبایل کلاژ دیجیتال طبیعت — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -45576,16 +45861,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب کلاژ دیجیتال طبیعت برای قاب موبایل",
+      "seoDescription": "طرح آماده قاب کلاژ دیجیتال طبیعت برای قاب موبایل در دسته انتزاعی و مینیمال. چاپ اختصاصی و ارسال سراسری از شاپ قاب. پیش‌نمایش چاپ قبل از تولید.",
+      "ogImage": "/designed/download-7-2.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 615,
+      "sortOrder": 60,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:31.536Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T12:52:11.643Z",
       "publishedAt": "2026-10-18T15:13:31.536Z"
     },
     {
@@ -45597,13 +45882,18 @@
       "thumbnailPath": "/designed/thumbs/download-70.webp",
       "width": 640,
       "height": 829,
-      "title": "طرح قاب عمومی Download 70",
+      "title": "طرح قاب انتزاعی اثر انگشت",
       "titleEn": "",
       "slug": "download-70",
-      "shortDescription": "طرح قاب عمومی Download 70 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 70 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب انتزاعی اثر انگشت — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب انتزاعی اثر انگشت — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_0feae16d5536",
+        "cat_d8f9f9965805",
+        "cat_c4cff141e7c1",
+        "cat_136876c70c47",
+        "cat_fd1802a34b5f",
+        "cat_bfc7b1577465"
       ],
       "tags": [
         "عمومی",
@@ -45612,9 +45902,38 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
-      "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 70",
+      "attributeValueIds": [
+        "val_919457bc7f3a",
+        "val_87ccac233e86",
+        "val_b11d42a10dfd",
+        "val_de1676aad248",
+        "val_3e300ac7bc4c",
+        "val_b7af8e1a0ecd",
+        "val_e4f8d94c7291",
+        "val_cc09f73b02a0",
+        "val_4a5cb1b822de",
+        "val_c72250f3a72d",
+        "val_97724dd66cac",
+        "val_e4d90923e1cf",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_2cc54d73d0cc",
+        "val_de0003cc0d8f",
+        "val_bf24a5587147",
+        "val_6a9f398bf62d",
+        "val_608897c3070e",
+        "val_a2d7d95da1b8",
+        "val_d1906c204402",
+        "val_735377ec49ee",
+        "val_f6b30a4ffae6"
+      ],
+      "collectionIds": [
+        "col_ddeec83aadb2"
+      ],
+      "alt": "طرح قاب موبایل انتزاعی اثر انگشت — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -45654,16 +45973,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب انتزاعی اثر انگشت برای قاب موبایل",
+      "seoDescription": "طرح قاب انتزاعی اثر انگشت از دسته عمومی برای چاپ روی قاب موبایل در شاپ قاب. قابل سفارش برای آیفون و اندروید. انتخاب مدل گوشی در همان صفحه. سبک طرح: عمومی.",
+      "ogImage": "/designed/download-70.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 616,
+      "sortOrder": 7,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:31.787Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T12:53:52.973Z",
       "publishedAt": "2026-10-18T15:13:31.787Z"
     },
     {
@@ -45675,13 +45994,16 @@
       "thumbnailPath": "/designed/thumbs/download-71.webp",
       "width": 736,
       "height": 1309,
-      "title": "طرح قاب عمومی Download 71",
+      "title": "طرح قاب تک رنگ رهایی",
       "titleEn": "",
       "slug": "download-71",
-      "shortDescription": "طرح قاب عمومی Download 71 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 71 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب تک رنگ رهایی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب تک رنگ رهایی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_13c8bb6d4284",
+        "cat_c59ddd3f7ba6",
+        "cat_fd1802a34b5f",
+        "cat_136876c70c47"
       ],
       "tags": [
         "عمومی",
@@ -45690,9 +46012,33 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
-      "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 71",
+      "attributeValueIds": [
+        "val_87ccac233e86",
+        "val_a3d2f3d093a8",
+        "val_919457bc7f3a",
+        "val_64b03f856ddd",
+        "val_65e60c76f9ef",
+        "val_f6b30a4ffae6",
+        "val_b7af8e1a0ecd",
+        "val_e4f8d94c7291",
+        "val_0c93794b161c",
+        "val_5ccfe1758d08",
+        "val_97724dd66cac",
+        "val_6cacdaa3158a",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f",
+        "val_bf24a5587147",
+        "val_735377ec49ee"
+      ],
+      "collectionIds": [
+        "col_5ebf7d2b500a"
+      ],
+      "alt": "طرح قاب موبایل تک رنگ رهایی — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -45732,16 +46078,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب تک رنگ رهایی برای قاب موبایل",
+      "seoDescription": "قاب موبایل با طرح قاب تک رنگ رهایی (انتزاعی و مینیمال) در شاپ قاب. طرح آماده با پیش‌نمایش و ارسال به سراسر ایران. سبک طرح: عمومی. مناسب هدیه و استفاده روزمره.",
+      "ogImage": "/designed/download-71.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 617,
+      "sortOrder": 2,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:31.967Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T12:57:06.679Z",
       "publishedAt": "2026-10-18T15:13:31.967Z"
     },
     {
@@ -45753,13 +46099,14 @@
       "thumbnailPath": "/designed/thumbs/download-72.webp",
       "width": 720,
       "height": 1280,
-      "title": "طرح قاب عمومی Download 72",
+      "title": "طرح قاب مذهبی الله",
       "titleEn": "",
       "slug": "download-72",
-      "shortDescription": "طرح قاب عمومی Download 72 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 72 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب مذهبی الله — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب مذهبی الله — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_f2b5ed7f94e6",
+        "cat_c63b3916bf8e"
       ],
       "tags": [
         "عمومی",
@@ -45768,9 +46115,26 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_87ccac233e86",
+        "val_919457bc7f3a",
+        "val_c72250f3a72d",
+        "val_608897c3070e",
+        "val_385daa843360",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_75c8954ad774",
+        "val_40a0d5ea1dca",
+        "val_bf24a5587147",
+        "val_c67b7018d3ca",
+        "val_6a9f398bf62d",
+        "val_735377ec49ee"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 72",
+      "alt": "طرح قاب موبایل مذهبی الله — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -45810,16 +46174,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب مذهبی الله برای قاب موبایل",
+      "seoDescription": "در شاپ قاب طرح قاب مذهبی الله از دسته اسلامی را روی قاب گوشی چاپ و به ایران ارسال کنید. مناسب هدیه و استفاده روزمره. پیش‌نمایش چاپ قبل از تولید.",
+      "ogImage": "/designed/download-72.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 618,
+      "sortOrder": 90,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:32.154Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T12:58:21.224Z",
       "publishedAt": "2026-10-18T15:13:32.154Z"
     },
     {
@@ -45831,13 +46195,15 @@
       "thumbnailPath": "/designed/thumbs/download-73.webp",
       "width": 736,
       "height": 1308,
-      "title": "طرح قاب عمومی Download 73",
+      "title": "طرح قاب انتزاعی تک رنگ",
       "titleEn": "",
       "slug": "download-73",
-      "shortDescription": "طرح قاب عمومی Download 73 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 73 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب انتزاعی تک رنگ — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب انتزاعی تک رنگ — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_c59ddd3f7ba6",
+        "cat_13c8bb6d4284",
+        "cat_fd1802a34b5f"
       ],
       "tags": [
         "عمومی",
@@ -45846,9 +46212,28 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_d3c5da27e6dd",
+        "val_57e1c5f643c3",
+        "val_87ccac233e86",
+        "val_a3d2f3d093a8",
+        "val_3e300ac7bc4c",
+        "val_cc09f73b02a0",
+        "val_4a5cb1b822de",
+        "val_97724dd66cac",
+        "val_e4d90923e1cf",
+        "val_385daa843360",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_bf24a5587147",
+        "val_c67b7018d3ca"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 73",
+      "alt": "طرح قاب موبایل انتزاعی تک رنگ — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -45888,16 +46273,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب انتزاعی تک رنگ برای قاب موبایل",
+      "seoDescription": "طرح آماده قاب انتزاعی تک رنگ برای قاب موبایل در دسته انتزاعی. چاپ اختصاصی و ارسال سراسری از شاپ قاب. پیش‌نمایش چاپ قبل از تولید. انتخاب مدل گوشی در همان صفحه.",
+      "ogImage": "/designed/download-73.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 619,
+      "sortOrder": 50,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:32.321Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T12:59:57.884Z",
       "publishedAt": "2026-10-18T15:13:32.321Z"
     },
     {
@@ -45909,13 +46294,15 @@
       "thumbnailPath": "/designed/thumbs/download-74.webp",
       "width": 736,
       "height": 1308,
-      "title": "طرح قاب عمومی Download 74",
+      "title": "طرح قاب انتزاعی الگو فرش",
       "titleEn": "",
       "slug": "download-74",
-      "shortDescription": "طرح قاب عمومی Download 74 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 74 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب انتزاعی الگو فرش — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب انتزاعی الگو فرش — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_13c8bb6d4284",
+        "cat_c59ddd3f7ba6",
+        "cat_c4cff141e7c1"
       ],
       "tags": [
         "عمومی",
@@ -45924,9 +46311,29 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_57e1c5f643c3",
+        "val_87ccac233e86",
+        "val_a3d2f3d093a8",
+        "val_3e300ac7bc4c",
+        "val_f6b30a4ffae6",
+        "val_8ffce76c2bfd",
+        "val_d1906c204402",
+        "val_a2d7d95da1b8",
+        "val_97724dd66cac",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f",
+        "val_7ce436e75702",
+        "val_bf24a5587147"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 74",
+      "alt": "طرح قاب موبایل انتزاعی الگو فرش — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -45966,16 +46373,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب انتزاعی الگو فرش برای قاب موبایل",
+      "seoDescription": "طرح قاب انتزاعی الگو فرش از دسته انتزاعی و مینیمال برای چاپ روی قاب موبایل در شاپ قاب. قابل سفارش برای آیفون و اندروید. انتخاب مدل گوشی در همان صفحه.",
+      "ogImage": "/designed/download-74.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 620,
+      "sortOrder": 50,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:32.442Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T13:01:08.369Z",
       "publishedAt": "2026-10-18T15:13:32.442Z"
     },
     {
@@ -45987,13 +46394,14 @@
       "thumbnailPath": "/designed/thumbs/download-75.webp",
       "width": 605,
       "height": 1080,
-      "title": "طرح قاب عمومی Download 75",
+      "title": "طرح قاب انتزاعی کهکشان",
       "titleEn": "",
       "slug": "download-75",
-      "shortDescription": "طرح قاب عمومی Download 75 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 75 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب انتزاعی کهکشان — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب انتزاعی کهکشان — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_c59ddd3f7ba6",
+        "cat_13c8bb6d4284"
       ],
       "tags": [
         "عمومی",
@@ -46002,9 +46410,27 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_87ccac233e86",
+        "val_a3d2f3d093a8",
+        "val_d3c5da27e6dd",
+        "val_2a2bd43a203d",
+        "val_3e300ac7bc4c",
+        "val_b7af8e1a0ecd",
+        "val_cc09f73b02a0",
+        "val_4a5cb1b822de",
+        "val_97724dd66cac",
+        "val_385daa843360",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_bf24a5587147",
+        "val_c67b7018d3ca"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 75",
+      "alt": "طرح قاب موبایل انتزاعی کهکشان — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -46044,16 +46470,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب انتزاعی کهکشان برای قاب موبایل",
+      "seoDescription": "قاب موبایل با طرح قاب انتزاعی کهکشان (انتزاعی) در شاپ قاب. طرح آماده با پیش‌نمایش و ارسال به سراسر ایران. سبک طرح: عمومی. مناسب هدیه و استفاده روزمره.",
+      "ogImage": "/designed/download-75.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 621,
+      "sortOrder": 60,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:32.643Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T13:02:31.785Z",
       "publishedAt": "2026-10-18T15:13:32.643Z"
     },
     {
@@ -46065,13 +46491,14 @@
       "thumbnailPath": "/designed/thumbs/download-76.webp",
       "width": 736,
       "height": 920,
-      "title": "طرح قاب عمومی Download 76",
+      "title": "طرح قاب مذهبی حرم و قلب",
       "titleEn": "",
       "slug": "download-76",
-      "shortDescription": "طرح قاب عمومی Download 76 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 76 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب مذهبی حرم و قلب — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب مذهبی حرم و قلب — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_f2b5ed7f94e6",
+        "cat_c63b3916bf8e"
       ],
       "tags": [
         "عمومی",
@@ -46080,9 +46507,32 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
-      "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 76",
+      "attributeValueIds": [
+        "val_d3c5da27e6dd",
+        "val_ac1a69035bb9",
+        "val_87ccac233e86",
+        "val_2a2bd43a203d",
+        "val_f6b30a4ffae6",
+        "val_0c93794b161c",
+        "val_a2d7d95da1b8",
+        "val_d1906c204402",
+        "val_b7af8e1a0ecd",
+        "val_97724dd66cac",
+        "val_e5a34b167851",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f",
+        "val_bf24a5587147",
+        "val_7ce436e75702"
+      ],
+      "collectionIds": [
+        "col_25340de916ab"
+      ],
+      "alt": "طرح قاب موبایل مذهبی حرم و قلب — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -46122,16 +46572,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب مذهبی حرم و قلب برای قاب موبایل",
+      "seoDescription": "در شاپ قاب طرح قاب مذهبی حرم و قلب از دسته اسلامی را روی قاب گوشی چاپ و به ایران ارسال کنید. مناسب هدیه و استفاده روزمره. پیش‌نمایش چاپ قبل از تولید.",
+      "ogImage": "/designed/download-76.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 622,
+      "sortOrder": 1,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:32.774Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T13:03:42.522Z",
       "publishedAt": "2026-10-18T15:13:32.774Z"
     },
     {
@@ -46143,13 +46593,14 @@
       "thumbnailPath": "/designed/thumbs/download-77.webp",
       "width": 736,
       "height": 1308,
-      "title": "طرح قاب عمومی Download 77",
+      "title": "طرح قاب منظره درخت و آب",
       "titleEn": "",
       "slug": "download-77",
-      "shortDescription": "طرح قاب عمومی Download 77 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 77 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب منظره درخت و آب — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب منظره درخت و آب — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_0feae16d5536",
+        "cat_8b8a3400d3ec"
       ],
       "tags": [
         "عمومی",
@@ -46158,9 +46609,25 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_d3c5da27e6dd",
+        "val_ac1a69035bb9",
+        "val_87ccac233e86",
+        "val_5ccfe1758d08",
+        "val_0c93794b161c",
+        "val_660ba55a5d92",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f",
+        "val_bf24a5587147",
+        "val_7ce436e75702"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 77",
+      "alt": "طرح قاب موبایل منظره درخت و آب — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -46200,16 +46667,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب منظره درخت و آب برای قاب موبایل",
+      "seoDescription": "طرح آماده قاب منظره درخت و آب برای قاب موبایل در دسته عمومی. چاپ اختصاصی و ارسال سراسری از شاپ قاب. پیش‌نمایش چاپ قبل از تولید. انتخاب مدل گوشی در همان صفحه.",
+      "ogImage": "/designed/download-77.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 623,
+      "sortOrder": 24,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:32.957Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T13:07:18.908Z",
       "publishedAt": "2026-10-18T15:13:32.957Z"
     },
     {
@@ -47313,13 +47780,14 @@
       "thumbnailPath": "/designed/thumbs/download-9.webp",
       "width": 448,
       "height": 832,
-      "title": "طرح قاب عمومی Download 9",
+      "title": "طرح قاب الگوی تکرارشونده صورتک",
       "titleEn": "",
       "slug": "download-9",
-      "shortDescription": "طرح قاب عمومی Download 9 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 9 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب الگوی تکرارشونده صورتک — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب الگوی تکرارشونده صورتک — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_13c8bb6d4284",
+        "cat_c59ddd3f7ba6"
       ],
       "tags": [
         "عمومی",
@@ -47328,7 +47796,26 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_d3c5da27e6dd",
+        "val_2a2bd43a203d",
+        "val_f9d01c246f4c",
+        "val_64b03f856ddd",
+        "val_b7af8e1a0ecd",
+        "val_e4f8d94c7291",
+        "val_8ffce76c2bfd",
+        "val_97724dd66cac",
+        "val_ff48b292c601",
+        "val_385daa843360",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_bf24a5587147",
+        "val_c67b7018d3ca"
+      ],
       "collectionIds": [],
       "alt": "طرح قاب موبایل طرح قاب عمومی Download 9 — شاپ قاب",
       "gallery": [],
@@ -47370,16 +47857,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "طرح قاب عمومی Download 9 برای قاب موبایل",
+      "seoTitle": "طرح قاب الگوی تکرارشونده صورتک برای قاب موبایل",
       "seoDescription": "در شاپ قاب طرح قاب عمومی Download 9 از دسته عمومی برای فروش قاب موبایل چاپ و ارسال می‌شود. انتخاب مدل گوشی و ثبت سفارش در همان صفحه. چاپ اختصاصی با امکان",
-      "ogImage": "",
+      "ogImage": "/designed/download-9.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 441,
+      "sortOrder": 90,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T08:27:00.456Z",
-      "updatedAt": "2026-10-18T15:18:33.376Z",
+      "updatedAt": "2026-11-15T13:16:07.615Z",
       "publishedAt": "2026-10-18T08:27:00.456Z"
     },
     {
@@ -47391,13 +47878,14 @@
       "thumbnailPath": "/designed/thumbs/download-9-2.webp",
       "width": 675,
       "height": 1200,
-      "title": "طرح قاب عمومی Download 9",
+      "title": "طرح قاب گل دیجیتال تک رنگ",
       "titleEn": "",
       "slug": "download-9-2",
-      "shortDescription": "طرح قاب عمومی Download 9 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 9 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب گل دیجیتال تک رنگ — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب گل دیجیتال تک رنگ — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_8b8a3400d3ec",
+        "cat_fd1802a34b5f"
       ],
       "tags": [
         "عمومی",
@@ -47406,9 +47894,29 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
-      "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 9",
+      "attributeValueIds": [
+        "val_87ccac233e86",
+        "val_57e1c5f643c3",
+        "val_919457bc7f3a",
+        "val_3e300ac7bc4c",
+        "val_f6b30a4ffae6",
+        "val_5ccfe1758d08",
+        "val_b7af8e1a0ecd",
+        "val_97724dd66cac",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f",
+        "val_7ce436e75702",
+        "val_735377ec49ee"
+      ],
+      "collectionIds": [
+        "col_5ebf7d2b500a"
+      ],
+      "alt": "طرح قاب موبایل گل دیجیتال تک رنگ — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -47448,16 +47956,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب گل دیجیتال تک رنگ برای قاب موبایل",
+      "seoDescription": "قاب موبایل با طرح قاب گل دیجیتال تک رنگ (گل، گیاه و طبیعت) در شاپ قاب. طرح آماده با پیش‌نمایش و ارسال به سراسر ایران. سبک طرح: عمومی. مناسب هدیه و استفاده",
+      "ogImage": "/designed/download-9-2.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 637,
+      "sortOrder": 8,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:35.493Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T13:14:48.986Z",
       "publishedAt": "2026-10-18T15:13:35.493Z"
     },
     {
@@ -47469,13 +47977,15 @@
       "thumbnailPath": "/designed/thumbs/download-90.webp",
       "width": 736,
       "height": 1472,
-      "title": "طرح قاب عمومی Download 90",
+      "title": "طرح قاب نقاشی دیجیتال صحرای قهوه ای",
       "titleEn": "",
       "slug": "download-90",
-      "shortDescription": "طرح قاب عمومی Download 90 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 90 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب نقاشی دیجیتال صحرای قهوه ای — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب نقاشی دیجیتال صحرای قهوه ای — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_0feae16d5536",
+        "cat_8b8a3400d3ec",
+        "cat_043500a99944"
       ],
       "tags": [
         "عمومی",
@@ -47484,9 +47994,27 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_d3c5da27e6dd",
+        "val_b11d42a10dfd",
+        "val_57e1c5f643c3",
+        "val_a3d2f3d093a8",
+        "val_5ccfe1758d08",
+        "val_cc09f73b02a0",
+        "val_0c93794b161c",
+        "val_b7af8e1a0ecd",
+        "val_6cacdaa3158a",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_7003466ddb9a",
+        "val_b6b58f07076f",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f",
+        "val_bf24a5587147"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 90",
+      "alt": "طرح قاب موبایل نقاشی دیجیتال صحرای قهوه ای — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -47526,16 +48054,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب نقاشی دیجیتال صحرای قهوه ای برای قاب موبایل",
+      "seoDescription": "در شاپ قاب طرح قاب نقاشی دیجیتال صحرای قهوه ای از دسته عمومی را روی قاب گوشی چاپ و به ایران ارسال کنید. مناسب هدیه و استفاده روزمره. پیش‌نمایش چاپ قبل از تولید.",
+      "ogImage": "/designed/download-90.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 638,
+      "sortOrder": 6,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:35.753Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T13:13:18.835Z",
       "publishedAt": "2026-10-18T15:13:35.753Z"
     },
     {
@@ -47547,13 +48075,14 @@
       "thumbnailPath": "/designed/thumbs/download-91.webp",
       "width": 736,
       "height": 1472,
-      "title": "طرح قاب عمومی Download 91",
+      "title": "طرح قاب انتزاعی کلاژ دیجیتال رنگی",
       "titleEn": "",
       "slug": "download-91",
-      "shortDescription": "طرح قاب عمومی Download 91 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 91 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب انتزاعی کلاژ دیجیتال رنگی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب انتزاعی کلاژ دیجیتال رنگی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_13c8bb6d4284",
+        "cat_c59ddd3f7ba6"
       ],
       "tags": [
         "عمومی",
@@ -47562,9 +48091,29 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_57e1c5f643c3",
+        "val_334187eb48ee",
+        "val_f9d01c246f4c",
+        "val_de1676aad248",
+        "val_b11d42a10dfd",
+        "val_3e300ac7bc4c",
+        "val_cc09f73b02a0",
+        "val_b7af8e1a0ecd",
+        "val_0c93794b161c",
+        "val_97724dd66cac",
+        "val_f7dc3ec79a1a",
+        "val_b6b58f07076f",
+        "val_9975d12780e0",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_bf24a5587147",
+        "val_de0003cc0d8f"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 91",
+      "alt": "طرح قاب موبایل انتزاعی کلاژ دیجیتال رنگی — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -47604,16 +48153,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب انتزاعی کلاژ دیجیتال رنگی برای قاب موبایل",
+      "seoDescription": "طرح آماده قاب انتزاعی کلاژ دیجیتال رنگی برای قاب موبایل در دسته انتزاعی و مینیمال. چاپ اختصاصی و ارسال سراسری از شاپ قاب. پیش‌نمایش چاپ قبل از تولید.",
+      "ogImage": "/designed/download-91.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 639,
+      "sortOrder": 63,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:35.991Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T13:10:17.756Z",
       "publishedAt": "2026-10-18T15:13:35.991Z"
     },
     {
@@ -47625,13 +48174,15 @@
       "thumbnailPath": "/designed/thumbs/download-92.webp",
       "width": 736,
       "height": 1472,
-      "title": "طرح قاب عمومی Download 92",
+      "title": "طرح قاب کلاژ دیجیتال رنگی کهکشان",
       "titleEn": "",
       "slug": "download-92",
-      "shortDescription": "طرح قاب عمومی Download 92 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 92 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب کلاژ دیجیتال رنگی کهکشان — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب کلاژ دیجیتال رنگی کهکشان — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_c59ddd3f7ba6",
+        "cat_13c8bb6d4284",
+        "cat_043500a99944"
       ],
       "tags": [
         "عمومی",
@@ -47640,9 +48191,32 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_f9d01c246f4c",
+        "val_de1676aad248",
+        "val_57e1c5f643c3",
+        "val_7b48bcbd88e9",
+        "val_334187eb48ee",
+        "val_ac1a69035bb9",
+        "val_3e300ac7bc4c",
+        "val_cc09f73b02a0",
+        "val_5ccfe1758d08",
+        "val_0c93794b161c",
+        "val_8ffce76c2bfd",
+        "val_97724dd66cac",
+        "val_ff48b292c601",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_bf24a5587147",
+        "val_c67b7018d3ca"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 92",
+      "alt": "طرح قاب موبایل کلاژ دیجیتال رنگی کهکشان — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -47682,16 +48256,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب کلاژ دیجیتال رنگی کهکشان برای قاب موبایل",
+      "seoDescription": "طرح قاب کلاژ دیجیتال رنگی کهکشان از دسته انتزاعی برای چاپ روی قاب موبایل در شاپ قاب. قابل سفارش برای آیفون و اندروید. انتخاب مدل گوشی در همان صفحه.",
+      "ogImage": "/designed/download-92.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 640,
+      "sortOrder": 40,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:36.227Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T13:09:15.205Z",
       "publishedAt": "2026-10-18T15:13:36.227Z"
     },
     {
@@ -47703,13 +48277,14 @@
       "thumbnailPath": "/designed/thumbs/download-93.webp",
       "width": 736,
       "height": 1471,
-      "title": "طرح قاب عمومی Download 93",
+      "title": "طرح قاب انتزاعی رنگی",
       "titleEn": "",
       "slug": "download-93",
-      "shortDescription": "طرح قاب عمومی Download 93 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 93 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب انتزاعی رنگی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب انتزاعی رنگی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_c59ddd3f7ba6",
+        "cat_13c8bb6d4284"
       ],
       "tags": [
         "عمومی",
@@ -47718,9 +48293,29 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_de1676aad248",
+        "val_f9d01c246f4c",
+        "val_334187eb48ee",
+        "val_57e1c5f643c3",
+        "val_3e300ac7bc4c",
+        "val_cc09f73b02a0",
+        "val_ff46e46e2ec7",
+        "val_0c93794b161c",
+        "val_97724dd66cac",
+        "val_ff48b292c601",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f",
+        "val_bf24a5587147"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 93",
+      "alt": "طرح قاب موبایل انتزاعی رنگی — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -47760,16 +48355,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب انتزاعی رنگی برای قاب موبایل",
+      "seoDescription": "قاب موبایل با طرح قاب انتزاعی رنگی (انتزاعی) در شاپ قاب. طرح آماده با پیش‌نمایش و ارسال به سراسر ایران. سبک طرح: عمومی. مناسب هدیه و استفاده روزمره.",
+      "ogImage": "/designed/download-93.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 641,
+      "sortOrder": 40,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:36.472Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T13:08:13.835Z",
       "publishedAt": "2026-10-18T15:13:36.472Z"
     },
     {
@@ -49829,13 +50424,15 @@
       "thumbnailPath": "/designed/thumbs/vecteezy_folk-art-floral-hand-drawn-flowers-vector-illustration_5892502.webp",
       "width": 1920,
       "height": 1920,
-      "title": "طرح قاب عمومی Folk Art Floral Hand Drawn Flowers Vector Illustration",
+      "title": "طرح قاب عمومی گل دیجیتال",
       "titleEn": "",
       "slug": "vecteezy_folk-art-floral-hand-drawn-flowers-vector-illustration_5892502",
-      "shortDescription": "طرح قاب عمومی Folk Art Floral Hand Drawn Flowers Vector Illustration — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Folk Art Floral Hand Drawn Flowers Vector Illustration — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب عمومی گل دیجیتال — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب عمومی گل دیجیتال — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_8b8a3400d3ec",
+        "cat_c59ddd3f7ba6",
+        "cat_13c8bb6d4284"
       ],
       "tags": [
         "عمومی",
@@ -49844,7 +50441,26 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_7b48bcbd88e9",
+        "val_a3d2f3d093a8",
+        "val_f9d01c246f4c",
+        "val_de1676aad248",
+        "val_3e300ac7bc4c",
+        "val_cc09f73b02a0",
+        "val_5ccfe1758d08",
+        "val_0c93794b161c",
+        "val_97724dd66cac",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_b6b58f07076f",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f",
+        "val_bf24a5587147"
+      ],
       "collectionIds": [],
       "alt": "طرح قاب موبایل طرح قاب عمومی Folk Art Floral Hand Drawn Flowers Vector Illustration — شاپ قاب",
       "gallery": [],
@@ -49886,16 +50502,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "طرح قاب عمومی Folk Art Floral Hand Drawn Fl… برای قاب موبایل",
+      "seoTitle": "طرح قاب عمومی گل دیجیتال برای قاب موبایل",
       "seoDescription": "فروش قاب موبایل با قاب عمومی Folk Art Floral Hand Drawn… در دسته عمومی. چاپ این طرح در شاپ قاب با ارسال به سراسر ایران. مناسب آیفون، سامسونگ و شیائومی.",
-      "ogImage": "",
+      "ogImage": "/designed/vecteezy_folk-art-floral-hand-drawn-flowers-vector-illustration_5892502.webp",
       "status": "published",
       "featured": false,
       "sortOrder": 292,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-17T10:05:50.520Z",
-      "updatedAt": "2026-10-18T15:18:33.376Z",
+      "updatedAt": "2026-11-15T13:27:53.194Z",
       "publishedAt": "2026-10-17T10:05:50.520Z"
     },
     {
@@ -49907,11 +50523,11 @@
       "thumbnailPath": "/designed/thumbs/free-phone-case-2-vectors.webp",
       "width": 1400,
       "height": 980,
-      "title": "طرح قاب عمومی Free Phone Case 2 Vectors",
+      "title": "طرح قاب 0",
       "titleEn": "",
       "slug": "free-phone-case-2-vectors",
-      "shortDescription": "طرح قاب عمومی Free Phone Case 2 Vectors — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Free Phone Case 2 Vectors — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب 0 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب 0 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
         "cat_0feae16d5536"
       ],
@@ -49964,16 +50580,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "طرح قاب عمومی Free Phone Case 2 Vectors برای قاب موبایل",
+      "seoTitle": "طرح قاب 0 برای قاب موبایل",
       "seoDescription": "فروش قاب موبایل با قاب عمومی Free Phone Case 2 Vectors در دسته عمومی. چاپ این طرح در شاپ قاب با ارسال به سراسر ایران. مناسب آیفون، سامسونگ و شیائومی.",
-      "ogImage": "",
-      "status": "published",
+      "ogImage": "/designed/free-phone-case-2-vectors.webp",
+      "status": "draft",
       "featured": false,
       "sortOrder": 207,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-17T10:05:29.013Z",
-      "updatedAt": "2026-10-18T15:18:33.376Z",
+      "updatedAt": "2026-11-15T13:26:31.024Z",
       "publishedAt": "2026-10-17T10:05:29.013Z"
     },
     {
@@ -50063,13 +50679,15 @@
       "thumbnailPath": "/designed/thumbs/funny-cactus-puns-kawaii-cacti-by-punifyph.webp",
       "width": 736,
       "height": 883,
-      "title": "طرح قاب عمومی Funny Cactus Puns 🌵 Kawaii Cacti by Punifyph",
+      "title": "طرح قاب تشکر کاکتوس",
       "titleEn": "",
       "slug": "funny-cactus-puns-kawaii-cacti-by-punifyph",
-      "shortDescription": "طرح قاب عمومی Funny Cactus Puns 🌵 Kawaii Cacti by Punifyph — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Funny Cactus Puns 🌵 Kawaii Cacti by Punifyph — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب تشکر کاکتوس — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب تشکر کاکتوس — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_0feae16d5536",
+        "cat_043500a99944",
+        "cat_bfc7b1577465"
       ],
       "tags": [
         "عمومی",
@@ -50078,9 +50696,38 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_de1676aad248",
+        "val_b11d42a10dfd",
+        "val_57e1c5f643c3",
+        "val_2a2bd43a203d",
+        "val_f6b30a4ffae6",
+        "val_3e300ac7bc4c",
+        "val_5ccfe1758d08",
+        "val_b7af8e1a0ecd",
+        "val_4a5cb1b822de",
+        "val_0c93794b161c",
+        "val_42f08528ffa7",
+        "val_97724dd66cac",
+        "val_608897c3070e",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_f7dc3ec79a1a",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_9eaa01587c60",
+        "val_a300bcc5ca78",
+        "val_37ffde85cea2",
+        "val_2cc54d73d0cc",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f",
+        "val_724549f44e75",
+        "val_6a9f398bf62d",
+        "val_c72250f3a72d"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Funny Cactus Puns 🌵 Kawaii Cacti by Punifyph",
+      "alt": "طرح قاب موبایل تشکر کاکتوس — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -50120,16 +50767,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب تشکر کاکتوس برای قاب موبایل",
+      "seoDescription": "طرح آماده قاب تشکر کاکتوس برای قاب موبایل در دسته عمومی. چاپ اختصاصی و ارسال سراسری از شاپ قاب. پیش‌نمایش چاپ قبل از تولید. انتخاب مدل گوشی در همان صفحه.",
+      "ogImage": "/designed/funny-cactus-puns-kawaii-cacti-by-punifyph.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 654,
+      "sortOrder": 8,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:38.547Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T13:26:22.514Z",
       "publishedAt": "2026-10-18T15:13:38.547Z"
     },
     {
@@ -50141,11 +50788,11 @@
       "thumbnailPath": "/designed/thumbs/vecteezy_game-illustration-for-t-shirt-design_12026317.webp",
       "width": 1920,
       "height": 1265,
-      "title": "طرح قاب عمومی Game Illustration For T Shirt Design",
+      "title": "طرح قاب 0",
       "titleEn": "",
       "slug": "vecteezy_game-illustration-for-t-shirt-design_12026317",
-      "shortDescription": "طرح قاب عمومی Game Illustration For T Shirt Design — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Game Illustration For T Shirt Design — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب 0 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب 0 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
         "cat_0feae16d5536"
       ],
@@ -50198,16 +50845,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "طرح قاب عمومی Game Illustration For T Shirt… برای قاب موبایل",
+      "seoTitle": "طرح قاب 0 برای قاب موبایل",
       "seoDescription": "فروش قاب موبایل با طرح قاب عمومی Game Illustration For T Shi…، دسته عمومی، و پیش‌نمایش چاپ در شاپ قاب. چاپ اختصاصی با امکان پیش‌نمایش قبل از تولید.",
-      "ogImage": "",
-      "status": "published",
+      "ogImage": "/designed/vecteezy_game-illustration-for-t-shirt-design_12026317.webp",
+      "status": "draft",
       "featured": false,
       "sortOrder": 294,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-17T10:05:50.832Z",
-      "updatedAt": "2026-10-18T15:18:33.376Z",
+      "updatedAt": "2026-11-15T13:24:59.437Z",
       "publishedAt": "2026-10-17T10:05:50.832Z"
     },
     {
@@ -50411,13 +51058,13 @@
       "thumbnailPath": "/designed/thumbs/vecteezy_gamepad-joystick-icon-graphic-elements-outline-neon-design_48204424.webp",
       "width": 1920,
       "height": 1080,
-      "title": "طرح قاب عمومی Gamepad Joystick Icon Graphic Elements Outline Neon Design",
+      "title": "طرح قاب دسته کنسول ایکس باکس",
       "titleEn": "",
       "slug": "vecteezy_gamepad-joystick-icon-graphic-elements-outline-neon-design_48204424",
-      "shortDescription": "طرح قاب عمومی Gamepad Joystick Icon Graphic Elements Outline Neon Design — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Gamepad Joystick Icon Graphic Elements Outline Neon Design — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب دسته کنسول ایکس باکس — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب دسته کنسول ایکس باکس — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_31857c8984ae"
       ],
       "tags": [
         "عمومی",
@@ -50426,7 +51073,24 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_87ccac233e86",
+        "val_a3d2f3d093a8",
+        "val_f9d01c246f4c",
+        "val_de1676aad248",
+        "val_5ccfe1758d08",
+        "val_0c93794b161c",
+        "val_97724dd66cac",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_bf24a5587147",
+        "val_c67b7018d3ca"
+      ],
       "collectionIds": [],
       "alt": "طرح قاب موبایل طرح قاب عمومی Gamepad Joystick Icon Graphic Elements Outline Neon Design — شاپ قاب",
       "gallery": [],
@@ -50468,16 +51132,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "طرح قاب عمومی Gamepad Joystick Icon Graphic… برای قاب موبایل",
+      "seoTitle": "طرح قاب دسته کنسول ایکس باکس برای قاب موبایل",
       "seoDescription": "قاب عمومی Gamepad Joystick Icon Graph… برای فروش قاب موبایل از دسته عمومی در شاپ قاب با چاپ باکیفیت و سفارش آنلاین. سبک طرح: عمومی. انتخاب مدل گوشی و ثبت سفارش",
-      "ogImage": "",
+      "ogImage": "/designed/vecteezy_gamepad-joystick-icon-graphic-elements-outline-neon-design_48204424.webp",
       "status": "published",
       "featured": false,
       "sortOrder": 295,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-17T10:05:50.972Z",
-      "updatedAt": "2026-10-18T15:18:33.376Z",
+      "updatedAt": "2026-11-15T13:24:49.949Z",
       "publishedAt": "2026-10-17T10:05:50.972Z"
     },
     {
@@ -50489,13 +51153,14 @@
       "thumbnailPath": "/designed/thumbs/vecteezy_games-doodle-gaming-controller-retro-arcade-console-and_48381621.webp",
       "width": 1920,
       "height": 1160,
-      "title": "طرح قاب عمومی Games Doodle Gaming Controller Retro Arcade Console And",
+      "title": "طرح قاب آیتم های الکترونیکی",
       "titleEn": "",
       "slug": "vecteezy_games-doodle-gaming-controller-retro-arcade-console-and_48381621",
-      "shortDescription": "طرح قاب عمومی Games Doodle Gaming Controller Retro Arcade Console And — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Games Doodle Gaming Controller Retro Arcade Console And — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب آیتم های الکترونیکی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب آیتم های الکترونیکی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_31857c8984ae",
+        "cat_a6a6e8bbb08a"
       ],
       "tags": [
         "عمومی",
@@ -50504,7 +51169,31 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_919457bc7f3a",
+        "val_87ccac233e86",
+        "val_a3d2f3d093a8",
+        "val_5ccfe1758d08",
+        "val_b7af8e1a0ecd",
+        "val_8ffce76c2bfd",
+        "val_0c93794b161c",
+        "val_97724dd66cac",
+        "val_e5a34b167851",
+        "val_608897c3070e",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f",
+        "val_bf24a5587147",
+        "val_c72250f3a72d",
+        "val_6a9f398bf62d",
+        "val_2cc54d73d0cc",
+        "val_735377ec49ee",
+        "val_f6b30a4ffae6"
+      ],
       "collectionIds": [],
       "alt": "طرح قاب موبایل طرح قاب عمومی Games Doodle Gaming Controller Retro Arcade Console And — شاپ قاب",
       "gallery": [],
@@ -50546,16 +51235,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "طرح قاب عمومی Games Doodle Gaming Controlle… برای قاب موبایل",
+      "seoTitle": "طرح قاب آیتم های الکترونیکی برای قاب موبایل",
       "seoDescription": "در شاپ قاب طرح قاب عمومی Games Doodle Gaming Control… از دسته عمومی برای فروش قاب موبایل چاپ و ارسال می‌شود. انتخاب مدل گوشی و ثبت سفارش در همان صفحه.",
-      "ogImage": "",
+      "ogImage": "/designed/vecteezy_games-doodle-gaming-controller-retro-arcade-console-and_48381621.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 296,
+      "sortOrder": 18,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-17T10:05:51.166Z",
-      "updatedAt": "2026-10-18T15:18:33.376Z",
+      "updatedAt": "2026-11-15T13:23:59.499Z",
       "publishedAt": "2026-10-17T10:05:51.166Z"
     },
     {
@@ -50567,13 +51256,13 @@
       "thumbnailPath": "/designed/thumbs/vecteezy_gaming-and-valentine-t-shirt-design_18797659.webp",
       "width": 1920,
       "height": 1920,
-      "title": "طرح قاب عمومی Gaming And Valentine T Shirt Design",
+      "title": "طرح قاب بازی و گیمینگ",
       "titleEn": "",
       "slug": "vecteezy_gaming-and-valentine-t-shirt-design_18797659",
-      "shortDescription": "طرح قاب عمومی Gaming And Valentine T Shirt Design — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Gaming And Valentine T Shirt Design — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب بازی و گیمینگ — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب بازی و گیمینگ — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_31857c8984ae"
       ],
       "tags": [
         "عمومی",
@@ -50582,7 +51271,26 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_d3c5da27e6dd",
+        "val_a3d2f3d093a8",
+        "val_334187eb48ee",
+        "val_ac1a69035bb9",
+        "val_87ccac233e86",
+        "val_c72250f3a72d",
+        "val_0c93794b161c",
+        "val_5ccfe1758d08",
+        "val_97724dd66cac",
+        "val_608897c3070e",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_2cc54d73d0cc",
+        "val_bf24a5587147",
+        "val_6a9f398bf62d"
+      ],
       "collectionIds": [],
       "alt": "طرح قاب موبایل طرح قاب عمومی Gaming And Valentine T Shirt Design — شاپ قاب",
       "gallery": [],
@@ -50624,16 +51332,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "طرح قاب عمومی Gaming And Valentine T Shirt… برای قاب موبایل",
+      "seoTitle": "طرح قاب بازی و گیمینگ برای قاب موبایل",
       "seoDescription": "در شاپ قاب طرح قاب عمومی Gaming And Valentine T Shir… از دسته عمومی برای فروش قاب موبایل چاپ و ارسال می‌شود. انتخاب مدل گوشی و ثبت سفارش در همان صفحه.",
-      "ogImage": "",
+      "ogImage": "/designed/vecteezy_gaming-and-valentine-t-shirt-design_18797659.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 297,
+      "sortOrder": 10,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-17T10:05:51.418Z",
-      "updatedAt": "2026-10-18T15:18:33.376Z",
+      "updatedAt": "2026-11-15T13:22:07.842Z",
       "publishedAt": "2026-10-17T10:05:51.418Z"
     },
     {
@@ -50645,13 +51353,13 @@
       "thumbnailPath": "/designed/thumbs/vecteezy_gaming-controller-logo-design-modern-gamepad-illustration_75618254.webp",
       "width": 1920,
       "height": 1920,
-      "title": "طرح قاب عمومی Gaming Controller Logo Design Modern Gamepad Illustration",
+      "title": "طرح قاب دسته کنسول بازی",
       "titleEn": "",
       "slug": "vecteezy_gaming-controller-logo-design-modern-gamepad-illustration_75618254",
-      "shortDescription": "طرح قاب عمومی Gaming Controller Logo Design Modern Gamepad Illustration — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Gaming Controller Logo Design Modern Gamepad Illustration — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب دسته کنسول بازی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب دسته کنسول بازی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_31857c8984ae"
       ],
       "tags": [
         "عمومی",
@@ -50660,7 +51368,23 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_57e1c5f643c3",
+        "val_87ccac233e86",
+        "val_d3c5da27e6dd",
+        "val_5ccfe1758d08",
+        "val_0c93794b161c",
+        "val_2f5f97e9a930",
+        "val_97724dd66cac",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f",
+        "val_7ce436e75702"
+      ],
       "collectionIds": [],
       "alt": "طرح قاب موبایل طرح قاب عمومی Gaming Controller Logo Design Modern Gamepad Illustration — شاپ قاب",
       "gallery": [],
@@ -50702,34 +51426,35 @@
           "error": ""
         }
       ],
-      "seoTitle": "طرح قاب عمومی Gaming Controller Logo Design… برای قاب موبایل",
+      "seoTitle": "طرح قاب دسته کنسول بازی برای قاب موبایل",
       "seoDescription": "قاب عمومی Gaming Controller Logo Desi… برای فروش قاب موبایل از دسته عمومی در شاپ قاب با چاپ باکیفیت و سفارش آنلاین. سبک طرح: عمومی. انتخاب مدل گوشی و ثبت سفارش",
-      "ogImage": "",
+      "ogImage": "/designed/vecteezy_gaming-controller-logo-design-modern-gamepad-illustration_75618254.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 298,
+      "sortOrder": 4,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-17T10:05:51.625Z",
-      "updatedAt": "2026-10-18T15:18:33.376Z",
+      "updatedAt": "2026-11-15T13:21:00.166Z",
       "publishedAt": "2026-10-17T10:05:51.625Z"
     },
     {
       "id": "dsn_50155956b600350b",
       "sourceKey": "vecteezy_geometric-ethnic-pattern-design-for-seamless-background_.jpg",
       "legacySlug": "vecteezy_geometric-ethnic-pattern-design-for-seamless-background_",
-      "templateSlug": "vecteezy_geometric-ethnic-pattern-design-for-seamless-background_",
+      "templateSlug": "vecteezy_geometric-ethnic-pattern-design-for-seamless-background",
       "imagePath": "/designed/vecteezy_geometric-ethnic-pattern-design-for-seamless-background_.webp",
       "thumbnailPath": "/designed/thumbs/vecteezy_geometric-ethnic-pattern-design-for-seamless-background_.webp",
       "width": 2048,
       "height": 1229,
-      "title": "طرح قاب عمومی Geometric Ethnic Pattern Design For Seamless Background",
+      "title": "طرح قاب عمومی الگوی سرخ پوستی",
       "titleEn": "",
-      "slug": "vecteezy_geometric-ethnic-pattern-design-for-seamless-background_",
-      "shortDescription": "طرح قاب عمومی Geometric Ethnic Pattern Design For Seamless Background — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Geometric Ethnic Pattern Design For Seamless Background — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "slug": "vecteezy_geometric-ethnic-pattern-design-for-seamless-background",
+      "shortDescription": "طرح قاب عمومی الگوی سرخ پوستی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب عمومی الگوی سرخ پوستی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_13c8bb6d4284",
+        "cat_c59ddd3f7ba6"
       ],
       "tags": [
         "عمومی",
@@ -50738,7 +51463,26 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_a3d2f3d093a8",
+        "val_de1676aad248",
+        "val_334187eb48ee",
+        "val_ac1a69035bb9",
+        "val_3e300ac7bc4c",
+        "val_cc09f73b02a0",
+        "val_97724dd66cac",
+        "val_ff48b292c601",
+        "val_385daa843360",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_bf24a5587147",
+        "val_c67b7018d3ca"
+      ],
       "collectionIds": [],
       "alt": "طرح قاب موبایل طرح قاب عمومی Geometric Ethnic Pattern Design For Seamless Background — شاپ قاب",
       "gallery": [],
@@ -50780,16 +51524,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "طرح قاب عمومی Geometric Ethnic Pattern Desi… برای قاب موبایل",
+      "seoTitle": "طرح قاب عمومی الگوی سرخ پوستی برای قاب موبایل",
       "seoDescription": "قاب عمومی Geometric Ethnic Pattern De… برای فروش قاب موبایل از دسته عمومی در شاپ قاب با چاپ باکیفیت و سفارش آنلاین. سبک طرح: عمومی. انتخاب مدل گوشی و ثبت سفارش",
-      "ogImage": "",
+      "ogImage": "/designed/vecteezy_geometric-ethnic-pattern-design-for-seamless-background_.webp",
       "status": "published",
       "featured": false,
       "sortOrder": 299,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-17T10:05:52.121Z",
-      "updatedAt": "2026-10-18T15:18:33.376Z",
+      "updatedAt": "2026-11-15T13:28:58.430Z",
       "publishedAt": "2026-10-17T10:05:52.121Z"
     },
     {
@@ -50801,13 +51545,15 @@
       "thumbnailPath": "/designed/thumbs/vecteezy_geometric-pattern-backdrop_8143561.webp",
       "width": 1920,
       "height": 1920,
-      "title": "طرح قاب عمومی Geometric Pattern Backdrop",
+      "title": "طرح قاب انتزاعی لوزی رنگی",
       "titleEn": "",
       "slug": "vecteezy_geometric-pattern-backdrop_8143561",
-      "shortDescription": "طرح قاب عمومی Geometric Pattern Backdrop — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Geometric Pattern Backdrop — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب انتزاعی لوزی رنگی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب انتزاعی لوزی رنگی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_13c8bb6d4284",
+        "cat_c59ddd3f7ba6",
+        "cat_fd1802a34b5f"
       ],
       "tags": [
         "عمومی",
@@ -50816,7 +51562,24 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_3e300ac7bc4c",
+        "val_f6b30a4ffae6",
+        "val_cc09f73b02a0",
+        "val_b7af8e1a0ecd",
+        "val_97724dd66cac",
+        "val_e4d90923e1cf",
+        "val_ff48b292c601",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_bf24a5587147",
+        "val_c67b7018d3ca"
+      ],
       "collectionIds": [],
       "alt": "طرح قاب موبایل طرح قاب عمومی Geometric Pattern Backdrop — شاپ قاب",
       "gallery": [],
@@ -50858,32 +51621,32 @@
           "error": ""
         }
       ],
-      "seoTitle": "طرح قاب عمومی Geometric Pattern Backdrop برای قاب موبایل",
+      "seoTitle": "طرح قاب انتزاعی لوزی رنگی برای قاب موبایل",
       "seoDescription": "در شاپ قاب طرح قاب عمومی Geometric Pattern Backdrop از دسته عمومی برای فروش قاب موبایل چاپ و ارسال می‌شود. انتخاب مدل گوشی و ثبت سفارش در همان صفحه.",
-      "ogImage": "",
+      "ogImage": "/designed/vecteezy_geometric-pattern-backdrop_8143561.webp",
       "status": "published",
       "featured": false,
       "sortOrder": 300,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-17T10:05:52.394Z",
-      "updatedAt": "2026-10-18T15:18:33.376Z",
+      "updatedAt": "2026-11-15T13:30:00.558Z",
       "publishedAt": "2026-10-17T10:05:52.394Z"
     },
     {
       "id": "dsn_fc0c54b8c3399638",
       "sourceKey": "Girly_Phone_Cases_Free_Vector.jpg",
       "legacySlug": "Girly_Phone_Cases_Free_Vector",
-      "templateSlug": "Girly_Phone_Cases_Free_Vector",
+      "templateSlug": "girly_ector",
       "imagePath": "/designed/Girly_Phone_Cases_Free_Vector.webp",
       "thumbnailPath": "/designed/thumbs/Girly_Phone_Cases_Free_Vector.webp",
       "width": 1400,
       "height": 980,
-      "title": "طرح قاب عمومی Girly Phone Cases Free Vector",
+      "title": "طرح قاب عمومی0",
       "titleEn": "",
-      "slug": "Girly_Phone_Cases_Free_Vector",
-      "shortDescription": "طرح قاب عمومی Girly Phone Cases Free Vector — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Girly Phone Cases Free Vector — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "slug": "girly_ector",
+      "shortDescription": "طرح قاب عمومی0 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب عمومی0 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
         "cat_0feae16d5536"
       ],
@@ -50936,16 +51699,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "طرح قاب عمومی Girly Phone Cases Free Vector برای قاب موبایل",
+      "seoTitle": "طرح قاب عمومی0 برای قاب موبایل",
       "seoDescription": "قاب عمومی Girly Phone Cases Free Vect… برای فروش قاب موبایل از دسته عمومی در شاپ قاب با چاپ باکیفیت و سفارش آنلاین. سبک طرح: عمومی. انتخاب مدل گوشی و ثبت سفارش",
-      "ogImage": "",
-      "status": "published",
+      "ogImage": "/designed/Girly_Phone_Cases_Free_Vector.webp",
+      "status": "draft",
       "featured": false,
       "sortOrder": 208,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-17T10:05:29.132Z",
-      "updatedAt": "2026-10-18T15:18:33.376Z",
+      "updatedAt": "2026-11-15T13:30:26.945Z",
       "publishedAt": "2026-10-17T10:05:29.132Z"
     },
     {
@@ -64258,7 +65021,18 @@
       "publishedAt": "2026-10-28T07:59:45.620Z"
     }
   ],
-  "redirects": [],
+  "redirects": [
+    {
+      "fromSlug": "vecteezy_geometric-ethnic-pattern-design-for-seamless-background_",
+      "toSlug": "vecteezy_geometric-ethnic-pattern-design-for-seamless-background",
+      "designId": "dsn_50155956b600350b"
+    },
+    {
+      "fromSlug": "Girly_Phone_Cases_Free_Vector",
+      "toSlug": "girly_ector",
+      "designId": "dsn_fc0c54b8c3399638"
+    }
+  ],
   "categoryRedirects": [],
   "attributeGroups": [
     {
