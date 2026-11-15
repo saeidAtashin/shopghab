@@ -17,6 +17,7 @@ export type ToolbarColor = {
 
 type Props = {
   colors: ToolbarColor[];
+  colorModes?: ToolbarColor[];
   sort: BrowseSort;
   onSort: (sort: BrowseSort) => void;
   searchValue: string;
@@ -49,6 +50,7 @@ const toolbarField =
 
 export default function StorefrontToolbar({
   colors,
+  colorModes = [],
   sort,
   onSort,
   searchValue,
@@ -62,6 +64,31 @@ export default function StorefrontToolbar({
   return (
     <div className="rounded-2xl border border-border bg-card p-2">
       <div className="flex flex-col gap-2">
+        {colorModes.length > 0 ? (
+          <div className="flex min-w-0 flex-wrap items-center gap-2">
+            <span className="shrink-0 text-xs font-bold text-muted">حالت رنگ</span>
+            <ul className="flex min-w-0 flex-wrap gap-1.5" aria-label="حالت رنگ">
+              {colorModes.map((option) => (
+                <li key={option.id}>
+                  <BrowseLink
+                    href={option.href}
+                    showLoader
+                    aria-label={option.label}
+                    aria-current={option.active ? "true" : undefined}
+                    className={cn(
+                      "inline-flex min-h-8 items-center rounded-full border px-2.5 text-xs font-semibold",
+                      option.active
+                        ? "border-[#5145FF] bg-[#5145FF]/15 text-[#C4C0FF]"
+                        : "border-border text-muted hover:text-foreground",
+                    )}
+                  >
+                    {option.label}
+                  </BrowseLink>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
         {colors.length > 0 ? (
           <div className="flex min-w-0 items-center gap-2">
             <span className="shrink-0 text-xs font-bold text-muted">رنگ طرح</span>

@@ -344,6 +344,8 @@ const ATTRIBUTE_GROUPS: SeedGroup[] = [
       { key: "gray", name: "خاکستری" },
       { key: "gold", name: "طلایی" },
       { key: "silver", name: "نقره‌ای" },
+      { key: "single-color", name: "تک‌رنگ" },
+      { key: "duo", name: "دورنگ" },
       { key: "multicolor", name: "چندرنگ" },
     ],
   },
@@ -543,6 +545,13 @@ export function seedCatalogTaxonomy(
     group.values.forEach((value, valueIndex) => {
       const valueId = seedRecordId("val", `${group.slug}:${value.key}`);
       if (next.attributeValues.some((item) => item.id === valueId)) return;
+      if (
+        next.attributeValues.some(
+          (item) => item.groupId === resolvedGroupId && item.slug === value.key,
+        )
+      ) {
+        return;
+      }
       const record: AttributeValueRecord = {
         id: valueId,
         groupId: resolvedGroupId,

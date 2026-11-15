@@ -1180,6 +1180,113 @@ test("placement is stored on that design and a centered crop clears it", () => {
   );
 });
 
+test("single-color with a hue requires both mode and color", () => {
+  let catalog = createAttribute(emptyCatalog(), { kind: "group", name: "رنگ", slug: "colors" }, NOW);
+  const colorGroup = catalog.attributeGroups.find((group) => group.slug === "colors");
+  assert.ok(colorGroup);
+  catalog = createAttribute(catalog, { kind: "value", groupId: colorGroup.id, name: "آبی" }, NOW);
+  catalog = createAttribute(catalog, { kind: "value", groupId: colorGroup.id, name: "تک‌رنگ" }, NOW);
+  catalog = createAttribute(catalog, { kind: "value", groupId: colorGroup.id, name: "چندرنگ" }, NOW);
+  catalog = createAttribute(catalog, { kind: "group", name: "ویژگی", slug: "characteristics" }, NOW);
+  const charGroup = catalog.attributeGroups.find((group) => group.slug === "characteristics");
+  assert.ok(charGroup);
+  catalog = createAttribute(catalog, { kind: "value", groupId: charGroup.id, name: "تک‌رنگ" }, NOW);
+
+  const blue = catalog.attributeValues.find((value) => value.name === "آبی" && value.groupId === colorGroup.id);
+  const single = catalog.attributeValues.find((value) => value.name === "تک‌رنگ" && value.groupId === colorGroup.id);
+  const multi = catalog.attributeValues.find((value) => value.name === "چندرنگ");
+  const mono = catalog.attributeValues.find((value) => value.groupId === charGroup.id);
+  assert.ok(blue && single && multi && mono);
+  blue.slug = "blue";
+  single.slug = "single-color";
+  multi.slug = "multicolor";
+  mono.slug = "mono";
+
+  const exclusive = createDesign(
+    catalog,
+    writeInput({
+      slug: "blue-only",
+      title: "آبی خالص",
+      attributeValueIds: [blue.id, single.id],
+      imagePath: "/designed/blue-only.webp",
+      thumbnailPath: "/designed/thumbs/blue-only.webp",
+    }),
+    NOW,
+  );
+  catalog = exclusive.catalog;
+  const mixed = createDesign(
+    catalog,
+    writeInput({
+      slug: "blue-mix",
+      title: "آبی چندرنگ",
+      attributeValueIds: [blue.id, multi.id],
+      imagePath: "/designed/blue-mix.webp",
+      thumbnailPath: "/designed/thumbs/blue-mix.webp",
+    }),
+    NOW,
+  );
+  catalog = mixed.catalog;
+  const monoOnly = createDesign(
+    catalog,
+    writeInput({
+      slug: "mono-alias",
+      title: "مونو قدیمی",
+      attributeValueIds: [blue.id, mono.id],
+      imagePath: "/designed/mono-alias.webp",
+      thumbnailPath: "/designed/thumbs/mono-alias.webp",
+    }),
+    NOW,
+  );
+  catalog = monoOnly.catalog;
+  for (const design of catalog.designs) {
+    design.mockups = [readyMockup(design.imagePath, design.thumbnailPath)];
+  }
+
+  assert.deepEqual(
+    queryPublicDesigns(catalog, { attributeValueIds: [blue.id, single.id] }).items.map((design) => design.slug).sort(),
+    ["blue-only", "mono-alias"],
+  );
+  assert.deepEqual(
+    queryPublicDesigns(catalog, { attributeValueIds: [single.id] }).items.map((design) => design.slug).sort(),
+    ["blue-only", "mono-alias"],
+  );
+  assert.deepEqual(
+    queryPublicDesigns(catalog, { attributeValueIds: [blue.id] }).items.map((design) => design.slug).sort(),
+    ["blue-mix", "blue-only", "mono-alias"],
+  );
+});
+
+test("public search matches short description and attribute names", () => {
+  let catalog = createAttribute(emptyCatalog(), { kind: "group", name: "سبک بصری", slug: "visual-styles" }, NOW);
+  const group = catalog.attributeGroups[0];
+  assert.ok(group);
+  catalog = createAttribute(catalog, { kind: "value", groupId: group.id, name: "رترو" }, NOW);
+  const retro = catalog.attributeValues.find((value) => value.name === "رترو");
+  assert.ok(retro);
+  retro.slug = "retro";
+
+  const made = createDesign(
+    catalog,
+    writeInput({
+      slug: "hidden-title",
+      title: "طرح ویژه",
+      shortDescription: "نوستالژی دهه هفتاد",
+      attributeValueIds: [retro.id],
+      imagePath: "/designed/hidden-title.webp",
+      thumbnailPath: "/designed/thumbs/hidden-title.webp",
+    }),
+    NOW,
+  );
+  catalog = made.catalog;
+  for (const design of catalog.designs) {
+    design.mockups = [readyMockup(design.imagePath, design.thumbnailPath)];
+  }
+
+  assert.equal(queryPublicDesigns(catalog, { q: "نوستالژی" }).total, 1);
+  assert.equal(queryPublicDesigns(catalog, { q: "رترو" }).total, 1);
+  assert.equal(queryPublicDesigns(catalog, { q: "ناموجود" }).total, 0);
+});
+
 function readyMockup(imagePath: string, thumbnailPath: string): MockupRecord {
   return {
     templateId: "case",

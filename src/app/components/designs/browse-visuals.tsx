@@ -219,6 +219,7 @@ export function sectionLayout(slug: string, index: number): SectionLayout {
 
 export function colorSwatch(label: string): string | "split" | null {
   if (label === "چندرنگ") return "split";
+  if (label === "تک‌رنگ" || label === "دورنگ") return null;
   return SWATCHES[label] ?? null;
 }
 

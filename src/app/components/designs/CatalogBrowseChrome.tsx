@@ -2,7 +2,7 @@
 
 import { ChevronDown, SlidersHorizontal, X, type LucideIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from "react";
 
 import BrowseLink from "@/app/components/designs/BrowseLink";
 import StorefrontToolbar from "@/app/components/designs/StorefrontToolbar";
@@ -26,8 +26,73 @@ import {
   type BrowseShell,
   type BrowseSort,
 } from "@/lib/catalog/browse";
+import { isColorModeSlug, relatedFilterSuggestions } from "@/lib/catalog/related-filters";
+import type { DesignCatalog } from "@/lib/catalog/schema";
 import { lockPageScroll } from "@/lib/scroll-lock";
 import { cn } from "@/lib/utils";
+
+const COLOR_MODE_ORDER = ["single-color", "duo", "multicolor"];
+
+function browseCatalogFromShell(shell: BrowseShell): DesignCatalog {
+  const now = "1970-01-01T00:00:00.000Z";
+  const categories = shell.categories.flatMap((root) => [
+    {
+      id: `browse-cat-${root.slug}`,
+      name: root.name,
+      slug: root.slug,
+      parentId: null,
+      description: "",
+      seoTitle: "",
+      seoDescription: "",
+      coverImage: "",
+      status: "active" as const,
+      sortOrder: 0,
+      createdAt: now,
+      updatedAt: now,
+    },
+    ...root.children.map((child) => ({
+      id: `browse-cat-${child.slug}`,
+      name: child.name,
+      slug: child.slug,
+      parentId: `browse-cat-${root.slug}`,
+      description: "",
+      seoTitle: "",
+      seoDescription: "",
+      coverImage: "",
+      status: "active" as const,
+      sortOrder: 0,
+      createdAt: now,
+      updatedAt: now,
+    })),
+  ]);
+  return {
+    version: 1,
+    categories,
+    designs: [],
+    redirects: [],
+    categoryRedirects: [],
+    attributeGroups: shell.groups.map((group, index) => ({
+      id: group.id,
+      name: group.label,
+      slug: group.slug,
+      sortOrder: index,
+      createdAt: now,
+      updatedAt: now,
+    })),
+    attributeValues: shell.groups.flatMap((group) =>
+      group.options.map((option, index) => ({
+        id: option.id,
+        groupId: group.id,
+        name: option.label,
+        slug: option.slug,
+        sortOrder: index,
+        createdAt: now,
+        updatedAt: now,
+      })),
+    ),
+    collections: [],
+  };
+}
 
 type Props = {
   shell: BrowseShell;
@@ -119,12 +184,34 @@ export default function CatalogBrowseChrome({ shell, children }: Props) {
   };
 
   const colorGroup = shell.groups.find((group) => group.slug === "colors");
+  const colorModes = (colorGroup?.options ?? [])
+    .filter((option) => isColorModeSlug(option.slug))
+    .sort((a, b) => COLOR_MODE_ORDER.indexOf(a.slug) - COLOR_MODE_ORDER.indexOf(b.slug));
+  const colorHues = (colorGroup?.options ?? []).filter((option) => !isColorModeSlug(option.slug));
+
+  const guidedSuggestions = useMemo(() => {
+    const catalog = browseCatalogFromShell(shell);
+    const available = new Set(shell.groups.flatMap((group) => group.options.map((option) => option.id)));
+    const categorySlugs = [activeSlug, activeRoot?.slug].filter(Boolean) as string[];
+    return relatedFilterSuggestions({
+      catalog,
+      categorySlugs,
+      attributeValueIds: query.attrs,
+      availableValueIds: available,
+    });
+  }, [activeRoot?.slug, activeSlug, query.attrs, shell]);
 
   return (
     <div>
       <div className="mb-4">
         <StorefrontToolbar
-          colors={(colorGroup?.options ?? []).map((option) => ({
+          colorModes={colorModes.map((option) => ({
+            id: option.id,
+            label: option.label,
+            active: query.attrs.includes(option.id),
+            href: stay({ attrs: toggleBrowseToken(query.attrs, option.id) }),
+          }))}
+          colors={colorHues.map((option) => ({
             id: option.id,
             label: option.label,
             active: query.attrs.includes(option.id),
@@ -153,6 +240,25 @@ export default function CatalogBrowseChrome({ shell, children }: Props) {
             </button>
           }
         />
+        {guidedSuggestions.length > 0 ? (
+          <div className="mt-2 rounded-2xl border border-border bg-card/60 p-2">
+            <p className="mb-1.5 px-1 text-xs font-bold text-cyan-300">پیشنهاد فیلتر</p>
+            <ul className="flex flex-wrap gap-1.5">
+              {guidedSuggestions.map((item) => (
+                <li key={item.id}>
+                  <BrowseLink
+                    href={stay({ attrs: toggleBrowseToken(query.attrs, item.id) })}
+                    showLoader
+                    className="inline-flex min-h-9 items-center rounded-full border border-cyan-400/40 bg-cyan-500/10 px-2.5 text-xs font-semibold text-cyan-100"
+                    title={item.groupLabel}
+                  >
+                    + {item.label}
+                  </BrowseLink>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
       </div>
 
       <div className="lg:grid lg:grid-cols-[18rem_minmax(0,1fr)] lg:items-start lg:gap-8">

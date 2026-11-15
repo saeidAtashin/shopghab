@@ -2,10 +2,10 @@ import { Suspense } from "react";
 
 import CatalogBrowseChrome from "@/app/components/designs/CatalogBrowseChrome";
 import { publicBrowseShell } from "@/lib/catalog/logic";
-import { readCatalog } from "@/lib/catalog/store";
+import { ensureCatalogTaxonomy } from "@/lib/catalog/store";
 
 export default function DesignsBrowseLayout({ children }: { children: React.ReactNode }) {
-  const shell = publicBrowseShell(readCatalog());
+  const shell = publicBrowseShell(ensureCatalogTaxonomy());
 
   return (
     <main

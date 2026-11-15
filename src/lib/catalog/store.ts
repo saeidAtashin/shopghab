@@ -20,6 +20,7 @@ import { dirname, join } from "node:path";
 
 import { emptyCatalog } from "./logic";
 import { catalogSchema, parseCatalogDocument, type DesignCatalog } from "./schema";
+import { seedCatalogTaxonomy } from "./taxonomy";
 
 type CacheEntry = {
   mtimeMs: number;
@@ -183,4 +184,13 @@ export function mutateCatalog<T>(
     writeCatalogSync(catalog);
     return result;
   });
+}
+
+/** Idempotent taxonomy seed; persists only when new records are added. */
+export function ensureCatalogTaxonomy(): DesignCatalog {
+  const current = readCatalog();
+  const seeded = seedCatalogTaxonomy(current);
+  if (seeded.created === 0) return current;
+  writeCatalogSync(seeded.catalog);
+  return structuredClone(seeded.catalog);
 }

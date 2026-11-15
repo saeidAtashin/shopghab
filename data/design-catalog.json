@@ -42863,13 +42863,15 @@
       "thumbnailPath": "/designed/thumbs/download-46.webp",
       "width": 736,
       "height": 920,
-      "title": "طرح قاب عمومی Download 46",
+      "title": "طرح قاب سنتی شعر جان من ماست هنوز",
       "titleEn": "",
       "slug": "download-46",
-      "shortDescription": "طرح قاب عمومی Download 46 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 46 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب سنتی شعر جان من ماست هنوز — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب سنتی شعر جان من ماست هنوز — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_98623739ef58",
+        "cat_bfc7b1577465",
+        "cat_903040ac9b10"
       ],
       "tags": [
         "عمومی",
@@ -42878,9 +42880,27 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
-      "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 46",
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_57e1c5f643c3",
+        "val_c72250f3a72d",
+        "val_d1906c204402",
+        "val_608897c3070e",
+        "val_ff48b292c601",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_a300bcc5ca78",
+        "val_5a51bb33f11c",
+        "val_75c8954ad774",
+        "val_6a9f398bf62d",
+        "val_de0003cc0d8f"
+      ],
+      "collectionIds": [
+        "col_9166fc678df6"
+      ],
+      "alt": "طرح قاب موبایل سنتی شعر جان من ماست هنوز — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -42920,16 +42940,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب سنتی شعر جان من ماست هنوز برای قاب موبایل",
+      "seoDescription": "طرح آماده قاب سنتی شعر جان من ماست هنوز برای قاب موبایل در دسته هنر و فرهنگ ایرانی. چاپ اختصاصی و ارسال سراسری از شاپ قاب. پیش‌نمایش چاپ قبل از تولید.",
+      "ogImage": "/designed/download-46.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 589,
+      "sortOrder": 7,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:20.745Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T11:38:44.840Z",
       "publishedAt": "2026-10-18T15:13:20.745Z"
     },
     {
@@ -42941,13 +42961,16 @@
       "thumbnailPath": "/designed/thumbs/download-47.webp",
       "width": 736,
       "height": 920,
-      "title": "طرح قاب عمومی Download 47",
+      "title": "طرح قاب سنتی فرش و متن قانع به خیالی ز تو بودیم",
       "titleEn": "",
       "slug": "download-47",
-      "shortDescription": "طرح قاب عمومی Download 47 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 47 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب سنتی فرش و متن قانع به خیالی ز تو بودیم — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب سنتی فرش و متن قانع به خیالی ز تو بودیم — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_bfc7b1577465",
+        "cat_98623739ef58",
+        "cat_c4cff141e7c1",
+        "cat_903040ac9b10"
       ],
       "tags": [
         "عمومی",
@@ -42956,9 +42979,30 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
-      "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 47",
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_57e1c5f643c3",
+        "val_a2d7d95da1b8",
+        "val_d1906c204402",
+        "val_c72250f3a72d",
+        "val_b7af8e1a0ecd",
+        "val_608897c3070e",
+        "val_97724dd66cac",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_9eaa01587c60",
+        "val_5a51bb33f11c",
+        "val_a300bcc5ca78",
+        "val_75c8954ad774",
+        "val_de0003cc0d8f",
+        "val_6a9f398bf62d"
+      ],
+      "collectionIds": [
+        "col_8babf2445430"
+      ],
+      "alt": "طرح قاب موبایل سنتی فرش و متن قانع به خیالی ز تو بودیم — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -42998,16 +43042,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب سنتی فرش و متن قانع به خیالی ز تو ب… برای قاب موبایل",
+      "seoDescription": "طرح قاب سنتی فرش و متن قانع به خیالی ز تو… از دسته تایپوگرافی و نوشته برای چاپ روی قاب موبایل در شاپ قاب. قابل سفارش برای آیفون و اندروید. انتخاب مدل گوشی در",
+      "ogImage": "/designed/download-47.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 590,
+      "sortOrder": 7,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:20.947Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T11:40:14.373Z",
       "publishedAt": "2026-10-18T15:13:20.947Z"
     },
     {
@@ -43019,13 +43063,16 @@
       "thumbnailPath": "/designed/thumbs/download-48.webp",
       "width": 736,
       "height": 920,
-      "title": "طرح قاب عمومی Download 48",
+      "title": "طرح قاب سنتی متن تو همه در خون منی",
       "titleEn": "",
       "slug": "download-48",
-      "shortDescription": "طرح قاب عمومی Download 48 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 48 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب سنتی متن تو همه در خون منی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب سنتی متن تو همه در خون منی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_98623739ef58",
+        "cat_b4ac45841a0d",
+        "cat_bfc7b1577465",
+        "cat_c4cff141e7c1"
       ],
       "tags": [
         "عمومی",
@@ -43034,9 +43081,30 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
-      "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 48",
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_5e6ff0463bec",
+        "val_3e300ac7bc4c",
+        "val_c72250f3a72d",
+        "val_a2d7d95da1b8",
+        "val_d1906c204402",
+        "val_608897c3070e",
+        "val_385daa843360",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_a300bcc5ca78",
+        "val_9eaa01587c60",
+        "val_75c8954ad774",
+        "val_724549f44e75",
+        "val_6a9f398bf62d"
+      ],
+      "collectionIds": [
+        "col_5ebf7d2b500a"
+      ],
+      "alt": "طرح قاب موبایل سنتی متن تو همه در خون منی — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -43076,16 +43144,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب سنتی متن تو همه در خون منی برای قاب موبایل",
+      "seoDescription": "قاب موبایل با طرح قاب سنتی متن تو همه در خون منی (هنر و فرهنگ ایرانی) در شاپ قاب. طرح آماده با پیش‌نمایش و ارسال به سراسر ایران. سبک طرح: عمومی.",
+      "ogImage": "/designed/download-48.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 591,
+      "sortOrder": 7,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:21.143Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T11:41:40.192Z",
       "publishedAt": "2026-10-18T15:13:21.143Z"
     },
     {
@@ -43097,13 +43165,16 @@
       "thumbnailPath": "/designed/thumbs/download-49.webp",
       "width": 736,
       "height": 920,
-      "title": "طرح قاب عمومی Download 49",
+      "title": "طرح قاب سنتی شعر دل و جانم به تو مشغول",
       "titleEn": "",
       "slug": "download-49",
-      "shortDescription": "طرح قاب عمومی Download 49 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 49 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب سنتی شعر دل و جانم به تو مشغول — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب سنتی شعر دل و جانم به تو مشغول — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_98623739ef58",
+        "cat_bfc7b1577465",
+        "cat_c4cff141e7c1",
+        "cat_b4ac45841a0d"
       ],
       "tags": [
         "عمومی",
@@ -43112,9 +43183,29 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
-      "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 49",
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_57e1c5f643c3",
+        "val_a2d7d95da1b8",
+        "val_d1906c204402",
+        "val_c72250f3a72d",
+        "val_e4f8d94c7291",
+        "val_608897c3070e",
+        "val_97724dd66cac",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_a300bcc5ca78",
+        "val_75c8954ad774",
+        "val_de0003cc0d8f",
+        "val_6a9f398bf62d"
+      ],
+      "collectionIds": [
+        "col_5ebf7d2b500a"
+      ],
+      "alt": "طرح قاب موبایل سنتی شعر دل و جانم به تو مشغول — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -43154,16 +43245,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب سنتی شعر دل و جانم به تو مشغول برای قاب موبایل",
+      "seoDescription": "در شاپ قاب طرح قاب سنتی شعر دل و جانم به تو مشغول از دسته هنر و فرهنگ ایرانی را روی قاب گوشی چاپ و به ایران ارسال کنید. مناسب هدیه و استفاده روزمره.",
+      "ogImage": "/designed/download-49.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 592,
+      "sortOrder": 7,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:21.445Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T11:42:59.728Z",
       "publishedAt": "2026-10-18T15:13:21.445Z"
     },
     {
@@ -43175,13 +43266,14 @@
       "thumbnailPath": "/designed/thumbs/download-5.webp",
       "width": 736,
       "height": 1308,
-      "title": "طرح قاب عمومی Download 5",
+      "title": "طرح قاب پترن پلنگی",
       "titleEn": "",
       "slug": "download-5",
-      "shortDescription": "طرح قاب عمومی Download 5 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 5 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب پترن پلنگی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب پترن پلنگی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_c59ddd3f7ba6",
+        "cat_13c8bb6d4284"
       ],
       "tags": [
         "عمومی",
@@ -43190,7 +43282,21 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_f9d01c246f4c",
+        "val_3e300ac7bc4c",
+        "val_97724dd66cac",
+        "val_385daa843360",
+        "val_f7dc3ec79a1a",
+        "val_b6b58f07076f",
+        "val_9975d12780e0",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_bf24a5587147",
+        "val_c67b7018d3ca"
+      ],
       "collectionIds": [],
       "alt": "طرح قاب موبایل طرح قاب عمومی Download 5 — شاپ قاب",
       "gallery": [],
@@ -43232,16 +43338,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "طرح قاب عمومی Download 5 برای قاب موبایل",
+      "seoTitle": "طرح قاب پترن پلنگی برای قاب موبایل",
       "seoDescription": "در شاپ قاب طرح قاب عمومی Download 5 از دسته عمومی برای فروش قاب موبایل چاپ و ارسال می‌شود. انتخاب مدل گوشی و ثبت سفارش در همان صفحه. چاپ اختصاصی با امکان",
-      "ogImage": "",
+      "ogImage": "/designed/download-5.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 437,
+      "sortOrder": 70,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T08:26:59.867Z",
-      "updatedAt": "2026-10-18T15:18:33.376Z",
+      "updatedAt": "2026-11-15T11:44:23.996Z",
       "publishedAt": "2026-10-18T08:26:59.867Z"
     },
     {
@@ -43253,13 +43359,14 @@
       "thumbnailPath": "/designed/thumbs/download-5-2.webp",
       "width": 736,
       "height": 1472,
-      "title": "طرح قاب عمومی Download 5",
+      "title": "طرح قاب فانتزی گربه های رنگی",
       "titleEn": "",
       "slug": "download-5-2",
-      "shortDescription": "طرح قاب عمومی Download 5 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 5 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب فانتزی گربه های رنگی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب فانتزی گربه های رنگی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_043500a99944",
+        "cat_adada2330049"
       ],
       "tags": [
         "عمومی",
@@ -43268,9 +43375,23 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_7b48bcbd88e9",
+        "val_5e6ff0463bec",
+        "val_0c93794b161c",
+        "val_5ccfe1758d08",
+        "val_97724dd66cac",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_bf24a5587147"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 5",
+      "alt": "طرح قاب موبایل فانتزی گربه های رنگی — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -43310,16 +43431,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب فانتزی گربه های رنگی برای قاب موبایل",
+      "seoDescription": "قاب موبایل با طرح قاب فانتزی گربه های رنگی (فانتزی، کارتونی و کیوت) در شاپ قاب. طرح آماده با پیش‌نمایش و ارسال به سراسر ایران. سبک طرح: عمومی.",
+      "ogImage": "/designed/download-5-2.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 593,
+      "sortOrder": 70,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:21.699Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T11:45:35.600Z",
       "publishedAt": "2026-10-18T15:13:21.699Z"
     },
     {
@@ -43331,13 +43452,16 @@
       "thumbnailPath": "/designed/thumbs/download-50.webp",
       "width": 655,
       "height": 1164,
-      "title": "طرح قاب عمومی Download 50",
+      "title": "طرح قاب سنتی شعر غزلیات مولانا",
       "titleEn": "",
       "slug": "download-50",
-      "shortDescription": "طرح قاب عمومی Download 50 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 50 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب سنتی شعر غزلیات مولانا و اگر بر تو ببندد همه ره ها وگذرها — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب سنتی شعر غزلیات مولانا  و اگر بر تو ببندد همه ره ها وگذرها — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_98623739ef58",
+        "cat_bfc7b1577465",
+        "cat_c4cff141e7c1",
+        "cat_903040ac9b10"
       ],
       "tags": [
         "عمومی",
@@ -43346,9 +43470,33 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
-      "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 50",
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_57e1c5f643c3",
+        "val_3e300ac7bc4c",
+        "val_8ffce76c2bfd",
+        "val_c72250f3a72d",
+        "val_a2d7d95da1b8",
+        "val_d1906c204402",
+        "val_97724dd66cac",
+        "val_e5a34b167851",
+        "val_ff48b292c601",
+        "val_608897c3070e",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_a300bcc5ca78",
+        "val_9eaa01587c60",
+        "val_75c8954ad774",
+        "val_de0003cc0d8f",
+        "val_6a9f398bf62d"
+      ],
+      "collectionIds": [
+        "col_ddeec83aadb2"
+      ],
+      "alt": "طرح قاب موبایل سنتی شعر غزلیات مولانا — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -43388,16 +43536,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب سنتی شعر غزلیات مولانا برای قاب موبایل",
+      "seoDescription": "در شاپ قاب طرح قاب سنتی شعر غزلیات مولانا از دسته هنر و فرهنگ ایرانی را روی قاب گوشی چاپ و به ایران ارسال کنید. مناسب هدیه و استفاده روزمره.",
+      "ogImage": "/designed/download-50.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 594,
+      "sortOrder": 8,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:21.910Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T11:48:04.879Z",
       "publishedAt": "2026-10-18T15:13:21.910Z"
     },
     {
@@ -43409,13 +43557,16 @@
       "thumbnailPath": "/designed/thumbs/download-51.webp",
       "width": 736,
       "height": 1308,
-      "title": "طرح قاب عمومی Download 51",
+      "title": "طرح قاب سنتی شعر غزل مولانا و اگر بر تو ببندد همه ره ها وگذرها",
       "titleEn": "",
       "slug": "download-51",
-      "shortDescription": "طرح قاب عمومی Download 51 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 51 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب سنتی شعر غزل مولانا و اگر بر تو ببندد همه ره ها وگذرها — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب سنتی شعر غزل مولانا و اگر بر تو ببندد همه ره ها وگذرها — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_bfc7b1577465",
+        "cat_98623739ef58",
+        "cat_c4cff141e7c1",
+        "cat_903040ac9b10"
       ],
       "tags": [
         "عمومی",
@@ -43424,9 +43575,27 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_57e1c5f643c3",
+        "val_c72250f3a72d",
+        "val_a2d7d95da1b8",
+        "val_d1906c204402",
+        "val_97724dd66cac",
+        "val_608897c3070e",
+        "val_e5a34b167851",
+        "val_ff48b292c601",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_75c8954ad774",
+        "val_bf24a5587147",
+        "val_6a9f398bf62d"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 51",
+      "alt": "طرح قاب موبایل سنتی شعر غزل مولانا و اگر بر تو ببندد همه ره ها وگذرها — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -43466,16 +43635,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب سنتی شعر غزل مولانا و اگر بر تو ببن… برای قاب موبایل",
+      "seoDescription": "طرح آماده قاب سنتی شعر غزل مولانا و اگر بر تو ب… برای قاب موبایل در دسته تایپوگرافی و نوشته. چاپ اختصاصی و ارسال سراسری از شاپ قاب. پیش‌نمایش چاپ قبل از تولید.",
+      "ogImage": "/designed/download-51.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 595,
+      "sortOrder": 40,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:22.120Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T11:49:13.385Z",
       "publishedAt": "2026-10-18T15:13:22.120Z"
     },
     {
@@ -43487,13 +43656,16 @@
       "thumbnailPath": "/designed/thumbs/download-52.webp",
       "width": 720,
       "height": 1280,
-      "title": "طرح قاب عمومی Download 52",
+      "title": "طرح قاب هنری متن آرامش است عاقبت اضطراب ها",
       "titleEn": "",
       "slug": "download-52",
-      "shortDescription": "طرح قاب عمومی Download 52 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 52 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب هنری متن آرامش است عاقبت اضطراب ها — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب هنری متن آرامش است عاقبت اضطراب ها — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_98623739ef58",
+        "cat_bfc7b1577465",
+        "cat_903040ac9b10",
+        "cat_fd1802a34b5f"
       ],
       "tags": [
         "عمومی",
@@ -43502,9 +43674,28 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
-      "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 52",
+      "attributeValueIds": [
+        "val_334187eb48ee",
+        "val_f6b30a4ffae6",
+        "val_c72250f3a72d",
+        "val_e4f8d94c7291",
+        "val_b7af8e1a0ecd",
+        "val_608897c3070e",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_9eaa01587c60",
+        "val_a300bcc5ca78",
+        "val_5a51bb33f11c",
+        "val_75c8954ad774",
+        "val_6a9f398bf62d",
+        "val_724549f44e75"
+      ],
+      "collectionIds": [
+        "col_ddeec83aadb2"
+      ],
+      "alt": "طرح قاب موبایل هنری متن آرامش است عاقبت اضطراب ها — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -43544,16 +43735,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب هنری متن آرامش است عاقبت اضطراب ها برای قاب موبایل",
+      "seoDescription": "طرح قاب هنری متن آرامش است عاقبت اضطراب ها از دسته هنر و فرهنگ ایرانی برای چاپ روی قاب موبایل در شاپ قاب. قابل سفارش برای آیفون و اندروید. انتخاب مدل گوشی در",
+      "ogImage": "/designed/download-52.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 596,
+      "sortOrder": 10,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:22.250Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T11:51:50.558Z",
       "publishedAt": "2026-10-18T15:13:22.250Z"
     },
     {
@@ -43565,13 +43756,16 @@
       "thumbnailPath": "/designed/thumbs/download-53.webp",
       "width": 736,
       "height": 1308,
-      "title": "طرح قاب عمومی Download 53",
+      "title": "طرح قاب سنتی شعر و اگر بر تو ببندد همه ره ها و گذرها مولانا",
       "titleEn": "",
       "slug": "download-53",
-      "shortDescription": "طرح قاب عمومی Download 53 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 53 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب سنتی شعر و اگر بر تو ببندد همه ره ها و گذرها مولانا — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب سنتی شعر و اگر بر تو ببندد همه ره ها و گذرها مولانا — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_98623739ef58",
+        "cat_bfc7b1577465",
+        "cat_c4cff141e7c1",
+        "cat_903040ac9b10"
       ],
       "tags": [
         "عمومی",
@@ -43580,9 +43774,25 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_b7af8e1a0ecd",
+        "val_c72250f3a72d",
+        "val_8ffce76c2bfd",
+        "val_ff48b292c601",
+        "val_608897c3070e",
+        "val_97724dd66cac",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_75c8954ad774",
+        "val_de0003cc0d8f",
+        "val_6a9f398bf62d"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 53",
+      "alt": "طرح قاب موبایل سنتی شعر و اگر بر تو ببندد همه ره ها و گذرها مولانا — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -43622,16 +43832,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب سنتی شعر و اگر بر تو ببندد همه ره ه… برای قاب موبایل",
+      "seoDescription": "قاب موبایل با طرح قاب سنتی شعر و اگر بر تو ببندد همه ره… (هنر و فرهنگ ایرانی) در شاپ قاب. طرح آماده با پیش‌نمایش و ارسال به سراسر ایران. سبک طرح: عمومی.",
+      "ogImage": "/designed/download-53.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 597,
+      "sortOrder": 50,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:22.459Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T11:53:14.021Z",
       "publishedAt": "2026-10-18T15:13:22.459Z"
     },
     {
@@ -43643,13 +43853,16 @@
       "thumbnailPath": "/designed/thumbs/download-54.webp",
       "width": 394,
       "height": 496,
-      "title": "طرح قاب عمومی Download 54",
+      "title": "طرح قاب سنتی مقصود تویی",
       "titleEn": "",
       "slug": "download-54",
-      "shortDescription": "طرح قاب عمومی Download 54 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 54 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب سنتی مقصود تویی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب سنتی مقصود تویی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_98623739ef58",
+        "cat_bfc7b1577465",
+        "cat_13c8bb6d4284",
+        "cat_c4cff141e7c1"
       ],
       "tags": [
         "عمومی",
@@ -43658,9 +43871,34 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
-      "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 54",
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_57e1c5f643c3",
+        "val_3e300ac7bc4c",
+        "val_8ffce76c2bfd",
+        "val_c72250f3a72d",
+        "val_a2d7d95da1b8",
+        "val_d1906c204402",
+        "val_e4f8d94c7291",
+        "val_b7af8e1a0ecd",
+        "val_608897c3070e",
+        "val_ff48b292c601",
+        "val_385daa843360",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_a300bcc5ca78",
+        "val_9eaa01587c60",
+        "val_75c8954ad774",
+        "val_de0003cc0d8f",
+        "val_6a9f398bf62d",
+        "val_c67b7018d3ca"
+      ],
+      "collectionIds": [
+        "col_25340de916ab"
+      ],
+      "alt": "طرح قاب موبایل سنتی مقصود تویی — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -43700,16 +43938,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب سنتی مقصود تویی برای قاب موبایل",
+      "seoDescription": "در شاپ قاب طرح قاب سنتی مقصود تویی از دسته هنر و فرهنگ ایرانی را روی قاب گوشی چاپ و به ایران ارسال کنید. مناسب هدیه و استفاده روزمره. پیش‌نمایش چاپ قبل از",
+      "ogImage": "/designed/download-54.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 598,
+      "sortOrder": 40,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:22.561Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T11:54:31.158Z",
       "publishedAt": "2026-10-18T15:13:22.561Z"
     },
     {
@@ -43721,13 +43959,18 @@
       "thumbnailPath": "/designed/thumbs/download-55.webp",
       "width": 736,
       "height": 1308,
-      "title": "طرح قاب عمومی Download 55",
+      "title": "طرح قاب کلاژ سنتی صبر",
       "titleEn": "",
       "slug": "download-55",
-      "shortDescription": "طرح قاب عمومی Download 55 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 55 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب کلاژ سنتی صبر — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب کلاژ سنتی صبر — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_13c8bb6d4284",
+        "cat_c59ddd3f7ba6",
+        "cat_98623739ef58",
+        "cat_bfc7b1577465",
+        "cat_c4cff141e7c1",
+        "cat_903040ac9b10"
       ],
       "tags": [
         "عمومی",
@@ -43736,9 +43979,35 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
-      "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 55",
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_57e1c5f643c3",
+        "val_3e300ac7bc4c",
+        "val_b7af8e1a0ecd",
+        "val_e4f8d94c7291",
+        "val_8ffce76c2bfd",
+        "val_c72250f3a72d",
+        "val_d1906c204402",
+        "val_a2d7d95da1b8",
+        "val_97724dd66cac",
+        "val_608897c3070e",
+        "val_ff48b292c601",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_a300bcc5ca78",
+        "val_9eaa01587c60",
+        "val_75c8954ad774",
+        "val_bf24a5587147",
+        "val_de0003cc0d8f",
+        "val_6a9f398bf62d"
+      ],
+      "collectionIds": [
+        "col_9166fc678df6"
+      ],
+      "alt": "طرح قاب موبایل کلاژ سنتی صبر — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -43778,16 +44047,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب کلاژ سنتی صبر برای قاب موبایل",
+      "seoDescription": "طرح آماده قاب کلاژ سنتی صبر برای قاب موبایل در دسته انتزاعی و مینیمال. چاپ اختصاصی و ارسال سراسری از شاپ قاب. پیش‌نمایش چاپ قبل از تولید. انتخاب مدل گوشی در",
+      "ogImage": "/designed/download-55.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 599,
+      "sortOrder": 2,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:26.045Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T11:55:38.743Z",
       "publishedAt": "2026-10-18T15:13:26.045Z"
     },
     {
@@ -43799,13 +44068,15 @@
       "thumbnailPath": "/designed/thumbs/download-56.webp",
       "width": 736,
       "height": 920,
-      "title": "طرح قاب عمومی Download 56",
+      "title": "طرح قاب کلاژ سنتی متن چشم بد دور که هم جانی و هم جانانی",
       "titleEn": "",
       "slug": "download-56",
-      "shortDescription": "طرح قاب عمومی Download 56 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 56 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب کلاژ سنتی متن چشم بد دور که هم جانی و هم جانانی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب کلاژ سنتی متن چشم بد دور که هم جانی و هم جانانی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_bfc7b1577465",
+        "cat_98623739ef58",
+        "cat_c4cff141e7c1"
       ],
       "tags": [
         "عمومی",
@@ -43814,9 +44085,32 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
-      "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 56",
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_57e1c5f643c3",
+        "val_3e300ac7bc4c",
+        "val_b7af8e1a0ecd",
+        "val_8ffce76c2bfd",
+        "val_c72250f3a72d",
+        "val_a2d7d95da1b8",
+        "val_d1906c204402",
+        "val_ff48b292c601",
+        "val_97724dd66cac",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_a300bcc5ca78",
+        "val_9eaa01587c60",
+        "val_75c8954ad774",
+        "val_bf24a5587147",
+        "val_6a9f398bf62d"
+      ],
+      "collectionIds": [
+        "col_5ebf7d2b500a"
+      ],
+      "alt": "طرح قاب موبایل کلاژ سنتی متن چشم بد دور که هم جانی و هم جانانی — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -43856,16 +44150,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب کلاژ سنتی متن چشم بد دور که هم جانی… برای قاب موبایل",
+      "seoDescription": "طرح قاب کلاژ سنتی متن چشم بد دور که هم جا… از دسته تایپوگرافی و نوشته برای چاپ روی قاب موبایل در شاپ قاب. قابل سفارش برای آیفون و اندروید. انتخاب مدل گوشی در",
+      "ogImage": "/designed/download-56.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 600,
+      "sortOrder": 10,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:26.236Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T12:01:14.211Z",
       "publishedAt": "2026-10-18T15:13:26.236Z"
     },
     {
@@ -43877,13 +44171,17 @@
       "thumbnailPath": "/designed/thumbs/download-57.webp",
       "width": 736,
       "height": 920,
-      "title": "طرح قاب عمومی Download 57",
+      "title": "طرح قاب سنتی متن دل و جانم به تو مشغول",
       "titleEn": "",
       "slug": "download-57",
-      "shortDescription": "طرح قاب عمومی Download 57 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 57 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب سنتی متن دل و جانم به تو مشغول — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب سنتی متن دل و جانم به تو مشغول — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_13c8bb6d4284",
+        "cat_98623739ef58",
+        "cat_bfc7b1577465",
+        "cat_c4cff141e7c1",
+        "cat_903040ac9b10"
       ],
       "tags": [
         "عمومی",
@@ -43892,9 +44190,32 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_57e1c5f643c3",
+        "val_ac1a69035bb9",
+        "val_3e300ac7bc4c",
+        "val_c72250f3a72d",
+        "val_8ffce76c2bfd",
+        "val_a2d7d95da1b8",
+        "val_d1906c204402",
+        "val_e4f8d94c7291",
+        "val_b7af8e1a0ecd",
+        "val_97724dd66cac",
+        "val_608897c3070e",
+        "val_ff48b292c601",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_75c8954ad774",
+        "val_de0003cc0d8f",
+        "val_6a9f398bf62d",
+        "val_c67b7018d3ca"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 57",
+      "alt": "طرح قاب موبایل سنتی متن دل و جانم به تو مشغول — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -43934,16 +44255,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب سنتی متن دل و جانم به تو مشغول برای قاب موبایل",
+      "seoDescription": "قاب موبایل با طرح قاب سنتی متن دل و جانم به تو مشغول (انتزاعی و مینیمال) در شاپ قاب. طرح آماده با پیش‌نمایش و ارسال به سراسر ایران. سبک طرح: عمومی.",
+      "ogImage": "/designed/download-57.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 601,
+      "sortOrder": 11,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:26.825Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T12:02:07.906Z",
       "publishedAt": "2026-10-18T15:13:26.825Z"
     },
     {
@@ -43955,13 +44276,16 @@
       "thumbnailPath": "/designed/thumbs/download-58.webp",
       "width": 736,
       "height": 1078,
-      "title": "طرح قاب عمومی Download 58",
+      "title": "طرح قاب انتزاعی پرچم ایران",
       "titleEn": "",
       "slug": "download-58",
-      "shortDescription": "طرح قاب عمومی Download 58 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 58 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب انتزاعی پرچم ایران — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب انتزاعی پرچم ایران — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_0feae16d5536",
+        "cat_98623739ef58",
+        "cat_c4cff141e7c1",
+        "cat_fd1802a34b5f"
       ],
       "tags": [
         "عمومی",
@@ -43970,9 +44294,28 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_a3d2f3d093a8",
+        "val_57e1c5f643c3",
+        "val_ac1a69035bb9",
+        "val_3e300ac7bc4c",
+        "val_b7af8e1a0ecd",
+        "val_cc09f73b02a0",
+        "val_a2d7d95da1b8",
+        "val_d1906c204402",
+        "val_e4f8d94c7291",
+        "val_97724dd66cac",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_c67b7018d3ca"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 58",
+      "alt": "طرح قاب موبایل انتزاعی پرچم ایران — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -44012,16 +44355,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب انتزاعی پرچم ایران برای قاب موبایل",
+      "seoDescription": "در شاپ قاب طرح قاب انتزاعی پرچم ایران از دسته عمومی را روی قاب گوشی چاپ و به ایران ارسال کنید. مناسب هدیه و استفاده روزمره. پیش‌نمایش چاپ قبل از تولید.",
+      "ogImage": "/designed/download-58.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 602,
+      "sortOrder": 11,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:27.063Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T12:03:18.844Z",
       "publishedAt": "2026-10-18T15:13:27.063Z"
     },
     {
@@ -44033,13 +44376,16 @@
       "thumbnailPath": "/designed/thumbs/download-59.webp",
       "width": 675,
       "height": 1200,
-      "title": "طرح قاب عمومی Download 59",
+      "title": "طرح قاب سنتی کلاژ اسب و فرش",
       "titleEn": "",
       "slug": "download-59",
-      "shortDescription": "طرح قاب عمومی Download 59 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 59 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب سنتی کلاژ اسب و فرش — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب سنتی کلاژ اسب و فرش — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_13c8bb6d4284",
+        "cat_c59ddd3f7ba6",
+        "cat_adada2330049",
+        "cat_98623739ef58"
       ],
       "tags": [
         "عمومی",
@@ -44048,9 +44394,24 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_a3d2f3d093a8",
+        "val_57e1c5f643c3",
+        "val_3e300ac7bc4c",
+        "val_8ffce76c2bfd",
+        "val_97724dd66cac",
+        "val_ff48b292c601",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 59",
+      "alt": "طرح قاب موبایل سنتی کلاژ اسب و فرش — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -44090,16 +44451,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب سنتی کلاژ اسب و فرش برای قاب موبایل",
+      "seoDescription": "طرح آماده قاب سنتی کلاژ اسب و فرش برای قاب موبایل در دسته انتزاعی و مینیمال. چاپ اختصاصی و ارسال سراسری از شاپ قاب. پیش‌نمایش چاپ قبل از تولید.",
+      "ogImage": "/designed/download-59.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 603,
+      "sortOrder": 40,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:27.756Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T12:04:14.841Z",
       "publishedAt": "2026-10-18T15:13:27.756Z"
     },
     {
@@ -44111,13 +44472,15 @@
       "thumbnailPath": "/designed/thumbs/download-6.webp",
       "width": 736,
       "height": 1308,
-      "title": "طرح قاب عمومی Download 6",
+      "title": "طرح قاب کلاژ فانتری اسیدی",
       "titleEn": "",
       "slug": "download-6",
-      "shortDescription": "طرح قاب عمومی Download 6 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 6 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب کلاژ فانتری اسیدی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب کلاژ فانتری اسیدی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_0feae16d5536",
+        "cat_c59ddd3f7ba6",
+        "cat_043500a99944"
       ],
       "tags": [
         "عمومی",
@@ -44126,7 +44489,23 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_3e300ac7bc4c",
+        "val_8ffce76c2bfd",
+        "val_97724dd66cac",
+        "val_ff48b292c601",
+        "val_9975d12780e0",
+        "val_f7dc3ec79a1a",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_a300bcc5ca78",
+        "val_9eaa01587c60",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f",
+        "val_bf24a5587147"
+      ],
       "collectionIds": [],
       "alt": "طرح قاب موبایل طرح قاب عمومی Download 6 — شاپ قاب",
       "gallery": [],
@@ -44168,16 +44547,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "طرح قاب عمومی Download 6 برای قاب موبایل",
+      "seoTitle": "طرح قاب کلاژ فانتری اسیدی برای قاب موبایل",
       "seoDescription": "فروش قاب موبایل با طرح قاب عمومی Download 6، دسته عمومی، و پیش‌نمایش چاپ در شاپ قاب. چاپ اختصاصی با امکان پیش‌نمایش قبل از تولید. مناسب آیفون، سامسونگ و",
-      "ogImage": "",
+      "ogImage": "/designed/download-6.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 438,
+      "sortOrder": 10,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T08:27:00.059Z",
-      "updatedAt": "2026-10-18T15:18:33.376Z",
+      "updatedAt": "2026-11-15T12:05:21.130Z",
       "publishedAt": "2026-10-18T08:27:00.059Z"
     },
     {
@@ -44189,13 +44568,13 @@
       "thumbnailPath": "/designed/thumbs/download-6-2.webp",
       "width": 736,
       "height": 1472,
-      "title": "طرح قاب عمومی Download 6",
+      "title": "طرح قاب کیوت و فانتزی گلدوزی",
       "titleEn": "",
       "slug": "download-6-2",
-      "shortDescription": "طرح قاب عمومی Download 6 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 6 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب کیوت و فانتزی گلدوزی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب کیوت و فانتزی گلدوزی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_043500a99944"
       ],
       "tags": [
         "عمومی",
@@ -44204,9 +44583,24 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
-      "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 6",
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_3e300ac7bc4c",
+        "val_cc09f73b02a0",
+        "val_97724dd66cac",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f",
+        "val_bf24a5587147"
+      ],
+      "collectionIds": [
+        "col_5ebf7d2b500a"
+      ],
+      "alt": "طرح قاب موبایل کیوت و فانتزی گلدوزی — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -44246,16 +44640,16 @@
           "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب کیوت و فانتزی گلدوزی برای قاب موبایل",
+      "seoDescription": "در شاپ قاب طرح قاب کیوت و فانتزی گلدوزی از دسته فانتزی، کارتونی و کیوت را روی قاب گوشی چاپ و به ایران ارسال کنید. مناسب هدیه و استفاده روزمره.",
+      "ogImage": "/designed/download-6-2.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 604,
+      "sortOrder": 8,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:28.004Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-15T12:07:39.121Z",
       "publishedAt": "2026-10-18T15:13:28.004Z"
     },
     {
@@ -64447,6 +64841,24 @@
       "sortOrder": 18,
       "createdAt": "2026-10-16T19:38:05.400Z",
       "updatedAt": "2026-10-16T19:38:05.400Z"
+    },
+    {
+      "id": "val_919457bc7f3a",
+      "groupId": "grp_b33aea7455be",
+      "name": "تک‌رنگ",
+      "slug": "single-color",
+      "sortOrder": 14,
+      "createdAt": "2026-11-15T12:13:05.412Z",
+      "updatedAt": "2026-11-15T12:13:05.412Z"
+    },
+    {
+      "id": "val_d3c5da27e6dd",
+      "groupId": "grp_b33aea7455be",
+      "name": "دورنگ",
+      "slug": "duo",
+      "sortOrder": 15,
+      "createdAt": "2026-11-15T12:13:05.412Z",
+      "updatedAt": "2026-11-15T12:13:05.412Z"
     }
   ],
   "collections": [

@@ -10,6 +10,13 @@ import AdminSelect from "@/app/components/admin/AdminSelect";
 import { adminJson } from "@/app/components/admin/AdminShell";
 import CategoryMultiSelect from "@/app/components/admin/CategoryMultiSelect";
 import {
+  GuidedSuggestionRow,
+  InlineAttributeValueCreate,
+  InlineCategoryCreate,
+  InlineCollectionCreate,
+  TaxonomyHint,
+} from "@/app/components/admin/InlineTaxonomyCreate";
+import {
   autoFlagsForDesign,
   emptyDesignAutoFlags,
   resolveDesignAutos,
@@ -17,6 +24,7 @@ import {
   type DesignAutoKey,
   type DesignAutoSource,
 } from "@/lib/catalog/design-autofill";
+import { relatedFilterSuggestions } from "@/lib/catalog/related-filters";
 import { designedAssetUrl } from "@/lib/designed-assets";
 import {
   designWriteSchema,
@@ -24,6 +32,7 @@ import {
   type AttributeValueRecord,
   type CategoryRecord,
   type CollectionRecord,
+  type DesignCatalog,
   type DesignRecord,
   type DesignWriteInput,
 } from "@/lib/catalog/schema";
@@ -129,9 +138,21 @@ type Props = {
   groups: AttributeGroupRecord[];
   values: AttributeValueRecord[];
   collections: CollectionRecord[];
+  onCategoryCreated?: (category: CategoryRecord) => void;
+  onAttributeValueCreated?: (value: AttributeValueRecord) => void;
+  onCollectionCreated?: (collection: CollectionRecord) => void;
 };
 
-export default function DesignEditorForm({ design, categories, groups, values, collections }: Props) {
+export default function DesignEditorForm({
+  design,
+  categories,
+  groups,
+  values,
+  collections,
+  onCategoryCreated,
+  onAttributeValueCreated,
+  onCollectionCreated,
+}: Props) {
   const router = useRouter();
   const defaults = design ? fromDesign(design) : emptyDesign();
   const [tagsText, setTagsText] = useState(defaults.tags.join("، "));
@@ -284,6 +305,31 @@ export default function DesignEditorForm({ design, categories, groups, values, c
 
   const sortedGroups = [...groups].sort((a, b) => a.sortOrder - b.sortOrder);
 
+  const taxonomyCatalog = useMemo(
+    () =>
+      ({
+        version: 1,
+        categories,
+        attributeGroups: groups,
+        attributeValues: values,
+        collections,
+        designs: [],
+        redirects: [],
+        categoryRedirects: [],
+      }) as DesignCatalog,
+    [categories, collections, groups, values],
+  );
+
+  const guidedSuggestions = useMemo(
+    () =>
+      relatedFilterSuggestions({
+        catalog: taxonomyCatalog,
+        categoryIds: selectedIds,
+        attributeValueIds: selectedAttributeIds,
+      }),
+    [selectedAttributeIds, selectedIds, taxonomyCatalog],
+  );
+
   return (
     <form
       onSubmit={form.handleSubmit(onSubmit)}
@@ -329,10 +375,23 @@ export default function DesignEditorForm({ design, categories, groups, values, c
         </Section>
 
         <Section title="دسته‌بندی">
+          <TaxonomyHint>
+            دسته‌ها، ویژگی‌ها (از جمله سبک بصری و رنگ) و کالکشن‌ها فیلترهای فروشگاه و صفحات سئو را می‌سازند.
+            می‌توانید همین‌جا مورد جدید بسازید؛ بلافاصله به این طرح هم اضافه می‌شود.
+          </TaxonomyHint>
           <CategoryMultiSelect
             categories={categories}
             selectedIds={selectedIds}
             onChange={setSelectedIds}
+          />
+          <InlineCategoryCreate
+            categories={categories}
+            onCreated={(category) => {
+              onCategoryCreated?.(category);
+              setSelectedIds((current) =>
+                current.includes(category.id) ? current : [...current, category.id],
+              );
+            }}
           />
 
           <div>
@@ -366,11 +425,29 @@ export default function DesignEditorForm({ design, categories, groups, values, c
                         ),
                       )}
                     </div>
+                    <InlineAttributeValueCreate
+                      groupId={group.id}
+                      groupName={group.name}
+                      onCreated={(value) => {
+                        onAttributeValueCreated?.(value);
+                        setSelectedAttributeIds((current) =>
+                          current.includes(value.id) ? current : [...current, value.id],
+                        );
+                      }}
+                    />
                   </div>
                 );
               })}
             </div>
           </div>
+
+          <GuidedSuggestionRow
+            title="پیشنهاد ویژگی مرتبط"
+            suggestions={guidedSuggestions}
+            onApply={(id) =>
+              setSelectedAttributeIds((current) => (current.includes(id) ? current : [...current, id]))
+            }
+          />
 
           <div>
             <p className="mb-2 text-sm font-semibold">کالکشن‌ها</p>
@@ -388,6 +465,15 @@ export default function DesignEditorForm({ design, categories, groups, values, c
                 </ChoiceChip>
               ))}
             </div>
+            <InlineCollectionCreate
+              collections={collections}
+              onCreated={(collection) => {
+                onCollectionCreated?.(collection);
+                setSelectedCollectionIds((current) =>
+                  current.includes(collection.id) ? current : [...current, collection.id],
+                );
+              }}
+            />
           </div>
         </Section>
 
@@ -552,14 +638,29 @@ export default function DesignEditorForm({ design, categories, groups, values, c
               برچسب‌ها (با ویرگول)
               <input value={tagsText} onChange={(event) => setTagsText(event.target.value)} className={`${inputClass} mt-1`} />
             </label>
-            <label className="text-sm">
-              رنگ‌های غالب
-              <input value={colorsText} onChange={(event) => setColorsText(event.target.value)} className={`${inputClass} mt-1`} />
-            </label>
-            <label className="text-sm">
-              سبک بصری
-              <input value={stylesText} onChange={(event) => setStylesText(event.target.value)} className={`${inputClass} mt-1`} />
-            </label>
+            <details className="rounded-2xl border border-border/60 bg-black/10 p-3">
+              <summary className="cursor-pointer text-sm text-muted [&::-webkit-details-marker]:hidden">
+                فیلدهای متنی قدیمی (اختیاری — فیلتر فروشگاه از ویژگی‌های بالا استفاده می‌کند)
+              </summary>
+              <div className="mt-3 grid gap-3">
+                <label className="text-sm">
+                  رنگ‌های غالب (متنی)
+                  <input
+                    value={colorsText}
+                    onChange={(event) => setColorsText(event.target.value)}
+                    className={`${inputClass} mt-1`}
+                  />
+                </label>
+                <label className="text-sm">
+                  سبک بصری (متنی)
+                  <input
+                    value={stylesText}
+                    onChange={(event) => setStylesText(event.target.value)}
+                    className={`${inputClass} mt-1`}
+                  />
+                </label>
+              </div>
+            </details>
           </div>
         </details>
 
@@ -604,6 +705,8 @@ const COLOR_SWATCH: Record<string, string> = {
   "نقره‌ای": "#d4d4d8",
 };
 
+const COLOR_MODE_NAMES = new Set(["تک‌رنگ", "دورنگ", "چندرنگ"]);
+
 function ColorChip({
   name,
   selected,
@@ -613,10 +716,14 @@ function ColorChip({
   selected: boolean;
   onClick: () => void;
 }) {
-  const background =
-    name === "چندرنگ"
-      ? "conic-gradient(#ef4444, #facc15, #22c55e, #38bdf8, #a855f7, #ef4444)"
-      : COLOR_SWATCH[name] ?? "#64748b";
+  if (COLOR_MODE_NAMES.has(name)) {
+    return (
+      <ChoiceChip selected={selected} onClick={onClick}>
+        {name}
+      </ChoiceChip>
+    );
+  }
+  const background = COLOR_SWATCH[name] ?? "#64748b";
   return (
     <button
       type="button"

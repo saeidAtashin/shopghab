@@ -33,7 +33,9 @@ import {
 import type {
   AttributeCreateInput,
   AttributeDeleteInput,
+  AttributeGroupRecord,
   AttributeUpdateInput,
+  AttributeValueRecord,
   CategoryRecord,
   CategoryWriteInput,
   CollectionRecord,
@@ -960,12 +962,103 @@ function selectedAttributeGroups(catalog: DesignCatalog, ids: string[]): Map<str
   return groups;
 }
 
-function matchesAttributeSelection(design: DesignRecord, groups: Map<string, Set<string>>): boolean {
+const COLOR_MODE_SLUGS = new Set(["single-color", "duo", "multicolor"]);
+
+function attributeValueByGroupSlug(
+  catalog: DesignCatalog,
+  groupSlug: string,
+  valueSlug: string,
+): string | undefined {
+  const group = catalog.attributeGroups.find((item) => item.slug === groupSlug);
+  if (!group) return undefined;
+  return catalog.attributeValues.find((item) => item.groupId === group.id && item.slug === valueSlug)?.id;
+}
+
+function designMatchesColorMode(
+  design: DesignRecord,
+  catalog: DesignCatalog,
+  modeSlug: string,
+  modeId: string,
+): boolean {
+  if (design.attributeValueIds.includes(modeId)) return true;
+  if (modeSlug === "single-color") {
+    const monoId = attributeValueByGroupSlug(catalog, "characteristics", "mono");
+    return Boolean(monoId && design.attributeValueIds.includes(monoId));
+  }
+  return false;
+}
+
+function matchesColorsGroupSelection(
+  design: DesignRecord,
+  catalog: DesignCatalog,
+  selectedIds: Set<string>,
+): boolean {
+  const modes: { id: string; slug: string }[] = [];
+  const hues: string[] = [];
+  for (const id of selectedIds) {
+    const value = catalog.attributeValues.find((item) => item.id === id);
+    if (!value) {
+      hues.push(id);
+      continue;
+    }
+    if (COLOR_MODE_SLUGS.has(value.slug)) modes.push({ id: value.id, slug: value.slug });
+    else hues.push(value.id);
+  }
+
+  if (modes.length > 0) {
+    const modeOk = modes.some((mode) =>
+      designMatchesColorMode(design, catalog, mode.slug, mode.id),
+    );
+    if (!modeOk) return false;
+  }
+  if (hues.length > 0) {
+    if (!hues.some((id) => design.attributeValueIds.includes(id))) return false;
+  }
+  return true;
+}
+
+function matchesAttributeSelection(
+  design: DesignRecord,
+  catalog: DesignCatalog,
+  groups: Map<string, Set<string>>,
+): boolean {
   if (groups.size === 0) return true;
-  for (const ids of groups.values()) {
+  const colorsGroupId = catalog.attributeGroups.find((group) => group.slug === "colors")?.id;
+  for (const [groupId, ids] of groups) {
+    if (colorsGroupId && groupId === colorsGroupId) {
+      if (!matchesColorsGroupSelection(design, catalog, ids)) return false;
+      continue;
+    }
     if (![...ids].some((id) => design.attributeValueIds.includes(id))) return false;
   }
   return true;
+}
+
+function designMatchesPublicSearch(design: DesignRecord, catalog: DesignCatalog, q: string): boolean {
+  if (
+    design.title.toLowerCase().includes(q) ||
+    design.titleEn.toLowerCase().includes(q) ||
+    design.slug.toLowerCase().includes(q) ||
+    design.shortDescription.toLowerCase().includes(q) ||
+    design.description.toLowerCase().includes(q) ||
+    design.tags.some((tag) => tag.toLowerCase().includes(q))
+  ) {
+    return true;
+  }
+  for (const categoryId of design.categoryIds) {
+    const category = catalog.categories.find((item) => item.id === categoryId);
+    if (category?.name.toLowerCase().includes(q) || category?.slug.toLowerCase().includes(q)) {
+      return true;
+    }
+  }
+  for (const valueId of design.attributeValueIds) {
+    const value = catalog.attributeValues.find((item) => item.id === valueId);
+    if (!value) continue;
+    if (value.name.toLowerCase().includes(q) || value.slug.toLowerCase().includes(q)) return true;
+    const group = catalog.attributeGroups.find((item) => item.id === value.groupId);
+    if (group?.name.toLowerCase().includes(q)) return true;
+  }
+  return false;
 }
 
 export function compareCatalogDesigns(a: DesignRecord, b: DesignRecord): number {
@@ -1077,14 +1170,9 @@ export function queryPublicDesigns(catalog: DesignCatalog, query: PublicDesignQu
     if (!isPublicCatalogDesign(design)) return false;
     if (scopedCategories && !design.categoryIds.some((id) => scopedCategories.has(id))) return false;
     if (query.collectionId && !design.collectionIds.includes(query.collectionId)) return false;
-    if (!matchesAttributeSelection(design, attributeGroups)) return false;
+    if (!matchesAttributeSelection(design, catalog, attributeGroups)) return false;
     if (!q) return true;
-    return (
-      design.title.toLowerCase().includes(q) ||
-      design.titleEn.toLowerCase().includes(q) ||
-      design.slug.toLowerCase().includes(q) ||
-      design.tags.some((tag) => tag.toLowerCase().includes(q))
-    );
+    return designMatchesPublicSearch(design, catalog, q);
   });
 
   const sorted = sortDesigns(filtered, query.sort ?? "featured");
@@ -1265,8 +1353,20 @@ export function publicListingFilters(
   );
   for (const group of attributeGroups) {
     const options = catalog.attributeValues
-      .filter((value) => value.groupId === group.id && used.has(value.id))
-      .sort((a, b) => a.sortOrder - b.sortOrder || a.name.localeCompare(b.name, "fa"))
+      .filter((value) => {
+        if (value.groupId !== group.id) return false;
+        if (used.has(value.id)) return true;
+        // Color modes stay discoverable for SEO/toolbar even before designs are tagged.
+        return group.slug === "colors" && COLOR_MODE_SLUGS.has(value.slug);
+      })
+      .sort((a, b) => {
+        if (group.slug === "colors") {
+          const aMode = COLOR_MODE_SLUGS.has(a.slug) ? 0 : 1;
+          const bMode = COLOR_MODE_SLUGS.has(b.slug) ? 0 : 1;
+          if (aMode !== bMode) return aMode - bMode;
+        }
+        return a.sortOrder - b.sortOrder || a.name.localeCompare(b.name, "fa");
+      })
       .map((value) => ({ id: value.id, label: value.name, slug: value.slug }));
     if (options.length === 0) continue;
     groups.push({ id: group.id, label: group.name, slug: group.slug, param: "attr", options });
@@ -1717,11 +1817,15 @@ function assertCollectionSlug(catalog: DesignCatalog, slug: string, ignoreId?: s
   }
 }
 
-export function createAttribute(
+export function createAttributeWithResult(
   catalog: DesignCatalog,
   input: AttributeCreateInput,
   now = new Date().toISOString(),
-): DesignCatalog {
+): {
+  catalog: DesignCatalog;
+  group?: AttributeGroupRecord;
+  value?: AttributeValueRecord;
+} {
   const next = cloneCatalog(catalog);
   if (input.kind === "group") {
     if (next.attributeGroups.some((group) => group.slug === input.slug)) {
@@ -1730,15 +1834,16 @@ export function createAttribute(
     const sortOrder =
       input.sortOrder ??
       next.attributeGroups.reduce((max, group) => Math.max(max, group.sortOrder), 0) + 10;
-    next.attributeGroups.push({
+    const group = {
       id: randomPrefixedId("grp"),
       name: input.name,
       slug: input.slug,
       sortOrder,
       createdAt: now,
       updatedAt: now,
-    });
-    return next;
+    };
+    next.attributeGroups.push(group);
+    return { catalog: next, group };
   }
 
   if (!next.attributeGroups.some((group) => group.id === input.groupId)) {
@@ -1746,7 +1851,7 @@ export function createAttribute(
   }
   const siblings = next.attributeValues.filter((value) => value.groupId === input.groupId);
   const id = randomPrefixedId("val");
-  next.attributeValues.push({
+  const value = {
     id,
     groupId: input.groupId,
     name: input.name,
@@ -1754,8 +1859,17 @@ export function createAttribute(
     sortOrder: input.sortOrder ?? siblings.reduce((max, value) => Math.max(max, value.sortOrder), 0) + 10,
     createdAt: now,
     updatedAt: now,
-  });
-  return next;
+  };
+  next.attributeValues.push(value);
+  return { catalog: next, value };
+}
+
+export function createAttribute(
+  catalog: DesignCatalog,
+  input: AttributeCreateInput,
+  now = new Date().toISOString(),
+): DesignCatalog {
+  return createAttributeWithResult(catalog, input, now).catalog;
 }
 
 export function updateAttribute(

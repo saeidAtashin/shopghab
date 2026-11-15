@@ -69,6 +69,21 @@ export default function DesignEditorScreen({ id }: { id?: string }) {
         groups={groups}
         values={values}
         collections={collections}
+        onCategoryCreated={(category) =>
+          setCategories((current) =>
+            current.some((item) => item.id === category.id) ? current : [...current, category],
+          )
+        }
+        onAttributeValueCreated={(value) =>
+          setValues((current) =>
+            current.some((item) => item.id === value.id) ? current : [...current, value],
+          )
+        }
+        onCollectionCreated={(collection) =>
+          setCollections((current) =>
+            current.some((item) => item.id === collection.id) ? current : [...current, collection],
+          )
+        }
       />
       {design ? <DesignAdminTools designId={design.id} /> : null}
     </div>

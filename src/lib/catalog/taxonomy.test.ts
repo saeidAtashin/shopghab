@@ -52,10 +52,10 @@ function writeInput(overrides: Partial<DesignWriteInput> = {}): DesignWriteInput
 test("seed inserts the full hierarchy once and keeps edits", () => {
   const first = seedCatalogTaxonomy(emptyCatalog(), NOW);
   assert.equal(SEEDED_CATEGORY_COUNT, 213);
-  assert.equal(first.created, 213 + 6 + 59 + 14);
+  assert.equal(first.created, 213 + 6 + 61 + 14);
   assert.equal(first.catalog.categories.length, 213);
   assert.equal(first.catalog.attributeGroups.length, 6);
-  assert.equal(first.catalog.attributeValues.length, 59);
+  assert.equal(first.catalog.attributeValues.length, 61);
   assert.equal(first.catalog.collections.length, 14);
   assert.equal(first.catalog.collections.some((item) => item.slug === OCCASION_COLLECTION_SLUG), true);
   assert.equal(first.catalog.collections.some((item) => item.slug === "mothers-day"), false);
