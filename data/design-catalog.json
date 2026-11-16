@@ -46688,13 +46688,13 @@
       "thumbnailPath": "/designed/thumbs/download-78.webp",
       "width": 736,
       "height": 1308,
-      "title": "طرح قاب عمومی Download 78",
+      "title": "طرح قاب مینیمال چراغ و نور روی دیوار",
       "titleEn": "",
       "slug": "download-78",
-      "shortDescription": "طرح قاب عمومی Download 78 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 78 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب مینیمال چراغ و نور روی دیوار — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب مینیمال چراغ و نور روی دیوار — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_c4cff141e7c1"
       ],
       "tags": [
         "عمومی",
@@ -46703,20 +46703,43 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
-      "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 78",
+      "attributeValueIds": [
+        "val_87ccac233e86",
+        "val_a3d2f3d093a8",
+        "val_919457bc7f3a",
+        "val_2a2bd43a203d",
+        "val_f9d01c246f4c",
+        "val_f6b30a4ffae6",
+        "val_b7af8e1a0ecd",
+        "val_a2d7d95da1b8",
+        "val_d1906c204402",
+        "val_e4f8d94c7291",
+        "val_97724dd66cac",
+        "val_f7dc3ec79a1a",
+        "val_b6b58f07076f",
+        "val_9975d12780e0",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_724549f44e75",
+        "val_735377ec49ee",
+        "val_7ce436e75702"
+      ],
+      "collectionIds": [
+        "col_25340de916ab"
+      ],
+      "alt": "طرح قاب موبایل مینیمال چراغ و نور روی دیوار — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
           "templateId": "iphone-pro-in-hand",
-          "path": "/designed/mockups/download-78/iphone-pro-in-hand.webp",
-          "thumbPath": "/designed/mockups/download-78/iphone-pro-in-hand.thumb.webp",
+          "path": "/designed/mockups/download-78/iphone-pro-in-hand.24fcd08cf84bd56a.webp",
+          "thumbPath": "/designed/mockups/download-78/iphone-pro-in-hand.24fcd08cf84bd56a.thumb.webp",
           "width": 1600,
           "height": 1067,
-          "contentHash": "38ec41c7881c28df42c9059c5742c9fe47596cad80c44458ff6a844f44ba616d",
+          "contentHash": "24fcd08cf84bd56a92fef80e21349e5f0d288f7976dddd25834c181226120425",
           "templateVersion": "2",
-          "generatedAt": "2026-10-19T14:40:40.115Z",
+          "generatedAt": "2026-11-16T11:29:38.634Z",
           "status": "ready",
           "error": ""
         },
@@ -46743,18 +46766,59 @@
           "generatedAt": "2026-10-28T08:57:22.086Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/download-78/iphone-17-pro-cover.732b1e8547d7b121.webp",
+          "thumbPath": "/designed/mockups/download-78/iphone-17-pro-cover.732b1e8547d7b121.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "732b1e8547d7b1216a747f82cf4c16a4bde5ac45c716d9043a14d8e6943d3c8b",
+          "templateVersion": "5",
+          "generatedAt": "2026-11-16T11:29:32.655Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/download-78/iphone-14-pro-matt.38ed742f41453936.webp",
+          "thumbPath": "/designed/mockups/download-78/iphone-14-pro-matt.38ed742f41453936.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "38ed742f414539363f65a59bb2b8f719a6632bc7631a2d3ec40722f7578ab73f",
+          "templateVersion": "3",
+          "generatedAt": "2026-11-16T11:29:35.966Z",
+          "status": "ready",
+          "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "placements": {
+        "iphone-17-pro-cover": {
+          "focalX": 0.5359,
+          "focalY": 0,
+          "zoom": 1.25
+        },
+        "iphone-14-pro-matt": {
+          "focalX": 0.5236,
+          "focalY": 0,
+          "zoom": 1.25
+        },
+        "iphone-pro-in-hand": {
+          "focalX": 0.4365,
+          "focalY": 0,
+          "zoom": 1.25
+        }
+      },
+      "seoTitle": "طرح قاب مینیمال چراغ و نور روی دیوار برای قاب موبایل",
+      "seoDescription": "طرح قاب مینیمال چراغ و نور روی دیوار از دسته رترو، وینتیج و نوستالژی برای چاپ روی قاب موبایل در شاپ قاب. قابل سفارش برای آیفون و اندروید. انتخاب مدل گوشی در",
+      "ogImage": "/designed/download-78.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 624,
+      "sortOrder": 19,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:33.107Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-16T11:29:43.319Z",
       "publishedAt": "2026-10-18T15:13:33.107Z"
     },
     {
@@ -46766,13 +46830,14 @@
       "thumbnailPath": "/designed/thumbs/download-79.webp",
       "width": 736,
       "height": 1308,
-      "title": "طرح قاب عمومی Download 79",
+      "title": "طرح قاب انتزاعی بلوک های چوبی",
       "titleEn": "",
       "slug": "download-79",
-      "shortDescription": "طرح قاب عمومی Download 79 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 79 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب انتزاعی بلوک های چوبی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب انتزاعی بلوک های چوبی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_13c8bb6d4284",
+        "cat_c59ddd3f7ba6"
       ],
       "tags": [
         "عمومی",
@@ -46781,9 +46846,23 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_3e300ac7bc4c",
+        "val_cc09f73b02a0",
+        "val_4a5cb1b822de",
+        "val_97724dd66cac",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_bf24a5587147",
+        "val_c67b7018d3ca"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 79",
+      "alt": "طرح قاب موبایل انتزاعی بلوک های چوبی — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -46821,18 +46900,30 @@
           "generatedAt": "2026-10-19T14:40:48.175Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/download-79/iphone-17-pro-cover.010d3950cce154a2.webp",
+          "thumbPath": "/designed/mockups/download-79/iphone-17-pro-cover.010d3950cce154a2.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "010d3950cce154a208e6822d6f7ac6da9a47fe295a59de9af256ec3984068e36",
+          "templateVersion": "5",
+          "generatedAt": "2026-11-16T11:28:09.555Z",
+          "status": "ready",
+          "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب انتزاعی بلوک های چوبی برای قاب موبایل",
+      "seoDescription": "قاب موبایل با طرح قاب انتزاعی بلوک های چوبی (انتزاعی و مینیمال) در شاپ قاب. طرح آماده با پیش‌نمایش و ارسال به سراسر ایران. سبک طرح: عمومی. مناسب هدیه و استفاده",
+      "ogImage": "/designed/download-79.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 625,
+      "sortOrder": 29,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:33.279Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-16T11:28:14.039Z",
       "publishedAt": "2026-10-18T15:13:33.279Z"
     },
     {
@@ -46844,13 +46935,14 @@
       "thumbnailPath": "/designed/thumbs/download-8.webp",
       "width": 736,
       "height": 1288,
-      "title": "طرح قاب عمومی Download 8",
+      "title": "طرح قاب هنری کلاژ رفع فاصله ها",
       "titleEn": "",
       "slug": "download-8",
-      "shortDescription": "طرح قاب عمومی Download 8 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 8 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب هنری کلاژ رفع فاصله ها — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب هنری کلاژ رفع فاصله ها — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_98623739ef58",
+        "cat_c4cff141e7c1"
       ],
       "tags": [
         "عمومی",
@@ -46859,8 +46951,39 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
-      "collectionIds": [],
+      "attributeValueIds": [
+        "val_de1676aad248",
+        "val_0facd2dd3115",
+        "val_ac1a69035bb9",
+        "val_64b03f856ddd",
+        "val_87ccac233e86",
+        "val_65e60c76f9ef",
+        "val_b7af8e1a0ecd",
+        "val_8ffce76c2bfd",
+        "val_a2d7d95da1b8",
+        "val_d1906c204402",
+        "val_42f08528ffa7",
+        "val_ee11a8a2cccf",
+        "val_e4f8d94c7291",
+        "val_97724dd66cac",
+        "val_660ba55a5d92",
+        "val_ff48b292c601",
+        "val_e5a34b167851",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_9eaa01587c60",
+        "val_a300bcc5ca78",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f",
+        "val_bf24a5587147",
+        "val_c67b7018d3ca"
+      ],
+      "collectionIds": [
+        "col_25340de916ab"
+      ],
       "alt": "طرح قاب موبایل طرح قاب عمومی Download 8 — شاپ قاب",
       "gallery": [],
       "mockups": [
@@ -46899,18 +47022,42 @@
           "generatedAt": "2026-10-28T09:36:33.829Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/download-8/iphone-17-pro-cover.8e1ef6799c52535d.webp",
+          "thumbPath": "/designed/mockups/download-8/iphone-17-pro-cover.8e1ef6799c52535d.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "8e1ef6799c52535d88a4c54f4be68c8176f5f2b3be45952b2db2eee4049f8f19",
+          "templateVersion": "5",
+          "generatedAt": "2026-11-16T11:27:10.140Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/download-8/iphone-14-pro-matt.cc33f7621328f36b.webp",
+          "thumbPath": "/designed/mockups/download-8/iphone-14-pro-matt.cc33f7621328f36b.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "cc33f7621328f36b7ae4c310db96117a1674968a69e8696a123140b6be3dd8de",
+          "templateVersion": "3",
+          "generatedAt": "2026-11-16T11:27:12.582Z",
+          "status": "ready",
+          "error": ""
         }
       ],
-      "seoTitle": "طرح قاب عمومی Download 8 برای قاب موبایل",
+      "seoTitle": "طرح قاب هنری کلاژ رفع فاصله ها برای قاب موبایل",
       "seoDescription": "قاب عمومی Download 8 برای فروش قاب موبایل از دسته عمومی در شاپ قاب با چاپ باکیفیت و سفارش آنلاین. سبک طرح: عمومی. انتخاب مدل گوشی و ثبت سفارش در همان صفحه.",
-      "ogImage": "",
+      "ogImage": "/designed/download-8.webp",
       "status": "published",
-      "featured": false,
-      "sortOrder": 440,
+      "featured": true,
+      "sortOrder": 25,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T08:27:00.360Z",
-      "updatedAt": "2026-10-18T15:18:33.376Z",
+      "updatedAt": "2026-11-16T11:27:22.105Z",
       "publishedAt": "2026-10-18T08:27:00.360Z"
     },
     {
@@ -46922,13 +47069,14 @@
       "thumbnailPath": "/designed/thumbs/download-8-2.webp",
       "width": 736,
       "height": 1472,
-      "title": "طرح قاب عمومی Download 8",
+      "title": "طرح قاب انتزاعی رنگی نارنجی",
       "titleEn": "",
       "slug": "download-8-2",
-      "shortDescription": "طرح قاب عمومی Download 8 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 8 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب انتزاعی رنگی نارنجی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب انتزاعی رنگی نارنجی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_13c8bb6d4284",
+        "cat_c59ddd3f7ba6"
       ],
       "tags": [
         "عمومی",
@@ -46937,9 +47085,29 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_de1676aad248",
+        "val_f9d01c246f4c",
+        "val_87ccac233e86",
+        "val_57e1c5f643c3",
+        "val_334187eb48ee",
+        "val_3e300ac7bc4c",
+        "val_cc09f73b02a0",
+        "val_4a5cb1b822de",
+        "val_b7af8e1a0ecd",
+        "val_385daa843360",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_bf24a5587147",
+        "val_c67b7018d3ca"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 8",
+      "alt": "طرح قاب موبایل انتزاعی رنگی نارنجی — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -46977,18 +47145,42 @@
           "generatedAt": "2026-10-28T08:57:28.994Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/download-8-2/iphone-17-pro-cover.65e1ada6b96d8c91.webp",
+          "thumbPath": "/designed/mockups/download-8-2/iphone-17-pro-cover.65e1ada6b96d8c91.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "65e1ada6b96d8c91504d9f0ee9b2babb35b84d734ceb031c64eb9043c6dc9c84",
+          "templateVersion": "5",
+          "generatedAt": "2026-11-16T11:25:15.858Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/download-8-2/iphone-14-pro-matt.dd030ea18f05bf35.webp",
+          "thumbPath": "/designed/mockups/download-8-2/iphone-14-pro-matt.dd030ea18f05bf35.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "dd030ea18f05bf350993ca7bf2d1d64793bd5012237ab290cbc25f92f27b19dd",
+          "templateVersion": "3",
+          "generatedAt": "2026-11-16T11:25:18.887Z",
+          "status": "ready",
+          "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب انتزاعی رنگی نارنجی برای قاب موبایل",
+      "seoDescription": "طرح قاب انتزاعی رنگی نارنجی از دسته انتزاعی و مینیمال برای چاپ روی قاب موبایل در شاپ قاب. قابل سفارش برای آیفون و اندروید. انتخاب مدل گوشی در همان صفحه.",
+      "ogImage": "/designed/download-8-2.webp",
       "status": "published",
       "featured": false,
       "sortOrder": 626,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:33.517Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-16T11:25:21.721Z",
       "publishedAt": "2026-10-18T15:13:33.517Z"
     },
     {
@@ -47000,13 +47192,13 @@
       "thumbnailPath": "/designed/thumbs/download-80.webp",
       "width": 736,
       "height": 1309,
-      "title": "طرح قاب عمومی Download 80",
+      "title": "طرح قاب فانتزی مرد تنها در غروب و ماه و صخره",
       "titleEn": "",
       "slug": "download-80",
-      "shortDescription": "طرح قاب عمومی Download 80 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 80 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب فانتزی مرد تنها در غروب و ماه و صخره — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب فانتزی مرد تنها در غروب و ماه و صخره — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_043500a99944"
       ],
       "tags": [
         "عمومی",
@@ -47015,9 +47207,30 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_87ccac233e86",
+        "val_a3d2f3d093a8",
+        "val_334187eb48ee",
+        "val_d3c5da27e6dd",
+        "val_f6b30a4ffae6",
+        "val_e4f8d94c7291",
+        "val_b7af8e1a0ecd",
+        "val_cc09f73b02a0",
+        "val_0c93794b161c",
+        "val_97724dd66cac",
+        "val_9975d12780e0",
+        "val_f7dc3ec79a1a",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_9eaa01587c60",
+        "val_a300bcc5ca78",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f",
+        "val_724549f44e75"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 80",
+      "alt": "طرح قاب موبایل فانتزی مرد تنها در غروب و ماه و صخره — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -47055,18 +47268,30 @@
           "generatedAt": "2026-10-19T14:41:02.327Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/download-80/iphone-14-pro-matt.4337501ecb73f5d1.webp",
+          "thumbPath": "/designed/mockups/download-80/iphone-14-pro-matt.4337501ecb73f5d1.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "4337501ecb73f5d1872bb1be521d90128c5bd7166a15ea6505fcc10c290383d6",
+          "templateVersion": "3",
+          "generatedAt": "2026-11-16T11:24:11.012Z",
+          "status": "ready",
+          "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب فانتزی مرد تنها در غروب و ماه و صخره برای قاب موبایل",
+      "seoDescription": "قاب موبایل با طرح قاب فانتزی مرد تنها در غروب و ماه و ص… (فانتزی، کارتونی و کیوت) در شاپ قاب. طرح آماده با پیش‌نمایش و ارسال به سراسر ایران.",
+      "ogImage": "/designed/download-80.webp",
       "status": "published",
-      "featured": false,
-      "sortOrder": 627,
+      "featured": true,
+      "sortOrder": 22,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:33.660Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-16T11:24:13.401Z",
       "publishedAt": "2026-10-18T15:13:33.660Z"
     },
     {
@@ -47078,13 +47303,15 @@
       "thumbnailPath": "/designed/thumbs/download-81.webp",
       "width": 600,
       "height": 1200,
-      "title": "طرح قاب عمومی Download 81",
+      "title": "طرح قاب مفهومی سرباز و شاه شطرنج در آینه",
       "titleEn": "",
       "slug": "download-81",
-      "shortDescription": "طرح قاب عمومی Download 81 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 81 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب مفهومی سرباز و شاه شطرنج در آینه — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب مفهومی سرباز و شاه شطرنج در آینه — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_043500a99944",
+        "cat_31857c8984ae",
+        "cat_136876c70c47"
       ],
       "tags": [
         "عمومی",
@@ -47093,9 +47320,30 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_87ccac233e86",
+        "val_a3d2f3d093a8",
+        "val_919457bc7f3a",
+        "val_64b03f856ddd",
+        "val_f6b30a4ffae6",
+        "val_b7af8e1a0ecd",
+        "val_e4f8d94c7291",
+        "val_0c93794b161c",
+        "val_85e6e8be8631",
+        "val_660ba55a5d92",
+        "val_97724dd66cac",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f",
+        "val_724549f44e75",
+        "val_735377ec49ee"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 81",
+      "alt": "طرح قاب موبایل مفهومی سرباز و شاه شطرنج در آینه — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -47133,18 +47381,30 @@
           "generatedAt": "2026-10-19T14:41:08.751Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/download-81/iphone-14-pro-matt.470d75be4daf9f5b.webp",
+          "thumbPath": "/designed/mockups/download-81/iphone-14-pro-matt.470d75be4daf9f5b.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "470d75be4daf9f5b9742c2893f3b182e980eab1f55e67c6e10b8685303db179e",
+          "templateVersion": "3",
+          "generatedAt": "2026-11-16T11:22:51.766Z",
+          "status": "ready",
+          "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب مفهومی سرباز و شاه شطرنج در آینه برای قاب موبایل",
+      "seoDescription": "در شاپ قاب طرح قاب مفهومی سرباز و شاه شطرنج در آینه از دسته فانتزی، کارتونی و کیوت را روی قاب گوشی چاپ و به ایران ارسال کنید. مناسب هدیه و استفاده روزمره.",
+      "ogImage": "/designed/download-81.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 628,
+      "sortOrder": 21,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:33.757Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-16T11:22:55.031Z",
       "publishedAt": "2026-10-18T15:13:33.757Z"
     },
     {
@@ -47156,13 +47416,14 @@
       "thumbnailPath": "/designed/thumbs/download-82.webp",
       "width": 736,
       "height": 1308,
-      "title": "طرح قاب عمومی Download 82",
+      "title": "طرح قاب ترکیبی رگنار از فیلم وایکینگ ها",
       "titleEn": "",
       "slug": "download-82",
-      "shortDescription": "طرح قاب عمومی Download 82 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 82 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب ترکیبی رگنار از فیلم وایکینگ ها vikings ragnar — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب ترکیبی رگنار از فیلم وایکینگ ها vikings ragnar — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_31857c8984ae",
+        "cat_422a8e332828"
       ],
       "tags": [
         "عمومی",
@@ -47171,9 +47432,30 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_87ccac233e86",
+        "val_64b03f856ddd",
+        "val_2a2bd43a203d",
+        "val_919457bc7f3a",
+        "val_0c93794b161c",
+        "val_a2d7d95da1b8",
+        "val_d1906c204402",
+        "val_e4f8d94c7291",
+        "val_b7af8e1a0ecd",
+        "val_97724dd66cac",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f",
+        "val_bf24a5587147",
+        "val_735377ec49ee",
+        "val_a3d2f3d093a8"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 82",
+      "alt": "طرح قاب موبایل ترکیبی رگنار از فیلم وایکینگ ها — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -47211,18 +47493,36 @@
           "generatedAt": "2026-10-19T14:41:14.685Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/download-82/iphone-14-pro-matt.83f1ef008f94e7b5.webp",
+          "thumbPath": "/designed/mockups/download-82/iphone-14-pro-matt.83f1ef008f94e7b5.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "83f1ef008f94e7b5dd207de630af403f736a8b5948a8c45e911b36d19afbb006",
+          "templateVersion": "3",
+          "generatedAt": "2026-11-16T11:21:28.902Z",
+          "status": "ready",
+          "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "placements": {
+        "iphone-14-pro-matt": {
+          "focalX": 0,
+          "focalY": 0.5
+        }
+      },
+      "seoTitle": "طرح قاب ترکیبی رگنار از فیلم وایکینگ ها برای قاب موبایل",
+      "seoDescription": "طرح آماده قاب ترکیبی رگنار از فیلم وایکینگ ها برای قاب موبایل در دسته گیمینگ و سرگرمی. چاپ اختصاصی و ارسال سراسری از شاپ قاب. پیش‌نمایش چاپ قبل از تولید.",
+      "ogImage": "/designed/download-82.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 629,
+      "sortOrder": 32,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:33.966Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-16T11:21:33.841Z",
       "publishedAt": "2026-10-18T15:13:33.966Z"
     },
     {
@@ -47234,13 +47534,14 @@
       "thumbnailPath": "/designed/thumbs/download-83.webp",
       "width": 736,
       "height": 1273,
-      "title": "طرح قاب عمومی Download 83",
+      "title": "طرح قاب مدرن دختر میان گل ها",
       "titleEn": "",
       "slug": "download-83",
-      "shortDescription": "طرح قاب عمومی Download 83 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 83 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب مدرن دختر میان گل ها — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب مدرن دختر میان گل ها — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_043500a99944",
+        "cat_8b8a3400d3ec"
       ],
       "tags": [
         "عمومی",
@@ -47249,9 +47550,30 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_87ccac233e86",
+        "val_a3d2f3d093a8",
+        "val_57e1c5f643c3",
+        "val_d3c5da27e6dd",
+        "val_cc09f73b02a0",
+        "val_0c93794b161c",
+        "val_a2d7d95da1b8",
+        "val_d1906c204402",
+        "val_ee11a8a2cccf",
+        "val_b7af8e1a0ecd",
+        "val_97724dd66cac",
+        "val_9975d12780e0",
+        "val_f7dc3ec79a1a",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f",
+        "val_7ce436e75702",
+        "val_bf24a5587147"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 83",
+      "alt": "طرح قاب موبایل مدرن دختر میان گل ها — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -47289,18 +47611,42 @@
           "generatedAt": "2026-10-28T09:36:35.863Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/download-83/iphone-17-pro-cover.359c57339743ba9e.webp",
+          "thumbPath": "/designed/mockups/download-83/iphone-17-pro-cover.359c57339743ba9e.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "359c57339743ba9e6539e588699aca5dea1ff0697a9dbd73c37a2814c4821af9",
+          "templateVersion": "5",
+          "generatedAt": "2026-11-16T11:18:46.720Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/download-83/iphone-14-pro-matt.7b5b4348b948c592.webp",
+          "thumbPath": "/designed/mockups/download-83/iphone-14-pro-matt.7b5b4348b948c592.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "7b5b4348b948c5927b694117bd15b5ca064acd64e21bc616d45b7fa798f1e1a4",
+          "templateVersion": "3",
+          "generatedAt": "2026-11-16T11:18:48.809Z",
+          "status": "ready",
+          "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب مدرن دختر میان گل ها برای قاب موبایل",
+      "seoDescription": "طرح قاب مدرن دختر میان گل ها از دسته فانتزی، کارتونی و کیوت برای چاپ روی قاب موبایل در شاپ قاب. قابل سفارش برای آیفون و اندروید. انتخاب مدل گوشی در همان صفحه.",
+      "ogImage": "/designed/download-83.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 630,
+      "sortOrder": 19,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:34.127Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-16T11:18:51.984Z",
       "publishedAt": "2026-10-18T15:13:34.127Z"
     },
     {
@@ -47312,13 +47658,16 @@
       "thumbnailPath": "/designed/thumbs/download-84.webp",
       "width": 736,
       "height": 1471,
-      "title": "طرح قاب عمومی Download 84",
+      "title": "طرح قاب انتزاعی دیجیتال رنگی",
       "titleEn": "",
       "slug": "download-84",
-      "shortDescription": "طرح قاب عمومی Download 84 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 84 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب انتزاعی دیجیتال رنگی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب انتزاعی دیجیتال رنگی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_043500a99944",
+        "cat_13c8bb6d4284",
+        "cat_c59ddd3f7ba6",
+        "cat_422a8e332828"
       ],
       "tags": [
         "عمومی",
@@ -47327,9 +47676,30 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_334187eb48ee",
+        "val_5e6ff0463bec",
+        "val_2a2bd43a203d",
+        "val_f9d01c246f4c",
+        "val_de1676aad248",
+        "val_7b48bcbd88e9",
+        "val_3e300ac7bc4c",
+        "val_b7af8e1a0ecd",
+        "val_4a5cb1b822de",
+        "val_0c93794b161c",
+        "val_97724dd66cac",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_bf24a5587147",
+        "val_c67b7018d3ca"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 84",
+      "alt": "طرح قاب موبایل انتزاعی دیجیتال رنگی — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -47367,18 +47737,30 @@
           "generatedAt": "2026-10-19T14:41:26.689Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/download-84/iphone-14-pro-matt.14f86f6dc1e463f8.webp",
+          "thumbPath": "/designed/mockups/download-84/iphone-14-pro-matt.14f86f6dc1e463f8.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "14f86f6dc1e463f8cf6cf51ae52ddb99a36ac514d77b8fbc69961867727a61b4",
+          "templateVersion": "3",
+          "generatedAt": "2026-11-16T11:17:21.799Z",
+          "status": "ready",
+          "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب انتزاعی دیجیتال رنگی برای قاب موبایل",
+      "seoDescription": "قاب موبایل با طرح قاب انتزاعی دیجیتال رنگی (فانتزی، کارتونی و کیوت) در شاپ قاب. طرح آماده با پیش‌نمایش و ارسال به سراسر ایران. سبک طرح: عمومی.",
+      "ogImage": "/designed/download-84.webp",
       "status": "published",
       "featured": false,
       "sortOrder": 631,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:34.365Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-16T11:17:24.596Z",
       "publishedAt": "2026-10-18T15:13:34.365Z"
     },
     {
@@ -47390,13 +47772,13 @@
       "thumbnailPath": "/designed/thumbs/download-85.webp",
       "width": 735,
       "height": 1308,
-      "title": "طرح قاب عمومی Download 85",
+      "title": "طرح قاب طرح سنتی اسکلت و جمجمه",
       "titleEn": "",
       "slug": "download-85",
-      "shortDescription": "طرح قاب عمومی Download 85 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 85 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب طرح سنتی اسکلت و جمجمه — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب طرح سنتی اسکلت و جمجمه — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_043500a99944"
       ],
       "tags": [
         "عمومی",
@@ -47405,9 +47787,34 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_2a2bd43a203d",
+        "val_334187eb48ee",
+        "val_ac1a69035bb9",
+        "val_57e1c5f643c3",
+        "val_f9d01c246f4c",
+        "val_de1676aad248",
+        "val_b11d42a10dfd",
+        "val_3e300ac7bc4c",
+        "val_cc09f73b02a0",
+        "val_0c93794b161c",
+        "val_ee11a8a2cccf",
+        "val_8ffce76c2bfd",
+        "val_97724dd66cac",
+        "val_385daa843360",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f",
+        "val_bf24a5587147",
+        "val_c67b7018d3ca"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 85",
+      "alt": "طرح قاب موبایل سنتی اسکلت و جمجمه — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -47445,18 +47852,30 @@
           "generatedAt": "2026-10-19T14:41:32.199Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/download-85/iphone-14-pro-matt.dfc1b3d557a81a7a.webp",
+          "thumbPath": "/designed/mockups/download-85/iphone-14-pro-matt.dfc1b3d557a81a7a.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "dfc1b3d557a81a7a00c800dfe9d8842f9fddfcd8e48a12cc88375e551867950b",
+          "templateVersion": "3",
+          "generatedAt": "2026-11-16T11:15:11.824Z",
+          "status": "ready",
+          "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب طرح سنتی اسکلت و جمجمه برای قاب موبایل",
+      "seoDescription": "در شاپ قاب طرح قاب طرح سنتی اسکلت و جمجمه از دسته فانتزی، کارتونی و کیوت را روی قاب گوشی چاپ و به ایران ارسال کنید. مناسب هدیه و استفاده روزمره.",
+      "ogImage": "/designed/download-85.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 632,
+      "sortOrder": 32,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:34.573Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-16T11:15:15.831Z",
       "publishedAt": "2026-10-18T15:13:34.573Z"
     },
     {
@@ -47468,13 +47887,15 @@
       "thumbnailPath": "/designed/thumbs/download-86.webp",
       "width": 736,
       "height": 1308,
-      "title": "طرح قاب عمومی Download 86",
+      "title": "طرح قاب متن برنامه نویسی خراب شده",
       "titleEn": "",
       "slug": "download-86",
-      "shortDescription": "طرح قاب عمومی Download 86 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 86 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب متن برنامه نویسی خراب شده — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب متن برنامه نویسی خراب شده — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_a6a6e8bbb08a",
+        "cat_c59ddd3f7ba6",
+        "cat_13c8bb6d4284"
       ],
       "tags": [
         "عمومی",
@@ -47483,9 +47904,37 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_87ccac233e86",
+        "val_de1676aad248",
+        "val_919457bc7f3a",
+        "val_b11d42a10dfd",
+        "val_3e300ac7bc4c",
+        "val_f6b30a4ffae6",
+        "val_b7af8e1a0ecd",
+        "val_4a5cb1b822de",
+        "val_5ccfe1758d08",
+        "val_97724dd66cac",
+        "val_608897c3070e",
+        "val_c72250f3a72d",
+        "val_385daa843360",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_a300bcc5ca78",
+        "val_9eaa01587c60",
+        "val_2cc54d73d0cc",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f",
+        "val_bf24a5587147",
+        "val_c67b7018d3ca",
+        "val_6a9f398bf62d",
+        "val_a3d2f3d093a8"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 86",
+      "alt": "طرح قاب موبایل متن برنامه نویسی خراب شده — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -47523,18 +47972,36 @@
           "generatedAt": "2026-10-19T14:41:37.571Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/download-86/iphone-17-pro-cover.b8d66347eebf820f.webp",
+          "thumbPath": "/designed/mockups/download-86/iphone-17-pro-cover.b8d66347eebf820f.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "b8d66347eebf820f769d0bfc8d80d506d2f781b88cb09f1f84cf2903348cc380",
+          "templateVersion": "5",
+          "generatedAt": "2026-11-16T11:13:46.435Z",
+          "status": "ready",
+          "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "placements": {
+        "iphone-17-pro-cover": {
+          "focalX": 1,
+          "focalY": 0.5
+        }
+      },
+      "seoTitle": "طرح قاب متن برنامه نویسی خراب شده برای قاب موبایل",
+      "seoDescription": "طرح آماده قاب متن برنامه نویسی خراب شده برای قاب موبایل در دسته الکترونیک. چاپ اختصاصی و ارسال سراسری از شاپ قاب. پیش‌نمایش چاپ قبل از تولید.",
+      "ogImage": "/designed/download-86.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 633,
+      "sortOrder": 20,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:34.799Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-16T11:13:49.257Z",
       "publishedAt": "2026-10-18T15:13:34.799Z"
     },
     {
@@ -47546,13 +48013,15 @@
       "thumbnailPath": "/designed/thumbs/download-87.webp",
       "width": 736,
       "height": 1104,
-      "title": "طرح قاب عمومی Download 87",
+      "title": "طرح قاب کیوت و فانتزی لوازم شخصی دخترانه",
       "titleEn": "",
       "slug": "download-87",
-      "shortDescription": "طرح قاب عمومی Download 87 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 87 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب کیوت و فانتزی لوازم شخصی دخترانه — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب کیوت و فانتزی لوازم شخصی دخترانه — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_d8f9f9965805",
+        "cat_c4cff141e7c1",
+        "cat_903040ac9b10"
       ],
       "tags": [
         "عمومی",
@@ -47561,9 +48030,33 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
-      "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 87",
+      "attributeValueIds": [
+        "val_0facd2dd3115",
+        "val_57e1c5f643c3",
+        "val_334187eb48ee",
+        "val_5e6ff0463bec",
+        "val_e4f8d94c7291",
+        "val_b7af8e1a0ecd",
+        "val_0c93794b161c",
+        "val_42f08528ffa7",
+        "val_a2d7d95da1b8",
+        "val_d1906c204402",
+        "val_97724dd66cac",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_9eaa01587c60",
+        "val_a300bcc5ca78",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f",
+        "val_bf24a5587147"
+      ],
+      "collectionIds": [
+        "col_f76de14d7da7"
+      ],
+      "alt": "طرح قاب موبایل کیوت و فانتزی لوازم شخصی دخترانه — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -47601,18 +48094,52 @@
           "generatedAt": "2026-10-28T09:36:43.570Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/download-87/iphone-17-pro-cover.81e3f3938dc1e0b6.webp",
+          "thumbPath": "/designed/mockups/download-87/iphone-17-pro-cover.81e3f3938dc1e0b6.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "81e3f3938dc1e0b62fb66337a41a24f357d448f764ac9c472a4ef5fd8e137056",
+          "templateVersion": "5",
+          "generatedAt": "2026-11-16T11:11:44.397Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/download-87/iphone-14-pro-matt.ff7d7dfceb460ed3.webp",
+          "thumbPath": "/designed/mockups/download-87/iphone-14-pro-matt.ff7d7dfceb460ed3.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "ff7d7dfceb460ed3a738c9c4bb763240cc3c6359331bd0b7367ff24aea36eee7",
+          "templateVersion": "3",
+          "generatedAt": "2026-11-16T11:11:49.315Z",
+          "status": "ready",
+          "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "placements": {
+        "iphone-17-pro-cover": {
+          "focalX": 1,
+          "focalY": 0.5
+        },
+        "iphone-14-pro-matt": {
+          "focalX": 0,
+          "focalY": 0.5
+        }
+      },
+      "seoTitle": "طرح قاب کیوت و فانتزی لوازم شخصی دخترانه برای قاب موبایل",
+      "seoDescription": "طرح قاب کیوت و فانتزی لوازم شخصی دخترانه از دسته لوکس و کلاسیک برای چاپ روی قاب موبایل در شاپ قاب. قابل سفارش برای آیفون و اندروید. انتخاب مدل گوشی در همان",
+      "ogImage": "/designed/download-87.webp",
       "status": "published",
-      "featured": false,
-      "sortOrder": 634,
+      "featured": true,
+      "sortOrder": 8,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:35.034Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-16T11:11:52.908Z",
       "publishedAt": "2026-10-18T15:13:35.034Z"
     },
     {
@@ -47624,13 +48151,13 @@
       "thumbnailPath": "/designed/thumbs/download-88.webp",
       "width": 736,
       "height": 1472,
-      "title": "طرح قاب عمومی Download 88",
+      "title": "طرح قاب گوشی قدیمی نوکیا دکمه ای",
       "titleEn": "",
       "slug": "download-88",
-      "shortDescription": "طرح قاب عمومی Download 88 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 88 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب گوشی قدیمی نوکیا دکمه ای — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب گوشی قدیمی نوکیا دکمه ای — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_c4cff141e7c1"
       ],
       "tags": [
         "عمومی",
@@ -47639,9 +48166,29 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_87ccac233e86",
+        "val_a3d2f3d093a8",
+        "val_919457bc7f3a",
+        "val_a2d7d95da1b8",
+        "val_d1906c204402",
+        "val_e4f8d94c7291",
+        "val_660ba55a5d92",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_9eaa01587c60",
+        "val_a300bcc5ca78",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f",
+        "val_bf24a5587147",
+        "val_735377ec49ee",
+        "val_97724dd66cac"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 88",
+      "alt": "طرح قاب موبایل گوشی قدیمی نوکیا دکمه ای — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -47679,18 +48226,30 @@
           "generatedAt": "2026-10-19T14:41:48.336Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/download-88/iphone-14-pro-matt.8832955a5fcbc9f0.webp",
+          "thumbPath": "/designed/mockups/download-88/iphone-14-pro-matt.8832955a5fcbc9f0.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "8832955a5fcbc9f05c1d4f82744dda618e5ff7c11dbba121f517df5fb66f2fc7",
+          "templateVersion": "3",
+          "generatedAt": "2026-11-16T11:09:57.339Z",
+          "status": "ready",
+          "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب گوشی قدیمی نوکیا دکمه ای برای قاب موبایل",
+      "seoDescription": "قاب موبایل با طرح قاب گوشی قدیمی نوکیا دکمه ای (رترو، وینتیج و نوستالژی) در شاپ قاب. طرح آماده با پیش‌نمایش و ارسال به سراسر ایران. سبک طرح: عمومی.",
+      "ogImage": "/designed/download-88.webp",
       "status": "published",
-      "featured": false,
-      "sortOrder": 635,
+      "featured": true,
+      "sortOrder": 11,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:35.186Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-16T11:10:18.938Z",
       "publishedAt": "2026-10-18T15:13:35.186Z"
     },
     {
@@ -47702,13 +48261,16 @@
       "thumbnailPath": "/designed/thumbs/download-89.webp",
       "width": 736,
       "height": 1308,
-      "title": "طرح قاب عمومی Download 89",
+      "title": "طرح قاب کیوت سیاه سفید با گل رنگی",
       "titleEn": "",
       "slug": "download-89",
-      "shortDescription": "طرح قاب عمومی Download 89 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
-      "description": "طرح قاب عمومی Download 89 — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "shortDescription": "طرح قاب کیوت سیاه سفید با گل رنگی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
+      "description": "طرح قاب کیوت سیاه سفید با گل رنگی — طرح آماده برای چاپ روی قاب موبایل، قابل ویرایش و استفاده روی همه مدل‌ها.",
       "categoryIds": [
-        "cat_0feae16d5536"
+        "cat_043500a99944",
+        "cat_c59ddd3f7ba6",
+        "cat_13c8bb6d4284",
+        "cat_8b8a3400d3ec"
       ],
       "tags": [
         "عمومی",
@@ -47717,9 +48279,30 @@
       ],
       "colors": [],
       "styles": [],
-      "attributeValueIds": [],
+      "attributeValueIds": [
+        "val_87ccac233e86",
+        "val_a3d2f3d093a8",
+        "val_0facd2dd3115",
+        "val_57e1c5f643c3",
+        "val_2a2bd43a203d",
+        "val_f9d01c246f4c",
+        "val_334187eb48ee",
+        "val_7b48bcbd88e9",
+        "val_3e300ac7bc4c",
+        "val_b7af8e1a0ecd",
+        "val_0c93794b161c",
+        "val_97724dd66cac",
+        "val_f7dc3ec79a1a",
+        "val_9975d12780e0",
+        "val_b6b58f07076f",
+        "val_7003466ddb9a",
+        "val_5a51bb33f11c",
+        "val_d2d2c66b203d",
+        "val_de0003cc0d8f",
+        "val_bf24a5587147"
+      ],
       "collectionIds": [],
-      "alt": "طرح قاب عمومی Download 89",
+      "alt": "طرح قاب موبایل کیوت سیاه سفید با گل رنگی — شاپ قاب",
       "gallery": [],
       "mockups": [
         {
@@ -47757,18 +48340,42 @@
           "generatedAt": "2026-10-28T08:57:55.715Z",
           "status": "ready",
           "error": ""
+        },
+        {
+          "templateId": "iphone-17-pro-cover",
+          "path": "/designed/mockups/download-89/iphone-17-pro-cover.e1b98efe267f52f9.webp",
+          "thumbPath": "/designed/mockups/download-89/iphone-17-pro-cover.e1b98efe267f52f9.thumb.webp",
+          "width": 1600,
+          "height": 1067,
+          "contentHash": "e1b98efe267f52f9f6f0e5652759ec3185b0318113e53cbef3b0d24615c3f873",
+          "templateVersion": "5",
+          "generatedAt": "2026-11-16T11:08:42.243Z",
+          "status": "ready",
+          "error": ""
+        },
+        {
+          "templateId": "iphone-14-pro-matt",
+          "path": "/designed/mockups/download-89/iphone-14-pro-matt.66ad3425f205381e.webp",
+          "thumbPath": "/designed/mockups/download-89/iphone-14-pro-matt.66ad3425f205381e.thumb.webp",
+          "width": 1600,
+          "height": 1138,
+          "contentHash": "66ad3425f205381e4d9b8a0349b00e0c39683ce44aed99fa969e9b08bc99cc1c",
+          "templateVersion": "3",
+          "generatedAt": "2026-11-16T11:08:45.735Z",
+          "status": "ready",
+          "error": ""
         }
       ],
-      "seoTitle": "",
-      "seoDescription": "",
-      "ogImage": "",
+      "seoTitle": "طرح قاب کیوت سیاه سفید با گل رنگی برای قاب موبایل",
+      "seoDescription": "در شاپ قاب طرح قاب کیوت سیاه سفید با گل رنگی از دسته فانتزی، کارتونی و کیوت را روی قاب گوشی چاپ و به ایران ارسال کنید. مناسب هدیه و استفاده روزمره.",
+      "ogImage": "/designed/download-89.webp",
       "status": "published",
       "featured": false,
-      "sortOrder": 636,
+      "sortOrder": 13,
       "assetMissing": false,
-      "unedited": true,
+      "unedited": false,
       "createdAt": "2026-10-18T15:13:35.376Z",
-      "updatedAt": "2026-10-18T15:20:30.638Z",
+      "updatedAt": "2026-11-16T11:08:49.220Z",
       "publishedAt": "2026-10-18T15:13:35.376Z"
     },
     {
