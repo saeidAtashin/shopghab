@@ -110,7 +110,7 @@ function catalog(overrides = {}) {
   };
 }
 
-test("merge keeps live edits and appends only new catalog rows", () => {
+test("merge overwrites matched content from git and appends only new catalog rows", () => {
   const live = catalog();
   const incoming = catalog({
     categories: [
@@ -260,20 +260,20 @@ test("merge keeps live edits and appends only new catalog rows", () => {
 
   const animals = merged.categories.find((item) => item.slug === "animals");
   assert.equal(animals?.id, "cat-live");
-  assert.equal(animals?.name, "نام ویرایش‌شده");
-  assert.equal(animals?.seoTitle, "سئوی دستی");
-  assert.equal(animals?.sortOrder, 7);
+  assert.equal(animals?.name, "حیوانات");
+  assert.equal(animals?.seoTitle, "");
+  assert.equal(animals?.sortOrder, 100);
 
   const flowers = merged.categories.find((item) => item.slug === "flowers");
   assert.equal(flowers?.id, "cat-new");
   assert.equal(flowers?.parentId, "cat-live");
 
   const kept = merged.designs.find((item) => item.id === "design-live");
-  assert.equal(kept?.title, "عنوان دستی");
-  assert.equal(kept?.status, "published");
-  assert.equal(kept?.featured, true);
+  assert.equal(kept?.title, "پیش‌فرض");
+  assert.equal(kept?.status, "draft");
+  assert.equal(kept?.featured, false);
   assert.deepEqual(kept?.categoryIds, ["cat-live"]);
-  assert.deepEqual(kept?.tags, ["دستی"]);
+  assert.deepEqual(kept?.tags, []);
 
   const rose = merged.designs.find((item) => item.slug === "rose");
   assert.equal(rose?.title, "رز");
@@ -286,10 +286,10 @@ test("merge keeps live edits and appends only new catalog rows", () => {
   assert.deepEqual(mapped?.collectionIds, ["col-live"]);
   assert.deepEqual(mapped?.attributeValueIds, ["val-live"]);
 
-  assert.equal(merged.attributeGroups.find((item) => item.slug === "color")?.name, "رنگ دستی");
-  assert.equal(merged.attributeValues.find((item) => item.id === "val-live")?.name, "قرمز دستی");
+  assert.equal(merged.attributeGroups.find((item) => item.slug === "color")?.name, "رنگ");
+  assert.equal(merged.attributeValues.find((item) => item.id === "val-live")?.name, "قرمز");
   assert.equal(merged.attributeValues.find((item) => item.id === "val-blue")?.groupId, "grp-live");
-  assert.equal(merged.collections.find((item) => item.slug === "summer")?.name, "کالکشن دستی");
+  assert.equal(merged.collections.find((item) => item.slug === "summer")?.name, "تابستان");
   assert.equal(merged.redirects.find((item) => item.fromSlug === "old-cat")?.toSlug, "space-cat");
   assert.equal(merged.redirects.find((item) => item.fromSlug === "rose-old")?.designId, "design-new");
   assert.equal(merged.categoryRedirects.find((item) => item.fromSlug === "old-animals")?.toSlug, "animals");
@@ -299,15 +299,37 @@ test("merge keeps live edits and appends only new catalog rows", () => {
   assert.equal(live.categories[0]?.name, "نام ویرایش‌شده");
 });
 
-test("a design already on the server is not added again by source key or slug", () => {
+test("a design already on the server is updated by source key without duplicating", () => {
   const live = catalog();
   const incoming = catalog({
     designs: [
-      design({ id: "other-id", title: "از سورس", slug: "unrelated", templateSlug: "unrelated", legacySlug: "unrelated" }),
+      design({
+        id: "other-id",
+        title: "از سورس",
+        imagePath: "/designed/from-source.webp",
+        slug: "unrelated",
+        templateSlug: "unrelated",
+        legacySlug: "unrelated",
+      }),
+    ],
+  });
+
+  const merged = mergeCatalog(live, incoming);
+  assert.equal(merged.designs.length, 1);
+  assert.equal(merged.designs[0]?.id, "design-live");
+  assert.equal(merged.designs[0]?.title, "از سورس");
+  assert.equal(merged.designs[0]?.imagePath, "/designed/from-source.webp");
+});
+
+test("a design already on the server is updated by slug without duplicating", () => {
+  const live = catalog();
+  const incoming = catalog({
+    designs: [
       design({
         id: "another-id",
         sourceKey: "",
         title: "از اسلاگ",
+        imagePath: "/designed/from-slug.webp",
         slug: "space-cat",
         templateSlug: "different",
         legacySlug: "different",
@@ -317,7 +339,9 @@ test("a design already on the server is not added again by source key or slug", 
 
   const merged = mergeCatalog(live, incoming);
   assert.equal(merged.designs.length, 1);
-  assert.equal(merged.designs[0]?.title, "عنوان دستی");
+  assert.equal(merged.designs[0]?.id, "design-live");
+  assert.equal(merged.designs[0]?.title, "از اسلاگ");
+  assert.equal(merged.designs[0]?.imagePath, "/designed/from-slug.webp");
 });
 
 test("a release replaces an older product photo and keeps a newer live photo and its placement", () => {
@@ -342,6 +366,7 @@ test("a release replaces an older product photo and keeps a newer live photo and
       design({
         title: "پیش‌فرض",
         description: "پیش‌فرض",
+        imagePath: "/designed/space-cat-new.webp",
         placements: { "iphone-free-case": { focalX: 0.9, focalY: 0.1 } },
         mockups: [
           {
@@ -363,8 +388,9 @@ test("a release replaces an older product photo and keeps a newer live photo and
 
   const merged = mergeCatalog(live, incoming);
   assert.equal(merged.designs.length, 1);
-  assert.equal(merged.designs[0]?.title, "عنوان دستی");
-  assert.equal(merged.designs[0]?.description, "توضیح دستی");
+  assert.equal(merged.designs[0]?.title, "پیش‌فرض");
+  assert.equal(merged.designs[0]?.description, "پیش‌فرض");
+  assert.equal(merged.designs[0]?.imagePath, "/designed/space-cat-new.webp");
   assert.equal(merged.designs[0]?.mockups[0]?.path, "/designed/mockups/space-cat/live.webp");
   assert.equal(merged.designs[0]?.mockups[1]?.path, "/designed/mockups/space-cat/release-pro.webp");
   assert.equal(merged.designs[0]?.placements?.["iphone-free-case"]?.focalX, 0.2);
@@ -396,7 +422,8 @@ test("cli writes the merged catalog without changing the live file", () => {
 
   assert.equal(result.status, 0, result.stderr);
   const merged = JSON.parse(readFileSync(outPath, "utf8"));
-  assert.equal(merged.categories.find((item) => item.slug === "animals")?.name, "نام ویرایش‌شده");
+  assert.equal(merged.categories.find((item) => item.slug === "animals")?.name, "پیش‌فرض");
+  assert.equal(merged.categories.find((item) => item.slug === "animals")?.id, "cat-live");
   assert.equal(merged.categories.some((item) => item.slug === "flowers"), true);
   assert.equal(JSON.parse(readFileSync(livePath, "utf8")).categories[0]?.name, "نام ویرایش‌شده");
   rmSync(dir, { recursive: true, force: true });

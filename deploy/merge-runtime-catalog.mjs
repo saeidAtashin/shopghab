@@ -1,8 +1,9 @@
 /**
  * Merge a newly released catalog into the live server catalog.
- * Existing rows stay as they are, except product mockup photos, which
- * are replaced from the release. Incoming rows are appended only when
- * the server does not already have that record.
+ * Matched rows take content from the release (git wins for names, images,
+ * status, etc.) while keeping the live id. Product mockup photos still use
+ * the newer-wins refresh. Incoming rows are appended when the server does
+ * not already have that record. Live-only rows are kept.
  */
 import { readFileSync, realpathSync, renameSync, writeFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
@@ -93,6 +94,44 @@ function refreshMockups(existing, incoming, matches) {
   }
 }
 
+/** Apply git content onto matched live rows (keep live id); append missing rows. */
+function upsertFromIncoming(existing, incoming, matches, map, prepare, preserveKeys = []) {
+  const added = [];
+  for (const item of incoming) {
+    if (!item || typeof item !== "object") continue;
+    const found = existing.find((candidate) => matches(candidate, item));
+    if (found) {
+      rememberMatch(map, item, found);
+      const preserved = {};
+      for (const key of preserveKeys) {
+        if (Object.prototype.hasOwnProperty.call(found, key)) {
+          preserved[key] = found[key];
+        }
+      }
+      const liveId = found.id;
+      const createdAt = found.createdAt;
+      const copy = structuredClone(item);
+      prepare?.(copy);
+      for (const key of Object.keys(found)) {
+        delete found[key];
+      }
+      Object.assign(found, copy);
+      found.id = liveId;
+      if (createdAt !== undefined) found.createdAt = createdAt;
+      for (const [key, value] of Object.entries(preserved)) {
+        found[key] = value;
+      }
+      continue;
+    }
+    const copy = structuredClone(item);
+    prepare?.(copy);
+    existing.push(copy);
+    added.push(copy);
+    rememberMatch(map, item, copy);
+  }
+  return added;
+}
+
 function appendMissing(existing, incoming, matches, map, prepare) {
   const added = [];
   for (const item of incoming) {
@@ -122,18 +161,18 @@ export function mergeCatalog(live, incoming) {
   const designIds = new Map();
 
   next.categories = list(next, "categories");
-  const addedCategories = appendMissing(
+  upsertFromIncoming(
     next.categories,
     list(incoming, "categories"),
     (candidate, item) => findByIdOrSlug([candidate], item) === candidate,
     categoryIds,
   );
-  for (const category of addedCategories) {
+  for (const category of next.categories) {
     category.parentId = remap(categoryIds, category.parentId) ?? null;
   }
 
   next.attributeGroups = list(next, "attributeGroups");
-  appendMissing(
+  upsertFromIncoming(
     next.attributeGroups,
     list(incoming, "attributeGroups"),
     (candidate, item) => findByIdOrSlug([candidate], item) === candidate,
@@ -141,7 +180,7 @@ export function mergeCatalog(live, incoming) {
   );
 
   next.attributeValues = list(next, "attributeValues");
-  appendMissing(
+  upsertFromIncoming(
     next.attributeValues,
     list(incoming, "attributeValues"),
     (candidate, item) => candidate?.id && candidate.id === item?.id,
@@ -150,9 +189,12 @@ export function mergeCatalog(live, incoming) {
       copy.groupId = remap(groupIds, copy.groupId);
     },
   );
+  for (const value of next.attributeValues) {
+    value.groupId = remap(groupIds, value.groupId);
+  }
 
   next.collections = list(next, "collections");
-  appendMissing(
+  upsertFromIncoming(
     next.collections,
     list(incoming, "collections"),
     (candidate, item) => findByIdOrSlug([candidate], item) === candidate,
@@ -161,8 +203,7 @@ export function mergeCatalog(live, incoming) {
 
   next.designs = list(next, "designs");
   const incomingDesigns = list(incoming, "designs");
-  refreshMockups(next.designs, incomingDesigns, designMatches);
-  appendMissing(
+  upsertFromIncoming(
     next.designs,
     incomingDesigns,
     designMatches,
@@ -172,7 +213,14 @@ export function mergeCatalog(live, incoming) {
       copy.collectionIds = (copy.collectionIds ?? []).map((id) => remap(collectionIds, id));
       copy.attributeValueIds = (copy.attributeValueIds ?? []).map((id) => remap(valueIds, id));
     },
+    ["mockups", "placements"],
   );
+  for (const design of next.designs) {
+    design.categoryIds = (design.categoryIds ?? []).map((id) => remap(categoryIds, id));
+    design.collectionIds = (design.collectionIds ?? []).map((id) => remap(collectionIds, id));
+    design.attributeValueIds = (design.attributeValueIds ?? []).map((id) => remap(valueIds, id));
+  }
+  refreshMockups(next.designs, incomingDesigns, designMatches);
 
   next.redirects = list(next, "redirects");
   appendMissing(
