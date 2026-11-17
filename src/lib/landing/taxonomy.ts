@@ -7,7 +7,12 @@ import {
 } from "@/lib/catalog/logic";
 import type { DesignCatalog, DesignRecord } from "@/lib/catalog/schema";
 import { selectProductImages } from "@/lib/mockups/display";
-import type { LandingSectionKey, LandingSections } from "@/lib/landing/sections";
+import {
+  defaultBannerSource,
+  type LandingBannerSource,
+  type LandingSectionKey,
+  type LandingSections,
+} from "@/lib/landing/sections";
 
 export type TaxonomyChip = {
   id: string;
@@ -33,12 +38,21 @@ export type LandingTaxonomy = {
   collections: TaxonomyCard[];
 };
 
-export type LandingBannerSelection = Partial<Record<LandingSectionKey, Record<string, string> | undefined>>;
+export type LandingBannerSectionInput = {
+  banners?: Record<string, string>;
+  bannerSources?: Record<string, LandingBannerSource>;
+};
+
+export type LandingBannerSelection = Partial<
+  Record<LandingSectionKey, LandingBannerSectionInput | Record<string, string> | undefined>
+>;
 
 export type BannerChoice = {
   id: string;
   title: string;
   image: string;
+  mockupImage: string;
+  artworkImage: string;
   cardIds: string[];
 };
 
@@ -57,16 +71,37 @@ function designArtwork(design: DesignRecord): string {
   return usableCover(design.thumbnailPath) || usableCover(design.imagePath);
 }
 
+function normalizeBannerSection(
+  value: LandingBannerSectionInput | Record<string, string> | undefined,
+): LandingBannerSectionInput {
+  if (!value) return {};
+  if ("banners" in value || "bannerSources" in value) {
+    return {
+      banners: value.banners,
+      bannerSources: value.bannerSources,
+    };
+  }
+  return { banners: value as Record<string, string> };
+}
+
+function resolveBannerSource(
+  section: LandingSectionKey,
+  cardId: string,
+  sources: Record<string, LandingBannerSource> | undefined,
+): LandingBannerSource {
+  return sources?.[cardId] ?? defaultBannerSource(section);
+}
+
 function pinnedThumb(
   catalog: DesignCatalog,
   designId: string | undefined,
   belongs: (design: DesignRecord) => boolean,
-  artwork = false,
+  source: LandingBannerSource,
 ): string {
   if (!designId) return "";
   const design = catalog.designs.find((item) => item.id === designId);
   if (!design || !isPublicCatalogDesign(design) || !belongs(design)) return "";
-  return artwork ? designArtwork(design) : designThumb(design);
+  return source === "original" ? designArtwork(design) : designThumb(design);
 }
 
 export function landingBannerChoices(catalog: DesignCatalog): BannerChoice[] {
@@ -83,8 +118,9 @@ export function landingBannerChoices(catalog: DesignCatalog): BannerChoice[] {
 
   for (const design of catalog.designs) {
     if (!isPublicCatalogDesign(design)) continue;
-    const image = designThumb(design);
-    if (!image) continue;
+    const mockupImage = designThumb(design);
+    const artworkImage = designArtwork(design);
+    if (!mockupImage && !artworkImage) continue;
     const cardIds: string[] = [];
     for (const [categoryId, members] of categoryMembers) {
       if (design.categoryIds.some((id) => members.has(id))) cardIds.push(categoryId);
@@ -96,7 +132,14 @@ export function landingBannerChoices(catalog: DesignCatalog): BannerChoice[] {
       if (collectionIds.has(id)) cardIds.push(id);
     }
     if (cardIds.length === 0) continue;
-    choices.push({ id: design.id, title: design.title, image, cardIds });
+    choices.push({
+      id: design.id,
+      title: design.title,
+      image: mockupImage || artworkImage,
+      mockupImage,
+      artworkImage,
+      cardIds,
+    });
   }
 
   choices.sort((a, b) => a.title.localeCompare(b.title, "fa"));
@@ -121,15 +164,30 @@ export function sanitizeLandingBanners(catalog: DesignCatalog, sections: Landing
 
   for (const key of ["categories", "features", "collections"] as const) {
     const banners = next[key].banners;
-    if (!banners) continue;
+    const sources = next[key].bannerSources;
+    if (!banners && !sources) continue;
     const allowedCards = new Set(cards[key].map((card) => card.id));
     const cleaned: Record<string, string> = {};
-    for (const [cardId, designId] of Object.entries(banners)) {
-      if (!allowedCards.has(cardId) || !members.get(cardId)?.has(designId)) continue;
-      cleaned[cardId] = designId;
+    if (banners) {
+      for (const [cardId, designId] of Object.entries(banners)) {
+        if (!allowedCards.has(cardId) || !members.get(cardId)?.has(designId)) continue;
+        cleaned[cardId] = designId;
+      }
     }
     if (Object.keys(cleaned).length > 0) next[key].banners = cleaned;
     else delete next[key].banners;
+
+    if (sources) {
+      const cleanedSources: Record<string, LandingBannerSource> = {};
+      for (const [cardId, source] of Object.entries(sources)) {
+        if (!cleaned[cardId]) continue;
+        cleanedSources[cardId] = source;
+      }
+      if (Object.keys(cleanedSources).length > 0) next[key].bannerSources = cleanedSources;
+      else delete next[key].bannerSources;
+    } else {
+      delete next[key].bannerSources;
+    }
   }
 
   return next;
@@ -145,6 +203,9 @@ export function landingTaxonomy(
   const categoryThumb = new Map<string, string>();
   const collectionThumb = new Map<string, string>();
   const valueThumb = new Map<string, string>();
+  const categorySection = normalizeBannerSection(banners.categories);
+  const featureSection = normalizeBannerSection(banners.features);
+  const collectionSection = normalizeBannerSection(banners.collections);
 
   for (const design of published) {
     const artwork = designArtwork(design);
@@ -169,9 +230,9 @@ export function landingTaxonomy(
       const ids = descendantCategoryIds(catalog, category.id);
       let image = pinnedThumb(
         catalog,
-        banners.categories?.[category.id],
+        categorySection.banners?.[category.id],
         (design) => design.categoryIds.some((id) => ids.has(id)),
-        true,
+        resolveBannerSource("categories", category.id, categorySection.bannerSources),
       );
       if (!image) image = usableCover(category.coverImage);
       if (!image) {
@@ -216,8 +277,11 @@ export function landingTaxonomy(
           description: group.name,
           href: `/designs/filter/${group.slug}/${value.slug}`,
           image:
-            pinnedThumb(catalog, banners.features?.[value.id], (design) =>
-              design.attributeValueIds.includes(value.id),
+            pinnedThumb(
+              catalog,
+              featureSection.banners?.[value.id],
+              (design) => design.attributeValueIds.includes(value.id),
+              resolveBannerSource("features", value.id, featureSection.bannerSources),
             ) || thumb,
           count: countFor(value.id),
           chips: [],
@@ -253,8 +317,11 @@ export function landingTaxonomy(
       description: collection.description.trim(),
       href: `/designs/collection/${collection.slug}`,
       image:
-        pinnedThumb(catalog, banners.collections?.[collection.id], (design) =>
-          design.collectionIds.includes(collection.id),
+        pinnedThumb(
+          catalog,
+          collectionSection.banners?.[collection.id],
+          (design) => design.collectionIds.includes(collection.id),
+          resolveBannerSource("collections", collection.id, collectionSection.bannerSources),
         ) ||
         usableCover(collection.coverImage) ||
         collectionThumb.get(collection.id) ||

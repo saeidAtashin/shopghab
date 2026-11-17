@@ -144,6 +144,8 @@ export default function DesignAdminList() {
             setCategoryId(next);
           }}
           ariaLabel="دسته"
+          searchable
+          searchPlaceholder="جستجوی دسته"
           options={[
             { value: "", label: "همه دسته‌ها" },
             ...categories.map((category) => ({ value: category.id, label: category.name })),

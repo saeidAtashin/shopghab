@@ -349,9 +349,15 @@ test("pinned design replaces the automatic landing card photo", () => {
         [other.category.id]: child.design.id,
         missing: first.design.id,
       },
+      bannerSources: {
+        [nature.category.id]: "mockup",
+        [other.category.id]: "original",
+        orphan: "mockup",
+      },
     },
   });
   assert.deepEqual(cleaned.categories.banners, { [nature.category.id]: child.design.id });
+  assert.deepEqual(cleaned.categories.bannerSources, { [nature.category.id]: "mockup" });
   assert.deepEqual(cleaned.categories.itemIds, []);
 });
 
@@ -373,4 +379,84 @@ test("category cards use flat artwork when the phone mockup thumb differs", () =
 
   design.thumbnailPath = "";
   assert.equal(landingTaxonomy(catalog).categories[0]?.image, "/designed/anar.webp");
+});
+
+test("bannerSources can force mockup or original per pinned card", () => {
+  const nature = createCategory(emptyCatalog(), categoryInput("طبیعت", "nature"), NOW);
+  const grouped = createAttribute(nature.catalog, { kind: "group", name: "رنگ", slug: "colors" }, NOW);
+  const group = grouped.attributeGroups[0];
+  assert.ok(group);
+  const valued = createAttribute(grouped, { kind: "value", groupId: group.id, name: "قرمز" }, NOW);
+  const value = valued.attributeValues[0];
+  assert.ok(value);
+  const collected = createCollection(
+    valued,
+    {
+      name: "یلدا",
+      slug: "yalda",
+      description: "",
+      seoTitle: "",
+      seoDescription: "",
+      coverImage: "",
+      status: "active",
+    },
+    NOW,
+  );
+  const created = createDesign(
+    collected.catalog,
+    designInput("انار", "anar", [nature.category.id], {
+      attributeValueIds: [value.id],
+      collectionIds: [collected.collection.id],
+    }),
+    NOW,
+  );
+  const catalog = attachProductMockups(created.catalog);
+  const design = catalog.designs.find((item) => item.id === created.design.id);
+  assert.ok(design?.mockups[0]);
+  design.mockups[0].path = "/designed/mockups/anar/iphone-pro-in-hand.webp";
+  design.mockups[0].thumbPath = "/designed/mockups/anar/iphone-pro-in-hand.thumb.webp";
+
+  const asMockup = landingTaxonomy(catalog, {
+    categories: {
+      banners: { [nature.category.id]: created.design.id },
+      bannerSources: { [nature.category.id]: "mockup" },
+    },
+  });
+  assert.equal(asMockup.categories[0]?.image, "/designed/mockups/anar/iphone-pro-in-hand.thumb.webp");
+
+  const asOriginal = landingTaxonomy(catalog, {
+    features: {
+      banners: { [value.id]: created.design.id },
+      bannerSources: { [value.id]: "original" },
+    },
+    collections: {
+      banners: { [collected.collection.id]: created.design.id },
+      bannerSources: { [collected.collection.id]: "original" },
+    },
+  });
+  assert.equal(asOriginal.features[0]?.image, "/designed/thumbs/anar.webp");
+  assert.equal(
+    asOriginal.collections.find((card) => card.id === collected.collection.id)?.image,
+    "/designed/thumbs/anar.webp",
+  );
+
+  const legacy = landingTaxonomy(catalog, {
+    categories: { [nature.category.id]: created.design.id },
+    features: { [value.id]: created.design.id },
+  });
+  assert.equal(legacy.categories[0]?.image, "/designed/thumbs/anar.webp");
+  assert.equal(legacy.features[0]?.image, "/designed/mockups/anar/iphone-pro-in-hand.thumb.webp");
+
+  assert.deepEqual(
+    parseLandingSections({
+      ...DEFAULT_LANDING_SECTIONS,
+      categories: {
+        visible: true,
+        style: "bento",
+        banners: { cat_nature: "dsn_anar" },
+        bannerSources: { cat_nature: "mockup", bad: "nope", ["x".repeat(81)]: "original" },
+      },
+    }).categories.bannerSources,
+    { cat_nature: "mockup" },
+  );
 });

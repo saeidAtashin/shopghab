@@ -103,9 +103,18 @@ export default function HomeCasePage({ searchParams }: { searchParams: SearchPar
   const taxonomy = landingTaxonomy(
     catalog,
     {
-      categories: landing.categories.banners,
-      features: landing.features.banners,
-      collections: landing.collections.banners,
+      categories: {
+        banners: landing.categories.banners,
+        bannerSources: landing.categories.bannerSources,
+      },
+      features: {
+        banners: landing.features.banners,
+        bannerSources: landing.features.bannerSources,
+      },
+      collections: {
+        banners: landing.collections.banners,
+        bannerSources: landing.collections.bannerSources,
+      },
     },
     { publicOnly: true },
   );

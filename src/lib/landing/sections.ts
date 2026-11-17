@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const landingCardStyleSchema = z.enum(["glass", "bento", "editorial", "ticket"]);
+export const landingBannerSourceSchema = z.enum(["mockup", "original"]);
 
 const bannerIdSchema = z.string().min(1).max(80);
 
@@ -15,11 +16,25 @@ export function cleanBannerMap(value: unknown): Record<string, string> | undefin
   return Object.keys(banners).length > 0 ? banners : undefined;
 }
 
+export function cleanBannerSourceMap(value: unknown): Record<string, LandingBannerSource> | undefined {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return undefined;
+  const sources: Record<string, LandingBannerSource> = {};
+  for (const [key, item] of Object.entries(value)) {
+    const parsed = landingBannerSourceSchema.safeParse(item);
+    if (!bannerIdSchema.safeParse(key).success || !parsed.success) continue;
+    sources[key] = parsed.data;
+  }
+  return Object.keys(sources).length > 0 ? sources : undefined;
+}
+
 export const landingSectionSchema = z.object({
   visible: z.boolean(),
   style: landingCardStyleSchema,
   itemIds: z.array(z.string()).optional(),
   banners: z.preprocess(cleanBannerMap, z.record(bannerIdSchema, bannerIdSchema).optional()).optional(),
+  bannerSources: z
+    .preprocess(cleanBannerSourceMap, z.record(bannerIdSchema, landingBannerSourceSchema).optional())
+    .optional(),
 });
 
 export const landingSectionsSchema = z.object({
@@ -29,6 +44,7 @@ export const landingSectionsSchema = z.object({
 });
 
 export type LandingCardStyle = z.infer<typeof landingCardStyleSchema>;
+export type LandingBannerSource = z.infer<typeof landingBannerSourceSchema>;
 export type LandingSectionSetting = z.infer<typeof landingSectionSchema>;
 export type LandingSections = z.infer<typeof landingSectionsSchema>;
 export type LandingSectionKey = keyof LandingSections;
@@ -64,11 +80,16 @@ export const DEFAULT_LANDING_SECTIONS: LandingSections = {
   collections: { visible: true, style: "ticket" },
 };
 
+export function defaultBannerSource(section: LandingSectionKey): LandingBannerSource {
+  return section === "categories" ? "original" : "mockup";
+}
+
 export function parseLandingSections(value: unknown): LandingSections {
   const parsed = landingSectionsSchema.safeParse(value);
   if (!parsed.success) return structuredClone(DEFAULT_LANDING_SECTIONS);
   for (const section of Object.values(parsed.data)) {
     if (!section.banners) delete section.banners;
+    if (!section.bannerSources) delete section.bannerSources;
   }
   return parsed.data;
 }

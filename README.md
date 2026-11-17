@@ -32,9 +32,7 @@ Do **not** commit `.env` or live secrets.
 و بخش قبلا مشاهده شده یا علاقه مندی هم اضافه شه که قابل حذف کردن هم باشه.
 به شکل کروسل.
 ==========
-
 وقتی میچرخونه هر ۴۵ درجه یکم بچسبه، متن رو هم وقتی از گوشه scale میکنه aspect ratio بهم نریزه.
-
 نوار ابزار بالای صفحه ادیتور رو تک خطی کن که دو سطر نشه، اگر لازم بود اسکرول بخوره.
 با دو انگشت هم صفحه ادیتور کار کنه، روتیت و زوم و اینا انجام شه.
 یه گزینه تغییر رنگ پس زمینه اضافه بشه، و بتونه کالر پیکر هم داشته باشه از توی طرح هم رنگ انتخاب کنه با یه حالت زوم مناسب حرفه ای. همچنین بتونه از پترن ها هم استفاده کنه به عنوان بک گراند.
@@ -65,4 +63,4 @@ Prioritize top 50–100 bestsellers for unique titles/descriptions first (don’
 Add real Instagram/Telegram + process photos (print, packaging, shop) — Iran trust signals matter
 Keep filling empty high-intent themes before reactivating them (don’t index empty again)
 If you want me to execute next, the best single follow-up sprint is: slug redirects + design PDP enrichment + model JSON-LD fix.
- -->
+-->

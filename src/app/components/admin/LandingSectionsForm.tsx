@@ -7,9 +7,11 @@ import { adminJson } from "@/app/components/admin/AdminShell";
 import TaxonomyCards from "@/app/components/home/taxonomy/TaxonomyCards";
 import { designedAssetUrl } from "@/lib/designed-assets";
 import {
+  defaultBannerSource,
   LANDING_CARD_STYLES,
   LANDING_SECTION_COPY,
   selectLandingItems,
+  type LandingBannerSource,
   type LandingSectionKey,
   type LandingSectionSetting,
   type LandingSections,
@@ -33,10 +35,24 @@ function groupedCards(cards: TaxonomyCard[]): { name: string; cards: TaxonomyCar
   return groups;
 }
 
-function cardWithBanner(card: TaxonomyCard, designId: string | undefined, choices: BannerChoice[]): TaxonomyCard {
+function choiceImage(choice: BannerChoice, source: LandingBannerSource): string {
+  if (source === "original") return choice.artworkImage || choice.mockupImage || choice.image;
+  return choice.mockupImage || choice.artworkImage || choice.image;
+}
+
+function cardWithBanner(
+  sectionKey: LandingSectionKey,
+  card: TaxonomyCard,
+  designId: string | undefined,
+  source: LandingBannerSource | undefined,
+  choices: BannerChoice[],
+): TaxonomyCard {
   if (!designId) return card;
   const choice = choices.find((item) => item.id === designId && item.cardIds.includes(card.id));
-  return choice ? { ...card, image: choice.image } : card;
+  if (!choice) return card;
+  const resolved = source ?? defaultBannerSource(sectionKey);
+  const image = choiceImage(choice, resolved);
+  return image ? { ...card, image } : card;
 }
 
 export default function LandingSectionsForm({
@@ -81,14 +97,27 @@ export default function LandingSectionsForm({
     });
   }
 
-  function setBanner(key: LandingSectionKey, cardId: string, designId: string | null) {
+  function setBanner(
+    key: LandingSectionKey,
+    cardId: string,
+    designId: string | null,
+    source?: LandingBannerSource,
+  ) {
     setDraft((current) => {
       const banners = { ...(current[key].banners ?? {}) };
-      if (designId) banners[cardId] = designId;
-      else delete banners[cardId];
+      const bannerSources = { ...(current[key].bannerSources ?? {}) };
+      if (designId) {
+        banners[cardId] = designId;
+        bannerSources[cardId] = source ?? bannerSources[cardId] ?? defaultBannerSource(key);
+      } else {
+        delete banners[cardId];
+        delete bannerSources[cardId];
+      }
       const next = { ...current[key] };
       if (Object.keys(banners).length > 0) next.banners = banners;
       else delete next.banners;
+      if (Object.keys(bannerSources).length > 0) next.bannerSources = bannerSources;
+      else delete next.bannerSources;
       return { ...current, [key]: next };
     });
   }
@@ -99,7 +128,13 @@ export default function LandingSectionsForm({
         const copy = LANDING_SECTION_COPY[key];
         const section = draft[key];
         const preview = selectLandingItems(items[key], section.itemIds).map((card) =>
-          cardWithBanner(card, section.banners?.[card.id], choices),
+          cardWithBanner(
+            key,
+            card,
+            section.banners?.[card.id],
+            section.bannerSources?.[card.id],
+            choices,
+          ),
         );
         return (
           <section key={key} className="rounded-3xl border border-border bg-card/40 p-5">
@@ -158,11 +193,12 @@ export default function LandingSectionsForm({
               cards={items[key]}
               choices={choices}
               banners={section.banners}
+              bannerSources={section.bannerSources}
               selected={new Set(chosenIds(section, items[key]))}
               query={key === "features" ? featureQuery : ""}
               onQueryChange={key === "features" ? setFeatureQuery : undefined}
               onToggle={(id, checked) => toggleItem(key, id, checked)}
-              onBanner={(cardId, designId) => setBanner(key, cardId, designId)}
+              onBanner={(cardId, designId, source) => setBanner(key, cardId, designId, source)}
             />
 
             <div className="mt-6 max-h-[32rem] overflow-auto rounded-2xl border border-border bg-[#050816] p-4">
@@ -195,6 +231,7 @@ function ItemPicker({
   cards,
   choices,
   banners,
+  bannerSources,
   selected,
   query,
   onQueryChange,
@@ -205,11 +242,12 @@ function ItemPicker({
   cards: TaxonomyCard[];
   choices: BannerChoice[];
   banners: Record<string, string> | undefined;
+  bannerSources: Record<string, LandingBannerSource> | undefined;
   selected: Set<string>;
   query: string;
   onQueryChange?: (value: string) => void;
   onToggle: (id: string, checked: boolean) => void;
-  onBanner: (cardId: string, designId: string | null) => void;
+  onBanner: (cardId: string, designId: string | null, source?: LandingBannerSource) => void;
 }) {
   const needle = query.trim();
   const visible = needle
@@ -243,7 +281,13 @@ function ItemPicker({
               <ul className="space-y-1">
                 {group.cards.map((card) => {
                   const shown = selected.has(card.id)
-                    ? cardWithBanner(card, banners?.[card.id], choices)
+                    ? cardWithBanner(
+                        sectionKey,
+                        card,
+                        banners?.[card.id],
+                        bannerSources?.[card.id],
+                        choices,
+                      )
                     : card;
                   return (
                     <li key={card.id} className="rounded-xl px-2 py-1.5 hover:bg-white/5">
@@ -276,7 +320,8 @@ function ItemPicker({
                           cardId={card.id}
                           choices={choices}
                           designId={banners?.[card.id]}
-                          onChange={(designId) => onBanner(card.id, designId)}
+                          source={bannerSources?.[card.id] ?? defaultBannerSource(sectionKey)}
+                          onChange={(designId, source) => onBanner(card.id, designId, source)}
                         />
                       ) : null}
                     </li>
@@ -296,13 +341,15 @@ function BannerPicker({
   cardId,
   choices,
   designId,
+  source,
   onChange,
 }: {
   sectionKey: LandingSectionKey;
   cardId: string;
   choices: BannerChoice[];
   designId: string | undefined;
-  onChange: (designId: string | null) => void;
+  source: LandingBannerSource;
+  onChange: (designId: string | null, source?: LandingBannerSource) => void;
 }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -310,6 +357,7 @@ function BannerPicker({
   const current = mine.find((choice) => choice.id === designId);
   const needle = query.trim();
   const shown = needle ? mine.filter((choice) => choice.title.includes(needle)) : mine;
+  const preview = current ? choiceImage(current, source) : "";
 
   return (
     <div className="mt-2 ps-7">
@@ -320,6 +368,7 @@ function BannerPicker({
         aria-expanded={open}
       >
         بنر کارت: {current?.title ?? "خودکار"}
+        {current ? ` · ${source === "original" ? "طرح اصلی" : "موکاپ"}` : ""}
       </button>
       {open ? (
         <div className="mt-2 space-y-2 rounded-xl border border-border bg-background/40 p-2">
@@ -339,33 +388,77 @@ function BannerPicker({
             />
             خودکار
           </label>
+          {designId ? (
+            <div className="flex flex-wrap gap-2 px-2 py-1">
+              <button
+                type="button"
+                onClick={() => onChange(designId, "mockup")}
+                className={`rounded-full border px-3 py-1 text-xs font-semibold ${
+                  source === "mockup"
+                    ? "border-cyan-500/60 bg-cyan-500/15 text-cyan-300"
+                    : "border-border text-muted hover:text-foreground"
+                }`}
+                aria-pressed={source === "mockup"}
+              >
+                موکاپ
+              </button>
+              <button
+                type="button"
+                onClick={() => onChange(designId, "original")}
+                className={`rounded-full border px-3 py-1 text-xs font-semibold ${
+                  source === "original"
+                    ? "border-cyan-500/60 bg-cyan-500/15 text-cyan-300"
+                    : "border-border text-muted hover:text-foreground"
+                }`}
+                aria-pressed={source === "original"}
+              >
+                طرح اصلی
+              </button>
+              {preview ? (
+                <Image
+                  src={designedAssetUrl(preview)}
+                  alt=""
+                  width={32}
+                  height={32}
+                  className="size-8 rounded-md object-cover"
+                />
+              ) : null}
+            </div>
+          ) : null}
           {mine.length === 0 ? (
             <p className="px-2 text-sm text-muted">طرحی برای این کارت نیست.</p>
           ) : shown.length === 0 ? (
             <p className="px-2 text-sm text-muted">موردی پیدا نشد.</p>
           ) : (
             <ul className="max-h-48 space-y-1 overflow-auto">
-              {shown.map((choice) => (
-                <li key={choice.id}>
-                  <label className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1 hover:bg-white/5">
-                    <input
-                      type="radio"
-                      name={`banner-${sectionKey}-${cardId}`}
-                      checked={designId === choice.id}
-                      onChange={() => onChange(choice.id)}
-                      className="accent-cyan-400"
-                    />
-                    <Image
-                      src={designedAssetUrl(choice.image)}
-                      alt=""
-                      width={32}
-                      height={32}
-                      className="size-8 shrink-0 rounded-md object-cover"
-                    />
-                    <span className="truncate text-sm text-foreground">{choice.title}</span>
-                  </label>
-                </li>
-              ))}
+              {shown.map((choice) => {
+                const thumb = choiceImage(choice, source);
+                return (
+                  <li key={choice.id}>
+                    <label className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1 hover:bg-white/5">
+                      <input
+                        type="radio"
+                        name={`banner-${sectionKey}-${cardId}`}
+                        checked={designId === choice.id}
+                        onChange={() => onChange(choice.id, source)}
+                        className="accent-cyan-400"
+                      />
+                      {thumb ? (
+                        <Image
+                          src={designedAssetUrl(thumb)}
+                          alt=""
+                          width={32}
+                          height={32}
+                          className="size-8 shrink-0 rounded-md object-cover"
+                        />
+                      ) : (
+                        <span className="size-8 shrink-0 rounded-md bg-white/10" />
+                      )}
+                      <span className="truncate text-sm text-foreground">{choice.title}</span>
+                    </label>
+                  </li>
+                );
+              })}
             </ul>
           )}
         </div>
