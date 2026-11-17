@@ -20,6 +20,8 @@ Pushes to `main` run [`.github/workflows/deploy-shopghab.yml`](.github/workflows
 
 See [`deploy/README.md`](deploy/README.md) for the one-time updater install, nginx, and bootstrap.
 
+Design names and metadata on production come from the **VPS** catalog, not from a plain deploy of your local `data/design-catalog.json`. Edit them in the production admin UI, or see **Changing designs on production** in [`deploy/README.md`](deploy/README.md) for the rare one-time catalog overwrite (`deploy/push-local-catalog.sh`).
+
 Do **not** commit `.env` or live secrets.
 
 

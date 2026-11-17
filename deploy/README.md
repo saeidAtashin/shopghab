@@ -80,6 +80,33 @@ Run the `curl` after this change is on `main`, so the raw URL exists. The script
 
 The server catalog stays the source of truth. Existing designs, categories, collections, attributes, and redirects are left as they were edited on the site. Product mockup photos on an existing design are replaced when the release includes a new mockup list. Records that exist only in the new release are added. Customers and orders are never taken from git. New image files under `public/` still come from the release. `npm run catalog:sync` adds new design files to the local catalog; commit that catalog when you want those new rows to appear on the server. Pushing does not copy local edits over rows that already exist on the server.
 
+## Changing designs on production
+
+Edit names, images, and metadata in the **production** admin UI at `https://shopghab.ir` (not only on localhost). Production writes `/root/shopghab/data/design-catalog.json` on the VPS; those edits show up immediately and do not need a deploy.
+
+Localhost admin edits only update your PC’s `data/design-catalog.json`. A normal deploy keeps the live VPS catalog and only **appends** designs/categories that do not already exist on the server. Renames and image swaps for existing rows stay as they were on production.
+
+When new artwork files must be served, commit and push them under `public/designed/`, wait for the VPS updater to pull that release, then edit the matching design in production admin (or run the one-time overwrite below).
+
+### One-time: replace the live catalog with your local file
+
+Use this only when a large set of local-only catalog edits must win over production. Backup first; customers/orders live in other files and are not replaced by this step.
+
+```bash
+# From this PC (after new public/designed assets are already on the VPS):
+bash deploy/push-local-catalog.sh
+```
+
+Or the same steps by hand:
+
+```bash
+ssh root@185.204.197.187 'cp -a /root/shopghab/data/design-catalog.json /root/shopghab/data/design-catalog.json.bak-$(date +%Y%m%d%H%M%S)'
+scp data/design-catalog.json root@185.204.197.187:/root/shopghab/data/design-catalog.json
+ssh root@185.204.197.187 'cd /root/shopghab && docker compose -f docker-compose.prod.yml up -d --force-recreate'
+```
+
+After that, prefer production admin for day-to-day design edits so the VPS catalog remains the source of truth.
+
 The copy of this script already on the VPS is what runs the next update. Before the first deploy that contains this change, copy `/root/shopghab/data` aside. After the change is on `main`, install the new script before cron runs it, so that update does not reset the catalog:
 
 ```bash
