@@ -23,6 +23,21 @@ export default function Footer() {
             </p>
           </div>
 
+          <a
+            referrerPolicy="origin"
+            target="_blank"
+            href='https://trustseal.enamad.ir/?id=8225703&Code=aGqRXBnZPn4CWDSu8wNBlQ9C70ZQQHzD'
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element -- Enamad requires plain img with referrerPolicy and code attr */}
+            <img
+              referrerPolicy='origin'
+              src='https://trustseal.enamad.ir/logo.aspx?id=8225703&Code=aGqRXBnZPn4CWDSu8wNBlQ9C70ZQQHzD'
+              alt=''
+              className="h-16 w-auto cursor-pointer"
+              {...{ code: "aGqRXBnZPn4CWDSu8wNBlQ9C70ZQQHzD" }}
+            />
+          </a>
+
           <div className="space-y-3">
             <p className="text-sm font-semibold text-[#C4C0FF]">دسترسی سریع</p>
             <div className="flex flex-wrap gap-3">
