@@ -26,13 +26,15 @@ export default function Footer() {
           <a
             referrerPolicy="origin"
             target="_blank"
-            href='https://trustseal.enamad.ir/?id=8225703&Code=aGqRXBnZPn4CWDSu8wNBlQ9C70ZQQHzD'
+            rel="noopener noreferrer"
+            href="https://trustseal.enamad.ir/?id=8225703&Code=aGqRXBnZPn4CWDSu8wNBlQ9C70ZQQHzD"
+            aria-label="مشاهده نماد اعتماد الکترونیکی"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element -- Enamad requires plain img with referrerPolicy and code attr */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              referrerPolicy='origin'
-              src='https://trustseal.enamad.ir/logo.aspx?id=8225703&Code=aGqRXBnZPn4CWDSu8wNBlQ9C70ZQQHzD'
-              alt=''
+              referrerPolicy="origin"
+              src="https://trustseal.enamad.ir/logo.aspx?id=8225703&Code=aGqRXBnZPn4CWDSu8wNBlQ9C70ZQQHzD"
+              alt="نماد اعتماد الکترونیکی"
               className="h-16 w-auto cursor-pointer"
               {...{ code: "aGqRXBnZPn4CWDSu8wNBlQ9C70ZQQHzD" }}
             />
